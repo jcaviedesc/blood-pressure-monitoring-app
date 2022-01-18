@@ -1,3 +1,4 @@
 import Input from './Input';
+import DatePicker from './DataTimePickerWrapper';
 
-export { Input };
+export { Input, DatePicker };

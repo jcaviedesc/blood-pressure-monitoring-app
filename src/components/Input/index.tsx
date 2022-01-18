@@ -4,14 +4,33 @@ import { Colors } from '../../styles';
 
 type InputProps = {
   title?: string;
+  onFocus?: Function;
+  editable?: boolean;
+  value?: string;
+  showSoftInputOnFocus?: boolean;
 };
 
-const Input: React.FC<InputProps> = ({ title }) => {
+const Input: React.FC<InputProps> = ({
+  title,
+  onFocus,
+  editable,
+  value,
+  showSoftInputOnFocus,
+}) => {
+  const onFocuesHandler = () => {
+    onFocus && onFocus();
+  };
   return (
     <View style={styles.container}>
       {title && <Text style={styles.inputTitle}>{title}</Text>}
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} />
+        <TextInput
+          style={styles.input}
+          onFocus={onFocuesHandler}
+          editable={editable}
+          showSoftInputOnFocus={showSoftInputOnFocus}
+          value={value}
+        />
       </View>
     </View>
   );
