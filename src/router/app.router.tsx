@@ -7,13 +7,14 @@ import { RouteName } from './routeNames';
 import SignIn from '../screens/SignIn';
 import OnboardingScreen from '../screens/Onboarding';
 import SingUpScreen from '../screens/SingUp';
+import HomeScreen from '../screens/Home';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={RouteName.ONBOARDING}>
+      <Stack.Navigator initialRouteName={RouteName.HOME}>
         <Stack.Screen
           name={RouteName.SINGIN}
           component={SignIn}
@@ -31,6 +32,13 @@ function App() {
         <Stack.Screen
           name={RouteName.SINGUP}
           component={SingUpScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name={RouteName.HOME}
+          component={HomeScreen}
           options={{
             headerShown: false,
           }}

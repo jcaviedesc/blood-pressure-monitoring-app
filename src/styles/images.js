@@ -4,6 +4,7 @@ const images = {
   onboarding_nutrition: require('../images/onboarding_nutrition.png'),
   onboarding_fitness: require('../images/onboarding_fitness.png'),
   onboarding_medicines: require('../images/onboarding_medicine.png'),
+  userPlaceholder: require('../images/user-icon-placeholder.png'),
 };
 
 export default images;
