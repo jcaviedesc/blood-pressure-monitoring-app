@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import dayjs from 'dayjs';
 import { AppStyles, Colors } from '../../styles';
-import { Input, DatePicker } from '../../components';
+import { Input, DatePicker, Button } from '../../components';
 import useSingUp from '../../hooks/useSingUp';
 
 const SingUpScreen: React.FC = () => {
@@ -91,6 +91,11 @@ const SingUpScreen: React.FC = () => {
           }}
         />
       )}
+      <View style={styles.section}>
+        <Button>
+          <Text style={styles.buttonText}>Siguiente</Text>
+        </Button>
+      </View>
     </ScrollView>
   );
 };
@@ -133,6 +138,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputMask: {
+    backgroundColor: Colors.white,
     borderColor: '#A9B7CA',
     borderRadius: 10,
     borderStyle: 'solid',
@@ -140,13 +146,16 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 42,
     justifyContent: 'center',
+    marginTop: 12,
     paddingLeft: 6,
-    backgroundColor: Colors.white,
   },
   inputMaskText: {
     color: Colors.primaryText,
     fontWeight: 'bold',
     fontSize: 18,
+  },
+  buttonText: {
+    color: Colors.white,
   },
 });
 
