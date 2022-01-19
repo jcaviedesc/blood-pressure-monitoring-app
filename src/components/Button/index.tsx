@@ -1,6 +1,7 @@
 import React, { Children } from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
-import { Colors } from '../../styles';
+import { Colors, Fonts } from '../../styles';
+import colors from '../../styles/Colors';
 
 type props = {
   children?: typeof Children;
@@ -22,7 +23,7 @@ const Button: React.FC<props> = ({
   };
   return (
     <TouchableOpacity onPress={onPress} style={buttonStyles}>
-      {children ? children : <Text>{title}</Text>}
+      {children ? children : <Text style={styles.title}>{title}</Text>}
     </TouchableOpacity>
   );
 };
@@ -35,6 +36,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  title: {
+    color: colors.white,
+    fontFamily: Fonts.type.bold,
+    lineHeight: 43,
+    fontSize: 40,
+    height: 30,
   },
 });
 

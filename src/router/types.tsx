@@ -4,4 +4,5 @@ export type RootStackParamList = {
   Onboarding: undefined;
   Home: undefined;
   'Home/BloodPressure': undefined;
+  'BloodPressure/Step1': undefined; // no conversar
 };

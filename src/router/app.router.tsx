@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import type { RootStackParamList } from './types';
 import { RouteName } from './routeNames';
 // screens
@@ -9,8 +9,9 @@ import OnboardingScreen from '../screens/Onboarding';
 import SingUpScreen from '../screens/SingUp';
 import HomeScreen from '../screens/Home';
 import BloodPressureScreen from '../screens/BloodPressure';
+import BloodPressureReadingSteps from './BloodPressureReadings';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 function App() {
   return (
@@ -52,6 +53,16 @@ function App() {
             title: '',
           }}
         />
+        {Object.entries({
+          ...BloodPressureReadingSteps,
+        }).map(([name, params]) => (
+          <Stack.Screen
+            key={name}
+            name={name}
+            options={params.options}
+            component={params.component}
+          />
+        ))}
       </Stack.Navigator>
     </NavigationContainer>
   );

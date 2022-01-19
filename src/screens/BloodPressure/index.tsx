@@ -25,7 +25,12 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
         </View>
       </View>
       <View>
-        <Button title="Iniciar Medición" onPress={() => {}} />
+        <Button
+          title="Iniciar Medición"
+          onPress={() => {
+            navigate(RouteName.BLOOD_PRESSURE_STEP_1);
+          }}
+        />
       </View>
     </ScrollView>
   );
