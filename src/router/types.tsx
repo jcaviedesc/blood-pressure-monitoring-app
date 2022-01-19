@@ -5,4 +5,5 @@ export type RootStackParamList = {
   Home: undefined;
   'Home/BloodPressure': undefined;
   'BloodPressure/Reading': undefined;
+  'BloodPressure/Preparation': undefined;
 };

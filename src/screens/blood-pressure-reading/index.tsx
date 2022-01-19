@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
   footer: {
     justifyContent: 'flex-end',
     marginBottom: 9,
+    paddingHorizontal: Metrics.marginHorizontal,
   },
 });
 

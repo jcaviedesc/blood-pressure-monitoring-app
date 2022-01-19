@@ -16,6 +16,7 @@ const size = {
   medium: 14,
   small: 12,
   tiny: 10,
+  title: 40,
 };
 
 const style = {

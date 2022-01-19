@@ -11,6 +11,7 @@ import SingUpScreen from '../screens/SingUp';
 import HomeScreen from '../screens/Home';
 import BloodPressureScreen from '../screens/BloodPressure';
 import BloodPressureStepsScreen from '../screens/blood-pressure-reading';
+import PreparationBloodPressureMeasureScreen from '../screens/blood-pressure-reading/Preparation';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -57,6 +58,15 @@ function App() {
         <Stack.Screen
           name={RouteName.BLOOD_PRESSURE_READING}
           component={BloodPressureStepsScreen}
+          options={{
+            ...defaultOptions,
+            headerShown: true,
+            title: '',
+          }}
+        />
+        <Stack.Screen
+          name={RouteName.PREPARATION_READING_BP}
+          component={PreparationBloodPressureMeasureScreen}
           options={{
             ...defaultOptions,
             headerShown: true,

@@ -28,7 +28,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
         <Button
           title="Iniciar Medición"
           onPress={() => {
-            navigate(RouteName.BLOOD_PRESSURE_READING);
+            navigate(RouteName.PREPARATION_READING_BP);
           }}
         />
       </View>
