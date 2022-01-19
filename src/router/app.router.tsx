@@ -3,13 +3,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import type { RootStackParamList } from './types';
 import { RouteName } from './routeNames';
+import defaultOptions from './ScreenConfig';
 // screens
 import SignIn from '../screens/SignIn';
 import OnboardingScreen from '../screens/Onboarding';
 import SingUpScreen from '../screens/SingUp';
 import HomeScreen from '../screens/Home';
 import BloodPressureScreen from '../screens/BloodPressure';
-import BloodPressureReadingSteps from './BloodPressureReadings';
+import BloodPressureStepsScreen from '../screens/blood-pressure-reading';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -53,16 +54,15 @@ function App() {
             title: '',
           }}
         />
-        {Object.entries({
-          ...BloodPressureReadingSteps,
-        }).map(([name, params]) => (
-          <Stack.Screen
-            key={name}
-            name={name}
-            options={params.options}
-            component={params.component}
-          />
-        ))}
+        <Stack.Screen
+          name={RouteName.BLOOD_PRESSURE_READING}
+          component={BloodPressureStepsScreen}
+          options={{
+            ...defaultOptions,
+            headerShown: true,
+            title: '',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

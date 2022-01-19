@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, Text, View, StyleSheet } from 'react-native';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
-import { Colors, Fonts, AppStyles, Images } from '../../styles';
+import { Colors, Fonts, AppStyles } from '../../styles';
 import { Card, Button } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home/BloodPressure'>;
@@ -28,7 +28,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
         <Button
           title="Iniciar Medición"
           onPress={() => {
-            navigate(RouteName.BLOOD_PRESSURE_STEP_1);
+            navigate(RouteName.BLOOD_PRESSURE_READING);
           }}
         />
       </View>

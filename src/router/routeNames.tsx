@@ -4,5 +4,5 @@ export enum RouteName {
   SINGUP = 'Singup',
   HOME = 'Home',
   BLOOD_PRESSURE = 'Home/BloodPressure',
-  BLOOD_PRESSURE_STEP_1 = 'BloodPressure/Step1',
+  BLOOD_PRESSURE_READING = 'BloodPressure/Reading',
 }
