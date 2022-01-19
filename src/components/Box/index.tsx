@@ -1,6 +1,7 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { Text, View, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors, Fonts, Metrics } from '../../styles';
 
 type boxPros = {
@@ -8,8 +9,17 @@ type boxPros = {
   status: string;
   value: string;
   colors: Array<string>;
+  onPress?: Function;
+  iconName: 'heartbeat' | 'tint' | 'eyedropper' | 'balance-scale';
 };
-const Box: React.FC<boxPros> = ({ title, status, value, colors }) => {
+const Box: React.FC<boxPros> = ({
+  title,
+  status,
+  value,
+  colors,
+  iconName,
+  onPress,
+}) => {
   return (
     <LinearGradient
       colors={colors}
@@ -22,14 +32,26 @@ const Box: React.FC<boxPros> = ({ title, status, value, colors }) => {
         y: 1,
       }}
       style={styles.box}>
-      <View style={styles.boxTitleContainer}>
-        <Text style={{ ...styles.boxTextTitle }}>{title[0]}</Text>
-        <Text style={[styles.boxTextTitle, styles.boxTextTileTwo]}>
-          {title[1]}
-        </Text>
-      </View>
-      <Text style={styles.boxText}>{status}</Text>
-      <Text style={styles.boxText}>{value}</Text>
+      <TouchableOpacity onPress={onPress} style={styles.boxContent}>
+        <View style={{ flex: 1 }}>
+          <Icon
+            name={iconName}
+            size={22}
+            color={Colors.white}
+            style={styles.icon}
+          />
+        </View>
+        <View style={styles.boxTitleContainer}>
+          <Text style={{ ...styles.boxTextTitle }}>{title[0]}</Text>
+          <Text style={[styles.boxTextTitle, styles.boxTextTileTwo]}>
+            {title[1]}
+          </Text>
+        </View>
+        <View style={styles.boxBody}>
+          <Text style={styles.boxText}>{status}</Text>
+          <Text style={styles.boxText}>{value}</Text>
+        </View>
+      </TouchableOpacity>
     </LinearGradient>
   );
 };
@@ -43,10 +65,16 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     justifyContent: 'flex-end',
     marginBottom: 20,
+    position: 'relative',
   },
+  boxContent: {
+    position: 'relative',
+    flex: 1,
+  },
+  icon: {},
   boxTitleContainer: {
     width: '80%',
-    height: 60,
+    height: 50,
     position: 'relative',
     marginBottom: 12,
   },
@@ -69,6 +97,9 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     textAlignVertical: 'bottom',
     lineHeight: 30,
+  },
+  boxBody: {
+    height: 50,
   },
 });
 

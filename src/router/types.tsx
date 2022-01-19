@@ -3,4 +3,5 @@ export type RootStackParamList = {
   Singup: undefined;
   Onboarding: undefined;
   Home: undefined;
+  'Home/BloodPressure': undefined;
 };

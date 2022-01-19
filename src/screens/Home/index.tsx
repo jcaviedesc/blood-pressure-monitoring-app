@@ -1,9 +1,17 @@
 import React from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, Text, View, StyleSheet, Image } from 'react-native';
+import type { RootStackParamList } from '../../router/types';
+import { RouteName } from '../../router/routeNames';
 import { Colors, Fonts, AppStyles, Images } from '../../styles';
 import { Box } from '../../components';
 
-const HomeScreen: React.FC = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
+  const navigate = (screen: RouteName) => {
+    navigation.navigate(screen);
+  };
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.content}>
@@ -23,23 +31,30 @@ const HomeScreen: React.FC = () => {
             status="Normal"
             value="140/90 mmHg"
             colors={['#fe5b5b', '#ef6463']}
+            iconName="tint"
+            onPress={() => {
+              navigate(RouteName.BLOOD_PRESSURE);
+            }}
           />
           <Box
             title={['Peso', 'Corporal']}
             status="Estable"
             value="82 Kg"
+            iconName="balance-scale"
             colors={['#1273a6', '#71c4d2']}
           />
           <Box
             title={['Ritmo', 'Cardiaco']}
             status="Estable"
             value="78 bpm"
+            iconName="heartbeat"
             colors={['#10acd4', '#81eb91']}
           />
           <Box
             title={['Glucosa', 'En sangre']}
             status="Estable"
             value="140 mg / dl"
+            iconName="eyedropper"
             colors={['#564ef7', '#9994ec']}
           />
         </View>

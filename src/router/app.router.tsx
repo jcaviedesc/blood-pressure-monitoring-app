@@ -8,6 +8,7 @@ import SignIn from '../screens/SignIn';
 import OnboardingScreen from '../screens/Onboarding';
 import SingUpScreen from '../screens/SingUp';
 import HomeScreen from '../screens/Home';
+import BloodPressureScreen from '../screens/BloodPressure';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -41,6 +42,14 @@ function App() {
           component={HomeScreen}
           options={{
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name={RouteName.BLOOD_PRESSURE}
+          component={BloodPressureScreen}
+          options={{
+            headerShown: true,
+            title: '',
           }}
         />
       </Stack.Navigator>

@@ -1,14 +1,20 @@
 import React, { Children } from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { Colors } from '../../styles';
 
 type props = {
-  children: typeof Children;
+  children?: typeof Children;
+  title?: string;
   onPress: Function;
-  type: 'fill' | 'outline';
+  type?: 'fill' | 'outline';
 };
 
-const Button: React.FC<props> = ({ children, onPress, type = 'fill' }) => {
+const Button: React.FC<props> = ({
+  children,
+  onPress,
+  type = 'fill',
+  title,
+}) => {
   const buttonStyles = {
     ...styles.container,
     backgroundColor:
@@ -16,7 +22,7 @@ const Button: React.FC<props> = ({ children, onPress, type = 'fill' }) => {
   };
   return (
     <TouchableOpacity onPress={onPress} style={buttonStyles}>
-      {children}
+      {children ? children : <Text>{title}</Text>}
     </TouchableOpacity>
   );
 };

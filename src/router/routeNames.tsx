@@ -3,4 +3,5 @@ export enum RouteName {
   SINGIN = 'Signin',
   SINGUP = 'Singup',
   HOME = 'Home',
+  BLOOD_PRESSURE = 'Home/BloodPressure',
 }
