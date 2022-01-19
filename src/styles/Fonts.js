@@ -1,7 +1,7 @@
 const type = {
-  light: 'Dongle-Light',
-  regular: 'Dongle-Regular',
-  bold: 'Dongle-Bold',
+  light: 'Nunito-Light',
+  regular: 'Nunito-Regular',
+  bold: 'Nunito-SemiBold',
 };
 
 const size = {

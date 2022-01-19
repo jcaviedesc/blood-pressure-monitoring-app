@@ -53,9 +53,10 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Dongle-Bold.ttf</string>
-		<string>Dongle-Light.ttf</string>
-		<string>Dongle-Regular.ttf</string>
+		<string>Nunito-Light.ttf</string>
+		<string>Nunito-Regular.ttf</string>
+		<string>Nunito-SemiBold.ttf</string>
+		<string>FontAwesome.ttf</string>
 	</array>
 </dict>
 </plist>

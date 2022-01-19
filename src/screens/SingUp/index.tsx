@@ -7,7 +7,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import dayjs from 'dayjs';
-import { AppStyles, Colors } from '../../styles';
+import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Input, DatePicker, Button } from '../../components';
 import useSingUp from '../../hooks/useSingUp';
 
@@ -32,14 +32,27 @@ const SingUpScreen: React.FC = () => {
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Crear Cuenta</Text>
+        <Text style={styles.title}>
+          Registrate en app_name y empieza a mejorar tu autocuidado
+        </Text>
       </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionText}>¿Cual es tu nombre completo?</Text>
-        <Input />
+      <View style={styles.bodyContainer}>
+        <View style={styles.section}>
+          <Input title="Nombre completo" />
+        </View>
+
+        <View style={styles.section}>
+          <Input title="Numero de celuar" keyboardType="number-pad" />
+        </View>
+        <View style={styles.section}>
+          <Input
+            title="Dirección de donde vives"
+            placeholder="Ej. vereda calucata, La mesa, cundinamarca"
+          />
+        </View>
       </View>
 
-      <View style={styles.section}>
+      {/* <View style={styles.section}>
         <Text style={styles.sectionText}>¿Cual es tu genero?</Text>
         <View style={styles.genderContainer}>
           <TouchableHighlight
@@ -59,14 +72,14 @@ const SingUpScreen: React.FC = () => {
             <Text>Mujer</Text>
           </TouchableHighlight>
         </View>
-      </View>
+      </View> */}
 
-      <View style={styles.section}>
+      {/* <View style={styles.section}>
         <Text style={styles.sectionText}>¿Cual es tu peso en Kg?</Text>
         <Input />
-      </View>
+      </View> */}
 
-      <View style={styles.section}>
+      {/* <View style={styles.section}>
         <Text style={styles.sectionText}>¿Cual es tu fecha de nacimiento?</Text>
         <TouchableHighlight
           style={styles.inputMask}
@@ -90,11 +103,9 @@ const SingUpScreen: React.FC = () => {
             setShowDatePicker(false);
           }}
         />
-      )}
-      <View style={styles.section}>
-        <Button>
-          <Text style={styles.buttonText}>Siguiente</Text>
-        </Button>
+      )} */}
+      <View style={styles.footer}>
+        <Button title="Siguiente" onPress={() => { }} />
       </View>
     </ScrollView>
   );
@@ -103,13 +114,16 @@ const SingUpScreen: React.FC = () => {
 const styles = StyleSheet.create({
   ...AppStyles.screen,
   title: {
-    fontSize: 23,
-    fontWeight: '900',
+    fontSize: Fonts.size.h1,
+    lineHeight: Fonts.size.h1 + 4,
     color: Colors.primaryText,
-    textAlign: 'center',
+    textAlign: 'left',
+    fontFamily: Fonts.type.bold,
   },
   titleContainer: {
+    flex: 20,
     marginBottom: 42,
+    paddingHorizontal: Metrics.marginHorizontal,
   },
   sectionText: {
     fontSize: 18,
@@ -154,8 +168,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
-  buttonText: {
-    color: Colors.white,
+  bodyContainer: {
+    flex: 40,
+  },
+  footer: {
+    flex: 20,
+    paddingTop: 60,
+    paddingBottom: 30,
+    paddingHorizontal: Metrics.marginHorizontal,
+    justifyContent: 'flex-end',
   },
 });
 

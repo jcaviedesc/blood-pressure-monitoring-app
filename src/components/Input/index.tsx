@@ -1,6 +1,12 @@
 import React from 'react';
-import { Text, View, TextInput, StyleSheet } from 'react-native';
-import { Colors } from '../../styles';
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  KeyboardTypeOptions,
+} from 'react-native';
+import { Colors, Fonts } from '../../styles';
 
 type InputProps = {
   title?: string;
@@ -8,6 +14,8 @@ type InputProps = {
   editable?: boolean;
   value?: string;
   showSoftInputOnFocus?: boolean;
+  placeholder?: string;
+  keyboardType?: KeyboardTypeOptions;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -16,6 +24,8 @@ const Input: React.FC<InputProps> = ({
   editable,
   value,
   showSoftInputOnFocus,
+  placeholder,
+  keyboardType,
 }) => {
   const onFocuesHandler = () => {
     onFocus && onFocus();
@@ -30,6 +40,8 @@ const Input: React.FC<InputProps> = ({
           editable={editable}
           showSoftInputOnFocus={showSoftInputOnFocus}
           value={value}
+          placeholder={placeholder}
+          keyboardType={keyboardType}
         />
       </View>
     </View>
@@ -40,24 +52,24 @@ const styles = StyleSheet.create({
   container: {},
   inputTitle: {
     marginLeft: 3,
-    color: Colors.secondaryText,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: Fonts.type.light,
     fontSize: 19,
   },
   inputContainer: {
-    borderColor: '#A9B7CA',
+    borderColor: Colors.lightGray,
     borderRadius: 10,
     borderStyle: 'solid',
-    borderWidth: 2,
+    borderWidth: 0.8,
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.lightGray,
     marginTop: 9,
   },
   input: {
-    height: 42,
+    height: 48,
     paddingTop: 12,
     color: Colors.primaryText,
-    fontWeight: 'bold',
+    fontFamily: Fonts.type.bold,
     fontSize: 18,
   },
 });

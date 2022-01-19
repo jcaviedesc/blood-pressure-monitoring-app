@@ -49,9 +49,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.white,
     fontFamily: Fonts.type.bold,
-    lineHeight: 43,
-    fontSize: 40,
-    height: 30,
+    fontSize: Fonts.size.h4,
   },
 });
 
