@@ -2,20 +2,16 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import type { RootStackParamList } from './types';
-import { getHeaderTitle, HeaderBackButton } from '@react-navigation/elements';
 import { RouteName } from './routeNames';
 import defaultOptions from './ScreenConfig';
-import { StepsHeader } from '../components/Layout';
 // screens
 import SignIn from '../screens/SignIn';
+import SingUpFlow from './SingUpFlow';
 import OnboardingScreen from '../screens/Onboarding';
-import SingUpScreen from '../screens/SingUp';
-import VerifyPhoneScreen from '../screens/SingUp/VerifyPhone';
 import HomeScreen from '../screens/Home';
 import BloodPressureScreen from '../screens/BloodPressure';
 import BloodPressureStepsScreen from '../screens/blood-pressure-reading';
 import PreparationBloodPressureMeasureScreen from '../screens/blood-pressure-reading/Preparation';
-import SelectGenderScreen from '../screens/SingUp/SelectGender';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -35,71 +31,6 @@ function App() {
           component={OnboardingScreen}
           options={{
             headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name={RouteName.SINGUP}
-          component={SingUpScreen}
-          options={{
-            header: ({ navigation, route, options, back }) => {
-              const title = getHeaderTitle(options, route.name);
-              return (
-                <StepsHeader
-                  title={title}
-                  leftButton={
-                    back ? (
-                      <HeaderBackButton onPress={navigation.goBack} />
-                    ) : undefined
-                  }
-                  step={{ nsteps: 4, activeStep: 1 }}
-                  style={options.headerStyle}
-                />
-              );
-            },
-          }}
-        />
-        <Stack.Screen
-          name={RouteName.VERIFY_PHONE}
-          component={VerifyPhoneScreen}
-          options={{
-            title: '',
-            header: ({ navigation, route, options, back }) => {
-              const title = getHeaderTitle(options, route.name);
-              return (
-                <StepsHeader
-                  title={title}
-                  leftButton={
-                    back ? (
-                      <HeaderBackButton onPress={navigation.goBack} />
-                    ) : undefined
-                  }
-                  step={{ nsteps: 4, activeStep: 2 }}
-                  style={options.headerStyle}
-                />
-              );
-            },
-          }}
-        />
-        <Stack.Screen
-          name={RouteName.SELECT_GENDER}
-          component={SelectGenderScreen}
-          options={{
-            title: '',
-            header: ({ navigation, route, options, back }) => {
-              const title = getHeaderTitle(options, route.name);
-              return (
-                <StepsHeader
-                  title={title}
-                  leftButton={
-                    back ? (
-                      <HeaderBackButton onPress={navigation.goBack} />
-                    ) : undefined
-                  }
-                  step={{ nsteps: 4, activeStep: 3 }}
-                  style={options.headerStyle}
-                />
-              );
-            },
           }}
         />
         <Stack.Screen
@@ -135,6 +66,16 @@ function App() {
             title: '',
           }}
         />
+        {Object.entries({
+          ...SingUpFlow,
+        }).map(([name, params]) => (
+          <Stack.Screen
+            key={name}
+            options={params.options}
+            name={name}
+            component={params.component}
+          />
+        ))}
       </Stack.Navigator>
     </NavigationContainer>
   );

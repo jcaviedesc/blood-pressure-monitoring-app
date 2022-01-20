@@ -8,14 +8,17 @@ import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
+import { useConfirmPhone } from '../../context/ConfirmPhone';
 
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
 
 const SingUpScreen: React.FC<Props> = ({ navigation }) => {
   // The `state` arg is correctly typed as `RootState` already
   const user = useAppSelector(selectUser);
-  const dispatch = useAppDispatch();
   const { fullName, phone, address } = user;
+  const dispatch = useAppDispatch();
+
+  const { setConfirm } = useConfirmPhone();
 
   const dispatchAction = (userField: string, value: string) => {
     dispatch(updateUserField({ [userField]: value }));
@@ -25,7 +28,8 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
     // add +57 from colombia
     // TODO add loading
     const confirmation = await auth().signInWithPhoneNumber(`+57${phone}`);
-    navigation.navigate(RouteName.VERIFY_PHONE, { confirm: confirmation });
+    setConfirm(confirmation);
+    navigation.navigate(RouteName.VERIFY_PHONE);
   }
 
   return (

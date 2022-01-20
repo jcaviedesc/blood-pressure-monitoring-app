@@ -1,9 +1,8 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 export type RootStackParamList = {
   Login: undefined;
   Singup: undefined;
-  'Singup/VerifyPhone': { confirm: FirebaseAuthTypes.ConfirmationResult };
+  'Singup/VerifyPhone': undefined;
   'Singup/SelectGender': undefined;
   Onboarding: undefined;
   Home: undefined;

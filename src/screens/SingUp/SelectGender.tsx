@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 // import dayjs from 'dayjs';
+// import auth from '@react-native-firebase/auth';
 
 const SelectGenderScreen = () => {
   // const [showDatePicker, setShowDatePicker] = React.useState(false);
@@ -17,6 +18,11 @@ const SelectGenderScreen = () => {
   //   const currentDate = selectedDate || birtdate;
   //   dispatchAction('birtdate', currentDate);
   // };
+  // auth()
+  //   .signOut()
+  //   .then(() => {
+  //     console.log('Logout');
+  //   });
 
   return (
     <View>
