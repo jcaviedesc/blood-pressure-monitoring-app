@@ -15,10 +15,11 @@ import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
 import { useConfirmPhone } from '../../context/ConfirmPhone';
+import { withLoading } from '../../wrappers';
 
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
 
-const SingUpScreen: React.FC<Props> = ({ navigation }) => {
+const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
   const isDarkMode = useColorScheme() === 'dark';
   // The `state` arg is correctly typed as `RootState` already
   const user = useAppSelector(selectUser);
@@ -33,9 +34,10 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
 
   async function navigate() {
     // add +57 from colombia
-    // TODO add loading
+    setLoading(true);
     const confirmation = await auth().signInWithPhoneNumber(`+57${phone}`);
     setConfirm(confirmation);
+    setLoading(false);
     navigation.navigate(RouteName.VERIFY_PHONE);
   }
 
@@ -44,7 +46,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
       style={[styles.mainContainer, isDarkMode && styles.darkContainer]}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>
-          Registrate en app_name y empieza a mejorar tu autocuidado
+          Registrate en Tracking BP y empieza con tu autocuidado
         </Text>
       </View>
       <View style={styles.bodyContainer}>
@@ -161,4 +163,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SingUpScreen;
+export default withLoading(SingUpScreen);

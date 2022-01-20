@@ -1,7 +1,7 @@
 const colors = {
   darkMode: 'black',
   background: '#ffff',
-  //#ECEFF5
+  loadingBackground: '#00000045',
   primary: '#102f90',
   white: '#F9F9F9',
   orange: '#FF5A41',
