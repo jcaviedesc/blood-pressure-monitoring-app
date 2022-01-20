@@ -3,6 +3,7 @@ export enum RouteName {
   LOGIN = 'Login',
   SINGUP = 'Singup',
   VERIFY_PHONE = 'Singup/VerifyPhone',
+  SELECT_GENDER = 'Singup/SelectGender',
   HOME = 'Home',
   BLOOD_PRESSURE = 'Home/BloodPressure',
   PREPARATION_READING_BP = 'BloodPressure/Preparation',
