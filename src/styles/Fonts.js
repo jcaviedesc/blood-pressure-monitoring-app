@@ -11,12 +11,6 @@ const size = {
   h4: 26,
   h5: 20,
   h6: 19,
-  input: 18,
-  regular: 16,
-  medium: 14,
-  small: 12,
-  tiny: 10,
-  title: 40,
 };
 
 const style = {
@@ -25,7 +19,7 @@ const style = {
     fontSize: size.h1,
   },
   h2: {
-    fontWeight: 'bold',
+    fontFamily: type.bold,
     fontSize: size.h2,
   },
   h3: {
@@ -46,9 +40,8 @@ const style = {
     fontSize: size.h6,
   },
   normal: {
-    fontStyle: 'normal',
     fontFamily: type.regular,
-    fontSize: size.regular,
+    fontSize: size.h6,
   },
   description: {
     fontFamily: type.light,

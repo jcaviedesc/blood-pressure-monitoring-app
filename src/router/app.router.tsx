@@ -2,12 +2,15 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import type { RootStackParamList } from './types';
+import { getHeaderTitle, HeaderBackButton } from '@react-navigation/elements';
 import { RouteName } from './routeNames';
 import defaultOptions from './ScreenConfig';
+import { StepsHeader } from '../components/Layout';
 // screens
 import SignIn from '../screens/SignIn';
 import OnboardingScreen from '../screens/Onboarding';
 import SingUpScreen from '../screens/SingUp';
+import VerifyPhoneScreen from '../screens/SingUp/VerifyPhone';
 import HomeScreen from '../screens/Home';
 import BloodPressureScreen from '../screens/BloodPressure';
 import BloodPressureStepsScreen from '../screens/blood-pressure-reading';
@@ -20,7 +23,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName={RouteName.SINGUP}>
         <Stack.Screen
-          name={RouteName.SINGIN}
+          name={RouteName.LOGIN}
           component={SignIn}
           options={{
             headerShown: false,
@@ -38,6 +41,28 @@ function App() {
           component={SingUpScreen}
           options={{
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name={RouteName.VERIFY_PHONE}
+          component={VerifyPhoneScreen}
+          options={{
+            title: '',
+            header: ({ navigation, route, options, back }) => {
+              const title = getHeaderTitle(options, route.name);
+              return (
+                <StepsHeader
+                  title={title}
+                  leftButton={
+                    back ? (
+                      <HeaderBackButton onPress={navigation.goBack} />
+                    ) : undefined
+                  }
+                  step={{ nsteps: 3, activeStep: 2 }}
+                  style={options.headerStyle}
+                />
+              );
+            },
           }}
         />
         <Stack.Screen

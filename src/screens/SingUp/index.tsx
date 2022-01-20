@@ -1,34 +1,33 @@
 import React from 'react';
-import {
-  Text,
-  StyleSheet,
-  ScrollView,
-  View,
-  TouchableHighlight,
-} from 'react-native';
+import { Text, StyleSheet, ScrollView, View } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../router/types';
+import { RouteName } from '../../router/routeNames';
 import dayjs from 'dayjs';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Input, DatePicker, Button } from '../../components';
 import useSingUp from '../../hooks/useSingUp';
 
-const SingUpScreen: React.FC = () => {
-  const [showDatePicker, setShowDatePicker] = React.useState(false);
+type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
+
+const SingUpScreen: React.FC<Props> = ({ navigation }) => {
+  // const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [state, dispatchAction] = useSingUp();
-  const { gender, birtdate } = state;
+  const { fullName, phone, address } = state;
 
-  const genderM = {
-    ...styles.genderOption,
-    backgroundColor: gender === 'M' ? '#1fb3e2' : Colors.transparent,
-  };
-  const genderF = {
-    ...styles.genderOption,
-    backgroundColor: gender === 'F' ? '#1fb3e2' : Colors.transparent,
-  };
+  // const genderM = {
+  //   ...styles.genderOption,
+  //   backgroundColor: gender === 'M' ? '#1fb3e2' : Colors.transparent,
+  // };
+  // const genderF = {
+  //   ...styles.genderOption,
+  //   backgroundColor: gender === 'F' ? '#1fb3e2' : Colors.transparent,
+  // };
 
-  const onChange = (selectedDate: Date): void => {
-    const currentDate = selectedDate || birtdate;
-    dispatchAction('birtdate', currentDate);
-  };
+  // const onChange = (selectedDate: Date): void => {
+  //   const currentDate = selectedDate || birtdate;
+  //   dispatchAction('birtdate', currentDate);
+  // };
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.titleContainer}>
@@ -38,16 +37,33 @@ const SingUpScreen: React.FC = () => {
       </View>
       <View style={styles.bodyContainer}>
         <View style={styles.section}>
-          <Input title="Nombre completo" />
+          <Input
+            title="Nombre completo"
+            value={fullName}
+            onChangeText={text => {
+              dispatchAction('fullName', text);
+            }}
+          />
         </View>
 
         <View style={styles.section}>
-          <Input title="Numero de celuar" keyboardType="number-pad" />
+          <Input
+            title="Numero de celuar"
+            keyboardType="number-pad"
+            value={phone}
+            onChangeText={text => {
+              dispatchAction('phone', text);
+            }}
+          />
         </View>
         <View style={styles.section}>
           <Input
             title="Dirección de donde vives"
-            placeholder="Ej. vereda calucata, La mesa, cundinamarca"
+            placeholder="Ej. Vereda Calucata, La mesa, cundinamarca"
+            value={address}
+            onChangeText={text => {
+              dispatchAction('address', text);
+            }}
           />
         </View>
       </View>
@@ -105,7 +121,12 @@ const SingUpScreen: React.FC = () => {
         />
       )} */}
       <View style={styles.footer}>
-        <Button title="Siguiente" onPress={() => { }} />
+        <Button
+          title="Siguiente"
+          onPress={() => {
+            navigation.navigate(RouteName.VERIFY_PHONE);
+          }}
+        />
       </View>
     </ScrollView>
   );

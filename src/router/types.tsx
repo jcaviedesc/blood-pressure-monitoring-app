@@ -1,6 +1,7 @@
 export type RootStackParamList = {
-  Signin: undefined;
+  Login: undefined;
   Singup: undefined;
+  'Singup/VerifyPhone': undefined;
   Onboarding: undefined;
   Home: undefined;
   'Home/BloodPressure': undefined;

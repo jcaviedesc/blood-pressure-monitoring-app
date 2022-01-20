@@ -16,6 +16,7 @@ type InputProps = {
   showSoftInputOnFocus?: boolean;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
+  onChangeText?: ((text: string) => void) | undefined;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -26,6 +27,7 @@ const Input: React.FC<InputProps> = ({
   showSoftInputOnFocus,
   placeholder,
   keyboardType,
+  onChangeText,
 }) => {
   const onFocuesHandler = () => {
     onFocus && onFocus();
@@ -42,6 +44,7 @@ const Input: React.FC<InputProps> = ({
           value={value}
           placeholder={placeholder}
           keyboardType={keyboardType}
+          onChangeText={onChangeText}
         />
       </View>
     </View>
@@ -54,13 +57,13 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     fontWeight: '600',
     fontFamily: Fonts.type.light,
-    fontSize: 19,
+    fontSize: Fonts.size.h5,
   },
   inputContainer: {
     borderColor: Colors.lightGray,
     borderRadius: 10,
     borderStyle: 'solid',
-    borderWidth: 0.8,
+    borderWidth: 1,
     flex: 1,
     backgroundColor: Colors.lightGray,
     marginTop: 9,

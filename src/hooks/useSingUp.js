@@ -1,7 +1,10 @@
 import React from "react";
 
 const initialState = {
-  name: '',
+  fullName: '',
+  phone: '',
+  address: '',
+  location: [],
   gender: 'M',
   weight: 0,
   birtdate: new Date(),
@@ -9,8 +12,12 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'name':
-      return { ...state, name: action.payload };
+    case 'fullName':
+      return { ...state, fullName: action.payload };
+    case 'phone':
+      return { ...state, phone: action.payload };
+    case 'address':
+      return { ...state, address: action.payload };
     case 'gender':
       return { ...state, gender: action.payload };
     case 'birtdate':

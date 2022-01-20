@@ -13,7 +13,8 @@ const Steps: React.FC<Props> = ({ nsteps, activeStep }) => {
       {Array.apply(null, { length: nsteps }).map((_, step) => {
         const stepStyle = {
           ...styles.step,
-          backgroundColor: step <= activeStep ? Colors.orange : Colors.gray,
+          width: Metrics.screenWidth / nsteps - 6,
+          backgroundColor: step <= activeStep - 1  ? Colors.orange : Colors.gray,
         };
         return <View key={step} style={stepStyle} />;
       })}
@@ -28,7 +29,6 @@ const styles = StyleSheet.create({
   },
   step: {
     height: 9,
-    width: Metrics.screenWidth / 8 - 6,
   },
 });
 

@@ -6,6 +6,7 @@ const colors = {
   lightGray: '#D2D2D2',
   orange: '#FF5A41',
   gray: '#585858',
+  gray300: '#111',
   green: '#3FDF90',
   primaryText: '#102f90',
   secondaryText: '#123191d1',

@@ -1,7 +1,8 @@
 export enum RouteName {
   ONBOARDING = 'Onboarding',
-  SINGIN = 'Signin',
+  LOGIN = 'Login',
   SINGUP = 'Singup',
+  VERIFY_PHONE = 'Singup/VerifyPhone',
   HOME = 'Home',
   BLOOD_PRESSURE = 'Home/BloodPressure',
   PREPARATION_READING_BP = 'BloodPressure/Preparation',
