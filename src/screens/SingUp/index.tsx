@@ -3,17 +3,24 @@ import { Text, StyleSheet, ScrollView, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
-import { Input, DatePicker, Button } from '../../components';
-import useSingUp from '../../hooks/useSingUp';
+import { Input, Button } from '../../components';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { selectUser, updateUserField } from '../../store/singup/singupSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
 
 const SingUpScreen: React.FC<Props> = ({ navigation }) => {
   // const [showDatePicker, setShowDatePicker] = React.useState(false);
-  const [state, dispatchAction] = useSingUp();
-  const { fullName, phone, address } = state;
+  // The `state` arg is correctly typed as `RootState` already
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+  const { fullName, phone, address } = user;
+
+  const dispatchAction = (userField: string, value: string) => {
+    dispatch(updateUserField({ [userField]: value }));
+  };
 
   // const genderM = {
   //   ...styles.genderOption,

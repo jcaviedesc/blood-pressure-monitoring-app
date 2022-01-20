@@ -2,8 +2,11 @@ import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { VerifyCode } from "../../components";
 import { AppStyles, Colors, Fonts, Metrics } from "../../styles";
+import { useAppSelector } from '../../hooks';
+import { selectUser } from '../../store/singup/singupSlice';
 
 const VerifyPhoneScreen = () => {
+  const { phone } = useAppSelector(selectUser);
   return (
     <View style={styles.mainContainer}>
       <View style={[styles.content, styles.contentExtra]}>
