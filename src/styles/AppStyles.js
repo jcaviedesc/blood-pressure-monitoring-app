@@ -10,6 +10,7 @@ const ApplicationStyles = {
       backgroundColor: Colors.background,
       paddingTop: Metrics.navBarHeight,
     },
+    darkContainer: { backgroundColor: 'black' },
     content: {
       flex: 1,
       paddingHorizontal: Metrics.marginHorizontal,

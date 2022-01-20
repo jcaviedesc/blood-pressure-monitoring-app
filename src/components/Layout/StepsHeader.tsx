@@ -1,8 +1,14 @@
-import React from "react";
-import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { Steps } from "..";
+import React from 'react';
+import {
+  View,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  useColorScheme,
+} from 'react-native';
+import { Steps } from '..';
 import type { StepProps } from '../Steps';
-import { Colors } from "../../styles";
+import { Colors, AppStyles } from '../../styles';
 
 type StepsHeaderProps = {
   title: string;
@@ -16,8 +22,9 @@ const StepsHeader: React.FC<StepsHeaderProps> = ({
   leftButton,
   style,
 }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={[style, styles.header]}>
+    <View style={[style, styles.header, isDarkMode && styles.darkContainer]}>
       <View style={styles.stepsContainer}>
         <Steps nsteps={step.nsteps} activeStep={step.activeStep} />
       </View>
@@ -27,6 +34,7 @@ const StepsHeader: React.FC<StepsHeaderProps> = ({
 };
 
 const styles = StyleSheet.create({
+  ...AppStyles.screen,
   header: {
     backgroundColor: Colors.background,
     height: 70,

@@ -1,11 +1,13 @@
 const colors = {
+  darkMode: 'black',
   background: '#ffff',
   //#ECEFF5
   primary: '#102f90',
   white: '#F9F9F9',
-  lightGray: '#D2D2D2',
   orange: '#FF5A41',
+  lightGray: '#D2D2D2',
   gray: '#585858',
+  darkGrayMode: '#767676',
   gray300: '#111',
   green: '#3FDF90',
   primaryText: '#102f90',

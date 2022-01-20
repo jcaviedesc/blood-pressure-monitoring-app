@@ -1,5 +1,11 @@
 import React from 'react';
-import { Text, StyleSheet, ScrollView, View } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  ScrollView,
+  View,
+  useColorScheme,
+} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
@@ -13,6 +19,7 @@ import { useConfirmPhone } from '../../context/ConfirmPhone';
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
 
 const SingUpScreen: React.FC<Props> = ({ navigation }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   // The `state` arg is correctly typed as `RootState` already
   const user = useAppSelector(selectUser);
   const { fullName, phone, address } = user;
@@ -33,7 +40,8 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
   }
 
   return (
-    <ScrollView style={styles.mainContainer}>
+    <ScrollView
+      style={[styles.mainContainer, isDarkMode && styles.darkContainer]}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>
           Registrate en app_name y empieza a mejorar tu autocuidado

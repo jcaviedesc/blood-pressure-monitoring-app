@@ -5,6 +5,7 @@ import {
   TextInput,
   StyleSheet,
   KeyboardTypeOptions,
+  useColorScheme,
 } from 'react-native';
 import { Colors, Fonts } from '../../styles';
 
@@ -29,13 +30,27 @@ const Input: React.FC<InputProps> = ({
   keyboardType,
   onChangeText,
 }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const onFocuesHandler = () => {
     onFocus && onFocus();
   };
   return (
     <View style={styles.container}>
-      {title && <Text style={styles.inputTitle}>{title}</Text>}
-      <View style={styles.inputContainer}>
+      {title && (
+        <Text
+          style={{
+            ...styles.inputTitle,
+            color: isDarkMode ? Colors.darkGrayMode : Colors.gray,
+          }}>
+          {title}
+        </Text>
+      )}
+      <View
+        style={{
+          ...styles.inputContainer,
+          backgroundColor: isDarkMode ? Colors.darkGrayMode : Colors.lightGray,
+          borderColor: isDarkMode ? Colors.darkGrayMode : Colors.lightGray,
+        }}>
         <TextInput
           style={styles.input}
           onFocus={onFocuesHandler}
