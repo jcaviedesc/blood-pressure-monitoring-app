@@ -40,7 +40,21 @@ function App() {
           name={RouteName.SINGUP}
           component={SingUpScreen}
           options={{
-            headerShown: false,
+            header: ({ navigation, route, options, back }) => {
+              const title = getHeaderTitle(options, route.name);
+              return (
+                <StepsHeader
+                  title={title}
+                  leftButton={
+                    back ? (
+                      <HeaderBackButton onPress={navigation.goBack} />
+                    ) : undefined
+                  }
+                  step={{ nsteps: 4, activeStep: 1 }}
+                  style={options.headerStyle}
+                />
+              );
+            },
           }}
         />
         <Stack.Screen
@@ -58,7 +72,7 @@ function App() {
                       <HeaderBackButton onPress={navigation.goBack} />
                     ) : undefined
                   }
-                  step={{ nsteps: 3, activeStep: 2 }}
+                  step={{ nsteps: 4, activeStep: 2 }}
                   style={options.headerStyle}
                 />
               );

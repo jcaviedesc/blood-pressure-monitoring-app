@@ -2,12 +2,12 @@ import React from "react";
 import { View, StyleSheet } from 'react-native';
 import { Colors, Metrics } from '../../styles';
 
-type Props = {
+export type StepProps = {
   nsteps: number;
   activeStep: number;
 };
 
-const Steps: React.FC<Props> = ({ nsteps, activeStep }) => {
+const Steps: React.FC<StepProps> = ({ nsteps, activeStep }) => {
   return (
     <View style={styles.stepContainer}>
       {Array.apply(null, { length: nsteps }).map((_, step) => {

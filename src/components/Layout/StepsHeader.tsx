@@ -7,7 +7,7 @@ import { Colors } from "../../styles";
 type StepsHeaderProps = {
   title: string;
   step: StepProps;
-  leftButton: React.ComponentType<any>;
+  leftButton: React.ComponentType<any> | Element | undefined;
   style: StyleProp<ViewStyle>;
 };
 
