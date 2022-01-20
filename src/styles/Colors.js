@@ -1,6 +1,14 @@
 const colors = {
+  background: '#fffffe',
+  headline: '#094067',
+  paragraph: '#5f6c7b',
+  button: '#3da9fc',
+  buttonText: '#fffffe',
+  cardBackground: '#094067',
+  cardHighlight: '#ef4565',
+  darkBackground: '#16161a',
+  //old colors
   darkMode: 'black',
-  background: '#ffff',
   loadingBackground: '#00000045',
   primary: '#102f90',
   white: '#F9F9F9',

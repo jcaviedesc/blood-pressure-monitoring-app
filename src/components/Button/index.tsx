@@ -21,7 +21,7 @@ const Button: React.FC<props> = ({
   let buttonStyles = {
     ...styles.container,
     backgroundColor:
-      type === 'fill' ? Colors.backgroundButton : Colors.transparent,
+      type === 'fill' ? Colors.button : Colors.transparent,
   };
   if (disabled) {
     buttonStyles.backgroundColor = Colors.gray;
@@ -39,7 +39,7 @@ const Button: React.FC<props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: Colors.borderColorButton,
+    borderColor: Colors.button,
     borderWidth: 0.5,
     height: 52,
     borderRadius: 10,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: colors.white,
+    color: colors.buttonText,
     fontFamily: Fonts.type.bold,
     fontSize: Fonts.size.h4,
   },

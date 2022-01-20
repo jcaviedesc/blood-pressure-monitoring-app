@@ -14,7 +14,10 @@ const Steps: React.FC<StepProps> = ({ nsteps, activeStep }) => {
         const stepStyle = {
           ...styles.step,
           width: Metrics.screenWidth / nsteps - 6,
-          backgroundColor: step <= activeStep - 1  ? Colors.orange : Colors.gray,
+          backgroundColor:
+            step <= activeStep - 1
+              ? Colors.cardHighlight
+              : Colors.cardBackground,
         };
         return <View key={step} style={stepStyle} />;
       })}
@@ -26,9 +29,11 @@ const styles = StyleSheet.create({
   stepContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingHorizontal: 9,
   },
   step: {
     height: 9,
+    borderRadius: 3,
   },
 });
 

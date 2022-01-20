@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: Fonts.size.h1,
     lineHeight: Fonts.size.h1 + 4,
-    color: Colors.primaryText,
+    color: Colors.headline,
     textAlign: 'left',
     fontFamily: Fonts.type.bold,
   },

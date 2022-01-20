@@ -40,7 +40,7 @@ const Input: React.FC<InputProps> = ({
         <Text
           style={{
             ...styles.inputTitle,
-            color: isDarkMode ? Colors.darkGrayMode : Colors.gray,
+            color: isDarkMode ? Colors.darkGrayMode : Colors.paragraph,
           }}>
           {title}
         </Text>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   input: {
     height: 48,
     paddingTop: 12,
-    color: Colors.primaryText,
+    color: Colors.headline,
     fontFamily: Fonts.type.bold,
     fontSize: 18,
   },

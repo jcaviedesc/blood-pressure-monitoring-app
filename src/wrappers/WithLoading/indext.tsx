@@ -5,7 +5,7 @@ import { Colors } from '../../styles';
 type wrappedComponentProp = React.ComponentType<any> | React.FC<any>;
 
 const withLoading = (WrappedComponent: wrappedComponentProp) => {
-  return () => {
+  return (props: any) => {
     const [modalVisible, showLoading] = useState(false);
     return (
       <View style={styles.wrapper}>
@@ -17,6 +17,7 @@ const withLoading = (WrappedComponent: wrappedComponentProp) => {
         <WrappedComponent
           activeLoading={modalVisible}
           setLoading={showLoading}
+          {...props}
         />
       </View>
     );

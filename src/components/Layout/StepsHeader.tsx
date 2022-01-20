@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   ...AppStyles.screen,
   header: {
     backgroundColor: Colors.background,
+    paddingTop: 12,
     height: 70,
   },
   stepsContainer: { paddingVertical: 6 },
