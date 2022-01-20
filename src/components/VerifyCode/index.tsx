@@ -13,15 +13,24 @@ const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
     }
   }, [code, onCompleteCode]);
 
-  const codeRef = [useRef(), useRef(), useRef(), useRef(), useRef()];
+  const codeRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
 
-  const onChange = (nextRef: number) => {
-    if (nextRef < 5) {
-      codeRef[nextRef].current?.focus();
+  const onChange = (text: string, currentSlot: number) => {
+    if (text.length === 6) {
+      setCode(text.split(''));
+      codeRef[5].current?.focus();
+    } else if (text.length <= 1 && currentSlot <= 5) {
+      const factor = text === '' ? -1 : 1;
+      const nextFocus =
+        (currentSlot === 0 && text === '') || (currentSlot === 5 && text !== '')
+          ? currentSlot
+          : currentSlot + 1 * factor;
+      changeDigit(text, currentSlot);
+      codeRef[nextFocus].current?.focus();
     }
   };
 
-  const onSetCode = (codeNum: string, codeSlot: number) => {
+  const changeDigit = (codeNum: string, codeSlot: number) => {
     setCode(prevCode => {
       const localCode = [...prevCode];
       localCode[codeSlot] = codeNum;
@@ -33,30 +42,31 @@ const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
     <View style={styles.contaier}>
       <View style={styles.inputContainer}>
         <TextInput
-          maxLength={1}
+          ref={codeRef[0]}
+          maxLength={6}
           keyboardType="phone-pad"
           style={styles.input}
           onChangeText={text => {
-            onChange(0);
-            onSetCode(text, 0);
+            onChange(text, 0);
+            // onSetCode(text, 0);
           }}
           autoFocus
+          value={code[0]}
         />
       </View>
-      {codeRef.map((item, index) => {
+      {codeRef.slice(1).map((item, index) => {
         return (
           <View style={styles.inputContainer} key={`Code-${index}`}>
             <TextInput
               ref={item}
               maxLength={1}
               onChangeText={text => {
-                onSetCode(text, index + 1);
-                if (text.length) {
-                  onChange(index + 1);
-                }
+                // onSetCode(text, index + 1);
+                onChange(text, index + 1);
               }}
               keyboardType="phone-pad"
               style={styles.input}
+              value={code[index + 1]}
             />
           </View>
         );

@@ -15,6 +15,7 @@ import HomeScreen from '../screens/Home';
 import BloodPressureScreen from '../screens/BloodPressure';
 import BloodPressureStepsScreen from '../screens/blood-pressure-reading';
 import PreparationBloodPressureMeasureScreen from '../screens/blood-pressure-reading/Preparation';
+import SelectGenderScreen from '../screens/SingUp/SelectGender';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -73,6 +74,28 @@ function App() {
                     ) : undefined
                   }
                   step={{ nsteps: 4, activeStep: 2 }}
+                  style={options.headerStyle}
+                />
+              );
+            },
+          }}
+        />
+        <Stack.Screen
+          name={RouteName.SELECT_GENDER}
+          component={SelectGenderScreen}
+          options={{
+            title: '',
+            header: ({ navigation, route, options, back }) => {
+              const title = getHeaderTitle(options, route.name);
+              return (
+                <StepsHeader
+                  title={title}
+                  leftButton={
+                    back ? (
+                      <HeaderBackButton onPress={navigation.goBack} />
+                    ) : undefined
+                  }
+                  step={{ nsteps: 4, activeStep: 3 }}
                   style={options.headerStyle}
                 />
               );

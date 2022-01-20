@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, StyleSheet, ScrollView, View } from 'react-native';
+import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
-// import dayjs from 'dayjs';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -12,7 +12,6 @@ import { selectUser, updateUserField } from '../../store/singup/singupSlice';
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
 
 const SingUpScreen: React.FC<Props> = ({ navigation }) => {
-  // const [showDatePicker, setShowDatePicker] = React.useState(false);
   // The `state` arg is correctly typed as `RootState` already
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -22,19 +21,13 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(updateUserField({ [userField]: value }));
   };
 
-  // const genderM = {
-  //   ...styles.genderOption,
-  //   backgroundColor: gender === 'M' ? '#1fb3e2' : Colors.transparent,
-  // };
-  // const genderF = {
-  //   ...styles.genderOption,
-  //   backgroundColor: gender === 'F' ? '#1fb3e2' : Colors.transparent,
-  // };
+  async function navigate() {
+    // add +57 from colombia
+    // TODO add loading
+    const confirmation = await auth().signInWithPhoneNumber(`+57${phone}`);
+    navigation.navigate(RouteName.VERIFY_PHONE, { confirm: confirmation });
+  }
 
-  // const onChange = (selectedDate: Date): void => {
-  //   const currentDate = selectedDate || birtdate;
-  //   dispatchAction('birtdate', currentDate);
-  // };
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.titleContainer}>
@@ -75,63 +68,11 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
         </View>
       </View>
 
-      {/* <View style={styles.section}>
-        <Text style={styles.sectionText}>¿Cual es tu genero?</Text>
-        <View style={styles.genderContainer}>
-          <TouchableHighlight
-            underlayColor={Colors.transparent}
-            style={genderM}
-            onPress={() => {
-              dispatchAction('gender', 'M');
-            }}>
-            <Text>Hombre</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor={Colors.transparent}
-            style={genderF}
-            onPress={() => {
-              dispatchAction('gender', 'F');
-            }}>
-            <Text>Mujer</Text>
-          </TouchableHighlight>
-        </View>
-      </View> */}
-
-      {/* <View style={styles.section}>
-        <Text style={styles.sectionText}>¿Cual es tu peso en Kg?</Text>
-        <Input />
-      </View> */}
-
-      {/* <View style={styles.section}>
-        <Text style={styles.sectionText}>¿Cual es tu fecha de nacimiento?</Text>
-        <TouchableHighlight
-          style={styles.inputMask}
-          underlayColor={Colors.transparent}
-          onPress={() => {
-            setShowDatePicker(true);
-          }}>
-          <Text style={styles.inputMaskText}>
-            {dayjs(birtdate).format('DD/MM/YYYY')}
-          </Text>
-        </TouchableHighlight>
-      </View>
-      {showDatePicker && (
-        <DatePicker
-          testID="dateTimePicker1"
-          datatime={birtdate}
-          mode="date"
-          onChange={onChange}
-          onClose={(n: Date) => {
-            onChange(n);
-            setShowDatePicker(false);
-          }}
-        />
-      )} */}
       <View style={styles.footer}>
         <Button
           title="Siguiente"
           onPress={() => {
-            navigation.navigate(RouteName.VERIFY_PHONE);
+            navigate();
           }}
         />
       </View>
