@@ -11,6 +11,7 @@ const size = {
   h4: 26,
   h5: 20,
   h6: 19,
+  paragraph: 18,
 };
 
 const style = {
@@ -25,7 +26,6 @@ const style = {
   h3: {
     fontFamily: type.bold,
     fontSize: size.h3,
-    fontStyle: 'normal',
   },
   h4: {
     fontFamily: type.bold,

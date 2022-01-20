@@ -8,7 +8,7 @@ export interface User {
   phone: string;
   address: string;
   location: Array<number>;
-  gender: Gender;
+  gender: Gender | '';
   weight: number;
   birtdate: string;
 }

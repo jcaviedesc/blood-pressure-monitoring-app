@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SingUpState, Gender } from './types';
+import { SingUpState } from './types';
 import type { RootState } from '../../store';
 
 /* ------------- Initial State ------------- */
@@ -9,7 +9,7 @@ const initialState: SingUpState = {
     phone: '',
     address: '',
     location: [],
-    gender: Gender.male,
+    gender: '',
     weight: 0,
     birtdate: new Date().toUTCString(),
   },

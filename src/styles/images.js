@@ -6,6 +6,8 @@ const images = {
   onboarding_medicines: require('../images/onboarding_medicine.png'),
   userPlaceholder: require('../images/user-icon-placeholder.png'),
   noTalkStep1: require('../images/no-talk-step-1.png'),
+  femaleIcon: require('../images/icons/female-symbol-icon.png'),
+  maleIcon: require('../images/icons/male-symbol-icon.png'),
 };
 
 export default images;
