@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "SeguimientoHaApp.app"
-               BlueprintName = "SeguimientoHaApp"
-               ReferencedContainer = "container:SeguimientoHaApp.xcodeproj">
+               BuildableName = "TrackingBP.app"
+               BlueprintName = "TrackingBP"
+               ReferencedContainer = "container:TrackingBP.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "SeguimientoHaAppTests.xctest"
-               BlueprintName = "SeguimientoHaAppTests"
-               ReferencedContainer = "container:SeguimientoHaApp.xcodeproj">
+               BuildableName = "TrackingBPTests.xctest"
+               BlueprintName = "TrackingBPTests"
+               ReferencedContainer = "container:TrackingBP.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "SeguimientoHaApp.app"
-            BlueprintName = "SeguimientoHaApp"
-            ReferencedContainer = "container:SeguimientoHaApp.xcodeproj">
+            BuildableName = "TrackingBP.app"
+            BlueprintName = "TrackingBP"
+            ReferencedContainer = "container:TrackingBP.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "SeguimientoHaApp.app"
-            BlueprintName = "SeguimientoHaApp"
-            ReferencedContainer = "container:SeguimientoHaApp.xcodeproj">
+            BuildableName = "TrackingBP.app"
+            BlueprintName = "TrackingBP"
+            ReferencedContainer = "container:TrackingBP.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
