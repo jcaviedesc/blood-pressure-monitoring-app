@@ -6,30 +6,31 @@ import {
   Image,
   TouchableHighlight,
 } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../router/types';
+import { RouteName } from '../../router/routeNames';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
-import { Fonts, Colors, AppStyles, Images, Metrics } from "../../styles";
+import { Fonts, Colors, AppStyles, Images, Metrics } from '../../styles';
 import { Card } from '../../components';
-// import dayjs from 'dayjs';
-// import auth from '@react-native-firebase/auth';
 
-const SelectGenderScreen = () => {
+type Props = NativeStackScreenProps<
+  RootStackParamList,
+  RouteName.SELECT_GENDER
+>;
+const SelectGenderScreen: React.FC<Props> = ({ navigation }) => {
   // const [showDatePicker, setShowDatePicker] = React.useState(false);
   const { gender } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
   const onSelectGender = (select: string) => {
     dispatch(updateUserField({ gender: select }));
+    navigation.navigate(RouteName.BASIC_INFO);
   };
   // const onChange = (selectedDate: Date): void => {
   //   const currentDate = selectedDate || birtdate;
   //   dispatchAction('birtdate', currentDate);
   // };
-  // auth()
-  //   .signOut()
-  //   .then(() => {
-  //     console.log('Logout');
-  //   });
 
   return (
     <View style={styles.mainContainer}>

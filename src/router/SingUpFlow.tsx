@@ -7,6 +7,7 @@ import { RouteName } from './routeNames';
 import SingUpScreen from '../screens/SingUp';
 import VerifyPhoneScreen from '../screens/SingUp/VerifyPhone';
 import SelectGenderScreen from '../screens/SingUp/SelectGender';
+import BasicInfoScreen from '../screens/SingUp/BasicInfo';
 
 const renderHeader = (
   navigation: StackHeaderProps['navigation'],
@@ -58,6 +59,17 @@ const SingUpFlow = {
         return renderHeader(navigation, route, options, back, {
           nsteps: 4,
           activeStep: 3,
+        });
+      },
+    },
+  },
+  [RouteName.BASIC_INFO]: {
+    component: BasicInfoScreen,
+    options: {
+      header: ({ navigation, route, options, back }: StackHeaderProps) => {
+        return renderHeader(navigation, route, options, back, {
+          nsteps: 4,
+          activeStep: 4,
         });
       },
     },
