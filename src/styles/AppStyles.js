@@ -19,6 +19,10 @@ const ApplicationStyles = {
       marginTop: Metrics.marginVertical + 8,
       marginHorizontal: Metrics.marginHorizontal,
     },
+    titleContainer: {
+      marginBottom: 31,
+      marginTop: 21,
+    },
   },
 };
 

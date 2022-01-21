@@ -20,6 +20,7 @@ type InputProps = {
   onChangeText?: ((text: string) => void) | undefined;
   hint?: string;
   rigthComponent?: Element;
+  autoFocus?: boolean;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -33,6 +34,7 @@ const Input: React.FC<InputProps> = ({
   onChangeText,
   hint,
   rigthComponent,
+  autoFocus,
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const onFocuesHandler = () => {
@@ -64,6 +66,7 @@ const Input: React.FC<InputProps> = ({
           placeholder={placeholder}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
+          autoFocus={autoFocus}
         />
         {rigthComponent}
       </View>

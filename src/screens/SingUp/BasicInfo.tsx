@@ -15,8 +15,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
-import { AppStyles, Colors, Fonts, Metrics } from "../../styles";
-
+import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 
 const BasicInfoScreen = () => {
   const user = useAppSelector(selectUser);
@@ -70,6 +69,7 @@ const BasicInfoScreen = () => {
                 dispatchAction('weight', text);
               }}
               rigthComponent={KgComponent}
+              autoFocus
             />
           </View>
           <View style={styles.inputContainer}>
@@ -117,6 +117,7 @@ const BasicInfoScreen = () => {
           mode="date"
           display="default"
           onChange={onChangeDate}
+          maximumDate={new Date()}
         />
       )}
     </ScrollView>

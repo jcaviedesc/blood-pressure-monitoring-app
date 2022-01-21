@@ -5,6 +5,7 @@ export enum RouteName {
   VERIFY_PHONE = 'Singup/VerifyPhone',
   SELECT_GENDER = 'Singup/SelectGender',
   BASIC_INFO = 'Singup/BasicInfo',
+  PROFILE_PICTURE = 'Singup/ProfilePicture',
   HOME = 'Home',
   BLOOD_PRESSURE = 'Home/BloodPressure',
   PREPARATION_READING_BP = 'BloodPressure/Preparation',

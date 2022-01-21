@@ -8,6 +8,7 @@ import SingUpScreen from '../screens/SingUp';
 import VerifyPhoneScreen from '../screens/SingUp/VerifyPhone';
 import SelectGenderScreen from '../screens/SingUp/SelectGender';
 import BasicInfoScreen from '../screens/SingUp/BasicInfo';
+import SelectProfilePictureScreen from '../screens/SingUp/SelectProfilePicture';
 
 const renderHeader = (
   navigation: StackHeaderProps['navigation'],
@@ -35,7 +36,7 @@ const SingUpFlow = {
     options: {
       header: ({ navigation, route, options, back }: StackHeaderProps) => {
         return renderHeader(navigation, route, options, back, {
-          nsteps: 4,
+          nsteps: 5,
           activeStep: 1,
         });
       },
@@ -46,7 +47,7 @@ const SingUpFlow = {
     options: {
       header: ({ navigation, route, options, back }: StackHeaderProps) => {
         return renderHeader(navigation, route, options, back, {
-          nsteps: 4,
+          nsteps: 5,
           activeStep: 2,
         });
       },
@@ -57,7 +58,7 @@ const SingUpFlow = {
     options: {
       header: ({ navigation, route, options, back }: StackHeaderProps) => {
         return renderHeader(navigation, route, options, back, {
-          nsteps: 4,
+          nsteps: 5,
           activeStep: 3,
         });
       },
@@ -68,8 +69,19 @@ const SingUpFlow = {
     options: {
       header: ({ navigation, route, options, back }: StackHeaderProps) => {
         return renderHeader(navigation, route, options, back, {
-          nsteps: 4,
+          nsteps: 5,
           activeStep: 4,
+        });
+      },
+    },
+  },
+  [RouteName.PROFILE_PICTURE]: {
+    component: SelectProfilePictureScreen,
+    options: {
+      header: ({ navigation, route, options, back }: StackHeaderProps) => {
+        return renderHeader(navigation, route, options, back, {
+          nsteps: 5,
+          activeStep: 5,
         });
       },
     },

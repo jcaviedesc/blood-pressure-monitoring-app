@@ -34,12 +34,7 @@ const Box: React.FC<boxPros> = ({
       style={styles.box}>
       <TouchableOpacity onPress={onPress} style={styles.boxContent}>
         <View style={{ flex: 1 }}>
-          <Icon
-            name={iconName}
-            size={22}
-            color={Colors.white}
-            style={styles.icon}
-          />
+          <Icon name={iconName} size={22} color={Colors.white} />
         </View>
         <View style={styles.boxTitleContainer}>
           <Text style={{ ...styles.boxTextTitle }}>{title[0]}</Text>
@@ -71,7 +66,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     flex: 1,
   },
-  icon: {},
   boxTitleContainer: {
     width: '80%',
     height: 50,
