@@ -6,6 +6,7 @@ const store = configureStore({
   reducer: {
     singup: singupReducer,
   },
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
