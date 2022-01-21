@@ -12,12 +12,17 @@ import {
 import 'dayjs/locale/es-mx';
 import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../router/types';
+import { RouteName } from '../../router/routeNames';
 import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 
-const BasicInfoScreen = () => {
+type Props = NativeStackScreenProps<RootStackParamList, RouteName.BASIC_INFO>;
+
+const BasicInfoScreen: React.FC<Props> = ({ navigation }) => {
   const user = useAppSelector(selectUser);
   const { weight, stature, birthdate } = user;
   const dispatch = useAppDispatch();
@@ -104,9 +109,9 @@ const BasicInfoScreen = () => {
       </View>
       <View style={styles.footer}>
         <Button
-          title="Siguiente"
+          title="siguiente"
           onPress={() => {
-            // navigate();
+            navigation.navigate(RouteName.PROFILE_PICTURE);
           }}
         />
       </View>

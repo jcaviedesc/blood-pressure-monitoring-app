@@ -84,7 +84,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
 
       <View style={styles.footer}>
         <Button
-          title="Siguiente"
+          title="siguiente"
           onPress={() => {
             navigate();
           }}

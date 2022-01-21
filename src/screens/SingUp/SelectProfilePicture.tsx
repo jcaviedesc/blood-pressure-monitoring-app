@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,14 +7,71 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ActionSheet from "react-native-actions-sheet";
+import ActionSheet from 'react-native-actions-sheet';
+import {
+  launchCamera,
+  launchImageLibrary,
+  ImagePickerResponse,
+  CameraOptions
+} from 'react-native-image-picker';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../router/types';
+import { RouteName } from '../../router/routeNames';
 import { AppStyles, Images, Metrics, Fonts, Colors } from '../../styles';
+import { Button } from '../../components';
 
-const SelectProfilePictureScreen = () => {
-  const actionSheetRef = useRef();
+type photoUri = {
+  uri: string | undefined;
+};
+
+type actionSheetRef = {
+  setModalVisible: () => void;
+  hide: () => void;
+};
+
+type Props = NativeStackScreenProps<
+  RootStackParamList,
+  RouteName.PROFILE_PICTURE
+>;
+
+const defaulPictureOptions: CameraOptions = {
+  mediaType: 'photo',
+  maxWidth: 512,
+  maxHeight: 512,
+  quality: 0.7,
+};
+
+const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
+  const actionSheetRef = useRef<actionSheetRef>();
+  const [photoUri, setPhotoUri] = useState<photoUri>({ uri: '' });
 
   const onSelectPicture = () => {
     actionSheetRef.current?.setModalVisible();
+  };
+
+  const setUriPhoto = (result: ImagePickerResponse) => {
+    if (result.errorMessage) {
+      // TODO send to sentry or other tracking error platform
+      // TODO show error
+      // https://github.com/react-native-image-picker/react-native-image-picker#errorcode
+      console.log(result.errorCode);
+    } else {
+      const { assets } = result;
+      const photo = assets && assets[0];
+      setPhotoUri({ uri: photo?.uri });
+    }
+  };
+
+  const onLaunchCamera = async () => {
+    actionSheetRef.current?.hide();
+    const result = await launchCamera(defaulPictureOptions);
+    setUriPhoto(result);
+  };
+
+  const onChooseImage = async () => {
+    actionSheetRef.current?.hide();
+    const result = await launchImageLibrary(defaulPictureOptions);
+    setUriPhoto(result);
   };
 
   return (
@@ -29,21 +86,53 @@ const SelectProfilePictureScreen = () => {
             style={styles.touchPicture}
             underlayColor={Colors.background}>
             <View>
-              <Image source={Images.userPlaceholder} style={styles.picture} />
-              <Text style={styles.addPicture}>Agregar</Text>
+              <Image
+                source={photoUri.uri ? photoUri : Images.userPlaceholder}
+                style={styles.picture}
+              />
+              <Text
+                style={{
+                  ...styles.addPicture,
+                  color: photoUri.uri
+                    ? Colors.darkBackground
+                    : Colors.buttonText,
+                }}>
+                {photoUri.uri ? 'Modificar' : 'Agregar'}
+              </Text>
             </View>
           </TouchableHighlight>
+        </View>
+        <View style={styles.footer}>
+          <Button
+            title="siguiente"
+            onPress={() => {
+              // navigate();
+            }}
+          />
+          <View style={styles.omitButton}>
+            <Button
+              type="outline"
+              title="omitir"
+              onPress={() => {
+                navigation.navigate('Home');
+              }}
+            />
+          </View>
         </View>
       </View>
       <ActionSheet ref={actionSheetRef} bounceOnOpen>
         <View style={styles.actionSheet}>
-          <TouchableHighlight style={styles.actionSheetTouch}>
+          <TouchableHighlight
+            style={styles.actionSheetTouch}
+            onPress={onLaunchCamera}>
             <View style={styles.actionSheetTouchContent}>
               <Icon name="camera" size={18} color={Colors.darkBackground} />
               <Text style={styles.actionSheetText}>Tomar Fotografia</Text>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight style={styles.actionSheetTouch}>
+          <TouchableHighlight
+            style={styles.actionSheetTouch}
+            onPress={onChooseImage}>
             <View style={styles.actionSheetTouchContent}>
               <Icon name="photo" size={18} color={Colors.darkBackground} />
               <Text style={styles.actionSheetText}>
@@ -69,10 +158,11 @@ const styles = StyleSheet.create({
   picture: {
     width: Metrics.screenWidth / 2,
     height: Metrics.screenWidth / 2,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   pictureContainer: {
     alignItems: 'center',
+    flex: 10,
   },
   addPicture: {
     position: 'absolute',
@@ -80,8 +170,14 @@ const styles = StyleSheet.create({
     color: Colors.buttonText,
     fontFamily: Fonts.type.bold,
     fontSize: Fonts.size.h5,
-    left: (Metrics.screenWidth / 2 - 80) / 2,
-    width: 80,
+    left: (Metrics.screenWidth / 2 - 85) / 2,
+    width: 85,
+    textShadowColor: Colors.paragraph,
+    textShadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    textShadowRadius: 5,
   },
   touchPicture: {
     position: 'relative',
@@ -109,6 +205,15 @@ const styles = StyleSheet.create({
   actionSheetTouchContent: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  footer: {
+    flex: 5,
+    paddingBottom: 30,
+    paddingHorizontal: Metrics.marginHorizontal,
+    justifyContent: 'flex-end',
+  },
+  omitButton: {
+    paddingTop: 21,
   },
 });
 

@@ -1,12 +1,11 @@
 import React, { Children } from 'react';
 import { TouchableHighlight, StyleSheet, Text } from 'react-native';
 import { Colors, Fonts } from '../../styles';
-import colors from '../../styles/Colors';
 
 type props = {
   children?: typeof Children;
   title?: string;
-  onPress: Function;
+  onPress?: () => void;
   type?: 'fill' | 'outline';
   disabled?: boolean;
 };
@@ -20,8 +19,7 @@ const Button: React.FC<props> = ({
 }) => {
   let buttonStyles = {
     ...styles.container,
-    backgroundColor:
-      type === 'fill' ? Colors.button : Colors.transparent,
+    backgroundColor: type === 'fill' ? Colors.button : Colors.transparent,
   };
   if (disabled) {
     buttonStyles.backgroundColor = Colors.gray;
@@ -32,7 +30,17 @@ const Button: React.FC<props> = ({
       onPress={onPress}
       style={buttonStyles}
       disabled={disabled}>
-      {children ? children : <Text style={styles.title}>{title}</Text>}
+      {children ? (
+        children
+      ) : (
+        <Text
+          style={{
+            ...styles.title,
+            color: type === 'fill' ? Colors.buttonText : Colors.button,
+          }}>
+          {title}
+        </Text>
+      )}
     </TouchableHighlight>
   );
 };
@@ -47,7 +55,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: colors.buttonText,
     fontFamily: Fonts.type.bold,
     fontSize: Fonts.size.h4,
   },
