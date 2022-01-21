@@ -115,10 +115,6 @@ const styles = StyleSheet.create({
     color: Colors.primaryText,
     textAlign: 'center',
   },
-  section: {
-    marginTop: 21,
-    marginHorizontal: 20,
-  },
   genderContainer: {
     flexDirection: 'row',
     borderColor: '#A9B7CA',

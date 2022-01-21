@@ -12,6 +12,7 @@ const size = {
   h5: 20,
   h6: 19,
   paragraph: 18,
+  hint: 14,
 };
 
 const style = {

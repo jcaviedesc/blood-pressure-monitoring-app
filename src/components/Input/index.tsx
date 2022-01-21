@@ -18,6 +18,8 @@ type InputProps = {
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   onChangeText?: ((text: string) => void) | undefined;
+  hint?: string;
+  rigthComponent?: Element;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -29,13 +31,15 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   keyboardType,
   onChangeText,
+  hint,
+  rigthComponent,
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const onFocuesHandler = () => {
     onFocus && onFocus();
   };
   return (
-    <View style={styles.container}>
+    <View>
       {title && (
         <Text
           style={{
@@ -61,34 +65,41 @@ const Input: React.FC<InputProps> = ({
           keyboardType={keyboardType}
           onChangeText={onChangeText}
         />
+        {rigthComponent}
       </View>
+      {hint && <Text style={styles.hint}>{hint}</Text>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
   inputTitle: {
     marginLeft: 3,
-    fontWeight: '600',
     fontFamily: Fonts.type.light,
     fontSize: Fonts.size.h5,
   },
   inputContainer: {
+    height: 48,
+    flexDirection: 'row',
     borderColor: Colors.lightGray,
-    borderRadius: 10,
+    borderRadius: 5,
     borderStyle: 'solid',
     borderWidth: 1,
     flex: 1,
     backgroundColor: Colors.lightGray,
     marginTop: 9,
+    paddingRight: 9,
   },
   input: {
-    height: 48,
+    flex: 1,
     paddingTop: 12,
     color: Colors.headline,
     fontFamily: Fonts.type.bold,
     fontSize: 18,
+  },
+  hint: {
+    fontFamily: Fonts.type.light,
+    fontSize: Fonts.size.hint,
   },
 });
 

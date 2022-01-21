@@ -27,10 +27,6 @@ const SelectGenderScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(updateUserField({ gender: select }));
     navigation.navigate(RouteName.BASIC_INFO);
   };
-  // const onChange = (selectedDate: Date): void => {
-  //   const currentDate = selectedDate || birtdate;
-  //   dispatchAction('birtdate', currentDate);
-  // };
 
   return (
     <View style={styles.mainContainer}>
@@ -69,37 +65,6 @@ const SelectGenderScreen: React.FC<Props> = ({ navigation }) => {
           genero
         </Text>
       </View>
-
-      {/* <View style={styles.section}>
-        <Text style={styles.sectionText}>¿Cual es tu peso en Kg?</Text>
-        <Input />
-      </View> */}
-
-      {/* <View style={styles.section}>
-        <Text style={styles.sectionText}>¿Cual es tu fecha de nacimiento?</Text>
-        <TouchableHighlight
-          style={styles.inputMask}
-          underlayColor={Colors.transparent}
-          onPress={() => {
-            setShowDatePicker(true);
-          }}>
-          <Text style={styles.inputMaskText}>
-            {dayjs(birtdate).format('DD/MM/YYYY')}
-          </Text>
-        </TouchableHighlight>
-      </View>
-      {showDatePicker && (
-        <DatePicker
-          testID="dateTimePicker1"
-          datatime={birtdate}
-          mode="date"
-          onChange={onChange}
-          onClose={(n: Date) => {
-            onChange(n);
-            setShowDatePicker(false);
-          }}
-        />
-      )} */}
     </View>
   );
 };

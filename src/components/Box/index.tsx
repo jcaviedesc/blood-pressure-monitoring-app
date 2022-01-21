@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     fontFamily: Fonts.type.bold,
     color: Colors.white,
-    fontSize: Fonts.size.h2,
+    fontSize: Fonts.size.h5,
     textAlign: 'justify',
     lineHeight: 38,
   },
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   boxText: {
     fontFamily: Fonts.type.regular,
     color: Colors.white,
-    fontSize: Fonts.size.h3,
+    fontSize: Fonts.size.h6,
     textAlign: 'left',
     textAlignVertical: 'bottom',
     lineHeight: 30,

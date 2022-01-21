@@ -9,8 +9,9 @@ export interface User {
   address: string;
   location: Array<number>;
   gender: Gender | '';
-  weight: number;
-  birtdate: string;
+  weight: string;
+  stature: string;
+  birthdate: string | Date;
 }
 
 export interface SingUpState {

@@ -15,6 +15,10 @@ const ApplicationStyles = {
       flex: 1,
       paddingHorizontal: Metrics.marginHorizontal,
     },
+    section: {
+      marginTop: Metrics.marginVertical + 8,
+      marginHorizontal: Metrics.marginHorizontal,
+    },
   },
 };
 

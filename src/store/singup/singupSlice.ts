@@ -10,7 +10,8 @@ const initialState: SingUpState = {
     address: '',
     location: [],
     gender: '',
-    weight: 0,
+    weight: '',
+    stature: '',
     birtdate: new Date().toUTCString(),
   },
 };
