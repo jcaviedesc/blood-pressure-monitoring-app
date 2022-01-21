@@ -8,7 +8,7 @@
 
 import React from 'react';
 import type { Node } from 'react';
-import { useColorScheme, StatusBar} from 'react-native';
+import { useColorScheme, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import AppScreens from './router/app.router';
 import store from './store';

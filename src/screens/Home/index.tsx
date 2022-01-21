@@ -5,10 +5,12 @@ import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { Colors, Fonts, AppStyles, Images } from '../../styles';
 import { Box } from '../../components';
+import auth from '@react-native-firebase/auth';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
+  const user = auth().currentUser;
   const navigate = (screen: RouteName) => {
     navigation.navigate(screen);
   };
@@ -16,10 +18,12 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     <ScrollView style={styles.mainContainer}>
       <View style={styles.content}>
         <View style={styles.userHeader}>
-          <Text style={styles.userTitle}>Hola, Juan</Text>
+          <Text style={styles.userTitle}>Hola, {user?.displayName}</Text>
           <Image
             source={{
-              uri: 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png',
+              uri:
+                user?.photoURL ||
+                'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png',
             }}
             defaultSource={Images.userPlaceholder}
             style={styles.avatar}

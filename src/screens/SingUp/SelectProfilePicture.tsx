@@ -12,16 +12,22 @@ import {
   launchCamera,
   launchImageLibrary,
   ImagePickerResponse,
-  CameraOptions
+  CameraOptions,
 } from 'react-native-image-picker';
+import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { AppStyles, Images, Metrics, Fonts, Colors } from '../../styles';
 import { Button } from '../../components';
+import firebaseStoreService from '../../services/FirebaseStore';
+import { useAppSelector } from '../../hooks';
+import { selectUser } from '../../store/singup/singupSlice';
+import { withLoading } from '../../wrappers';
 
 type photoUri = {
-  uri: string | undefined;
+  uri: string;
+  type: string | undefined;
 };
 
 type actionSheetRef = {
@@ -39,11 +45,16 @@ const defaulPictureOptions: CameraOptions = {
   maxWidth: 512,
   maxHeight: 512,
   quality: 0.7,
+  includeExtra: true,
 };
 
-const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
+const SelectProfilePictureScreen: React.FC<Props> = ({ navigation, setLoading }) => {
+  const { fullName } = useAppSelector(selectUser);
   const actionSheetRef = useRef<actionSheetRef>();
-  const [photoUri, setPhotoUri] = useState<photoUri>({ uri: '' });
+  const [photoUri, setPhotoUri] = useState<photoUri>({
+    uri: '',
+    type: '',
+  });
 
   const onSelectPicture = () => {
     actionSheetRef.current?.setModalVisible();
@@ -58,7 +69,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
     } else {
       const { assets } = result;
       const photo = assets && assets[0];
-      setPhotoUri({ uri: photo?.uri });
+      setPhotoUri({ uri: photo?.uri || '', type: photo?.type });
     }
   };
 
@@ -72,6 +83,30 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
     actionSheetRef.current?.hide();
     const result = await launchImageLibrary(defaulPictureOptions);
     setUriPhoto(result);
+  };
+
+  const onNext = async () => {
+    setLoading(true);
+    const currentUser = auth().currentUser;
+    try {
+      const photoURL = await firebaseStoreService(
+        `profile-pic.${photoUri.type?.split('/')[1]}`,
+        photoUri.uri,
+        `users/${currentUser?.uid}/images`,
+      );
+      const update = {
+        displayName: fullName.split(' ')[0],
+        photoURL,
+      };
+      await currentUser?.updateProfile(update);
+    } catch (error) {
+      // show error to user
+      // tracking error
+      console.log(error);
+    } finally {
+      setLoading(false);
+      navigation.navigate('Home');
+    }
   };
 
   return (
@@ -97,18 +132,13 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
                     ? Colors.darkBackground
                     : Colors.buttonText,
                 }}>
-                {photoUri.uri ? 'Modificar' : 'Agregar'}
+                {photoUri.uri !== '' ? 'Modificar' : 'Agregar'}
               </Text>
             </View>
           </TouchableHighlight>
         </View>
         <View style={styles.footer}>
-          <Button
-            title="siguiente"
-            onPress={() => {
-              // navigate();
-            }}
-          />
+          {photoUri.uri !== '' && <Button title="siguiente" onPress={onNext} />}
           <View style={styles.omitButton}>
             <Button
               type="outline"
@@ -123,6 +153,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
       <ActionSheet ref={actionSheetRef} bounceOnOpen>
         <View style={styles.actionSheet}>
           <TouchableHighlight
+            underlayColor={Colors.background}
             style={styles.actionSheetTouch}
             onPress={onLaunchCamera}>
             <View style={styles.actionSheetTouchContent}>
@@ -131,6 +162,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
             </View>
           </TouchableHighlight>
           <TouchableHighlight
+            underlayColor={Colors.background}
             style={styles.actionSheetTouch}
             onPress={onChooseImage}>
             <View style={styles.actionSheetTouchContent}>
@@ -217,4 +249,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectProfilePictureScreen;
+export default withLoading(SelectProfilePictureScreen);

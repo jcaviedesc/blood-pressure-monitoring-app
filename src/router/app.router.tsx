@@ -18,7 +18,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={RouteName.PROFILE_PICTURE}>
+      <Stack.Navigator initialRouteName={RouteName.SINGUP}>
         <Stack.Screen
           name={RouteName.LOGIN}
           component={SignIn}
