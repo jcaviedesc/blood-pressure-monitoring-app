@@ -46,7 +46,8 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
       style={[styles.mainContainer, isDarkMode && styles.darkContainer]}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>
-          Registrate en Tracking BP y empieza con tu autocuidado
+          Registrate en Tracking BP y empieza un seguimiento de tu presión
+          arterial
         </Text>
       </View>
       <View style={styles.bodyContainer}>
@@ -97,8 +98,8 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
 const styles = StyleSheet.create({
   ...AppStyles.screen,
   title: {
-    fontSize: Fonts.size.h1,
-    lineHeight: Fonts.size.h1 + 4,
+    fontSize: Fonts.size.h3,
+    lineHeight: Fonts.size.h3 + 4,
     color: Colors.headline,
     textAlign: 'left',
     fontFamily: Fonts.type.bold,

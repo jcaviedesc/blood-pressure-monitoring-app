@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ScrollView, Text, View, StyleSheet, Image } from 'react-native';
+import {
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  BackHandler,
+  Alert,
+} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { Colors, Fonts, AppStyles, Images } from '../../styles';
@@ -11,6 +20,29 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const user = auth().currentUser;
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
+        // Espera! 'Hold on!
+        // Seguro quieres salir de la applicación? 'Are you sure you want to go back?
+        Alert.alert('¡Espera!', '¿Seguro quieres salir de la applicación?', [
+          {
+            text: 'Cancelar',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          { text: 'SI', onPress: () => BackHandler.exitApp() },
+        ]);
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', backAction);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', backAction);
+    }, []),
+  );
+
   const navigate = (screen: RouteName) => {
     navigation.navigate(screen);
   };
