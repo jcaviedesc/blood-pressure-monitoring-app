@@ -33,6 +33,7 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
     try {
       const confirmation = await auth().signInWithPhoneNumber(`+57${phone}`);
       setConfirm(confirmation);
+      setPhone('');
       navigation.navigate(RouteName.VERIFY_PHONE, {
         verificationType: 'Login',
       });

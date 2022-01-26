@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   ScrollView,
@@ -8,6 +8,7 @@ import {
   Image,
   BackHandler,
   Alert,
+  TouchableHighlight,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
@@ -51,15 +52,21 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.content}>
         <View style={styles.userHeader}>
           <Text style={styles.userTitle}>Hola, {user?.displayName}</Text>
-          <Image
-            source={{
-              uri:
-                user?.photoURL ||
-                'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png',
-            }}
-            defaultSource={Images.userPlaceholder}
-            style={styles.avatar}
-          />
+          <TouchableHighlight
+            underlayColor={Colors.background}
+            onPress={() => {
+              navigation.navigate('Profile');
+            }}>
+            <Image
+              source={{
+                uri:
+                  user?.photoURL ||
+                  'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png',
+              }}
+              defaultSource={Images.userPlaceholder}
+              style={styles.avatar}
+            />
+          </TouchableHighlight>
         </View>
         <View style={styles.boxContainer}>
           <Box

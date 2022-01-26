@@ -18,6 +18,7 @@ import HomeScreen from '../screens/Home';
 import BloodPressureScreen from '../screens/BloodPressure';
 import BloodPressureStepsScreen from '../screens/blood-pressure-reading';
 import PreparationBloodPressureMeasureScreen from '../screens/blood-pressure-reading/Preparation';
+import ProfileScreen from '../screens/Profile';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -72,6 +73,13 @@ function App() {
           component={HomeScreen}
           options={{
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            title: '',
           }}
         />
         <Stack.Screen
