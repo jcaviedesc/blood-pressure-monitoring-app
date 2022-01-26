@@ -26,14 +26,13 @@ type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP> & {
 const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
   const isDarkMode = useColorScheme() === 'dark';
   // The `state` arg is correctly typed as `RootState` already
-  const user = useAppSelector(selectUser);
-  const { fullName, phone, address } = user;
+  const { fullName, phone, address } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
   const { setConfirm } = useConfirmPhone();
 
   const dispatchAction = (userField: string, value: string) => {
-    dispatch(updateUserField({ [userField]: value }));
+    dispatch(updateUserField({ field: userField, value }));
   };
 
   async function nextRoute() {

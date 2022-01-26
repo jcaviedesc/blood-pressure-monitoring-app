@@ -15,9 +15,9 @@ type Props = NativeStackScreenProps<
 
 const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
   const stepsRef = React.useRef();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(1);
   const onNext = () => {
-    const nextStep = activeStep + 1;
+    const nextStep = activeStep;
     stepsRef?.current?.scrollToIndex({
       animated: true,
       index: nextStep < 8 ? nextStep : 7,
@@ -30,12 +30,13 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
         ref={stepsRef}
         data={STEPS}
         renderItem={({ item }) => {
-          const { title, image, description } = item;
+          const { title, image, description, highLighWord } = item;
           return (
             <BloodPressureStepTemplate
               title={title}
               imageSource={image}
               description={description}
+              searchWords={highLighWord}
             />
           );
         }}
@@ -50,7 +51,12 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
         scrollEnabled={false}
       />
       <View style={styles.footer}>
-        <Button title="Siguiente" onPress={() => { onNext() }} />
+        <Button
+          title="Siguiente"
+          onPress={() => {
+            onNext();
+          }}
+        />
       </View>
       <Steps nsteps={8} activeStep={activeStep} />
     </View>

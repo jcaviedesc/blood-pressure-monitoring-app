@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SingUpState } from './types';
+import type { SingUpState, updateUserFieldType } from './types';
 import type { RootState } from '../configureStore';
 
 /* ------------- Initial State ------------- */
@@ -20,8 +20,9 @@ export const singUpSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    updateUserField: (state, action: PayloadAction<object>) => {
-      state = { ...state, ...action.payload };
+    updateUserField: (state, action: PayloadAction<updateUserFieldType>) => {
+      const { field, value } = action.payload;
+      state[field] = value;
     },
   },
 });

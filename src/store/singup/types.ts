@@ -12,3 +12,8 @@ export interface SingUpState {
   stature: string;
   birthdate: string | Date;
 }
+
+export type updateUserFieldType = {
+  field: keyof SingUpState;
+  value: string;
+};

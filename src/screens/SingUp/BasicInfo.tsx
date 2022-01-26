@@ -31,7 +31,7 @@ const BasicInfoScreen: React.FC<Props> = ({ navigation }) => {
   const [localBirthdate, setLocalBirthdate] = useState(new Date());
 
   const dispatchAction = (userField: string, value: string) => {
-    dispatch(updateUserField({ [userField]: value }));
+    dispatch(updateUserField({ field: userField, value }));
   };
 
   const onChangeDate = (event: Event, selectedDate: Date | undefined): void => {
