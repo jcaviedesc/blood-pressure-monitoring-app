@@ -53,7 +53,7 @@ function App({ onReady }: AppProps) {
           }}
         />
         <Stack.Screen
-          name={RouteName.VERIFY_PHONE}
+          name="VerifyPhone"
           component={VerifyPhoneScreen}
           options={{
             header: ({

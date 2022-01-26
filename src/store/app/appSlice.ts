@@ -21,15 +21,19 @@ export const appSlice = createSlice({
     changeUserSessionState: (state, action: PayloadAction<boolean>) => {
       state.hasUserActiveSession = action.payload;
     },
+    initAppSuccess: state => {
+      state.appIsLoaded = true;
+    },
   },
 });
 
-export const { openAppFirstTime } = appSlice.actions;
+export const { openAppFirstTime, initAppSuccess, changeUserSessionState } =
+  appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectAppUserState = (state: RootState) => ({
   isFirstTime: state.app.isOpenAppFirstTime,
-  hasActiveSession: state.app.hasUserActiveSession,
+  hasUserActiveSession: state.app.hasUserActiveSession,
 });
 
 export default appSlice.reducer;

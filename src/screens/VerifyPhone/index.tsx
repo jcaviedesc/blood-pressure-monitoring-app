@@ -3,13 +3,14 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
-import { RouteName } from '../../router/routeNames';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { VerifyCode } from '../../components';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { useConfirmPhone } from '../../context/ConfirmPhone';
+import { useAppDispatch } from '../../hooks';
+import { changeUserSessionState } from '../../store/app/appSlice';
 
-type Props = NativeStackScreenProps<RootStackParamList, RouteName.VERIFY_PHONE>;
+type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
 
 const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   const { verificationType } = route.params;
@@ -23,20 +24,27 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
       }
     }, [verificationType, navigation]),
   );
+
+  const dispatch = useAppDispatch();
+  const verifyPhoneSuccess = useCallback(() => {
+    dispatch(changeUserSessionState(true));
+    navigation.navigate(
+      verificationType === 'SingUp' ? 'Singup/SelectGender' : 'Home',
+    );
+  }, [navigation, verificationType, dispatch]);
+
   // If null, no SMS has been sent
   const { confirm } = useConfirmPhone();
   // Handle user state changes
   const onAuthStateChanged = useCallback(
     (user: FirebaseAuthTypes.User | null) => {
       if (user) {
-        navigation.navigate(
-          verificationType === 'SingUp' ? 'Singup/SelectGender' : 'Home',
-        );
+        verifyPhoneSuccess();
         // showToast('The phone number is already registered');
         // TODO naviage to login options?
       }
     },
-    [navigation, verificationType],
+    [verifyPhoneSuccess],
   );
 
   useEffect(() => {
@@ -47,9 +55,7 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   async function confirmCode(code: string) {
     try {
       await confirm?.confirm(code);
-      navigation.navigate(
-        verificationType === 'SingUp' ? 'Singup/SelectGender' : 'Home',
-      );
+      verifyPhoneSuccess();
     } catch (error) {
       console.log('Invalid code.', error);
     }

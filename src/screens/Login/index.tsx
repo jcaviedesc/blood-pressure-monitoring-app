@@ -6,6 +6,7 @@ import {
   View,
   useColorScheme,
   TouchableHighlight,
+  StatusBar,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -34,7 +35,7 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
       const confirmation = await auth().signInWithPhoneNumber(`+57${phone}`);
       setConfirm(confirmation);
       setPhone('');
-      navigation.navigate(RouteName.VERIFY_PHONE, {
+      navigation.navigate('VerifyPhone', {
         verificationType: 'Login',
       });
     } catch (error) {
@@ -47,6 +48,13 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
   return (
     <ScrollView
       style={[styles.mainContainer, isDarkMode && styles.darkContainer]}>
+      <StatusBar
+        animated={true}
+        backgroundColor={Colors.background}
+        showHideTransition="fade"
+        hidden={false}
+        barStyle="dark-content"
+      />
       <View style={styles.titleContainer}>
         <Text style={styles.title}>
           Inicia sesión ingresando tu numero de celuar

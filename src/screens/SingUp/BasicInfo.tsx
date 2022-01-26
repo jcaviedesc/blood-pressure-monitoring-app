@@ -1,6 +1,6 @@
 // fecha de nacimiento, altura, tipo de sangre, peso
 // IMC = peso/altura^2
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   ScrollView,
   StyleSheet,

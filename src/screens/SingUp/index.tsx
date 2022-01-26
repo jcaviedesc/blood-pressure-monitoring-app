@@ -6,6 +6,7 @@ import {
   View,
   useColorScheme,
   TouchableHighlight,
+  StatusBar,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -41,12 +42,19 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
     const confirmation = await auth().signInWithPhoneNumber(`+57${phone}`);
     setConfirm(confirmation);
     setLoading(false);
-    navigation.navigate(RouteName.VERIFY_PHONE, { verificationType: 'SingUp' });
+    navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
   }
 
   return (
     <ScrollView
       style={[styles.mainContainer, isDarkMode && styles.darkContainer]}>
+      <StatusBar
+        animated={true}
+        backgroundColor={Colors.background}
+        showHideTransition="fade"
+        hidden={false}
+        barStyle="dark-content"
+      />
       <View style={styles.titleContainer}>
         <Text style={styles.title}>
           Registrate en Tracking BP y empieza un seguimiento de tu presión
@@ -61,6 +69,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
             onChangeText={text => {
               dispatchAction('fullName', text);
             }}
+            autoFocus
           />
         </View>
 
