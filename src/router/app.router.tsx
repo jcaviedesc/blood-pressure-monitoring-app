@@ -1,12 +1,18 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackHeaderProps,
+} from '@react-navigation/stack';
+import { HeaderBackButton } from '@react-navigation/elements';
 import type { RootStackParamList } from './types';
 import { RouteName } from './routeNames';
 import defaultOptions from './ScreenConfig';
+import { NormalHeader } from '../components/Layout';
 // screens
-import SignIn from '../screens/SignIn';
-import SingUpFlow from './SingUpFlow';
+import SignIn from '../screens/Login';
+import VerifyPhoneScreen from '../screens/VerifyPhone';
+import SingUpFlow, { renderSingUpHeader } from './SingUpFlow';
 import OnboardingScreen from '../screens/Onboarding';
 import HomeScreen from '../screens/Home';
 import BloodPressureScreen from '../screens/BloodPressure';
@@ -18,7 +24,14 @@ const Stack = createStackNavigator<RootStackParamList>();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={RouteName.ONBOARDING}>
+      <Stack.Navigator initialRouteName={RouteName.SINGUP}>
+        <Stack.Screen
+          name={RouteName.ONBOARDING}
+          component={OnboardingScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name={RouteName.LOGIN}
           component={SignIn}
@@ -27,10 +40,31 @@ function App() {
           }}
         />
         <Stack.Screen
-          name={RouteName.ONBOARDING}
-          component={OnboardingScreen}
+          name={RouteName.VERIFY_PHONE}
+          component={VerifyPhoneScreen}
           options={{
-            headerShown: false,
+            header: ({
+              navigation,
+              route,
+              options,
+              back,
+            }: StackHeaderProps) => {
+              return options.showStepHeader ? (
+                renderSingUpHeader(navigation, route, options, back, {
+                  nsteps: 5,
+                  activeStep: 2,
+                })
+              ) : (
+                <NormalHeader
+                  leftButton={
+                    back ? (
+                      <HeaderBackButton onPress={navigation.goBack} />
+                    ) : undefined
+                  }
+                  style={options.headerStyle}
+                />
+              );
+            },
           }}
         />
         <Stack.Screen

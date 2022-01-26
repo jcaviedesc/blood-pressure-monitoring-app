@@ -5,12 +5,11 @@ import { StepsHeader } from '../components/Layout';
 import { RouteName } from './routeNames';
 // screena
 import SingUpScreen from '../screens/SingUp';
-import VerifyPhoneScreen from '../screens/SingUp/VerifyPhone';
 import SelectGenderScreen from '../screens/SingUp/SelectGender';
 import BasicInfoScreen from '../screens/SingUp/BasicInfo';
 import SelectProfilePictureScreen from '../screens/SingUp/SelectProfilePicture';
 
-const renderHeader = (
+export const renderSingUpHeader = (
   navigation: StackHeaderProps['navigation'],
   route: StackHeaderProps['route'],
   options: StackHeaderProps['options'],
@@ -35,20 +34,9 @@ const SingUpFlow = {
     component: SingUpScreen,
     options: {
       header: ({ navigation, route, options, back }: StackHeaderProps) => {
-        return renderHeader(navigation, route, options, back, {
+        return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 5,
           activeStep: 1,
-        });
-      },
-    },
-  },
-  [RouteName.VERIFY_PHONE]: {
-    component: VerifyPhoneScreen,
-    options: {
-      header: ({ navigation, route, options, back }: StackHeaderProps) => {
-        return renderHeader(navigation, route, options, back, {
-          nsteps: 5,
-          activeStep: 2,
         });
       },
     },
@@ -57,7 +45,7 @@ const SingUpFlow = {
     component: SelectGenderScreen,
     options: {
       header: ({ navigation, route, options, back }: StackHeaderProps) => {
-        return renderHeader(navigation, route, options, back, {
+        return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 5,
           activeStep: 3,
         });
@@ -68,7 +56,7 @@ const SingUpFlow = {
     component: BasicInfoScreen,
     options: {
       header: ({ navigation, route, options, back }: StackHeaderProps) => {
-        return renderHeader(navigation, route, options, back, {
+        return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 5,
           activeStep: 4,
         });
@@ -79,7 +67,7 @@ const SingUpFlow = {
     component: SelectProfilePictureScreen,
     options: {
       header: ({ navigation, route, options, back }: StackHeaderProps) => {
-        return renderHeader(navigation, route, options, back, {
+        return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 5,
           activeStep: 5,
         });

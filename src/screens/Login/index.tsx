@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   StyleSheet,
@@ -13,35 +13,34 @@ import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Input, Button } from '../../components';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectUser, updateUserField } from '../../store/singup/singupSlice';
 import { useConfirmPhone } from '../../context/ConfirmPhone';
 import { withLoading } from '../../wrappers';
 
-type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP> & {
+interface Props
+  extends NativeStackScreenProps<RootStackParamList, RouteName.SINGUP> {
   setLoading: (state: boolean) => void;
-};
+}
 
-const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
+const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
   const isDarkMode = useColorScheme() === 'dark';
-  // The `state` arg is correctly typed as `RootState` already
-  const user = useAppSelector(selectUser);
-  const { fullName, phone, address } = user;
-  const dispatch = useAppDispatch();
+  const [phone, setPhone] = useState('');
 
   const { setConfirm } = useConfirmPhone();
 
-  const dispatchAction = (userField: string, value: string) => {
-    dispatch(updateUserField({ [userField]: value }));
-  };
-
-  async function nextRoute() {
+  async function navigate() {
     // add +57 from colombia
     setLoading(true);
-    const confirmation = await auth().signInWithPhoneNumber(`+57${phone}`);
-    setConfirm(confirmation);
-    setLoading(false);
-    navigation.navigate(RouteName.VERIFY_PHONE, { verificationType: 'SingUp' });
+    try {
+      const confirmation = await auth().signInWithPhoneNumber(`+57${phone}`);
+      setConfirm(confirmation);
+      navigation.navigate(RouteName.VERIFY_PHONE, {
+        verificationType: 'Login',
+      });
+    } catch (error) {
+      // TODO add sentry or other platform for track error
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -49,39 +48,18 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
       style={[styles.mainContainer, isDarkMode && styles.darkContainer]}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>
-          Registrate en Tracking BP y empieza un seguimiento de tu presión
-          arterial
+          Inicia sesión ingresando tu numero de celuar
         </Text>
       </View>
       <View style={styles.bodyContainer}>
         <View style={styles.section}>
           <Input
-            title="Nombre completo"
-            value={fullName}
-            onChangeText={text => {
-              dispatchAction('fullName', text);
-            }}
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Input
-            title="Numero de celular"
             keyboardType="number-pad"
             value={phone}
             onChangeText={text => {
-              dispatchAction('phone', text);
+              setPhone(text);
             }}
-          />
-        </View>
-        <View style={styles.section}>
-          <Input
-            title="Dirección de donde vives"
-            placeholder="Ej. Vereda Calucata, La mesa, cundinamarca"
-            value={address}
-            onChangeText={text => {
-              dispatchAction('address', text);
-            }}
+            autoFocus
           />
         </View>
       </View>
@@ -90,22 +68,20 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
         <Button
           title="siguiente"
           onPress={() => {
-            nextRoute();
+            navigate();
           }}
         />
-        <View style={styles.allreadyAccount}>
+        <View style={styles.notAccount}>
           <View>
-            <Text style={styles.allreadyAccountText}>
-              ¿Ya tienes una cuenta?
-            </Text>
+            <Text style={styles.notAccountText}>¿No tienes una cuenta?</Text>
           </View>
           <TouchableHighlight
             underlayColor={Colors.background}
             onPress={() => {
-              navigation.navigate('Login');
+              navigation.navigate('Singup');
             }}>
-            <Text style={[styles.allreadyAccountText, styles.loginText]}>
-              Iniciar sessión
+            <Text style={[styles.notAccountText, styles.loginText]}>
+              Registrarme
             </Text>
           </TouchableHighlight>
         </View>
@@ -125,25 +101,24 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flex: 20,
-    marginBottom: 42,
+    marginTop: 50,
     paddingHorizontal: Metrics.marginHorizontal,
   },
   bodyContainer: {
-    flex: 40,
+    flex: 10,
   },
   footer: {
-    flex: 20,
-    paddingTop: 60,
-    paddingBottom: 30,
+    flex: 80,
+    paddingVertical: 30,
     paddingHorizontal: Metrics.marginHorizontal,
     justifyContent: 'flex-end',
   },
-  allreadyAccount: {
+  notAccount: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 12,
   },
-  allreadyAccountText: {
+  notAccountText: {
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.paragraph,
     color: Colors.paragraph,
@@ -155,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withLoading(SingUpScreen);
+export default withLoading(LoginScreen);

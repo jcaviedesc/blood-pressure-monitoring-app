@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
@@ -10,19 +11,32 @@ import { useConfirmPhone } from '../../context/ConfirmPhone';
 
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.VERIFY_PHONE>;
 
-const VerifyPhoneScreen: React.FC<Props> = ({ navigation }) => {
+const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
+  const { verificationType } = route.params;
+  useFocusEffect(
+    useCallback(() => {
+      if (verificationType === 'SingUp') {
+        // search how typed navigation options
+        navigation.setOptions({ showStepHeader: true });
+      } else {
+        navigation.setOptions({ showStepHeader: false });
+      }
+    }, [verificationType, navigation]),
+  );
   // If null, no SMS has been sent
   const { confirm } = useConfirmPhone();
   // Handle user state changes
   const onAuthStateChanged = useCallback(
     (user: FirebaseAuthTypes.User | null) => {
       if (user) {
-        navigation.navigate(RouteName.SELECT_GENDER);
+        navigation.navigate(
+          verificationType === 'SingUp' ? 'Singup/SelectGender' : 'Home',
+        );
         // showToast('The phone number is already registered');
         // TODO naviage to login options?
       }
     },
-    [navigation],
+    [navigation, verificationType],
   );
 
   useEffect(() => {
@@ -33,7 +47,9 @@ const VerifyPhoneScreen: React.FC<Props> = ({ navigation }) => {
   async function confirmCode(code: string) {
     try {
       await confirm?.confirm(code);
-      navigation.navigate(RouteName.SELECT_GENDER);
+      navigation.navigate(
+        verificationType === 'SingUp' ? 'Singup/SelectGender' : 'Home',
+      );
     } catch (error) {
       console.log('Invalid code.', error);
     }
