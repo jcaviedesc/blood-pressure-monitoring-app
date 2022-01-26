@@ -30,7 +30,7 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
             PREPARACIÓN ANTES DE MEDIR LA PRESIÓN ARTERIAL
           </Text>
         </View>
-        <View>
+        <View style={styles.mainCheckContainer}>
           <View style={styles.checkContainer}>
             <View style={styles.checkTextContainer}>
               <Text style={styles.checkText}>
@@ -96,16 +96,19 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   title: {
-    fontSize: Fonts.size.h3,
-    lineHeight: Fonts.size.h3 + 4,
+    fontFamily: Fonts.type.bold,
+    fontSize: Fonts.size.h4,
     color: Colors.headline,
     textAlign: 'left',
-    fontFamily: Fonts.type.bold,
+  },
+  mainCheckContainer: {
+    flex: 40,
+    marginTop: 27,
+    marginBottom: 30,
   },
   checkText: {
     fontFamily: Fonts.type.regular,
-    fontSize: Fonts.size.h3,
-    lineHeight: Fonts.size.h3 + 2,
+    fontSize: Fonts.size.h5,
     textAlign: 'justify',
     paddingRight: 12,
   },

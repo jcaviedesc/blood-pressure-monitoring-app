@@ -4,7 +4,7 @@ import { ScrollView, Text, View, StyleSheet } from 'react-native';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { Colors, Fonts, AppStyles } from '../../styles';
-import { Card, Button } from '../../components';
+import { BloodPresureCard, Button } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home/BloodPressure'>;
 
@@ -20,17 +20,17 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.title}>Presión Arterial</Text>
         </View>
         <View style={styles.cardContainer}>
-          <Card title="SYS" value="144" magnitude="mmHg" />
-          <Card title="DIA" value="78" magnitude="mmHg" />
+          <BloodPresureCard title="SYS" value="144" magnitude="mmHg" />
+          <BloodPresureCard title="DIA" value="78" magnitude="mmHg" />
         </View>
-      </View>
-      <View>
-        <Button
-          title="Iniciar Medición"
-          onPress={() => {
-            navigate(RouteName.PREPARATION_READING_BP);
-          }}
-        />
+        <View style={styles.footer}>
+          <Button
+            title="Iniciar Medición"
+            onPress={() => {
+              navigate(RouteName.PREPARATION_READING_BP);
+            }}
+          />
+        </View>
       </View>
     </ScrollView>
   );
@@ -43,17 +43,19 @@ const styles = StyleSheet.create({
   },
   statics: {
     fontFamily: Fonts.type.regular,
-    fontSize: Fonts.size.h3,
+    fontSize: Fonts.size.h5,
   },
   title: {
     fontFamily: Fonts.type.bold,
-    fontSize: 50,
-    lineHeight: 54,
-    color: Colors.primary,
+    fontSize: Fonts.size.h3,
+    color: Colors.headline,
   },
   cardContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  footer: {
+    marginTop: 30,
   },
 });
 

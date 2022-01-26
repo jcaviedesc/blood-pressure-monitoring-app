@@ -5,7 +5,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors, Fonts, Metrics } from '../../styles';
 
 type boxPros = {
-  title: Array<String>;
+  title: string;
   status: string;
   value: string;
   colors: Array<string>;
@@ -33,14 +33,11 @@ const Box: React.FC<boxPros> = ({
       }}
       style={styles.box}>
       <TouchableOpacity onPress={onPress} style={styles.boxContent}>
-        <View style={{ flex: 1 }}>
+        <View style={styles.iconContainer}>
           <Icon name={iconName} size={22} color={Colors.white} />
         </View>
         <View style={styles.boxTitleContainer}>
-          <Text style={{ ...styles.boxTextTitle }}>{title[0]}</Text>
-          <Text style={[styles.boxTextTitle, styles.boxTextTileTwo]}>
-            {title[1]}
-          </Text>
+          <Text style={styles.boxTextTitle}>{title}</Text>
         </View>
         <View style={styles.boxBody}>
           <Text style={styles.boxText}>{status}</Text>
@@ -62,27 +59,22 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     position: 'relative',
   },
+  iconContainer: {
+    flex: 1,
+  },
   boxContent: {
-    position: 'relative',
     flex: 1,
   },
   boxTitleContainer: {
     width: '80%',
-    height: 50,
     position: 'relative',
-    marginBottom: 12,
   },
   boxTextTitle: {
     marginRight: 10,
     fontFamily: Fonts.type.bold,
     color: Colors.white,
-    fontSize: Fonts.size.h5,
-    textAlign: 'justify',
-    lineHeight: 38,
-  },
-  boxTextTileTwo: {
-    position: 'absolute',
-    top: 30,
+    fontSize: 22,
+    textAlign: 'left',
   },
   boxText: {
     fontFamily: Fonts.type.regular,
@@ -91,6 +83,12 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     textAlignVertical: 'bottom',
     lineHeight: 30,
+    textShadowColor: Colors.paragraph,
+    textShadowOffset: {
+      width: 0.5,
+      height: 0.5,
+    },
+    textShadowRadius: 0.5,
   },
   boxBody: {
     height: 50,

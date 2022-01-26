@@ -78,7 +78,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={styles.boxContainer}>
           <Box
-            title={['Presiónl', 'Arteria']}
+            title="Presión Arteria"
             status="Normal"
             value="140/90 mmHg"
             colors={['#fe5b5b', '#ef6463']}
@@ -88,21 +88,21 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             }}
           />
           <Box
-            title={['Peso', 'Corporal']}
+            title="Peso Corporal"
             status="Estable"
             value="82 Kg"
             iconName="balance-scale"
             colors={['#1273a6', '#71c4d2']}
           />
           <Box
-            title={['Ritmo', 'Cardiaco']}
+            title="Ritmo Cardiaco"
             status="Estable"
             value="78 bpm"
             iconName="heartbeat"
             colors={['#10acd4', '#81eb91']}
           />
           <Box
-            title={['Glucosa', 'En sangre']}
+            title="Glucosa en sangre"
             status="Estable"
             value="140 mg / dl"
             iconName="eyedropper"

@@ -51,22 +51,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: Fonts.type.regular,
-    fontSize: Fonts.size.h4,
-    lineHeight: Fonts.size.h4,
+    fontSize: Fonts.size.h6,
     color: Colors.primary,
   },
   valueText: {
     fontFamily: Fonts.type.bold,
-    fontSize: 60,
-    lineHeight: 62,
+    fontSize: Fonts.size.h2,
     color: Colors.primary,
     marginRight: 6,
   },
   magnitudeText: {
     fontFamily: Fonts.type.regular,
-    fontSize: 25,
-    lineHeight: 25,
-    height: 15,
+    fontSize: Fonts.size.h5,
     // color: Colors.secondaryText,
   },
   cardHeader: {
@@ -79,7 +75,6 @@ const styles = StyleSheet.create({
   },
   cardBody: {
     flexDirection: 'row',
-    height: 30,
     alignItems: 'flex-end',
     justifyContent: 'flex-start',
   },
