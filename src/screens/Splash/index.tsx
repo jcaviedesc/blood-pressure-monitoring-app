@@ -8,7 +8,6 @@ import { Colors, Images, Metrics } from '../../styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
-
 const SplashScreen: React.FC<Props> = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {

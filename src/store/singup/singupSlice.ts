@@ -4,16 +4,14 @@ import type { RootState } from '../../store';
 
 /* ------------- Initial State ------------- */
 const initialState: SingUpState = {
-  user: {
-    fullName: '',
-    phone: '',
-    address: '',
-    location: [],
-    gender: '',
-    weight: '',
-    stature: '',
-    birthdate: '',
-  },
+  fullName: '',
+  phone: '',
+  address: '',
+  location: [],
+  gender: '',
+  weight: '',
+  stature: '',
+  birthdate: '',
 };
 
 export const singUpSlice = createSlice({
@@ -23,7 +21,7 @@ export const singUpSlice = createSlice({
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
     updateUserField: (state, action: PayloadAction<object>) => {
-      state.user = { ...state.user, ...action.payload };
+      state = { ...state, ...action.payload };
     },
   },
 });
@@ -31,6 +29,6 @@ export const singUpSlice = createSlice({
 export const { updateUserField } = singUpSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectUser = (state: RootState) => state.singup.user;
+export const selectUser = (state: RootState) => state.singup;
 
 export default singUpSlice.reducer;

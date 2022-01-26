@@ -5,11 +5,15 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { Images, Colors, AppStyles, Fonts } from '../../styles';
+import { openAppFirstTime } from '../../store/app/appSlice';
+import { useAppDispatch } from '../../hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Onboarding'>;
 
 const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
+  const dispatch = useAppDispatch();
   const navigateToSingupScreen = () => {
+    dispatch(openAppFirstTime());
     navigation.navigate(RouteName.SINGUP);
   };
   return (

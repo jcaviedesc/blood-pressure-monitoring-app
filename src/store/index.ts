@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import singupReducer from './singup/singupSlice';
+import appReducer from './app/appSlice';
 // ...
 
 const store = configureStore({
   reducer: {
     singup: singupReducer,
+    app: appReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });
