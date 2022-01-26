@@ -23,9 +23,13 @@ import ProfileScreen from '../screens/Profile';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-function App() {
+type AppProps = {
+  onReady: (() => void) | undefined;
+};
+
+function App({ onReady }: AppProps) {
   return (
-    <NavigationContainer>
+    <NavigationContainer onReady={onReady}>
       <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen
           name="Splash"

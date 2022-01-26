@@ -15,6 +15,7 @@ import store from './store';
 // context
 import { ConfirmPhoneProvider } from './context/ConfirmPhone';
 import { Colors } from './styles';
+import RNBootSplash from 'react-native-bootsplash';
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,7 +29,8 @@ const App: () => Node = () => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
       />
       <ConfirmPhoneProvider>
-        <AppScreens />
+        {/* TODO change icon color */}
+        <AppScreens onReady={() => RNBootSplash.hide()} />
       </ConfirmPhoneProvider>
     </Provider>
   );
