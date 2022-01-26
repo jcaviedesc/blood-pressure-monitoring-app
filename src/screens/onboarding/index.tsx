@@ -1,7 +1,7 @@
 import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Onboarding from 'react-native-onboarding-swiper';
-import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { Images, Colors, AppStyles, Fonts } from '../../styles';
@@ -14,12 +14,6 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
   };
   return (
     <View style={AppStyles.screen.mainContainer}>
-      <StatusBar
-        animated={true}
-        backgroundColor={Colors.background}
-        showHideTransition="fade"
-        hidden={false}
-      />
       <Onboarding
         onDone={navigateToSingupScreen}
         onSkip={navigateToSingupScreen}

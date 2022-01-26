@@ -5,6 +5,8 @@ import {
   View,
   Image,
   TouchableHighlight,
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ActionSheet from 'react-native-actions-sheet';
@@ -48,7 +50,34 @@ const defaulPictureOptions: CameraOptions = {
   includeExtra: true,
 };
 
-const SelectProfilePictureScreen: React.FC<Props> = ({ navigation, setLoading }) => {
+const requestCameraPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      {
+        title: 'Tracking BP App Camera Permission',
+        message:
+          'Tracking BP App needs access to your camera ' +
+          'so you can take awesome pictures.',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      },
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log('You can use the camera');
+    } else {
+      console.log('Camera permission denied');
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+};
+
+const SelectProfilePictureScreen: React.FC<Props> = ({
+  navigation,
+  setLoading,
+}) => {
   const { fullName } = useAppSelector(selectUser);
   const actionSheetRef = useRef<actionSheetRef>();
   const [photoUri, setPhotoUri] = useState<photoUri>({
@@ -74,6 +103,14 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation, setLoading })
   };
 
   const onLaunchCamera = async () => {
+    if (Platform.OS === 'android') {
+      const cameraAvailable = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+      );
+      if (!cameraAvailable) {
+        await requestCameraPermission();
+      }
+    }
     actionSheetRef.current?.hide();
     const result = await launchCamera(defaulPictureOptions);
     setUriPhoto(result);

@@ -63,7 +63,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
 
         <View style={styles.section}>
           <Input
-            title="Numero de celuar"
+            title="Numero de celular"
             keyboardType="number-pad"
             value={phone}
             onChangeText={text => {
