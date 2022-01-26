@@ -9,6 +9,7 @@ import {
   BackHandler,
   Alert,
   TouchableHighlight,
+  StatusBar,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
@@ -44,11 +45,18 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     }, []),
   );
 
-  const navigate = (screen: RouteName) => {
+  const navigate = (screen: keyof RootStackParamList) => {
     navigation.navigate(screen);
   };
   return (
     <ScrollView style={styles.mainContainer}>
+      <StatusBar
+        animated={true}
+        backgroundColor={Colors.background}
+        showHideTransition="fade"
+        hidden={false}
+        barStyle="dark-content"
+      />
       <View style={styles.content}>
         <View style={styles.userHeader}>
           <Text style={styles.userTitle}>Hola, {user?.displayName}</Text>
