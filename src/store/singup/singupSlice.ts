@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SingUpState } from './types';
-import type { RootState } from '../../store';
+import type { RootState } from '../configureStore';
 
 /* ------------- Initial State ------------- */
 const initialState: SingUpState = {

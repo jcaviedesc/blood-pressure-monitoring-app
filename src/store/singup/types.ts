@@ -2,7 +2,6 @@ export enum Gender {
   male = 'male',
   female = 'female',
 }
-
 export interface SingUpState {
   fullName: string;
   phone: string;
@@ -12,10 +11,4 @@ export interface SingUpState {
   weight: string;
   stature: string;
   birthdate: string | Date;
-}
-
-export interface AppState {
-  appIsLoaded: boolean;
-  isOpenAppFirstTime: boolean;
-  hasUserActiveSession: boolean;
 }

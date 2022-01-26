@@ -10,12 +10,13 @@ import React from 'react';
 import type { Node } from 'react';
 import { useColorScheme, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
+import RNBootSplash from 'react-native-bootsplash';
+import { PersistGate } from 'redux-persist/integration/react';
 import AppScreens from './router/app.router';
-import store from './store';
+import store, { persistor } from './store/configureStore';
 // context
 import { ConfirmPhoneProvider } from './context/ConfirmPhone';
 import { Colors } from './styles';
-import RNBootSplash from 'react-native-bootsplash';
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,10 +29,12 @@ const App: () => Node = () => {
         hidden={false}
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
       />
-      <ConfirmPhoneProvider>
-        {/* TODO change icon color */}
-        <AppScreens onReady={() => RNBootSplash.hide()} />
-      </ConfirmPhoneProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <ConfirmPhoneProvider>
+          {/* TODO change icon color */}
+          <AppScreens onReady={() => RNBootSplash.hide()} />
+        </ConfirmPhoneProvider>
+      </PersistGate>
     </Provider>
   );
 };

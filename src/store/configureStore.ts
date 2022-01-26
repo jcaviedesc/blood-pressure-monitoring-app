@@ -1,15 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
-import singupReducer from './singup/singupSlice';
-import appReducer from './app/appSlice';
+import { persistStore } from 'redux-persist';
+import rootReducer from './rootReducers';
+import { persistedReducer } from './configurePersistStore';
 // ...
 
+const persistedReducerSetup = persistedReducer(rootReducer);
+
 const store = configureStore({
-  reducer: {
-    singup: singupReducer,
-    app: appReducer,
-  },
+  reducer: persistedReducerSetup,
   devTools: process.env.NODE_ENV !== 'production',
 });
+
+export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
