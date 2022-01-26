@@ -1,4 +1,5 @@
 export type RootStackParamList = {
+  Splash: undefined;
   Login: undefined;
   Singup: undefined;
   'Singup/VerifyPhone': { verificationType: string };

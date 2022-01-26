@@ -206,6 +206,13 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:2.6.0'
+    // For WebP support, including animated WebP
+    implementation 'com.facebook.fresco:animated-webp:2.6.0'
+    implementation 'com.facebook.fresco:webpsupport:2.6.0'
+    // For WebP support, without animations
+    implementation 'com.facebook.fresco:webpsupport:2.6.0'
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics'
 

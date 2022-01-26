@@ -10,6 +10,7 @@ import { RouteName } from './routeNames';
 import defaultOptions from './ScreenConfig';
 import { NormalHeader } from '../components/Layout';
 // screens
+import SplashScreen from '../screens/Splash';
 import SignIn from '../screens/Login';
 import VerifyPhoneScreen from '../screens/VerifyPhone';
 import SingUpFlow, { renderSingUpHeader } from './SingUpFlow';
@@ -25,7 +26,14 @@ const Stack = createStackNavigator<RootStackParamList>();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={RouteName.SINGUP}>
+      <Stack.Navigator initialRouteName="Splash">
+        <Stack.Screen
+          name="Splash"
+          component={SplashScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name={RouteName.ONBOARDING}
           component={OnboardingScreen}

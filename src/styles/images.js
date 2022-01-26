@@ -8,6 +8,7 @@ const images = {
   noTalkStep1: require('../images/no-talk-step-1.png'),
   femaleIcon: require('../images/icons/female-symbol-icon.png'),
   maleIcon: require('../images/icons/male-symbol-icon.png'),
+  animateHeart: require('../images/animate-heart.gif'),
 };
 
 export default images;
