@@ -110,7 +110,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
           <TouchableHighlight
             underlayColor={Colors.background}
             onPress={() => {
-              navigation.navigate('Login');
+              navigation.navigate('Login', { from: 'Login' });
             }}>
             <Text style={[styles.allreadyAccountText, styles.loginText]}>
               Iniciar sessión

@@ -1,7 +1,16 @@
 import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Onboarding from 'react-native-onboarding-swiper';
-import { Image, StyleSheet, Text, View, StatusBar } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  BackHandler,
+  Alert,
+} from 'react-native';
 import type { RootStackParamList } from '../../router/types';
 import { Images, Colors, AppStyles, Fonts } from '../../styles';
 import { openAppFirstTime } from '../../store/app/appSlice';
@@ -16,6 +25,29 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(openAppFirstTime());
     navigation.navigate('Singup');
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
+        // Espera! 'Hold on!
+        // Seguro quieres salir de la applicación? 'Are you sure you want to go back?
+        Alert.alert('¡Espera!', '¿Seguro quieres salir de la applicación?', [
+          {
+            text: 'Cancelar',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          { text: 'SI', onPress: () => BackHandler.exitApp() },
+        ]);
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', backAction);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', backAction);
+    }, []),
+  );
 
   return (
     <View style={AppStyles.screen.mainContainer}>

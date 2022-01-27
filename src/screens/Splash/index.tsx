@@ -27,7 +27,7 @@ const SplashScreen: React.FC<Props> = ({ navigation }) => {
         } else if (hasUserActiveSession) {
           navigation.navigate('Home');
         } else {
-          navigation.navigate('Login');
+          navigation.navigate('Login', { from: 'splash' });
         }
       };
       setTimeout(next, 1000);

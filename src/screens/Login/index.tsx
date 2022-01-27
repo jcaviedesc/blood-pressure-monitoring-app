@@ -7,8 +7,11 @@ import {
   useColorScheme,
   TouchableHighlight,
   StatusBar,
+  BackHandler,
+  Alert,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
@@ -44,6 +47,29 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
       setLoading(false);
     }
   }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
+        // Espera! 'Hold on!
+        // Seguro quieres salir de la applicación? 'Are you sure you want to go back?
+        Alert.alert('¡Espera!', '¿Seguro quieres salir de la applicación?', [
+          {
+            text: 'Cancelar',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          { text: 'SI', onPress: () => BackHandler.exitApp() },
+        ]);
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', backAction);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', backAction);
+    }, []),
+  );
 
   return (
     <ScrollView
