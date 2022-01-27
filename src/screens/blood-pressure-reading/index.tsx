@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
@@ -13,8 +13,12 @@ type Props = NativeStackScreenProps<
   RouteName.BLOOD_PRESSURE_READING
 >;
 
+type stepRef = {
+  scrollToIndex: ({}) => void;
+};
+
 const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
-  const stepsRef = React.useRef();
+  const stepsRef = React.useRef<stepRef>();
   const [activeStep, setActiveStep] = React.useState(1);
   const onNext = () => {
     const nextStep = activeStep;
