@@ -12,6 +12,7 @@ const initialState: SingUpState = {
   weight: '',
   stature: '',
   birthdate: '',
+  userType: '',
 };
 
 export const singUpSlice = createSlice({

@@ -11,6 +11,7 @@ export interface SingUpState {
   weight: string;
   stature: string;
   birthdate: string | Date;
+  userType: 'healthUser' | 'normalUser' | '';
 }
 
 export type updateUserFieldType = {

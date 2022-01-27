@@ -111,7 +111,7 @@ const BasicInfoScreen: React.FC<Props> = ({ navigation }) => {
         <Button
           title="siguiente"
           onPress={() => {
-            navigation.navigate(RouteName.PROFILE_PICTURE);
+            navigation.navigate('Singup/selectUserType');
           }}
         />
       </View>

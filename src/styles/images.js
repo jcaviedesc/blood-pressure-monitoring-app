@@ -9,6 +9,8 @@ const images = {
   femaleIcon: require('../images/icons/female-symbol-icon.png'),
   maleIcon: require('../images/icons/male-symbol-icon.png'),
   animateHeart: require('../images/animate-heart.gif'),
+  healtcareProfessionals: require('../images/healthcare-professionals.png'),
+  normalPerson: require('../images/normal-person.png'),
 };
 
 export default images;

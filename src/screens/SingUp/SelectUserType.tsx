@@ -1,46 +1,51 @@
-import React from "react";
+import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableHighlight,
+  Image,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { RouteName } from '../../router/routeNames';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
-import { Fonts, Colors, AppStyles, Images, Metrics } from '../../styles';
+import { Fonts, Colors, Images, Metrics } from '../../styles';
 import { Card } from '../../components';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
-  RouteName.SELECT_GENDER
+  'Singup/selectUserType'
 >;
-const SelectGenderScreen: React.FC<Props> = ({ navigation }) => {
-  const { gender } = useAppSelector(selectUser);
+
+const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
+  const { userType } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
   const onSelectGender = (select: string) => {
-    dispatch(updateUserField({ field: 'gender', value: select }));
-    navigation.navigate(RouteName.BASIC_INFO);
+    dispatch(updateUserField({ field: 'userType', value: select }));
+    navigation.navigate('Singup/ProfilePicture');
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <Text style={styles.title}>Selecciona tu Genero</Text>
-      <View style={styles.genderContainer}>
+    <View style={styles.mainContainerOverride}>
+      <Text style={styles.title}>¿Eres profesional de la salud?</Text>
+      <View style={styles.userTypesContainer}>
         <TouchableHighlight
           underlayColor={Colors.transparent}
           style={styles.cardTouchable}
           onPress={() => {
-            onSelectGender('male');
+            onSelectGender('healthUser');
           }}>
-          <Card selected={gender === 'male'}>
-            <View style={styles.genderContent}>
-              <Image source={Images.maleIcon} style={styles.image} />
-              <Text style={styles.genderText}>Hombre</Text>
+          <Card selected={userType === 'healthUser'}>
+            <View style={styles.userTypeContent}>
+              <Image
+                source={Images.healtcareProfessionals}
+                style={styles.image}
+              />
+              <Text style={styles.userTypeText}>
+                Soy profesional de la salud
+              </Text>
             </View>
           </Card>
         </TouchableHighlight>
@@ -48,56 +53,56 @@ const SelectGenderScreen: React.FC<Props> = ({ navigation }) => {
           underlayColor={Colors.transparent}
           style={styles.cardTouchable}
           onPress={() => {
-            onSelectGender('female');
+            onSelectGender('normalUser');
           }}>
-          <Card selected={gender === 'female'}>
-            <View style={styles.genderContent}>
-              <Image source={Images.femaleIcon} style={styles.image} />
-              <Text style={styles.genderText}>Mujer</Text>
+          <Card selected={userType === 'normalUser'}>
+            <View style={styles.userTypeContent}>
+              <Image source={Images.normalPerson} style={styles.image} />
+              <Text style={styles.userTypeText}>
+                No soy profesional de la salud
+              </Text>
             </View>
           </Card>
         </TouchableHighlight>
-      </View>
-      <View style={styles.descriptionContainer}>
-        <Text style={styles.textDescription}>
-          Para ofrecerte una mejor experiencia nosotros necesitamos conocer tu
-          genero
-        </Text>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  ...AppStyles.screen,
+  mainContainerOverride: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
   title: {
     ...Fonts.style.h3,
     textAlign: 'center',
     color: Colors.headline,
     marginBottom: 31,
-    marginTop: 21,
+    marginHorizontal: Metrics.marginHorizontal,
   },
-  genderContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  userTypesContainer: {
+    flex: 1,
     marginHorizontal: 20,
+    alignItems: 'center',
   },
   cardTouchable: {
-    width: Metrics.screenWidth / 2 - 40,
-    height: Metrics.screenWidth / 2,
+    width: Metrics.screenHeight / 2 - 140,
+    height: Metrics.screenHeight / 2 - 140,
+    marginBottom: 24,
   },
-  genderContent: {
+  userTypeContent: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   image: {
-    width: 90,
-    height: 90,
+    width: 120,
+    height: 120,
     resizeMode: 'contain',
     marginBottom: 21,
   },
-  genderText: {
+  userTypeText: {
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h5,
     textAlign: 'center',
@@ -115,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectGenderScreen;
+export default SelectUserTypeScreen;
