@@ -5,6 +5,7 @@ import {
   StyleProp,
   ViewStyle,
   useColorScheme,
+  Platform,
 } from 'react-native';
 import { Steps } from '..';
 import type { StepProps } from '../Steps';
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
   ...AppStyles.screen,
   header: {
     backgroundColor: Colors.background,
-    paddingTop: 12,
+    paddingTop: Platform.OS === 'ios' ? 54 : 12,
     height: 70,
   },
   stepsContainer: { paddingVertical: 6 },
