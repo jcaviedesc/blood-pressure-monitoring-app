@@ -15,7 +15,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import AppScreens from './router/app.router';
 import store, { persistor } from './store/configureStore';
 // context
-import { ConfirmPhoneProvider } from './context/ConfirmPhone';
+import { ConfirmPhoneProvider } from './providers/ConfirmPhone';
+import { LocalizationProvider } from './providers/LocalizationProvider';
 import { Colors } from './styles';
 
 const App: () => Node = () => {
@@ -30,10 +31,11 @@ const App: () => Node = () => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
       />
       <PersistGate loading={null} persistor={persistor}>
-        <ConfirmPhoneProvider>
-          {/* TODO change icon color */}
-          <AppScreens onReady={() => RNBootSplash.hide()} />
-        </ConfirmPhoneProvider>
+        <LocalizationProvider>
+          <ConfirmPhoneProvider>
+            <AppScreens onReady={() => RNBootSplash.hide()} />
+          </ConfirmPhoneProvider>
+        </LocalizationProvider>
       </PersistGate>
     </Provider>
   );

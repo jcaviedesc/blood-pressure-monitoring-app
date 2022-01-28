@@ -11,16 +11,18 @@ import {
   TouchableHighlight,
   StatusBar,
 } from 'react-native';
+import auth from '@react-native-firebase/auth';
 import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { Colors, Fonts, AppStyles, Images } from '../../styles';
 import { Box } from '../../components';
-import auth from '@react-native-firebase/auth';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
+  const { translate } = useI18nLocate();
   const user = auth().currentUser;
   useFocusEffect(
     React.useCallback(() => {
@@ -78,7 +80,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={styles.boxContainer}>
           <Box
-            title="Presión Arteria"
+            title={translate('bloodPressure')}
             status="Normal"
             value="140/90 mmHg"
             colors={['#fe5b5b', '#ef6463']}

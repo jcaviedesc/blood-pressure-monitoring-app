@@ -6,7 +6,7 @@ import type { RootStackParamList } from '../../router/types';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { VerifyCode } from '../../components';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
-import { useConfirmPhone } from '../../context/ConfirmPhone';
+import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { useAppDispatch } from '../../hooks';
 import { changeUserSessionState } from '../../store/app/appSlice';
 

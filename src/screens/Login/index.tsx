@@ -17,7 +17,7 @@ import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Input, Button } from '../../components';
-import { useConfirmPhone } from '../../context/ConfirmPhone';
+import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { withLoading } from '../../wrappers';
 
 interface Props

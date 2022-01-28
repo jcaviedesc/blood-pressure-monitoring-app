@@ -16,14 +16,16 @@ import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
-import { useConfirmPhone } from '../../context/ConfirmPhone';
+import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { withLoading } from '../../wrappers';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP> & {
   setLoading: (state: boolean) => void;
 };
 
 const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
+  const { translate } = useI18nLocate();
   const isDarkMode = useColorScheme() === 'dark';
   // The `state` arg is correctly typed as `RootState` already
   const { fullName, phone, address } = useAppSelector(selectUser);
@@ -96,7 +98,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
 
       <View style={styles.footer}>
         <Button
-          title="siguiente"
+          title={translate('button.next')}
           onPress={() => {
             nextRoute();
           }}
