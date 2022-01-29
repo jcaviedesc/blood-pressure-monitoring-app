@@ -1,4 +1,17 @@
 {
-  "button.next": "siguiente",
-  "bloodPressure": "Presion Arterial"
+  "button": {
+    "next": "siguiente"
+  },
+  "blood_pressure": "Presion Arterial",
+  "login_screen": {
+    "title": "Inicia sesión ingresando tu numero de celular",
+    "not_account": "¿No tienes una cuenta?",
+    "singup": "Registrarme"
+  },
+  "skip_app_alert": {
+    "title": "¡Espera!",
+    "subtitle": "¿Seguro quieres salir de la applicación?",
+    "cancel": "Cancelar",
+    "ok": "Si"
+  }
 }

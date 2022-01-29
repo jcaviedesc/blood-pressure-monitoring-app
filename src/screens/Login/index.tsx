@@ -19,6 +19,7 @@ import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Input, Button } from '../../components';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { withLoading } from '../../wrappers';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 interface Props
   extends NativeStackScreenProps<RootStackParamList, RouteName.SINGUP> {
@@ -26,6 +27,7 @@ interface Props
 }
 
 const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
+  const { translate } = useI18nLocate();
   const isDarkMode = useColorScheme() === 'dark';
   const [phone, setPhone] = useState('');
 
@@ -53,14 +55,21 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
       const backAction = () => {
         // Espera! 'Hold on!
         // Seguro quieres salir de la applicación? 'Are you sure you want to go back?
-        Alert.alert('¡Espera!', '¿Seguro quieres salir de la applicación?', [
-          {
-            text: 'Cancelar',
-            onPress: () => null,
-            style: 'cancel',
-          },
-          { text: 'SI', onPress: () => BackHandler.exitApp() },
-        ]);
+        Alert.alert(
+          translate('skip_app_alert.title'),
+          translate('skip_app_alert.subtitle'),
+          [
+            {
+              text: translate('skip_app_alert.cancel'),
+              onPress: () => null,
+              style: 'cancel',
+            },
+            {
+              text: translate('skip_app_alert.ok'),
+              onPress: () => BackHandler.exitApp(),
+            },
+          ],
+        );
         return true;
       };
 
@@ -68,7 +77,7 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
 
       return () =>
         BackHandler.removeEventListener('hardwareBackPress', backAction);
-    }, []),
+    }, [translate]),
   );
 
   return (
@@ -82,9 +91,7 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
         barStyle="dark-content"
       />
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>
-          Inicia sesión ingresando tu numero de celuar
-        </Text>
+        <Text style={styles.title}>{translate('login_screen.title')}</Text>
       </View>
       <View style={styles.bodyContainer}>
         <View style={styles.section}>
@@ -101,14 +108,16 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
 
       <View style={styles.footer}>
         <Button
-          title="siguiente"
+          title={translate('button.next')}
           onPress={() => {
             navigate();
           }}
         />
         <View style={styles.notAccount}>
           <View>
-            <Text style={styles.notAccountText}>¿No tienes una cuenta?</Text>
+            <Text style={styles.notAccountText}>
+              {translate('login_screen.not_account')}
+            </Text>
           </View>
           <TouchableHighlight
             underlayColor={Colors.background}
@@ -116,7 +125,7 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
               navigation.navigate('Singup');
             }}>
             <Text style={[styles.notAccountText, styles.loginText]}>
-              Registrarme
+              {translate('login_screen.singup')}
             </Text>
           </TouchableHighlight>
         </View>
