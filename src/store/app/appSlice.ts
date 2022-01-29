@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppState } from './types';
 import type { RootState } from '../configureStore';
 
@@ -7,6 +9,15 @@ const initialState: AppState = {
   appIsLoaded: false,
   isOpenAppFirstTime: true,
   hasUserActiveSession: false,
+  lenguage: '',
+  countryCode: '',
+};
+
+// persistor config
+const appPersistConfig = {
+  key: 'app',
+  storage: AsyncStorage,
+  blacklist: ['appIsLoaded'],
 };
 
 export const appSlice = createSlice({
@@ -24,11 +35,22 @@ export const appSlice = createSlice({
     initAppSuccessful: state => {
       state.appIsLoaded = true;
     },
+    setLenguage: (state, action: PayloadAction<'es' | 'en'>) => {
+      state.lenguage = action.payload;
+    },
+    setCountry: (state, action: PayloadAction<string>) => {
+      state.countryCode = action.payload;
+    },
   },
 });
 
-export const { openAppFirstTime, initAppSuccessful, changeUserSessionState } =
-  appSlice.actions;
+export const {
+  openAppFirstTime,
+  initAppSuccessful,
+  changeUserSessionState,
+  setLenguage,
+  setCountry,
+} = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectAppUserState = (state: RootState) => ({
@@ -36,4 +58,9 @@ export const selectAppUserState = (state: RootState) => ({
   hasUserActiveSession: state.app.hasUserActiveSession,
 });
 
-export default appSlice.reducer;
+export const selectAppLocale = (state: RootState) => ({
+  lenguage: state.app.lenguage,
+  countryCode: state.app.countryCode,
+});
+
+export default persistReducer(appPersistConfig, appSlice.reducer);

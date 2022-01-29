@@ -4,8 +4,9 @@ import type { rootReducerT } from './rootReducers';
 
 const persistConfig = {
   key: 'root',
+  version: 1,
   storage: AsyncStorage,
-  whitelist: ['app'],
+  blacklist: ['app', 'singup'],
 };
 
 const persistedReducer = (rootReducer: rootReducerT) =>

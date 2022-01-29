@@ -22,7 +22,7 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
-  const { translate } = useI18nLocate();
+  const { translate, changeLenguage } = useI18nLocate();
   const user = auth().currentUser;
   useFocusEffect(
     React.useCallback(() => {
@@ -65,7 +65,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <TouchableHighlight
             underlayColor={Colors.background}
             onPress={() => {
-              navigation.navigate('Profile');
+              changeLenguage('en');
+              // navigation.navigate('Profile');
             }}>
             <Image
               source={{
