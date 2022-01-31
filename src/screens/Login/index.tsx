@@ -16,7 +16,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
-import { Input, Button } from '../../components';
+import { Button } from '../../components';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { withLoading, PhoneInputWrapper } from '../../wrappers';
 import { useAppSelector } from '../../hooks';
@@ -37,7 +37,6 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
   const { setConfirm } = useConfirmPhone();
 
   async function navigate() {
-    // add +57 from colombia
     setLoading(true);
     try {
       const confirmation = await auth().signInWithPhoneNumber(

@@ -20,5 +20,6 @@
     "subtitle": "Are you sure you want to leave of the app?",
     "cancel": "Cancel",
     "ok": "Yes"
-  }
+  },
+  "loading": "...loading"
 }

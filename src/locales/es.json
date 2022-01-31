@@ -20,5 +20,6 @@
     "subtitle": "¿Seguro quieres salir de la applicación?",
     "cancel": "Cancelar",
     "ok": "Si"
-  }
+  },
+  "loading": "...cargando"
 }

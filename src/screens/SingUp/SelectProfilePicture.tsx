@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     width: Metrics.screenWidth / 2,
     height: Metrics.screenWidth / 2,
     borderRadius: Metrics.screenWidth / 4,
-    borderColor: Colors.cardBackground,
+    borderColor: Colors.stroke,
     borderWidth: 1,
     overflow: 'hidden',
   },

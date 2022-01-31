@@ -10,8 +10,8 @@ type props = {
 const Card: React.FC<props> = ({ children, selected = false }) => {
   const cardStyles = {
     ...styles.card,
-    backgroundColor: selected ? Colors.cardHighlight : Colors.background,
-    shadowColor: selected ? Colors.cardHighlight : Colors.cardBackground,
+    backgroundColor: selected ? Colors.tertiary : Colors.background,
+    shadowColor: selected ? Colors.tertiary : Colors.stroke,
     elevation: selected ? 10 : 5,
   };
   return <View style={cardStyles}>{children}</View>;

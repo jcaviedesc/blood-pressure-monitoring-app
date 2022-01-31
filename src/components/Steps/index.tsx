@@ -15,9 +15,7 @@ const Steps: React.FC<StepProps> = ({ nsteps, activeStep }) => {
           ...styles.step,
           width: Metrics.screenWidth / nsteps - 6,
           backgroundColor:
-            step <= activeStep - 1
-              ? Colors.cardHighlight
-              : Colors.cardBackground,
+            step <= activeStep - 1 ? Colors.tertiary : Colors.stroke,
         };
         return <View key={step} style={stepStyle} />;
       })}

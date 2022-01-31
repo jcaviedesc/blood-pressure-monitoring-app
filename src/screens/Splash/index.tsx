@@ -20,7 +20,7 @@ const SplashScreen: React.FC<Props> = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
-      changeNavigationBarColor(Colors.cardHighlight, false, false);
+      changeNavigationBarColor(Colors.tertiary, false, false);
       const next = () => {
         if (isFirstTime) {
           navigation.navigate('Onboarding');
@@ -42,7 +42,7 @@ const SplashScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.splash}>
       <StatusBar
         animated={true}
-        backgroundColor={Colors.cardHighlight}
+        backgroundColor={Colors.tertiary}
         showHideTransition="fade"
         hidden={false}
         barStyle="light-content"
@@ -55,13 +55,13 @@ const SplashScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   splash: {
     flex: 1,
-    backgroundColor: Colors.cardHighlight,
+    backgroundColor: Colors.tertiary,
   },
   splashImage: {
     width: Metrics.screenWidth,
     resizeMode: 'contain',
-    backgroundColor: Colors.cardHighlight,
-    overlayColor: Colors.cardHighlight,
+    backgroundColor: Colors.tertiary,
+    overlayColor: Colors.tertiary,
   },
 });
 
