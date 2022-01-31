@@ -8,6 +8,7 @@ type PhoneInputProps = {
   initialCountry: string;
   value: string;
   onPhoneInputChange: (number: string) => void;
+  autoFocus?: boolean;
 };
 
 type PhoneInputRef = {
@@ -20,6 +21,7 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
   initialCountry,
   value,
   onPhoneInputChange,
+  autoFocus,
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const ref = useRef<PhoneInputRef>();
@@ -51,6 +53,7 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
         codeTextStyle={[styles.inputText, styles.input, styles.inputCode]}
         flagButtonStyle={styles.intputFlag}
         onChangeFormattedText={onChangePhoneNumberHandler}
+        autoFocus={autoFocus}
       />
     </View>
   );

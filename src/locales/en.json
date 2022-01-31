@@ -4,9 +4,16 @@
   },
   "blood_pressure": "Blood Pressure",
   "login_screen": {
-    "title": "Inicia sesión ingresando tu numero de celular",
-    "not_account": "¿No tienes una cuenta?",
+    "title": "Sign in by entering your mobile number",
+    "not_account": "Do not have an account?",
     "singup": "Singup"
+  },
+  "singup_screen":{
+    "full_name": "Full name",
+    "phone_number": "Phone number",
+    "address": "Address",
+    "all_ready_account": "Already have an account?",
+    "log_in": "Log in"
   },
   "skip_app_alert": {
     "title": "Hold on!",

@@ -1,3 +1,5 @@
+// https://www.happyhues.co/palettes/3
+// dark https://www.happyhues.co/palettes/4
 const colors = {
   background: '#fffffe',
   headline: '#094067',

@@ -18,8 +18,10 @@ import { RouteName } from '../../router/routeNames';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Input, Button } from '../../components';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
-import { withLoading } from '../../wrappers';
+import { withLoading, PhoneInputWrapper } from '../../wrappers';
+import { useAppSelector } from '../../hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
+import { selectAppLocale } from '../../store/app/appSlice';
 
 interface Props
   extends NativeStackScreenProps<RootStackParamList, RouteName.SINGUP> {
@@ -28,6 +30,7 @@ interface Props
 
 const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
   const { translate } = useI18nLocate();
+  const { countryCode } = useAppSelector(selectAppLocale);
   const isDarkMode = useColorScheme() === 'dark';
   const [phone, setPhone] = useState('');
 
@@ -37,7 +40,9 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
     // add +57 from colombia
     setLoading(true);
     try {
-      const confirmation = await auth().signInWithPhoneNumber(`+57${phone}`);
+      const confirmation = await auth().signInWithPhoneNumber(
+        phone.split(' ')[1],
+      );
       setConfirm(confirmation);
       setPhone('');
       navigation.navigate('VerifyPhone', {
@@ -95,14 +100,22 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
       </View>
       <View style={styles.bodyContainer}>
         <View style={styles.section}>
-          <Input
+          <PhoneInputWrapper
+            initialCountry={countryCode}
+            value={phone}
+            onPhoneInputChange={phoneNumer => {
+              setPhone(phoneNumer);
+            }}
+            autoFocus
+          />
+          {/* <Input
             keyboardType="number-pad"
             value={phone}
             onChangeText={text => {
               setPhone(text);
             }}
             autoFocus
-          />
+          /> */}
         </View>
       </View>
 

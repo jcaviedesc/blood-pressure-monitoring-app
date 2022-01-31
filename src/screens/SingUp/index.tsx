@@ -69,7 +69,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
       <View style={styles.bodyContainer}>
         <View style={styles.section}>
           <Input
-            title="Nombre completo"
+            title={translate('singup_screen.full_name')}
             value={fullName}
             onChangeText={text => {
               dispatchAction('fullName', text);
@@ -90,7 +90,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
         </View>
         <View style={styles.section}>
           <Input
-            title="Dirección de donde vives"
+            title={translate('singup_screen.address')}
             value={address}
             onChangeText={text => {
               dispatchAction('address', text);
@@ -110,7 +110,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
         <View style={styles.allreadyAccount}>
           <View>
             <Text style={styles.allreadyAccountText}>
-              ¿Ya tienes una cuenta?
+              {translate('singup_screen.all_ready_account')}
             </Text>
           </View>
           <TouchableHighlight
@@ -119,7 +119,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
               navigation.navigate('Login', { from: 'Login' });
             }}>
             <Text style={[styles.allreadyAccountText, styles.loginText]}>
-              Iniciar sessión
+              {translate('singup_screen.log_in')}
             </Text>
           </TouchableHighlight>
         </View>

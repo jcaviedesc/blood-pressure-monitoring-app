@@ -22,7 +22,7 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
-  const { translate, changeLenguage } = useI18nLocate();
+  const { translate } = useI18nLocate();
   const user = auth().currentUser;
   useFocusEffect(
     React.useCallback(() => {
@@ -65,8 +65,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <TouchableHighlight
             underlayColor={Colors.background}
             onPress={() => {
-              changeLenguage('en');
-              // navigation.navigate('Profile');
+              navigation.navigate('Profile');
             }}>
             <Image
               source={{
@@ -81,7 +80,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={styles.boxContainer}>
           <Box
-            title={translate('bloodPressure')}
+            title={translate('blood_pressure')}
             status="Normal"
             value="140/90 mmHg"
             colors={['#fe5b5b', '#ef6463']}

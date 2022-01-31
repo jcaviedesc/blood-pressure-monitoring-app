@@ -9,7 +9,11 @@
     "singup": "Registrarme"
   },
   "singup_screen":{
-    "phone_number": "Numero de celuar"
+    "full_name": "Nombre completo",
+    "phone_number": "Numero de celuar",
+    "address": "Dirección de donde vives",
+    "all_ready_account": "¿Ya tienes una cuenta?",
+    "log_in": "Iniciar sesión"
   },
   "skip_app_alert": {
     "title": "¡Espera!",
