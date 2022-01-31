@@ -17,8 +17,9 @@ import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
-import { withLoading } from '../../wrappers';
+import { withLoading, PhoneInputWrapper } from '../../wrappers';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
+import { selectAppLocale } from '../../store/app/appSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP> & {
   setLoading: (state: boolean) => void;
@@ -29,6 +30,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
   const isDarkMode = useColorScheme() === 'dark';
   // The `state` arg is correctly typed as `RootState` already
   const { fullName, phone, address } = useAppSelector(selectUser);
+  const { countryCode } = useAppSelector(selectAppLocale);
   const dispatch = useAppDispatch();
 
   const { setConfirm } = useConfirmPhone();
@@ -38,9 +40,11 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
   };
 
   async function nextRoute() {
-    // add +57 from colombia
+    // add validation
     setLoading(true);
-    const confirmation = await auth().signInWithPhoneNumber(`+57${phone}`);
+    const confirmation = await auth().signInWithPhoneNumber(
+      phone.split(' ')[1],
+    );
     setConfirm(confirmation);
     setLoading(false);
     navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
@@ -75,23 +79,23 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
         </View>
 
         <View style={styles.section}>
-          <Input
-            title="Numero de celular"
-            keyboardType="number-pad"
+          <PhoneInputWrapper
+            title={translate('singup_screen.phone_number')}
+            initialCountry={countryCode}
             value={phone}
-            onChangeText={text => {
-              dispatchAction('phone', text);
+            onPhoneInputChange={phoneNumer => {
+              dispatchAction('phone', phoneNumer);
             }}
           />
         </View>
         <View style={styles.section}>
           <Input
             title="Dirección de donde vives"
-            placeholder="Ej. Vereda Calucata, La mesa, cundinamarca"
             value={address}
             onChangeText={text => {
               dispatchAction('address', text);
             }}
+            hint="Ejemplo. Vereda Calucata, La mesa, cundinamarca"
           />
         </View>
       </View>

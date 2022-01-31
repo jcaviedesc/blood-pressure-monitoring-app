@@ -8,6 +8,9 @@
     "not_account": "¿No tienes una cuenta?",
     "singup": "Registrarme"
   },
+  "singup_screen":{
+    "phone_number": "Numero de celuar"
+  },
   "skip_app_alert": {
     "title": "¡Espera!",
     "subtitle": "¿Seguro quieres salir de la applicación?",
