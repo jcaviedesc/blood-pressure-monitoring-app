@@ -17,7 +17,8 @@
   },
   "healt_info_screen":{
     "title": "Información de Salud",
-    "medicine": "¿Tomas medicamentos?"
+    "medicine": "¿Tomas medicamentos?",
+    "glucose": "Selecciona el ultimo valor de glucosa (opcional)"
   },
   "skip_app_alert": {
     "title": "¡Espera!",

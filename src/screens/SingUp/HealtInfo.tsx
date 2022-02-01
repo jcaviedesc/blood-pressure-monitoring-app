@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Fonts, Colors, Metrics } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { InputToggle } from '../../components';
+import { InputToggle, CustomSlider } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup/HealtInfo'>;
 
@@ -33,6 +33,13 @@ const HealtInfoScreen: React.FC<Props> = ({ navigation }) => {
             onPress={() => { }}
           />
         </View>
+        <View style={styles.glucoseContainer}>
+          <CustomSlider
+            title={translate('healt_info_screen.glucose')}
+            magnitude="mg/dL"
+            max={200}
+          />
+        </View>
       </View>
     </ScrollView>
   );
@@ -59,6 +66,9 @@ const styles = StyleSheet.create({
   inputTextContainer: {
     width: '60%',
     paddingRight: 9,
+  },
+  glucoseContainer: {
+    marginTop: 18,
   },
 });
 

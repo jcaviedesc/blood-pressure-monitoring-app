@@ -7,6 +7,7 @@ import BloodPresureCard from './BloodPresureCard';
 import Steps from './Steps';
 import VerifyCode from './VerifyCode';
 import InputToggle from './InputToggle';
+import CustomSlider from './CustomSlider/indext';
 
 export {
   Input,
@@ -18,4 +19,5 @@ export {
   VerifyCode,
   Card,
   InputToggle,
+  CustomSlider,
 };

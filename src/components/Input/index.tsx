@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     fontFamily: Fonts.type.light,
     fontSize: Fonts.size.h5,
+    color: Colors.paragraph,
   },
   inputContainer: {
     height: 48,

@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontFamily: Fonts.type.bold,
-    fontSize: Fonts.size.h4,
+    fontSize: Fonts.size.h5,
     textAlignVertical: 'center',
     textAlign: 'center',
     color: Colors.paragraph,
