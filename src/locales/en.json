@@ -15,6 +15,10 @@
     "all_ready_account": "Already have an account?",
     "log_in": "Log in"
   },
+  "healt_info_screen":{
+    "title": "Información de Salud",
+    "medicine": "¿Tomas medicamentos?"
+  },
   "skip_app_alert": {
     "title": "Hold on!",
     "subtitle": "Are you sure you want to leave of the app?",

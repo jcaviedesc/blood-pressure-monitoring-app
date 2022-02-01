@@ -10,6 +10,10 @@ const ApplicationStyles = {
       backgroundColor: Colors.background,
       paddingTop: Metrics.navBarHeight,
     },
+    mainContainerWitoutHeader: {
+      flex: 1,
+      backgroundColor: Colors.background,
+    },
     darkContainer: { backgroundColor: Colors.darkBackground },
     content: {
       flex: 1,

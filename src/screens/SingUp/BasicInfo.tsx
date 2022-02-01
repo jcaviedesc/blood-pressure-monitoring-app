@@ -111,7 +111,7 @@ const BasicInfoScreen: React.FC<Props> = ({ navigation }) => {
         <Button
           title="siguiente"
           onPress={() => {
-            navigation.navigate('Singup/selectUserType');
+            navigation.navigate('Singup/SelectUserType');
           }}
         />
       </View>

@@ -9,6 +9,7 @@ import SelectGenderScreen from '../screens/SingUp/SelectGender';
 import BasicInfoScreen from '../screens/SingUp/BasicInfo';
 import SelectProfilePictureScreen from '../screens/SingUp/SelectProfilePicture';
 import SelectUserTypeScreen from '../screens/SingUp/SelectUserType';
+import HealtInfoScreen from '../screens/SingUp/HealtInfo';
 
 export const renderSingUpHeader = (
   navigation: StackHeaderProps['navigation'],
@@ -64,13 +65,24 @@ const SingUpFlow = {
       },
     },
   },
-  'Singup/selectUserType': {
+  'Singup/SelectUserType': {
     component: SelectUserTypeScreen,
     options: {
       header: ({ navigation, route, options, back }: StackHeaderProps) => {
         return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 6,
           activeStep: 5,
+        });
+      },
+    },
+  },
+  'Singup/HealtInfo': {
+    component: HealtInfoScreen,
+    options: {
+      header: ({ navigation, route, options, back }: StackHeaderProps) => {
+        return renderSingUpHeader(navigation, route, options, back, {
+          nsteps: 6,
+          activeStep: 6,
         });
       },
     },

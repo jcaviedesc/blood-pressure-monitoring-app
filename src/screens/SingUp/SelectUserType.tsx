@@ -15,7 +15,7 @@ import { Card } from '../../components';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
-  'Singup/selectUserType'
+  'Singup/SelectUserType'
 >;
 
 const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
