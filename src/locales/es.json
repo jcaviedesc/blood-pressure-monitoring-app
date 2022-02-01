@@ -25,5 +25,7 @@
     "cancel": "Cancelar",
     "ok": "Si"
   },
-  "loading": "...cargando"
+  "loading": "...cargando",
+  "yes": "SI",
+  "not": "NO"
 }

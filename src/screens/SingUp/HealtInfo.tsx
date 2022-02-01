@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Fonts, Colors, Metrics } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
+import { InputToggle } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup/HealtInfo'>;
 
@@ -17,8 +18,20 @@ const HealtInfoScreen: React.FC<Props> = ({ navigation }) => {
             {translate('healt_info_screen.title')}
           </Text>
         </View>
-        <View>
-          <Text>{translate('healt_info_screen.medicine')}</Text>
+        <View style={styles.toggleContainer}>
+          <View style={styles.inputTextContainer}>
+            <Text style={styles.textField}>
+              {translate('healt_info_screen.medicine')}
+            </Text>
+          </View>
+          <InputToggle
+            options={[
+              { label: translate('yes'), value: '1' },
+              { label: translate('not'), value: '0' },
+            ]}
+            selected="1"
+            onPress={() => { }}
+          />
         </View>
       </View>
     </ScrollView>
@@ -33,6 +46,19 @@ const styles = StyleSheet.create({
     color: Colors.headline,
     marginBottom: 31,
     marginHorizontal: Metrics.marginHorizontal,
+  },
+  toggleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  textField: {
+    fontFamily: Fonts.type.light,
+    fontSize: Fonts.size.h5,
+  },
+  inputTextContainer: {
+    width: '60%',
+    paddingRight: 9,
   },
 });
 

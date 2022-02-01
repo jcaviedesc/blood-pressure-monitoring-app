@@ -6,6 +6,7 @@ import Card from './Card';
 import BloodPresureCard from './BloodPresureCard';
 import Steps from './Steps';
 import VerifyCode from './VerifyCode';
+import InputToggle from './InputToggle';
 
 export {
   Input,
@@ -16,4 +17,5 @@ export {
   Steps,
   VerifyCode,
   Card,
+  InputToggle,
 };
