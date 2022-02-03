@@ -33,9 +33,16 @@ const HealtInfoScreen: React.FC<Props> = ({ navigation }) => {
             onPress={() => { }}
           />
         </View>
-        <View style={styles.glucoseContainer}>
+        <View style={styles.sliderContainer}>
           <CustomSlider
             title={translate('healt_info_screen.glucose')}
+            magnitude="mg/dL"
+            max={200}
+          />
+        </View>
+        <View style={styles.sliderContainer}>
+          <CustomSlider
+            title={translate('healt_info_screen.cholestero')}
             magnitude="mg/dL"
             max={200}
           />
@@ -67,7 +74,7 @@ const styles = StyleSheet.create({
     width: '60%',
     paddingRight: 9,
   },
-  glucoseContainer: {
+  sliderContainer: {
     marginTop: 18,
   },
 });

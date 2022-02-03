@@ -7,7 +7,7 @@ import BloodPresureCard from './BloodPresureCard';
 import Steps from './Steps';
 import VerifyCode from './VerifyCode';
 import InputToggle from './InputToggle';
-import CustomSlider from './CustomSlider/indext';
+import CustomSlider from './CustomSlider';
 
 export {
   Input,

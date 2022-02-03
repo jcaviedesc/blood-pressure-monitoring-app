@@ -18,7 +18,8 @@
   "healt_info_screen":{
     "title": "Información de Salud",
     "medicine": "¿Tomas medicamentos?",
-    "glucose": "Selecciona el ultimo valor de glucosa (opcional)"
+    "glucose": "Selecciona tu valor de glucosa (opcional)",
+    "cholestero": "Seleciona tu valor de colesterol (opcional) "
   },
   "skip_app_alert": {
     "title": "¡Espera!",

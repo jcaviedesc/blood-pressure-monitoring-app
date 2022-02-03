@@ -11,29 +11,29 @@ type Pros = {
 };
 
 const CustomSlider: React.FC<Pros> = ({ title, min = 0, max = 100, magnitude }) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState([0]);
   const [enableLabel, setEnableLabel] = useState(false);
   return (
     <View>
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>{title}</Text>
-        <Text style={styles.valueText}>{`${value} ${magnitude}`}</Text>
+        <Text style={styles.valueText}>{`${value[0]} ${magnitude}`}</Text>
       </View>
       <View style={styles.multiSliderContainer}>
         <MultiSlider
+          values={value}
           enableLabel={enableLabel}
           customLabel={CustomLabel}
-          // showSteps
-          enabledTwo={false}
+          min={min}
           max={max}
           sliderLength={Metrics.screenWidth - Metrics.marginHorizontal * 2.5}
-          snapped
+          // snapped
           onValuesChangeStart={() => {
             setEnableLabel(true);
           }}
           onValuesChangeFinish={values => {
             setEnableLabel(false);
-            setValue(values[0]);
+            setValue(values);
           }}
           touchDimensions={{
             height: 60,
