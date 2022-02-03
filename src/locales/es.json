@@ -18,8 +18,10 @@
   "healt_info_screen":{
     "title": "Información de Salud",
     "medicine": "¿Tomas medicamentos?",
-    "glucose": "Selecciona tu valor de glucosa (opcional)",
-    "cholestero": "Seleciona tu valor de colesterol (opcional) "
+    "smoke": "¿Fumas actualmente o Fumabas?",
+    "heart_attack":"¿Has tenido infartos? (enfermedad coronaria)",
+    "thrombosis": "¿Has tenido trombosis cerebral? (enfermedad cerebrovascular)",
+    "nephropathy": "¿Tienes problemas renales? (enfermedad renal cronica)"
   },
   "skip_app_alert": {
     "title": "¡Espera!",
@@ -29,5 +31,6 @@
   },
   "loading": "...cargando",
   "yes": "SI",
-  "not": "NO"
+  "not": "NO",
+  "do_not_know": "NO SÉ"
 }

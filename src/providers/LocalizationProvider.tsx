@@ -40,6 +40,7 @@ export const LocalizationProvider = ({ children }: ILocalizationProvider) => {
   const setI18nConfig = useCallback(() => {
     const fallback = { languageTag: 'en', isRTL: false };
     translate?.cache?.clear();
+    // TODO validar que carge antes persitStore
     if (lenguage === '') {
       const { languageTag } =
         RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||

@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Fonts, Colors, Metrics } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { InputToggle, CustomSlider } from '../../components';
+import { InputToggle, Button } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup/HealtInfo'>;
 
@@ -20,32 +20,77 @@ const HealtInfoScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={styles.toggleContainer}>
           <View style={styles.inputTextContainer}>
-            <Text style={styles.textField}>
+            <Text style={styles.inputText}>
               {translate('healt_info_screen.medicine')}
             </Text>
           </View>
           <InputToggle
             options={[
-              { label: translate('yes'), value: '1' },
-              { label: translate('not'), value: '0' },
+              { label: translate('yes'), value: 'yes' },
+              { label: translate('not'), value: 'not' },
             ]}
-            selected="1"
             onPress={() => { }}
           />
         </View>
-        <View style={styles.sliderContainer}>
-          <CustomSlider
-            title={translate('healt_info_screen.glucose')}
-            magnitude="mg/dL"
-            max={200}
+        <View style={styles.toggleContainer}>
+          <View style={styles.inputTextContainer}>
+            <Text style={styles.inputText}>
+              {translate('healt_info_screen.smoke')}
+            </Text>
+          </View>
+          <InputToggle
+            options={[
+              { label: translate('yes'), value: 'yes' },
+              { label: translate('not'), value: 'not' },
+            ]}
+            onPress={() => { }}
           />
         </View>
-        <View style={styles.sliderContainer}>
-          <CustomSlider
-            title={translate('healt_info_screen.cholestero')}
-            magnitude="mg/dL"
-            max={200}
+        <View style={styles.toggleContainer}>
+          <View style={styles.inputTextContainer}>
+            <Text style={styles.inputText}>
+              {translate('healt_info_screen.heart_attack')}
+            </Text>
+          </View>
+          <InputToggle
+            options={[
+              { label: translate('yes'), value: 'yes' },
+              { label: translate('not'), value: 'not' },
+            ]}
+            onPress={() => { }}
           />
+        </View>
+        <View style={styles.toggleContainer}>
+          <View style={styles.inputTextContainer}>
+            <Text style={styles.inputText}>
+              {translate('healt_info_screen.thrombosis')}
+            </Text>
+          </View>
+          <InputToggle
+            options={[
+              { label: translate('yes'), value: 'yes' },
+              { label: translate('not'), value: 'not' },
+            ]}
+            onPress={() => { }}
+          />
+        </View>
+        <View style={[styles.toggleContainer, styles.toggleContainerOverride]}>
+          <View style={[styles.inputTextContainer, styles.inputTextContainerFull]}>
+            <Text style={styles.inputText}>
+              {translate('healt_info_screen.nephropathy')}
+            </Text>
+          </View>
+          <InputToggle
+            options={[
+              { label: translate('yes'), value: 'yes' },
+              { label: translate('not'), value: 'not' },
+              { label: translate('do_not_know'), value: 'not know' },
+            ]}
+            onPress={() => { }}
+          />
+        </View>
+        <View style={styles.footer}>
+          <Button title={translate('button.next')} onPress={() => { }} />
         </View>
       </View>
     </ScrollView>
@@ -64,18 +109,28 @@ const styles = StyleSheet.create({
   toggleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     marginBottom: 12,
+    minHeight: 50,
   },
-  textField: {
+  inputText: {
     fontFamily: Fonts.type.light,
     fontSize: Fonts.size.h5,
   },
   inputTextContainer: {
-    width: '60%',
-    paddingRight: 9,
+    width: '70%',
+    marginBottom: 9,
   },
-  sliderContainer: {
+  inputTextContainerFull: {
+    width: '100%',
+  },
+  toggleContainerOverride: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+  },
+  footer: {
     marginTop: 18,
+    marginBottom: 12,
   },
 });
 

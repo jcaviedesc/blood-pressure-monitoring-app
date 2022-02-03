@@ -49,11 +49,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 48,
     padding: 6,
-    flex: 1,
   },
   touchableHighlight: {
     paddingHorizontal: 12,
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
