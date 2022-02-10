@@ -30,7 +30,7 @@ type AppProps = {
 function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
-      <Stack.Navigator initialRouteName="Singup/HealtInfo">
+      <Stack.Navigator initialRouteName="Home/BloodPressure">
         <Stack.Screen
           name="Splash"
           component={SplashScreen}

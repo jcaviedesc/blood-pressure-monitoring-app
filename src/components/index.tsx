@@ -3,11 +3,12 @@ import DatePicker from './DataTimePickerWrapper';
 import Button from './Button';
 import Box from './Box';
 import Card from './Card';
-import BloodPresureCard from './BloodPresureCard';
+import BloodPresureCard from './BloodPressureCard';
 import Steps from './Steps';
 import VerifyCode from './VerifyCode';
 import InputToggle from './InputToggle';
 import CustomSlider from './CustomSlider';
+import BarChart from './BloodPressureBarChart';
 
 export {
   Input,
@@ -20,4 +21,5 @@ export {
   Card,
   InputToggle,
   CustomSlider,
+  BarChart,
 };
