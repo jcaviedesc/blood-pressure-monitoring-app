@@ -2,14 +2,21 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Colors } from '../../styles';
 
+type stylesPros = {
+  padding?: number;
+  paddingHorizontal?: number;
+};
+
 type props = {
   children: Element[] | Element;
   selected?: boolean;
+  style?: stylesPros;
 };
 
-const Card: React.FC<props> = ({ children, selected = false }) => {
+const Card: React.FC<props> = ({ children, selected = false, style }) => {
   const cardStyles = {
     ...styles.card,
+    ...style,
     backgroundColor: selected ? Colors.tertiary : Colors.background,
     shadowColor: selected ? Colors.tertiary : Colors.stroke,
     elevation: selected ? 10 : 3,

@@ -1,11 +1,11 @@
 type dataObject = {
-  x: number | string;
+  x?: number | string;
   y: number;
-  y0: number;
+  y0?: number;
 };
 
 type BarChartProps = {
-  data: Array<dataObject>;
+  data: dataObject[];
 };
 
 export const normalize = (value: number, isMin: boolean) => {

@@ -23,7 +23,7 @@ const BarChart: React.FC<ChartProps> = ({ data }) => {
             tickLabels: {
               fontSize: 16,
               fontFamily: Fonts.type.regular,
-              color: Colors.paragraph,
+              fill: Colors.paragraph,
             },
             grid: { stroke: Colors.lightGray },
             ticks: { stroke: Colors.transparent, size: 12 },
