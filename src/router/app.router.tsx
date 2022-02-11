@@ -32,7 +32,7 @@ function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
       <Stack.Navigator
-        initialRouteName="Home/BloodPressure"
+        initialRouteName="Singup/SelectUserType"
         screenOptions={{ headerStyle: styles.header }}>
         <Stack.Screen
           name="Splash"

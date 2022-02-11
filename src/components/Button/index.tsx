@@ -27,6 +27,7 @@ const Button: React.FC<props> = ({
 
   return (
     <TouchableHighlight
+      underlayColor={Colors.transparent}
       onPress={onPress}
       style={buttonStyles}
       disabled={disabled}>

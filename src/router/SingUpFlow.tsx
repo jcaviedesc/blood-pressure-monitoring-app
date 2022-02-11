@@ -59,7 +59,7 @@ const SingUpFlow = {
     options: {
       header: ({ navigation, route, options, back }: StackHeaderProps) => {
         return renderSingUpHeader(navigation, route, options, back, {
-          nsteps: 5,
+          nsteps: 6,
           activeStep: 4,
         });
       },

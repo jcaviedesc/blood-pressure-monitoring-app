@@ -17,7 +17,7 @@
   },
   "healt_info_screen":{
     "title": "Información de Salud",
-    "medicine": "¿Tomas medicamentos?",
+    "medicine": "¿Tomas medicamentos para la hipertensión?",
     "smoke": "¿Fumas actualmente o Fumabas?",
     "heart_attack":"¿Has tenido infartos? (enfermedad coronaria)",
     "thrombosis": "¿Has tenido trombosis cerebral? (enfermedad cerebrovascular)",

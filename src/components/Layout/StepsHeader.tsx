@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: Colors.background,
     paddingTop: Platform.OS === 'ios' ? 54 : 12,
-    height: 70,
+    height: 80,
   },
   stepsContainer: { paddingVertical: 6 },
   leftButton: {

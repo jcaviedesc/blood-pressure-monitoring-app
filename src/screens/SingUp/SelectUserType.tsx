@@ -24,7 +24,9 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
 
   const onSelectGender = (select: string) => {
     dispatch(updateUserField({ field: 'userType', value: select }));
-    navigation.navigate('Singup/ProfilePicture');
+    navigation.navigate(
+      select === 'healthUser' ? 'Singup/ProfilePicture' : 'Singup/HealtInfo',
+    );
   };
 
   return (
