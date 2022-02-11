@@ -2,14 +2,18 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colors, Fonts, Metrics } from '../../styles';
-import { LineChart, ChartTypes } from '../../components/Charts';
+import { LineChart } from '../../components/Charts';
 import { Card } from '../../components';
+
+type dataLine = {
+  y: number;
+};
 
 type props = {
   title: string;
   value: string;
   magnitude: string;
-  data: ChartTypes.ChartProps['data'];
+  data: dataLine[];
 };
 
 const BloodPressureCard: React.FC<props> = ({

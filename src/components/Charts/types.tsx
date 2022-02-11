@@ -4,8 +4,12 @@ export type ChartData = {
   y0: number;
 };
 
+export type LineData = {
+  y: number;
+};
+
 export type ChartProps = {
-  data: ChartData[];
+  data: ChartData[] | LineData[];
   height?: number;
   width?: number;
 };

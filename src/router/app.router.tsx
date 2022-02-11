@@ -9,6 +9,7 @@ import type { RootStackParamList } from './types';
 import { RouteName } from './routeNames';
 import defaultOptions from './ScreenConfig';
 import { NormalHeader } from '../components/Layout';
+import styles from './styles';
 // screens
 import SplashScreen from '../screens/Splash';
 import SignIn from '../screens/Login';
@@ -30,7 +31,9 @@ type AppProps = {
 function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
-      <Stack.Navigator initialRouteName="Home/BloodPressure">
+      <Stack.Navigator
+        initialRouteName="Home/BloodPressure"
+        screenOptions={{ headerStyle: styles.header }}>
         <Stack.Screen
           name="Splash"
           component={SplashScreen}
