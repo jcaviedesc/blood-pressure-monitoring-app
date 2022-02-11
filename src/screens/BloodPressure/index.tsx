@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, Text, View, StyleSheet } from 'react-native';
 import type { RootStackParamList } from '../../router/types';
 import { Colors, Fonts, AppStyles } from '../../styles';
-import { Button } from '../../components';
+import { Button, HeaderChart } from '../../components';
 import { BloodPressureCard } from '../../wrappers';
 import { BarChart } from '../../components/Charts';
 
@@ -45,6 +45,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View>
+          <HeaderChart />
           <BarChart data={bpdata} />
         </View>
         <View style={styles.footer}>

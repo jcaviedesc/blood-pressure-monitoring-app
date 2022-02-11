@@ -7,6 +7,7 @@ import Steps from './Steps';
 import VerifyCode from './VerifyCode';
 import InputToggle from './InputToggle';
 import CustomSlider from './CustomSlider';
+import HeaderChart from './HeaderChart';
 
 export {
   Input,
@@ -18,4 +19,5 @@ export {
   Card,
   InputToggle,
   CustomSlider,
+  HeaderChart,
 };
