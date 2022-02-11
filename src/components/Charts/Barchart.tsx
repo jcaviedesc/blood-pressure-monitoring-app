@@ -1,52 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { VictoryBar, VictoryChart, VictoryAxis } from 'victory-native';
 import { Colors, Fonts, Metrics } from '../../styles';
+import { getMaxOrMinValue } from '../../services/ChartUtils';
+import type { ChartProps } from './types';
 
-type dataObject = {
-  x: number;
-  y: number;
-  y0: number;
-};
-
-type BarChartProps = {
-  data: Array<dataObject>;
-  xLabels: string[];
-  xValues: number[];
-};
-
-const BarChart: React.FC<BarChartProps> = ({
-  data,
-  xLabels = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'],
-  xValues = [1, 2, 3, 4, 5, 6, 7],
-}) => {
-  const normalize = (value: number, isMin: boolean) => {
-    return isMin ? value - (value % 10) : value + (10 - (value % 10));
-  };
-
-  const getMaxValue = useCallback(
-    (
-      values: BarChartProps['data'],
-      selector: (
-        value: dataObject,
-        index: number,
-        array: dataObject[],
-      ) => unknown,
-      minVal: boolean,
-    ) => {
-      const sorted = values
-        .map(selector)
-        .sort((valA, valB) => valA - valB) as number[];
-
-      const minOrMaxIndex = minVal ? 0 : sorted.length - 1;
-
-      return normalize(sorted[minOrMaxIndex], minVal);
-    },
-    [],
-  );
-
-  const minYaxis = getMaxValue(data, v => v.y0, true);
-  const maxYaxis = getMaxValue(data, v => v.y, false);
+const BarChart: React.FC<ChartProps> = ({ data }) => {
+  const minYaxis = getMaxOrMinValue(data, v => v.y0, true);
+  const maxYaxis = getMaxOrMinValue(data, v => v.y, false);
 
   return (
     <View>
@@ -81,8 +42,6 @@ const BarChart: React.FC<BarChartProps> = ({
             grid: { stroke: Colors.transparent },
             ticks: { stroke: Colors.transparent, size: 0 },
           }}
-          tickValues={xValues}
-          tickFormat={xLabels}
         />
         <VictoryBar
           style={{

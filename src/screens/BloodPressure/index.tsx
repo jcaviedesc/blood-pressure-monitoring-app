@@ -2,32 +2,25 @@ import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, Text, View, StyleSheet } from 'react-native';
 import type { RootStackParamList } from '../../router/types';
-import { RouteName } from '../../router/routeNames';
 import { Colors, Fonts, AppStyles } from '../../styles';
-import { BloodPresureCard, Button, BarChart } from '../../components';
+import { Button } from '../../components';
+import { BloodPressureCard } from '../../wrappers';
+import { BarChart } from '../../components/Charts';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home/BloodPressure'>;
 
-const sysData = [
-  { x: 1, y: 120 },
-  { x: 2, y: 130 },
-  { x: 3, y: 110 },
-  { x: 4, y: 124 },
-  { x: 5, y: 128 },
-];
-
 const bpdata = [
-  { x: 1, y: 120, y0: 90 },
-  { x: 2, y: 130, y0: 89 },
-  { x: 3, y: 108, y0: 92 },
-  { x: 4, y: 124, y0: 90 },
-  { x: 5, y: 128, y0: 91 },
-  { x: 6, y: 138, y0: 97 },
-  { x: 7, y: 118, y0: 100 },
+  { x: 'Lun', y: 120, y0: 90 },
+  { x: 'Mar', y: 130, y0: 89 },
+  { x: 'Mie', y: 108, y0: 92 },
+  { x: 'Jue', y: 124, y0: 90 },
+  { x: 'Vie', y: 128, y0: 91 },
+  { x: 'Sab', y: 138, y0: 97 },
+  { x: 'Dom', y: 118, y0: 100 },
 ];
 
 const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
-  const navigate = (screen: RouteName) => {
+  const navigate = (screen: keyof RootStackParamList) => {
     navigation.navigate(screen);
   };
   return (
@@ -38,17 +31,17 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.title}>Presión Arterial</Text>
         </View>
         <View style={styles.cardContainer}>
-          <BloodPresureCard
+          <BloodPressureCard
             title="SYS"
             value="144"
             magnitude="mmHg"
-            data={sysData}
+            data={bpdata.map(sys => ({ y: sys.y }))}
           />
-          <BloodPresureCard
+          <BloodPressureCard
             title="DIA"
             value="78"
             magnitude="mmHg"
-            data={sysData}
+            data={bpdata.map(sys => ({ y: sys.y0 }))}
           />
         </View>
         <View>
@@ -58,7 +51,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           <Button
             title="Iniciar Medición"
             onPress={() => {
-              navigate(RouteName.PREPARATION_READING_BP);
+              navigate('BloodPressure/Preparation');
             }}
           />
         </View>
