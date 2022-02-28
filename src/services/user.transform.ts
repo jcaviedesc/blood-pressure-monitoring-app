@@ -1,3 +1,4 @@
+import { mapValues } from 'lodash';
 import type { userState } from '../store/singup/types';
 import { cleanObject } from './utils';
 
@@ -7,6 +8,13 @@ const UserEnun = {
   healthUser: 1,
   normalUser: 2,
   '': 2,
+};
+
+const healthInfoEnum = {
+  yes: 'Y',
+  not: 'N',
+  'not know': 'NK',
+  '': '',
 };
 
 const GenderEnun = {
@@ -66,7 +74,7 @@ export const userToApi = ({
   }) as UserToApi;
 
   if (userApi.user_type === 2) {
-    userApi.health_info = healtInfo;
+    userApi.health_info = mapValues(healtInfo, value => healthInfoEnum[value]);
   }
   return userApi;
 };
