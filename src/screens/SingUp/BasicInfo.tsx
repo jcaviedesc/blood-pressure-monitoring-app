@@ -38,7 +38,7 @@ const BasicInfoScreen: React.FC<Props> = ({ navigation }) => {
     const currentDate = selectedDate || localBirthdate;
     setShowDataPicker(Platform.OS === 'ios');
     setLocalBirthdate(currentDate);
-    dispatchAction('birthdate', dayjs(currentDate).format('DD/MM/YYYY'));
+    dispatchAction('birthdate', dayjs(currentDate).format('YYYY-MM-DD'));
   };
 
   const onOpenDatePicker = () => {

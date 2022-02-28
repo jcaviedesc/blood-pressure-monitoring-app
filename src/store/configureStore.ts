@@ -10,7 +10,9 @@ import {
 } from 'redux-persist';
 import rootReducer from './rootReducers';
 import { persistedReducer } from './configurePersistStore';
-// ...
+import Api from '../services/ApiService';
+
+const ClientApi = Api();
 
 const persistedReducerSetup = persistedReducer(rootReducer);
 
@@ -21,6 +23,9 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+      thunk: {
+        extraArgument: ClientApi,
       },
     }),
 });

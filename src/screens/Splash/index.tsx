@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { StatusBar, StyleSheet, View, Image } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import type { RootStackParamList } from '../../router/types';
@@ -22,9 +23,10 @@ const SplashScreen: React.FC<Props> = ({ navigation }) => {
     useCallback(() => {
       changeNavigationBarColor(Colors.tertiary, false, false);
       const next = () => {
+        const currentUser = auth().currentUser;
         if (isFirstTime) {
           navigation.navigate('Onboarding');
-        } else if (hasUserActiveSession) {
+        } else if (currentUser) {
           navigation.navigate('Home');
         } else {
           navigation.navigate('Login', { from: 'splash' });
@@ -35,7 +37,7 @@ const SplashScreen: React.FC<Props> = ({ navigation }) => {
         dispatch(initAppSuccessful());
         changeNavigationBarColor(Colors.background, true, false);
       };
-    }, [isFirstTime, hasUserActiveSession, navigation, dispatch]),
+    }, [isFirstTime, navigation, dispatch]),
   );
 
   return (

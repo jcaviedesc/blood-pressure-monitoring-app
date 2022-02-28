@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     marginBottom: 30,
+    marginTop: 21,
   },
   avatar: {
     width: 40,
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
   },
   userTitle: {
     fontFamily: Fonts.type.bold,
-    fontSize: 38,
+    fontSize: Fonts.size.h2,
     color: Colors.primary,
   },
   boxContainer: {

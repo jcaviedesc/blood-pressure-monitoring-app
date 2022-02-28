@@ -10,7 +10,13 @@ type HealtInfo = {
   thrombosis: 'yes' | 'not' | 'not know' | '';
   nephropathy: 'yes' | 'not' | 'not know' | '';
 };
-export interface SingUpState {
+
+type Picture = {
+  uri: string;
+  type: string;
+};
+
+export type userState = {
   fullName: string;
   phone: string;
   address: string;
@@ -18,23 +24,19 @@ export interface SingUpState {
   gender: Gender | '';
   weight: string;
   stature: string;
-  birthdate: string | Date;
+  birthdate: string;
   userType: 'healthUser' | 'normalUser' | '';
   healtInfo: HealtInfo;
+  picture: Picture;
+};
+export interface SingUpState {
+  user: userState;
+  loading: boolean;
 }
 
 export type updateUserFieldType = {
-  field:
-    | 'fullName'
-    | 'phone'
-    | 'address'
-    | 'location'
-    | 'gender'
-    | 'weight'
-    | 'stature'
-    | 'birthdate'
-    | 'userType';
-  value: number[] & '' & (string | Date);
+  field: keyof userState;
+  value: number[] & '' & (string | Date) & Picture;
 };
 
 export type HealtInfoAction = {

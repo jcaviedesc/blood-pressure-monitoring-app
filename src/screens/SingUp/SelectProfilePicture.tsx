@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -22,15 +22,13 @@ import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { AppStyles, Images, Metrics, Fonts, Colors } from '../../styles';
 import { Button } from '../../components';
-import firebaseStoreService from '../../services/FirebaseStore';
-import { useAppSelector } from '../../hooks';
-import { selectUser } from '../../store/singup/singupSlice';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import {
+  selectUser,
+  saveUser,
+  updateUserField,
+} from '../../store/singup/singupSlice';
 import { withLoading } from '../../wrappers';
-
-type photoUri = {
-  uri: string;
-  type: string | undefined;
-};
 
 type actionSheetRef = {
   setModalVisible: () => void;
@@ -40,7 +38,7 @@ type actionSheetRef = {
 type Props = NativeStackScreenProps<
   RootStackParamList,
   RouteName.PROFILE_PICTURE
->;
+> & { setLoading: (state: boolean) => void };
 
 const defaulPictureOptions: CameraOptions = {
   mediaType: 'photo',
@@ -78,12 +76,9 @@ const SelectProfilePictureScreen: React.FC<Props> = ({
   navigation,
   setLoading,
 }) => {
-  const { fullName } = useAppSelector(selectUser);
+  const { picture } = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
   const actionSheetRef = useRef<actionSheetRef>();
-  const [photoUri, setPhotoUri] = useState<photoUri>({
-    uri: '',
-    type: '',
-  });
 
   const onSelectPicture = () => {
     actionSheetRef.current?.setModalVisible();
@@ -98,7 +93,12 @@ const SelectProfilePictureScreen: React.FC<Props> = ({
     } else {
       const { assets } = result;
       const photo = assets && assets[0];
-      setPhotoUri({ uri: photo?.uri || '', type: photo?.type });
+      const payload = {
+        field: 'picture',
+        value: { uri: photo?.uri! || '', type: photo?.type! },
+      };
+      // TODO search assignable problem
+      dispatch(updateUserField(payload));
     }
   };
 
@@ -123,27 +123,28 @@ const SelectProfilePictureScreen: React.FC<Props> = ({
   };
 
   const onNext = async () => {
-    setLoading(true);
     const currentUser = auth().currentUser;
-    try {
-      const photoURL = await firebaseStoreService(
-        `profile-pic.${photoUri.type?.split('/')[1]}`,
-        photoUri.uri,
-        `users/${currentUser?.uid}/images`,
-      );
-      const update = {
-        displayName: fullName.split(' ')[0],
-        photoURL,
-      };
-      await currentUser?.updateProfile(update);
-    } catch (error) {
-      // show error to user
-      // tracking error
-      console.log(error);
-    } finally {
-      setLoading(false);
-      navigation.navigate('Home');
-    }
+    dispatch(saveUser({ navigation, currentUser }));
+    // setLoading(true);
+    // try {
+    //   const photoURL = await firebaseStoreService(
+    //     `profile-pic.${picture.type?.split('/')[1]}`,
+    //     picture.uri,
+    //     `users/${currentUser?.uid}/images`,
+    //   );
+    //   const update = {
+    //     displayName: fullName.split(' ')[0],
+    //     photoURL,
+    //   };
+    //   await currentUser?.updateProfile(update);
+    // } catch (error) {
+    //   // show error to user
+    //   // tracking error
+    //   console.log(error);
+    // } finally {
+    //   setLoading(false);
+    //   navigation.navigate('Home');
+    // }
   };
 
   return (
@@ -159,31 +160,25 @@ const SelectProfilePictureScreen: React.FC<Props> = ({
             underlayColor={Colors.background}>
             <View>
               <Image
-                source={photoUri.uri ? photoUri : Images.userPlaceholder}
+                source={picture.uri ? picture : Images.userPlaceholder}
                 style={styles.picture}
               />
               <Text
                 style={{
                   ...styles.addPicture,
-                  color: photoUri.uri
+                  color: picture.uri
                     ? Colors.darkBackground
                     : Colors.buttonText,
                 }}>
-                {photoUri.uri !== '' ? 'Modificar' : 'Agregar'}
+                {picture.uri !== '' ? 'Modificar' : 'Agregar'}
               </Text>
             </View>
           </TouchableHighlight>
         </View>
         <View style={styles.footer}>
-          {photoUri.uri !== '' && <Button title="siguiente" onPress={onNext} />}
+          {picture.uri !== '' && <Button title="siguiente" onPress={onNext} />}
           <View style={styles.omitButton}>
-            <Button
-              type="outline"
-              title="omitir"
-              onPress={() => {
-                navigation.navigate('Home');
-              }}
-            />
+            <Button type="outline" title="omitir" onPress={onNext} />
           </View>
         </View>
       </View>
