@@ -23,11 +23,8 @@ import { RouteName } from '../../router/routeNames';
 import { AppStyles, Images, Metrics, Fonts, Colors } from '../../styles';
 import { Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import {
-  selectUser,
-  saveUser,
-  updateUserField,
-} from '../../store/singup/singupSlice';
+import { selectUser, updateUserField } from '../../store/singup/singupSlice';
+import { saveUser } from '../../thunks/singupThunk';
 import { withLoading } from '../../wrappers';
 
 type actionSheetRef = {
@@ -123,28 +120,8 @@ const SelectProfilePictureScreen: React.FC<Props> = ({
   };
 
   const onNext = async () => {
-    const currentUser = auth().currentUser;
-    dispatch(saveUser({ navigation, currentUser }));
-    // setLoading(true);
-    // try {
-    //   const photoURL = await firebaseStoreService(
-    //     `profile-pic.${picture.type?.split('/')[1]}`,
-    //     picture.uri,
-    //     `users/${currentUser?.uid}/images`,
-    //   );
-    //   const update = {
-    //     displayName: fullName.split(' ')[0],
-    //     photoURL,
-    //   };
-    //   await currentUser?.updateProfile(update);
-    // } catch (error) {
-    //   // show error to user
-    //   // tracking error
-    //   console.log(error);
-    // } finally {
-    //   setLoading(false);
-    //   navigation.navigate('Home');
-    // }
+    const user = auth().currentUser;
+    dispatch(saveUser({ navigation, authProviderId: user.uid }));
   };
 
   return (

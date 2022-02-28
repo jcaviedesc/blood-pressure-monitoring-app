@@ -11,19 +11,24 @@ import {
   TouchableHighlight,
   StatusBar,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
 import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
 import { Colors, Fonts, AppStyles, Images } from '../../styles';
 import { Box } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
+import { useAppSelector } from '../../hooks';
+import { selectUserData } from '../../store/user/userSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
-  const user = auth().currentUser;
+  const {
+    profile: { fullName, profileUrl },
+    homeStatus: { bloodPressure, nutritional, heartRate, bloodGlucose },
+  } = useAppSelector(selectUserData);
+
   useFocusEffect(
     React.useCallback(() => {
       const backAction = () => {
@@ -61,7 +66,11 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       />
       <View style={styles.content}>
         <View style={styles.userHeader}>
-          <Text style={styles.userTitle}>Hola, {user?.displayName}</Text>
+          <View style={styles.userTitleContainer}>
+            <Text style={styles.userTitle} numberOfLines={1}>
+              Hola, <Text style={styles.userNameTitle}>{fullName}</Text>
+            </Text>
+          </View>
           <TouchableHighlight
             underlayColor={Colors.background}
             onPress={() => {
@@ -70,7 +79,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             <Image
               source={{
                 uri:
-                  user?.photoURL ||
+                  profileUrl ||
                   'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png',
               }}
               defaultSource={Images.userPlaceholder}
@@ -81,8 +90,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.boxContainer}>
           <Box
             title={translate('blood_pressure')}
-            status="Normal"
-            value="140/90 mmHg"
+            status={bloodPressure.status}
+            value={bloodPressure.value} //
             colors={['#fe5b5b', '#ef6463']}
             iconName="tint"
             onPress={() => {
@@ -91,22 +100,22 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           />
           <Box
             title="Peso Corporal"
-            status="Estable"
-            value="82 Kg"
+            status={nutritional.status}
+            value={nutritional.value}
             iconName="balance-scale"
             colors={['#1273a6', '#71c4d2']}
           />
           <Box
             title="Ritmo Cardiaco"
-            status="Estable"
-            value="78 bpm"
+            status={heartRate.status}
+            value={heartRate.value} // bpm
             iconName="heartbeat"
             colors={['#10acd4', '#81eb91']}
           />
           <Box
             title="Glucosa en sangre"
-            status="Estable"
-            value="140 mg / dl"
+            status={bloodGlucose.status}
+            value={bloodGlucose.value} // mg / dl
             iconName="eyedropper"
             colors={['#564ef7', '#9994ec']}
           />
@@ -131,10 +140,17 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     backgroundColor: Colors.white,
   },
+  userTitleContainer: {
+    flex: 1,
+    marginRight: 15,
+  },
   userTitle: {
     fontFamily: Fonts.type.bold,
     fontSize: Fonts.size.h2,
     color: Colors.primary,
+  },
+  userNameTitle: {
+    fontSize: Fonts.size.h3,
   },
   boxContainer: {
     flexDirection: 'row',

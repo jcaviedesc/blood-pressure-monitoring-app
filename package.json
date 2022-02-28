@@ -37,6 +37,7 @@
     "axios": "^0.26.0",
     "dayjs": "^1.10.7",
     "i18n-js": "^3.8.0",
+    "lodash": "^4.17.21",
     "lodash.memoize": "^4.1.2",
     "react": "17.0.2",
     "react-native": "0.66.4",

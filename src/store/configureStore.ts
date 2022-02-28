@@ -12,7 +12,7 @@ import rootReducer from './rootReducers';
 import { persistedReducer } from './configurePersistStore';
 import Api from '../services/ApiService';
 
-const ClientApi = Api();
+const clientApi = Api();
 
 const persistedReducerSetup = persistedReducer(rootReducer);
 
@@ -25,7 +25,7 @@ const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
       thunk: {
-        extraArgument: ClientApi,
+        extraArgument: clientApi,
       },
     }),
 });
@@ -36,5 +36,9 @@ export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+
+export type AppGetState = typeof store.getState;
+
+export type ClientApi = typeof clientApi;
 
 export default store;
