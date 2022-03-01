@@ -36,7 +36,7 @@ export interface SingUpState {
 
 export type updateUserFieldType = {
   field: keyof userState;
-  value: number[] & '' & (string | Date) & Picture;
+  value: number[] | '' | string | Date | Picture;
 };
 
 export type HealtInfoAction = {

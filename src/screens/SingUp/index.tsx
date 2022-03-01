@@ -17,15 +17,13 @@ import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
-import { withLoading, PhoneInputWrapper } from '../../wrappers';
+import { PhoneInputWrapper } from '../../wrappers';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { selectAppLocale } from '../../store/app/appSlice';
+import { selectAppLocale, setScreenLoading } from '../../store/app/appSlice';
 
-type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP> & {
-  setLoading: (state: boolean) => void;
-};
+type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
 
-const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
+const SingUpScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const isDarkMode = useColorScheme() === 'dark';
   // The `state` arg is correctly typed as `RootState` already
@@ -41,13 +39,19 @@ const SingUpScreen: React.FC<Props> = ({ navigation, setLoading }) => {
 
   async function nextRoute() {
     // add validation
-    setLoading(true);
-    const confirmation = await auth().signInWithPhoneNumber(
-      phone.split(' ')[1],
-    );
-    setConfirm(confirmation);
-    setLoading(false);
-    navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
+    dispatch(setScreenLoading(true));
+    try {
+      const confirmation = await auth().signInWithPhoneNumber(
+        phone.split(' ')[1],
+      );
+      setConfirm(confirmation);
+      navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
+    } catch (error) {
+      // TODO Senty
+      console.log(error);
+    } finally {
+      dispatch(setScreenLoading(false));
+    }
   }
 
   return (
@@ -169,4 +173,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withLoading(SingUpScreen);
+export default SingUpScreen;

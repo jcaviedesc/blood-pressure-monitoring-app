@@ -4,4 +4,5 @@ export interface AppState {
   hasUserActiveSession: boolean;
   lenguage: 'es' | 'en' | '';
   countryCode: string;
+  screenLoading: boolean;
 }

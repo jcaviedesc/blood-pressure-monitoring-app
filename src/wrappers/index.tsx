@@ -1,5 +1,5 @@
-import withLoading from './WithLoading/indext';
+import LoadingWrapper from './LoadingWrapper';
 import PhoneInputWrapper from './PhoneInputWrapper/indext';
 import BloodPressureCard from './BloodPressureCard';
 
-export { withLoading, PhoneInputWrapper, BloodPressureCard };
+export { LoadingWrapper, PhoneInputWrapper, BloodPressureCard };

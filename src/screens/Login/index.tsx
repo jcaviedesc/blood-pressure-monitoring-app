@@ -18,7 +18,7 @@ import { RouteName } from '../../router/routeNames';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Button } from '../../components';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
-import { withLoading, PhoneInputWrapper } from '../../wrappers';
+import { PhoneInputWrapper } from '../../wrappers';
 import { useAppSelector } from '../../hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale } from '../../store/app/appSlice';
@@ -186,4 +186,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withLoading(LoginScreen);
+export default LoginScreen;

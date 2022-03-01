@@ -25,7 +25,6 @@ import { Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
 import { saveUser } from '../../thunks/singupThunk';
-import { withLoading } from '../../wrappers';
 
 type actionSheetRef = {
   setModalVisible: () => void;
@@ -258,4 +257,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withLoading(SelectProfilePictureScreen);
+export default SelectProfilePictureScreen;

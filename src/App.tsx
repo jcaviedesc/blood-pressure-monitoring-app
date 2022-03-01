@@ -14,6 +14,7 @@ import RNBootSplash from 'react-native-bootsplash';
 import { PersistGate } from 'redux-persist/integration/react';
 import AppScreens from './router/app.router';
 import store, { persistor } from './store/configureStore';
+import { LoadingWrapper } from './wrappers';
 // context
 import { ConfirmPhoneProvider } from './providers/ConfirmPhone';
 import { LocalizationProvider } from './providers/LocalizationProvider';
@@ -33,7 +34,9 @@ const App: () => Node = () => {
       <PersistGate loading={null} persistor={persistor}>
         <LocalizationProvider>
           <ConfirmPhoneProvider>
-            <AppScreens onReady={() => RNBootSplash.hide()} />
+            <LoadingWrapper>
+              <AppScreens onReady={() => RNBootSplash.hide()} />
+            </LoadingWrapper>
           </ConfirmPhoneProvider>
         </LocalizationProvider>
       </PersistGate>

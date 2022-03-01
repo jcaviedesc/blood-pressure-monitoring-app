@@ -11,6 +11,7 @@ const initialState: AppState = {
   hasUserActiveSession: false,
   lenguage: '',
   countryCode: '',
+  screenLoading: false,
 };
 
 // persistor config
@@ -41,6 +42,9 @@ export const appSlice = createSlice({
     setCountry: (state, action: PayloadAction<string>) => {
       state.countryCode = action.payload;
     },
+    setScreenLoading: (state, action: PayloadAction<boolean>) => {
+      state.screenLoading = action.payload;
+    },
   },
 });
 
@@ -50,6 +54,7 @@ export const {
   changeUserSessionState,
   setLenguage,
   setCountry,
+  setScreenLoading,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
@@ -62,5 +67,9 @@ export const selectAppLocale = (state: RootState) => ({
   lenguage: state.app.lenguage,
   countryCode: state.app.countryCode,
 });
+
+export const selectAppScreenLoading = (state: RootState) => {
+  return state.app.screenLoading;
+};
 
 export default persistReducer(appPersistConfig, appSlice.reducer);
