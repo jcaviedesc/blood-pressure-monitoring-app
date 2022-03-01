@@ -167,13 +167,13 @@ const styles = StyleSheet.create({
   },
   toggleContainer: {
     justifyContent: 'flex-end',
-    marginBottom: 12,
+    marginBottom: 31,
     minHeight: 50,
   },
   inputText: {
     fontFamily: Fonts.type.light,
     fontSize: Fonts.size.h5,
-    textAlign: 'justify',
+    textAlign: 'left',
   },
   inputTextContainer: {
     marginBottom: 9,

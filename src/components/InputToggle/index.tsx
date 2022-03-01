@@ -49,11 +49,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 48,
     padding: 6,
+    flex: 1,
   },
   touchableHighlight: {
     paddingHorizontal: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    flex: 1,
   },
   optionSelected: {
     backgroundColor: Colors.button,

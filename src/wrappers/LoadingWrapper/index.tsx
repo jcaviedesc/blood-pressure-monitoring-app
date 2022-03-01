@@ -49,6 +49,12 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h5,
     marginTop: 12,
+    textShadowColor: Colors.paragraph,
+    textShadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    textShadowRadius: 5,
   },
 });
 

@@ -28,7 +28,7 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
 
   const onChangePhoneNumberHandler = (phoneNumber: string) => {
     if (ref.current?.isValidNumber(phoneNumber)) {
-      onPhoneInputChange(`${ref.current.getCallingCode()} ${phoneNumber}`);
+      onPhoneInputChange(phoneNumber);
     }
   };
 
