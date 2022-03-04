@@ -18,8 +18,9 @@ import SingUpFlow, { renderSingUpHeader } from './SingUpFlow';
 import OnboardingScreen from '../screens/Onboarding';
 import HomeScreen from '../screens/Home';
 import BloodPressureScreen from '../screens/BloodPressure';
-import BloodPressureStepsScreen from '../screens/blood-pressure-reading';
-import PreparationBloodPressureMeasureScreen from '../screens/blood-pressure-reading/Preparation';
+import BloodPressurePreparation from '../screens/BloodPressure/Preparation';
+import BloodPressureStepsScreen from '../screens/BloodPressure/Steps';
+import BloodPressureMeassuringScreen from '../screens/BloodPressure/Meassuring';
 import ProfileScreen from '../screens/Profile';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -32,7 +33,7 @@ function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
       <Stack.Navigator
-        initialRouteName="Splash"
+        initialRouteName="BloodPressure/Steps"
         screenOptions={{ headerStyle: styles.header }}>
         <Stack.Screen
           name="Splash"
@@ -106,7 +107,7 @@ function App({ onReady }: AppProps) {
           }}
         />
         <Stack.Screen
-          name={RouteName.BLOOD_PRESSURE_READING}
+          name={'BloodPressure/Steps'}
           component={BloodPressureStepsScreen}
           options={{
             ...defaultOptions,
@@ -115,12 +116,21 @@ function App({ onReady }: AppProps) {
           }}
         />
         <Stack.Screen
-          name={RouteName.PREPARATION_READING_BP}
-          component={PreparationBloodPressureMeasureScreen}
+          name={'BloodPressure/Preparation'}
+          component={BloodPressurePreparation}
           options={{
             ...defaultOptions,
             headerShown: true,
             title: '',
+          }}
+        />
+        <Stack.Screen
+          name={'BloodPressure/Meassuring'}
+          component={BloodPressureMeassuringScreen}
+          options={{
+            ...defaultOptions,
+            headerShown: true,
+            title: 'Presion Arterial',
           }}
         />
         {Object.entries({

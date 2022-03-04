@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, Switch, Text, View, ScrollView } from "react-native";
+import React, { useState } from 'react';
+import { StyleSheet, Switch, Text, View, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
@@ -39,21 +39,26 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
                 }
               </Text>
             </View>
-            <Switch
-              trackColor={{ false: Colors.gray, true: Colors.secondaryText }}
-              thumbColor={isEnabled[0] ? Colors.primary : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={() => toggleSwitch(0)}
-              value={isEnabled[0]}
-            />
+            <View style={styles.swithcContainer}>
+              <Switch
+                trackColor={{
+                  false: Colors.gray,
+                  true: Colors.cardHightlight,
+                }}
+                thumbColor={isEnabled[0] ? Colors.tertiary : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={() => toggleSwitch(0)}
+                value={isEnabled[0]}
+              />
+            </View>
           </View>
           <View style={styles.checkContainer}>
             <View style={styles.checkTextContainer}>
               <Text style={styles.checkText}>Tener la vejiga vacía.</Text>
             </View>
             <Switch
-              trackColor={{ false: Colors.gray, true: Colors.secondaryText }}
-              thumbColor={isEnabled[1] ? Colors.primary : '#f4f3f4'}
+              trackColor={{ false: Colors.gray, true: Colors.cardHightlight }}
+              thumbColor={isEnabled[1] ? Colors.tertiary : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
               onValueChange={() => toggleSwitch(1)}
               value={isEnabled[1]}
@@ -68,8 +73,8 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
               </Text>
             </View>
             <Switch
-              trackColor={{ false: Colors.gray, true: Colors.secondaryText }}
-              thumbColor={isEnabled[2] ? Colors.primary : '#f4f3f4'}
+              trackColor={{ false: Colors.gray, true: Colors.cardHightlight }}
+              thumbColor={isEnabled[2] ? Colors.tertiary : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
               onValueChange={() => toggleSwitch(2)}
               value={isEnabled[2]}
@@ -80,7 +85,7 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
           <Button
             title="Empezar"
             onPress={() => {
-              navigation.navigate(RouteName.BLOOD_PRESSURE_READING);
+              navigation.navigate('BloodPressure/Steps');
             }}
             disabled={isEnabled.some(e => !e)}
           />
@@ -113,9 +118,7 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
   checkContainer: {
-    flexDirection: 'row',
     marginBottom: 18,
-    alignItems: 'center',
   },
   checkTextContainer: {
     flex: 10,
@@ -124,6 +127,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     marginBottom: 21,
+  },
+  swithcContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
 });
 

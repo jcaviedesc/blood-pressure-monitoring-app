@@ -2,19 +2,15 @@ import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { RouteName } from '../../router/routeNames';
 import { Colors, Metrics } from '../../styles';
 import { BloodPressureStepTemplate } from '../../components/Templates';
 import { Button, Steps } from '../../components';
 import { STEPS } from './data';
 
-type Props = NativeStackScreenProps<
-  RootStackParamList,
-  RouteName.BLOOD_PRESSURE_READING
->;
+type Props = NativeStackScreenProps<RootStackParamList, 'BloodPressure/Steps'>;
 
 type stepRef = {
-  scrollToIndex: ({}) => void;
+  scrollToIndex: ({ }) => void;
 };
 
 const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
@@ -27,6 +23,9 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
       index: nextStep < 8 ? nextStep : 7,
     });
     setActiveStep(prevStep => prevStep + 1);
+    if (nextStep > 8) {
+      navigation.navigate('BloodPressure/Meassuring');
+    }
   };
   return (
     <View style={styles.overrideMainContainer}>

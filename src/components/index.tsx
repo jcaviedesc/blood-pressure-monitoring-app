@@ -8,6 +8,7 @@ import VerifyCode from './VerifyCode';
 import InputToggle from './InputToggle';
 import CustomSlider from './CustomSlider';
 import HeaderChart from './HeaderChart';
+import BloodPressureSlider from './BloodPressureSlider';
 
 export {
   Input,
@@ -20,4 +21,5 @@ export {
   InputToggle,
   CustomSlider,
   HeaderChart,
+  BloodPressureSlider,
 };
