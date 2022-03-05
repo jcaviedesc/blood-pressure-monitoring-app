@@ -130,7 +130,7 @@ function App({ onReady }: AppProps) {
           options={{
             ...defaultOptions,
             headerShown: true,
-            title: 'Presion Arterial',
+            title: 'Presión Arterial',
           }}
         />
         {Object.entries({

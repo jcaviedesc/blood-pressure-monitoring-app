@@ -1,6 +1,7 @@
 {
   "button": {
-    "next": "siguiente"
+    "next": "siguiente",
+    "save": "guardar"
   },
   "blood_pressure": "Presion Arterial",
   "login_screen": {

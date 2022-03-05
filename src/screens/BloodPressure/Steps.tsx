@@ -23,7 +23,7 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
       index: nextStep < 8 ? nextStep : 7,
     });
     setActiveStep(prevStep => prevStep + 1);
-    if (nextStep > 8) {
+    if (nextStep > 7) {
       navigation.navigate('BloodPressure/Meassuring');
     }
   };
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
   overrideMainContainer: {
     flex: 1,
     backgroundColor: Colors.background,
+    paddingBottom: 9,
   },
   stepContainer: {
     flexDirection: 'row',

@@ -22,11 +22,10 @@ const BloodPressureSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
       <MultiSlider
         values={value}
         enableLabel={true}
-        valuePrefix="xxx"
         customLabel={CustomLabel}
         min={min}
         max={max}
-        sliderLength={Metrics.screenHeight - DIFFERENCE}
+        sliderLength={Metrics.screenHeight - DIFFERENCE - 10}
         // snapped
         onValuesChangeFinish={values => {
           setValue(values);
@@ -52,8 +51,8 @@ const BloodPressureSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
 const styles = StyleSheet.create({
   container: {
     margin: 0,
-    marginLeft: 30,
-    marginTop: Metrics.screenWidth - 95,
+    marginLeft: 50,
+    marginTop: Metrics.screenWidth - 120,
   },
   track: {
     height: 10,

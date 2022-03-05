@@ -9,6 +9,7 @@ const ApplicationStyles = {
       flex: 1,
       backgroundColor: Colors.background,
       paddingTop: Metrics.navBarHeight,
+      paddingBottom: 12,
     },
     mainContainerWitoutHeader: {
       flex: 1,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
+import { LabelProps } from '@ptomasroos/react-native-multi-slider';
 import { Colors, Fonts, Metrics } from '../../styles';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
@@ -8,7 +9,7 @@ CustomLabel.defaultProps = {
   leftDiff: 0,
 };
 
-export const DIFFERENCE = 202;
+export const DIFFERENCE = 242;
 
 const sliderLength = Metrics.screenHeight - DIFFERENCE;
 const height = 45;
@@ -37,7 +38,7 @@ function LabelBase(props) {
         style={[
           styles.sliderLabel,
           {
-            top: sliderLength - position + height / 2 - 10,
+            top: sliderLength - position + height / 2,
             transform: [{ scale: scaleValue.current }],
           },
         ]}>
@@ -51,30 +52,25 @@ function LabelBase(props) {
   );
 }
 
-export default function CustomLabel(props) {
-  const {
-    leftDiff,
-    oneMarkerValue,
-    twoMarkerValue,
-    oneMarkerLeftPosition,
-    twoMarkerLeftPosition,
-    oneMarkerPressed,
-    twoMarkerPressed,
-  } = props;
-  console.log(props);
+export default function CustomLabel({
+  oneMarkerValue,
+  twoMarkerValue,
+  oneMarkerLeftPosition,
+  twoMarkerLeftPosition,
+  oneMarkerPressed,
+  twoMarkerPressed,
+}: LabelProps) {
   return (
     <View style={styles.parentView}>
       <LabelBase
         position={oneMarkerLeftPosition}
         value={oneMarkerValue}
-        leftDiff={leftDiff}
         pressed={oneMarkerPressed}
         prefix="DIA"
       />
       <LabelBase
         position={twoMarkerLeftPosition}
         value={twoMarkerValue}
-        leftDiff={leftDiff}
         pressed={twoMarkerPressed}
         prefix="SYS"
       />
@@ -92,7 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: width,
     height: height,
-    right: width * 2.1,
+    right: width * 2,
   },
   sliderLabelText: {
     textAlign: 'center',
