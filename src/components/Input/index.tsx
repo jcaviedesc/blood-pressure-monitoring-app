@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     height: 48,
+    minHeight: 48,
     flexDirection: 'row',
     borderColor: Colors.lightGray,
     borderRadius: 5,

@@ -21,12 +21,36 @@ const defaultOptions = {
     close: ConfigAnimation,
   },
   headerTitleStyle: {
-    fontFamily: Fonts.type.regular,
+    fontFamily: Fonts.type.bold,
     fontSize: 27,
-    color: Colors.secondaryText,
+    color: Colors.highlight,
   },
   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 };
 
-export { ConfigAnimation };
+const ModalTransition = {
+  headerShown: false,
+  animationEnable: true,
+  cardStyle: { backgroundColor: 'rgba(0,0,0,0.25)' },
+  cardOverlayEnabled: true,
+  cardStyleInterpolator: ({ current: { progress } }) => {
+    return {
+      cardStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 0.7, 1],
+          outputRange: [0, 0.9, 1],
+        }),
+      },
+      overlayStyle: {
+        opacity: progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+          extrapolate: 'clamp',
+        }),
+      },
+    };
+  },
+};
+
+export { ConfigAnimation, ModalTransition };
 export default defaultOptions;

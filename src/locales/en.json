@@ -1,7 +1,8 @@
 {
   "button": {
     "next": "next",
-    "save": "save"
+    "save": "save",
+    "confirm": "confirm"
   },
   "blood_pressure": "Blood Pressure",
   "login_screen": {

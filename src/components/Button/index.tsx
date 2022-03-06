@@ -8,6 +8,7 @@ type props = {
   onPress?: () => void;
   type?: 'fill' | 'outline';
   disabled?: boolean;
+  apparence?: object;
 };
 
 const Button: React.FC<props> = ({
@@ -16,8 +17,10 @@ const Button: React.FC<props> = ({
   type = 'fill',
   title,
   disabled,
+  apparence,
 }) => {
   let buttonStyles = {
+    ...apparence,
     ...styles.container,
     backgroundColor: type === 'fill' ? Colors.button : Colors.transparent,
   };
@@ -48,12 +51,12 @@ const Button: React.FC<props> = ({
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
     borderColor: Colors.button,
+    borderRadius: 10,
     borderWidth: 0.5,
     height: 52,
-    borderRadius: 10,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   title: {
     fontFamily: Fonts.type.bold,
