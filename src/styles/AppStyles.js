@@ -23,6 +23,8 @@ const ApplicationStyles = {
     section: {
       marginTop: Metrics.marginVertical + 8,
       marginHorizontal: Metrics.marginHorizontal,
+      backgroundColor: Colors.background,
+      marginBottom: 10,
     },
     titleContainer: {
       marginBottom: 31,

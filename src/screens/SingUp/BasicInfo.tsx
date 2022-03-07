@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   Platform,
 } from 'react-native';
+// TODO import according to i18n
 import 'dayjs/locale/es-mx';
 import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';

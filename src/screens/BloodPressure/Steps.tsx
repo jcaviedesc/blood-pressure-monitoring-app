@@ -24,7 +24,7 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
     });
     setActiveStep(prevStep => prevStep + 1);
     if (nextStep > 7) {
-      navigation.navigate('BloodPressure/Meassuring');
+      navigation.navigate('BloodPressure/MeassuringV1');
     }
   };
   return (

@@ -21,6 +21,8 @@ import BloodPressureScreen from '../screens/BloodPressure';
 import BloodPressurePreparation from '../screens/BloodPressure/Preparation';
 import BloodPressureStepsScreen from '../screens/BloodPressure/Steps';
 import BloodPressureMeassuringScreen from '../screens/BloodPressure/Meassuring';
+import BloodPressureMeassuringV1 from '../screens/BloodPressure/MeassuringV1';
+// TODO revisar
 import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate';
 import ProfileScreen from '../screens/Profile';
 
@@ -134,6 +136,15 @@ function App({ onReady }: AppProps) {
             title: 'Presión Arterial',
           }}
         />
+        <Stack.Screen
+          name={'BloodPressure/MeassuringV1'}
+          component={BloodPressureMeassuringV1}
+          options={{
+            ...defaultOptions,
+            headerShown: true,
+            title: 'Presión Arterial',
+          }}
+        />  
         <Stack.Screen
           name={'BloodPressure/HeartRate'}
           component={BloodPressureHeartRateModalScreen}

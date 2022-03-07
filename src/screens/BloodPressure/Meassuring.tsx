@@ -18,7 +18,6 @@ type Props = NativeStackScreenProps<
   'BloodPressure/Meassuring'
 >;
 
-
 const BloodPressureMeassuringScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const [isOpenHeartRateModal, setIsOpenHeartRateModal] = useState(false)

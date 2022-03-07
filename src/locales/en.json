@@ -27,5 +27,9 @@
     "cancel": "Cancel",
     "ok": "Yes"
   },
-  "loading": "waiting"
+  "loading": "Esperando",
+  "yes": "SI",
+  "not": "NO",
+  "do_not_know": "NO SÉ",
+  "date": "Date"
 }

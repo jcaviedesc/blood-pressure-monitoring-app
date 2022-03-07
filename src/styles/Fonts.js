@@ -2,6 +2,7 @@ const type = {
   light: 'Nunito-Light',
   regular: 'Nunito-Regular',
   bold: 'Nunito-SemiBold',
+  lcd: 'DigitalPlaySt',
 };
 
 const size = {

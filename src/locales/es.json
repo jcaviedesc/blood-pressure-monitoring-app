@@ -34,5 +34,6 @@
   "loading": "Esperando",
   "yes": "SI",
   "not": "NO",
-  "do_not_know": "NO SÉ"
+  "do_not_know": "NO SÉ",
+  "date": "Fecha"
 }

@@ -9,6 +9,7 @@ import InputToggle from './InputToggle';
 import CustomSlider from './CustomSlider';
 import HeaderChart from './HeaderChart';
 import BloodPressureSlider from './BloodPressureSlider';
+import BloodPressureInput from './BloodPressureInput';
 
 export {
   Input,
@@ -22,4 +23,5 @@ export {
   CustomSlider,
   HeaderChart,
   BloodPressureSlider,
+  BloodPressureInput,
 };
