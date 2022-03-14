@@ -10,6 +10,7 @@ import CustomSlider from './CustomSlider';
 import HeaderChart from './HeaderChart';
 import BloodPressureSlider from './BloodPressureSlider';
 import BloodPressureInput from './BloodPressureInput';
+import TextAreaInput from './TextAreaInput';
 
 export {
   Input,
@@ -24,4 +25,5 @@ export {
   HeaderChart,
   BloodPressureSlider,
   BloodPressureInput,
+  TextAreaInput,
 };

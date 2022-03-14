@@ -52,14 +52,12 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '55%',
-    height: 110,
     fontFamily: Fonts.type.lcd,
     letterSpacing: 12,
     textAlign: 'right',
-    paddingTop: 12,
-    fontSize: 60,
+    fontSize: 48,
+    lineHeight: 48,
     backgroundColor: Colors.lightGray,
-    marginBottom: 2,
   },
   textContainer: {
     width: '35%',

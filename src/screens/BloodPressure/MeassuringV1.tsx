@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { BloodPressureInput, Button } from '../../components';
+import { BloodPressureInput, Button, TextAreaInput } from '../../components';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
@@ -19,9 +19,9 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
   const DIARef = useRef<TextInput>(null);
   const PULRef = useRef<TextInput>(null);
   return (
-    <View style={styles.wraperContainer}>
-      <ScrollView style={styles.mainContainer}>
-        <View style={styles.content}>
+    <View style={styles.mainContainer}>
+      <ScrollView style={styles.content}>
+        <View style={styles.container}>
           <View style={styles.dateContainer}>
             <View style={styles.timeContainer}>
               <Text style={styles.timeText}>
@@ -53,6 +53,9 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             variableName="PUL"
             magnitude="/MIN"
           />
+          <View style={styles.textAreaContainer}>
+            <TextAreaInput title="Observaciones" />
+          </View>
         </View>
       </ScrollView>
       <View style={styles.section}>
@@ -64,9 +67,8 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
-  wraperContainer: {
+  container: {
     flex: 1,
-    backgroundColor: Colors.background,
     paddingTop: 21,
   },
   dateContainer: {
@@ -97,6 +99,9 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.type.bold,
     fontSize: Fonts.size.h5,
     color: Colors.headline,
+  },
+  textAreaContainer: {
+    paddingBottom: 21,
   },
 });
 
