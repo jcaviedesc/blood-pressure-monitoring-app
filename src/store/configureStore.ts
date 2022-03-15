@@ -10,7 +10,7 @@ import {
 } from 'redux-persist';
 import rootReducer from './rootReducers';
 import { persistedReducer } from './configurePersistStore';
-import Api from '../services/ApiService';
+import Api from '../services/api';
 
 const clientApi = Api();
 

@@ -22,25 +22,6 @@ const GenderEnun = {
   female: 'F',
 };
 
-type Meassure = {
-  val: string;
-  unit: 'm' | 'Kg';
-};
-
-type UserToApi = {
-  full_name: string;
-  phone_number: string;
-  address: string;
-  location?: number[];
-  gender: string;
-  birthdate: string;
-  height: Meassure;
-  weight: Meassure;
-  user_type: number;
-  health_info?: object;
-  profile_url?: string;
-};
-
 export const userToApi = ({
   fullName,
   phone,
@@ -53,7 +34,7 @@ export const userToApi = ({
   userType,
   healtInfo,
   profile_url,
-}: UserFromApp): UserToApi => {
+}: UserFromApp) => {
   const userApi = cleanObject({
     full_name: fullName,
     phone_number: phone,
@@ -71,7 +52,7 @@ export const userToApi = ({
     },
     user_type: UserEnun[userType],
     profile_url,
-  }) as UserToApi;
+  });
 
   if (userApi.user_type === 2) {
     userApi.health_info = mapValues(healtInfo, value => healthInfoEnum[value]);

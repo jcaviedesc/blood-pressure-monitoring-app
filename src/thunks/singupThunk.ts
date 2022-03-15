@@ -11,6 +11,8 @@ import type {
   AppGetState,
   ClientApi,
 } from '../store/configureStore';
+import { RegisterUser } from '../services/api/types';
+import { userFromApi } from '../store/user/types';
 
 export const saveUser = ({ navigation, authProviderId }: SaveUserPayload) => {
   return async function saveUserThunk(
@@ -31,7 +33,7 @@ export const saveUser = ({ navigation, authProviderId }: SaveUserPayload) => {
       );
       profile_url = photoURL;
     }
-    const userTransformed = userToApi({ ...user, profile_url });
+    const userTransformed = userToApi({ ...user, profile_url }) as RegisterUser;
 
     const response = await client
       .registerUser(userTransformed)
@@ -57,8 +59,8 @@ export const saveUser = ({ navigation, authProviderId }: SaveUserPayload) => {
     if (response.status === 201) {
       console.log(response);
       dispatch(clear());
-      const userFromApi = snakeCaseToCamelCase(response.data);
-      dispatch(updateUserProfileFromSingup(userFromApi));
+      const transformUser = snakeCaseToCamelCase(response.data) as userFromApi;
+      dispatch(updateUserProfileFromSingup(transformUser));
       navigation.navigate('Home');
     }
     dispatch(setScreenLoading(false));
