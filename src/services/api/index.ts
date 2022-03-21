@@ -1,8 +1,9 @@
 import axios, { AxiosPromise, AxiosRequestConfig } from 'axios';
+import { API_URL } from 'react-native-dotenv';
 import auth from '@react-native-firebase/auth';
 import type { RegisterUser } from './types';
 // our "constructor"
-const create = (baseURL = 'http://localhost:9090') => {
+const create = (baseURL = API_URL) => {
   // ------
   // STEP 1
   // ------
