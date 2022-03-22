@@ -1,15 +1,21 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View, TextInput } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 // TODO import according to i18n
 import 'dayjs/locale/es-mx';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { BloodPressureInput, Button, TextAreaInput } from '../../components';
 import { saveBloodPressureRecord } from '../../thunks/blood-pressure';
 import { useAppSelector, useAppDispatch } from '../../hooks';
+import { updateCurrentRecord, addRecord } from '../../store/blood-pressure';
+import type { BloodPressureRecord } from '../../store/blood-pressure/types';
+import { useFocusEffect } from '@react-navigation/native';
+
+dayjs.extend(utc);
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
@@ -17,14 +23,38 @@ type Props = NativeStackScreenProps<
 >;
 
 const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
+  const dispatch = useAppDispatch();
   const { translate } = useI18nLocate();
+  const SYSRef = useRef<TextInput>(null);
   const DIARef = useRef<TextInput>(null);
   const PULRef = useRef<TextInput>(null);
 
-  const dispatch = useAppDispatch();
+  const [datatime, setDatatime] = useState(dayjs());
+
+  const updateInput = useCallback(
+    (field: keyof BloodPressureRecord, val: number | string) => {
+      dispatch(updateCurrentRecord({ field, value: val }));
+    },
+    [dispatch],
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      const currentTime = dayjs();
+      if (currentTime.diff(datatime, 'm') > 2) {
+        updateInput('datetime', currentTime.utc().format());
+        setDatatime(currentTime);
+      } else {
+        updateInput('datetime', datatime.utc().format());
+      }
+    }, [updateInput, datatime]),
+  );
 
   const saveRecord = () => {
-    dispatch(saveBloodPressureRecord({ navigation, data: { hello: 'word' } }));
+    DIARef.current?.clear();
+    PULRef.current?.clear();
+    SYSRef.current?.clear();
+    dispatch(addRecord());
   };
 
   return (
@@ -34,7 +64,7 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
           <View style={styles.dateContainer}>
             <View style={styles.timeContainer}>
               <Text style={styles.timeText}>
-                {dayjs().locale('es-mx').format('dddd h:mm A')}
+                {datatime.locale('es-mx').format('dddd h:mm A')}
               </Text>
             </View>
             <View style={styles.textUnitContainer}>
@@ -42,10 +72,12 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             </View>
           </View>
           <BloodPressureInput
+            refInput={SYSRef}
             autoFocus
             variableName="SYS"
             magnitude="mmHg"
-            onSubmitEditing={() => {
+            onSubmitEditing={({ nativeEvent: { text } }) => {
+              updateInput('sys', text);
               DIARef.current?.focus();
             }}
           />
@@ -53,7 +85,8 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             refInput={DIARef}
             variableName="DIA"
             magnitude="mmHg"
-            onSubmitEditing={() => {
+            onSubmitEditing={({ nativeEvent: { text } }) => {
+              updateInput('dia', text);
               PULRef.current?.focus();
             }}
           />
@@ -61,6 +94,9 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             refInput={PULRef}
             variableName="PUL"
             magnitude="/MIN"
+            onChangeText={text => {
+              updateInput('bpm', text);
+            }}
           />
           <View style={styles.textAreaContainer}>
             <TextAreaInput title="Observaciones" />

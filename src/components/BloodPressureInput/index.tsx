@@ -14,6 +14,7 @@ type Props = {
   autoFocus?: boolean;
   refInput?: React.LegacyRef<TextInput>;
   onSubmitEditing?: TextInputProps['onSubmitEditing'];
+  onChangeText?: TextInputProps['onChangeText'];
 };
 
 const BloodPressureInput: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const BloodPressureInput: React.FC<Props> = ({
   autoFocus = false,
   refInput,
   onSubmitEditing,
+  onChangeText,
 }) => {
   return (
     <View style={styles.container}>
@@ -33,6 +35,7 @@ const BloodPressureInput: React.FC<Props> = ({
         keyboardType="number-pad"
         maxLength={3}
         onSubmitEditing={onSubmitEditing}
+        onChangeText={onChangeText}
       />
       <View style={styles.textContainer}>
         <Text style={styles.varText}>{variableName}</Text>
