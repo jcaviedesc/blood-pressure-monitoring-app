@@ -8,16 +8,25 @@ import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { BloodPressureInput, Button, TextAreaInput } from '../../components';
+import { saveBloodPressureRecord } from '../../thunks/blood-pressure';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
-  'BloodPressure/MeassuringV1'
+  'BloodPressure/MeassuringA'
 >;
 
 const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const DIARef = useRef<TextInput>(null);
   const PULRef = useRef<TextInput>(null);
+
+  const dispatch = useAppDispatch();
+
+  const saveRecord = () => {
+    dispatch(saveBloodPressureRecord({ navigation, data: { hello: 'word' } }));
+  };
+
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.content}>
@@ -59,7 +68,7 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
         </View>
       </ScrollView>
       <View style={styles.section}>
-        <Button title={translate('button.save')} />
+        <Button title={translate('button.save')} onPress={saveRecord} />
       </View>
     </View>
   );

@@ -16,6 +16,9 @@ export const saveBloodPressureRecord = ({ navigation, data }) => {
 
     if (response.status === 201) {
       navigation.navigate('Home/BloodPressure');
+    } else {
+      console.log('Response ERROR', response);
+      // TODO handle error message
     }
     dispatch(setScreenLoading(false));
   };

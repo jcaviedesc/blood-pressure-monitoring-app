@@ -20,8 +20,8 @@ import HomeScreen from '../screens/Home';
 import BloodPressureScreen from '../screens/BloodPressure';
 import BloodPressurePreparation from '../screens/BloodPressure/Preparation';
 import BloodPressureStepsScreen from '../screens/BloodPressure/Steps';
-import BloodPressureMeassuringScreen from '../screens/BloodPressure/Meassuring';
-import BloodPressureMeassuringV1 from '../screens/BloodPressure/MeassuringV1';
+// import BloodPressureMeassuringScreen from '../screens/BloodPressure/Meassuring';
+import BloodPressureMeassuringA from '../screens/BloodPressure/MeassuringA';
 // TODO revisar
 import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate';
 import ProfileScreen from '../screens/Profile';
@@ -36,7 +36,7 @@ function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
       <Stack.Navigator
-        initialRouteName="BloodPressure/MeassuringV1"
+        initialRouteName="BloodPressure/MeassuringA"
         screenOptions={{ headerStyle: styles.header, gestureEnabled: true }}>
         <Stack.Screen
           name="Splash"
@@ -127,7 +127,7 @@ function App({ onReady }: AppProps) {
             title: '',
           }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name={'BloodPressure/Meassuring'}
           component={BloodPressureMeassuringScreen}
           options={{
@@ -135,10 +135,10 @@ function App({ onReady }: AppProps) {
             headerShown: true,
             title: 'Presión Arterial',
           }}
-        />
+        /> */}
         <Stack.Screen
-          name={'BloodPressure/MeassuringV1'}
-          component={BloodPressureMeassuringV1}
+          name={'BloodPressure/MeassuringA'}
+          component={BloodPressureMeassuringA}
           options={{
             ...defaultOptions,
             headerShown: true,

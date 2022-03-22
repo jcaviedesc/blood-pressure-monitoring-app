@@ -1,7 +1,25 @@
-import axios, { AxiosPromise, AxiosRequestConfig } from 'axios';
+import axios, { AxiosPromise, AxiosRequestConfig, AxiosError } from 'axios';
 import { API_URL } from 'react-native-dotenv';
 import auth from '@react-native-firebase/auth';
 import type { RegisterUser } from './types';
+
+const handleError = (error: AxiosError) => {
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    return error.response;
+  } else if (error.request) {
+    // The request was made but no response was received
+    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+    // http.ClientRequest in node.js
+    console.error('Request', error.request);
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    console.error('Error', error.message);
+  }
+  return { status: 0, ...error };
+};
+
 // our "constructor"
 const create = (baseURL = API_URL) => {
   // ------
@@ -32,6 +50,13 @@ const create = (baseURL = API_URL) => {
     return config;
   });
 
+  // Add a response interceptor
+  api.interceptors.response.use(function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response;
+  }, handleError);
+
   // ------
   // STEP 2
   // ------
@@ -50,7 +75,7 @@ const create = (baseURL = API_URL) => {
     api.post('/users', data);
 
   const registerBloodPressureRecord = (data: RegisterUser): AxiosPromise =>
-    api.post('/blood-pressure', data);
+    api.post('/blood-pressure/', data);
 
   // ------
   // STEP 3
