@@ -9,9 +9,13 @@ import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { BloodPressureInput, Button, TextAreaInput } from '../../components';
-import { saveBloodPressureRecord } from '../../thunks/blood-pressure';
+// import { saveBloodPressureRecord } from '../../thunks/blood-pressure';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { updateCurrentRecord, addRecord } from '../../store/blood-pressure';
+import {
+  updateCurrentRecord,
+  addRecord,
+  selectTotalRecords,
+} from '../../store/blood-pressure';
 import type { BloodPressureRecord } from '../../store/blood-pressure/types';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -24,6 +28,7 @@ type Props = NativeStackScreenProps<
 
 const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
   const dispatch = useAppDispatch();
+  const { isMeasuringComplete } = useAppSelector(selectTotalRecords);
   const { translate } = useI18nLocate();
   const SYSRef = useRef<TextInput>(null);
   const DIARef = useRef<TextInput>(null);
@@ -55,6 +60,11 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
     PULRef.current?.clear();
     SYSRef.current?.clear();
     dispatch(addRecord());
+    if (isMeasuringComplete) {
+      // envia a pantalla de finalización
+    } else {
+      navigation.navigate('BloodPressure/Wait1minute');
+    }
   };
 
   return (

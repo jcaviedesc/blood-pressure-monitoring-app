@@ -7,7 +7,7 @@ import {
 import { HeaderBackButton } from '@react-navigation/elements';
 import type { RootStackParamList } from './types';
 import { RouteName } from './routeNames';
-import defaultOptions, { ModalTransition } from './ScreenConfig';
+import defaultOptions from './ScreenConfig';
 import { NormalHeader } from '../components/Layout';
 import styles from './styles';
 // screens
@@ -22,8 +22,9 @@ import BloodPressurePreparation from '../screens/BloodPressure/Preparation';
 import BloodPressureStepsScreen from '../screens/BloodPressure/Steps';
 // import BloodPressureMeassuringScreen from '../screens/BloodPressure/Meassuring';
 import BloodPressureMeassuringA from '../screens/BloodPressure/MeassuringA';
+import Wait1MinuteScreen from '../screens/BloodPressure/Wait1minute';
 // TODO revisar
-import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate';
+// import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate'; // v2
 import ProfileScreen from '../screens/Profile';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -144,12 +145,20 @@ function App({ onReady }: AppProps) {
             headerShown: true,
             title: 'Presión Arterial',
           }}
-        />  
+        />
         <Stack.Screen
+          name="BloodPressure/Wait1minute"
+          component={Wait1MinuteScreen}
+          options={{
+            ...defaultOptions,
+            headerShown: false,
+          }}
+        />
+        {/* <Stack.Screen
           name={'BloodPressure/HeartRate'}
           component={BloodPressureHeartRateModalScreen}
           options={ModalTransition}
-        />
+        /> */}
         {Object.entries({
           ...SingUpFlow,
         }).map(([name, params]) => (

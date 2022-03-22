@@ -31,6 +31,12 @@
     "cancel": "Cancelar",
     "ok": "Si"
   },
+  "wait1minute":{
+    "title": "Espera minimo 1 minuto y realiza una segunda medición",
+    "description": "todo para que se realizan dos mediciones?",
+    "remaining": "Espera",
+    "seconds": "Segundos"
+  },
   "loading": "Esperando",
   "yes": "SI",
   "not": "NO",
