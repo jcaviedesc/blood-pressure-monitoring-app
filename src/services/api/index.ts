@@ -49,6 +49,9 @@ const create = (baseURL = API_URL) => {
   const registerUser = (data: RegisterUser): AxiosPromise =>
     api.post('/users', data);
 
+  const registerBloodPressureRecord = (data: RegisterUser): AxiosPromise =>
+    api.post('/blood-pressure', data);
+
   // ------
   // STEP 3
   // ------
@@ -63,6 +66,7 @@ const create = (baseURL = API_URL) => {
   //
   return {
     registerUser,
+    registerBloodPressureRecord,
   };
 };
 

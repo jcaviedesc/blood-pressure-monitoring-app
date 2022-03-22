@@ -36,7 +36,7 @@ function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
       <Stack.Navigator
-        initialRouteName="Splash"
+        initialRouteName="BloodPressure/MeassuringV1"
         screenOptions={{ headerStyle: styles.header, gestureEnabled: true }}>
         <Stack.Screen
           name="Splash"

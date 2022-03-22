@@ -16,3 +16,17 @@ export type RegisterUser = {
   health_info?: object;
   profile_url?: string;
 };
+
+export type BPRecord = {
+  sys: number;
+  dia: number;
+  bpm: number;
+  datetime: string;
+};
+
+export type BPMeasuring = {
+  records: BPRecord[];
+  why?: string;
+  datetime: string;
+  location?: [number, number];
+};
