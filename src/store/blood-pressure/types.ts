@@ -9,6 +9,7 @@ export interface BloodPressureState {
   records: BloodPressureRecord[];
   currentRecord: BloodPressureRecord;
   lastMeasuring: string;
+  observations: string;
 }
 
 export type updateCurrentRecordAction = {

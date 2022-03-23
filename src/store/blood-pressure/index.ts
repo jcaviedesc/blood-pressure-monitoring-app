@@ -15,6 +15,7 @@ const initialState: BloodPressureState = {
     bpm: '0',
     datetime: '',
   },
+  observations:'',
   lastMeasuring: '',
 };
 
@@ -38,10 +39,13 @@ export const bloodPressureSlice = createSlice({
       const newCurrentRecor = { ...state.currentRecord, [field]: value };
       state.currentRecord = newCurrentRecor;
     },
+    addObservations: (state, action: PayloadAction<string>) => {
+      state.observations = action.payload;
+    }
   },
 });
 
-export const { addRecord, updateCurrentRecord } = bloodPressureSlice.actions;
+export const { addRecord, updateCurrentRecord, addObservations } = bloodPressureSlice.actions;
 
 export const selectCurrentRecord = (state: RootState) =>
   state.bloodPressure.currentRecord;

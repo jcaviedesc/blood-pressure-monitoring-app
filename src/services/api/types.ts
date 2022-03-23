@@ -26,7 +26,7 @@ export type BPRecord = {
 
 export type BPMeasuring = {
   records: BPRecord[];
-  why?: string;
+  xmsg?: string;
   datetime: string;
   location?: [number, number];
 };

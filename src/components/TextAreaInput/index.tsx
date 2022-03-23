@@ -12,12 +12,14 @@ type Props = {
   title: string;
   refInput?: React.LegacyRef<TextInput>;
   onSubmitEditing?: TextInputProps['onSubmitEditing'];
+  onEndEditing?: TextInputProps['onEndEditing'];
 };
 
 const TextAreaInput: React.FC<Props> = ({
   title,
   refInput,
   onSubmitEditing,
+  onEndEditing,
 }) => {
   return (
     <View style={styles.container}>
@@ -27,9 +29,10 @@ const TextAreaInput: React.FC<Props> = ({
       <View style={styles.inputContainer}>
         <TextInput
           ref={refInput}
-          onSubmitEditing={onSubmitEditing}
           multiline
           style={styles.textArea}
+          onSubmitEditing={onSubmitEditing}
+          onEndEditing={onEndEditing}
         />
       </View>
     </View>

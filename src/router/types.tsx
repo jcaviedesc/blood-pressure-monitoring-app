@@ -15,6 +15,7 @@ export type RootStackParamList = {
   'BloodPressure/Preparation': undefined;
   'BloodPressure/MeassuringA': undefined;
   'BloodPressure/Wait1minute': undefined;
+  'BloodPressure/MeasuringFinish': undefined;
   // 'BloodPressure/Meassuring': undefined; // version v2
   // 'BloodPressure/HeartRate': undefined; // version v2
   Profile: undefined;

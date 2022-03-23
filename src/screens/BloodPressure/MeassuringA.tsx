@@ -14,7 +14,6 @@ import {
   TextAreaInput,
   NumericVirtualKeyboard,
 } from '../../components';
-// import { saveBloodPressureRecord } from '../../thunks/blood-pressure';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
   updateCurrentRecord,
@@ -126,9 +125,6 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
               setActiveInput('bpm');
             }}
           />
-          {/* <View style={styles.textAreaContainer}>
-            <TextAreaInput title="Observaciones" />
-          </View> */}
         </View>
         <NumericVirtualKeyboard
           onKeyDown={num => {

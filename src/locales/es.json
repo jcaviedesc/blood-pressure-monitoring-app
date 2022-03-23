@@ -2,7 +2,8 @@
   "button": {
     "next": "siguiente",
     "save": "guardar",
-    "confirm": "confirmar"
+    "confirm": "confirmar",
+    "finish": "finalizar"
   },
   "blood_pressure": "Presion Arterial",
   "login_screen": {

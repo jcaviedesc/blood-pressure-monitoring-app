@@ -23,6 +23,7 @@ import BloodPressureStepsScreen from '../screens/BloodPressure/Steps';
 // import BloodPressureMeassuringScreen from '../screens/BloodPressure/Meassuring';
 import BloodPressureMeassuringA from '../screens/BloodPressure/MeassuringA';
 import Wait1MinuteScreen from '../screens/BloodPressure/Wait1minute';
+import BloodPressureMeasuringFinish from '../screens/BloodPressure/MeasuringFinish';
 // TODO revisar
 // import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate'; // v2
 import ProfileScreen from '../screens/Profile';
@@ -37,7 +38,7 @@ function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
       <Stack.Navigator
-        initialRouteName="BloodPressure/MeassuringA"
+        initialRouteName="BloodPressure/MeasuringFinish"
         screenOptions={{ headerStyle: styles.header, gestureEnabled: true }}>
         <Stack.Screen
           name="Splash"
@@ -149,6 +150,14 @@ function App({ onReady }: AppProps) {
         <Stack.Screen
           name="BloodPressure/Wait1minute"
           component={Wait1MinuteScreen}
+          options={{
+            ...defaultOptions,
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="BloodPressure/MeasuringFinish"
+          component={BloodPressureMeasuringFinish}
           options={{
             ...defaultOptions,
             headerShown: false,
