@@ -13,6 +13,8 @@ type Props = {
   refInput?: React.LegacyRef<TextInput>;
   onSubmitEditing?: TextInputProps['onSubmitEditing'];
   onEndEditing?: TextInputProps['onEndEditing'];
+  autoFocus?: TextInputProps['autoFocus'];
+  onChangeText?: TextInputProps['onChangeText'];
 };
 
 const TextAreaInput: React.FC<Props> = ({
@@ -20,6 +22,8 @@ const TextAreaInput: React.FC<Props> = ({
   refInput,
   onSubmitEditing,
   onEndEditing,
+  autoFocus,
+  onChangeText,
 }) => {
   return (
     <View style={styles.container}>
@@ -33,6 +37,8 @@ const TextAreaInput: React.FC<Props> = ({
           style={styles.textArea}
           onSubmitEditing={onSubmitEditing}
           onEndEditing={onEndEditing}
+          autoFocus={autoFocus}
+          onChangeText={onChangeText}
         />
       </View>
     </View>
@@ -48,6 +54,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h5,
     marginBottom: 9,
+    color: Colors.paragraph,
   },
   inputContainer: {
     backgroundColor: Colors.lightGray,

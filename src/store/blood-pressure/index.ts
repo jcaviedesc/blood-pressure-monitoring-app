@@ -15,7 +15,7 @@ const initialState: BloodPressureState = {
     bpm: '0',
     datetime: '',
   },
-  observations:'',
+  observations: '',
   lastMeasuring: '',
 };
 
@@ -41,11 +41,12 @@ export const bloodPressureSlice = createSlice({
     },
     addObservations: (state, action: PayloadAction<string>) => {
       state.observations = action.payload;
-    }
+    },
   },
 });
 
-export const { addRecord, updateCurrentRecord, addObservations } = bloodPressureSlice.actions;
+export const { addRecord, updateCurrentRecord, addObservations } =
+  bloodPressureSlice.actions;
 
 export const selectCurrentRecord = (state: RootState) =>
   state.bloodPressure.currentRecord;
@@ -53,6 +54,21 @@ export const selectCurrentRecord = (state: RootState) =>
 export const selectTotalRecords = (state: RootState): TotalRecords => {
   const totalRecords = state.bloodPressure.records.length;
   return { totalRecords, isMeasuringComplete: totalRecords % 2 > 0 };
+};
+
+export const selectResumeRecords = (state: RootState) => {
+  const totalRecords = state.bloodPressure.records.length;
+  let records = state.bloodPressure.records;
+  if (totalRecords > 2) {
+    records = state.bloodPressure.records.slice(0, 2);
+  }
+  const transformRecords = records.map(({ sys, dia, bpm }) => {
+    return {
+      bloodPressure: `${sys}/${dia} mmHg`,
+      heartRate: `${bpm} pul/min`,
+    };
+  });
+  return transformRecords;
 };
 
 export default bloodPressureSlice.reducer;

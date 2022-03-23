@@ -11,7 +11,6 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 import {
   BloodPressureInput,
   Button,
-  TextAreaInput,
   NumericVirtualKeyboard,
 } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -40,7 +39,8 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
   const SYSRef = useRef<TextInput>(null);
   const DIARef = useRef<TextInput>(null);
   const PULRef = useRef<TextInput>(null);
-  const [activeInput, setActiveInput] = useState<keyof BloodPressureRecord>('sys');
+  const [activeInput, setActiveInput] =
+    useState<keyof BloodPressureRecord>('sys');
   const [datatime, setDatatime] = useState(dayjs());
 
   const updateInput = useCallback(
@@ -69,7 +69,7 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
     SYSRef.current?.clear();
     dispatch(addRecord());
     if (isMeasuringComplete) {
-      // envia a pantalla de finalización
+      navigation.navigate('BloodPressure/MeasuringFinish');
     } else {
       navigation.navigate('BloodPressure/Wait1minute');
     }
@@ -98,7 +98,7 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             onFocus={() => {
               setActiveInput('sys');
             }}
-            onSubmitEditing={({ nativeEvent: { text } }) => {
+            onSubmitEditing={() => {
               DIARef.current?.focus();
             }}
           />
@@ -111,7 +111,7 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             onFocus={() => {
               setActiveInput('dia');
             }}
-            onSubmitEditing={({ nativeEvent: { text } }) => {
+            onSubmitEditing={() => {
               PULRef.current?.focus();
             }}
           />
@@ -129,9 +129,9 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
         <NumericVirtualKeyboard
           onKeyDown={num => {
             const activeInputVal = currentRecord[activeInput];
-            if(num == 'back' && activeInputVal.length > 0) {
+            if (num === 'back' && activeInputVal.length > 0) {
               updateInput(activeInput, activeInputVal.slice(0, -1));
-            } else if (activeInputVal.length < 4 && num != 'back') {
+            } else if (activeInputVal.length < 4 && num !== 'back') {
               updateInput(activeInput, `${activeInputVal}${num}`);
             }
           }}

@@ -5,7 +5,6 @@
     "confirm": "confirmar",
     "finish": "finalizar"
   },
-  "blood_pressure": "Presion Arterial",
   "login_screen": {
     "title": "Inicia sesión ingresando tu numero de celular",
     "not_account": "¿No tienes una cuenta?",
@@ -38,9 +37,16 @@
     "remaining": "Espera",
     "seconds": "Segundos"
   },
+  "blood_pressure_finish":{
+    "title": "Resumen",
+    "description": "Aqui puedes agregar informacion extra como sintomas o cualquier factor que pueda afectar la medición de la presión arterial"
+  },
   "loading": "Esperando",
   "yes": "SI",
   "not": "NO",
   "do_not_know": "NO SÉ",
-  "date": "Fecha"
+  "date": "Fecha",
+  "measuring": "Medición",
+  "blood_pressure": "Presión Arterial",
+  "heart_rate": "Ritmo cardiaco "
 }
