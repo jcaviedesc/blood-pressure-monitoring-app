@@ -13,8 +13,12 @@ type Props = {
   variableName: string;
   autoFocus?: boolean;
   refInput?: React.LegacyRef<TextInput>;
+  keyboardType?: TextInputProps['keyboardType'];
+  showSoftInputOnFocus: TextInputProps['showSoftInputOnFocus'];
   onSubmitEditing?: TextInputProps['onSubmitEditing'];
   onChangeText?: TextInputProps['onChangeText'];
+  value: string;
+  onFocus?: TextInputProps['onFocus'];
 };
 
 const BloodPressureInput: React.FC<Props> = ({
@@ -24,6 +28,10 @@ const BloodPressureInput: React.FC<Props> = ({
   refInput,
   onSubmitEditing,
   onChangeText,
+  keyboardType = 'numeric',
+  showSoftInputOnFocus = true,
+  value,
+  onFocus,
 }) => {
   return (
     <View style={styles.container}>
@@ -32,10 +40,13 @@ const BloodPressureInput: React.FC<Props> = ({
         autoFocus={autoFocus}
         style={styles.input}
         numberOfLines={1}
-        keyboardType="number-pad"
+        keyboardType={keyboardType}
+        showSoftInputOnFocus={showSoftInputOnFocus}
         maxLength={3}
         onSubmitEditing={onSubmitEditing}
         onChangeText={onChangeText}
+        value={value}
+        onFocus={onFocus}
       />
       <View style={styles.textContainer}>
         <Text style={styles.varText}>{variableName}</Text>

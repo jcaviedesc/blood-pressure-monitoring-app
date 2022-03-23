@@ -8,13 +8,19 @@ import utc from 'dayjs/plugin/utc';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { BloodPressureInput, Button, TextAreaInput } from '../../components';
+import {
+  BloodPressureInput,
+  Button,
+  TextAreaInput,
+  NumericVirtualKeyboard,
+} from '../../components';
 // import { saveBloodPressureRecord } from '../../thunks/blood-pressure';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
   updateCurrentRecord,
   addRecord,
   selectTotalRecords,
+  selectCurrentRecord,
 } from '../../store/blood-pressure';
 import type { BloodPressureRecord } from '../../store/blood-pressure/types';
 import { useFocusEffect } from '@react-navigation/native';
@@ -29,11 +35,13 @@ type Props = NativeStackScreenProps<
 const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const { isMeasuringComplete } = useAppSelector(selectTotalRecords);
+  const { sys, dia, bpm } = useAppSelector(selectCurrentRecord);
   const { translate } = useI18nLocate();
+
   const SYSRef = useRef<TextInput>(null);
   const DIARef = useRef<TextInput>(null);
   const PULRef = useRef<TextInput>(null);
-
+  const [activeInput, setActiveInput] = useState<string>('');
   const [datatime, setDatatime] = useState(dayjs());
 
   const updateInput = useCallback(
@@ -45,6 +53,7 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
+      setActiveInput('sys');
       const currentTime = dayjs();
       if (currentTime.diff(datatime, 'm') > 2) {
         updateInput('datetime', currentTime.utc().format());
@@ -69,8 +78,8 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.mainContainer}>
-      <ScrollView style={styles.content}>
-        <View style={styles.container}>
+      <ScrollView style={styles.container}>
+        <View style={styles.content}>
           <View style={styles.dateContainer}>
             <View style={styles.timeContainer}>
               <Text style={styles.timeText}>
@@ -83,11 +92,14 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
           </View>
           <BloodPressureInput
             refInput={SYSRef}
-            autoFocus
             variableName="SYS"
+            showSoftInputOnFocus={false}
             magnitude="mmHg"
+            value={sys}
+            onFocus={() => {
+              setActiveInput('sys');
+            }}
             onSubmitEditing={({ nativeEvent: { text } }) => {
-              updateInput('sys', text);
               DIARef.current?.focus();
             }}
           />
@@ -95,6 +107,11 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             refInput={DIARef}
             variableName="DIA"
             magnitude="mmHg"
+            showSoftInputOnFocus={false}
+            value={dia}
+            onFocus={() => {
+              setActiveInput('dia');
+            }}
             onSubmitEditing={({ nativeEvent: { text } }) => {
               updateInput('dia', text);
               PULRef.current?.focus();
@@ -104,14 +121,27 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             refInput={PULRef}
             variableName="PUL"
             magnitude="/MIN"
+            showSoftInputOnFocus={false}
+            value={bpm}
+            onFocus={() => {
+              setActiveInput('bpm');
+            }}
             onChangeText={text => {
               updateInput('bpm', text);
             }}
           />
-          <View style={styles.textAreaContainer}>
+          {/* <View style={styles.textAreaContainer}>
             <TextAreaInput title="Observaciones" />
-          </View>
+          </View> */}
         </View>
+        <NumericVirtualKeyboard
+          onChange={num => {
+            console.log(activeInput, typeof num, num);
+            if (num.length < 4) {
+              updateInput(activeInput, num);
+            }
+          }}
+        />
       </ScrollView>
       <View style={styles.section}>
         <Button title={translate('button.save')} onPress={saveRecord} />

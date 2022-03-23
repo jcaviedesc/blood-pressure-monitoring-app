@@ -11,6 +11,7 @@ import HeaderChart from './HeaderChart';
 import BloodPressureSlider from './BloodPressureSlider';
 import BloodPressureInput from './BloodPressureInput';
 import TextAreaInput from './TextAreaInput';
+import NumericVirtualKeyboard from './VirtualNumericKeyboard';
 
 export {
   Input,
@@ -26,4 +27,5 @@ export {
   BloodPressureSlider,
   BloodPressureInput,
   TextAreaInput,
+  NumericVirtualKeyboard,
 };
