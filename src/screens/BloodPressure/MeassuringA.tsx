@@ -35,13 +35,13 @@ type Props = NativeStackScreenProps<
 const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const { isMeasuringComplete } = useAppSelector(selectTotalRecords);
-  const { sys, dia, bpm } = useAppSelector(selectCurrentRecord);
+  const currentRecord = useAppSelector(selectCurrentRecord);
   const { translate } = useI18nLocate();
 
   const SYSRef = useRef<TextInput>(null);
   const DIARef = useRef<TextInput>(null);
   const PULRef = useRef<TextInput>(null);
-  const [activeInput, setActiveInput] = useState<string>('');
+  const [activeInput, setActiveInput] = useState<keyof BloodPressureRecord>('sys');
   const [datatime, setDatatime] = useState(dayjs());
 
   const updateInput = useCallback(
@@ -95,7 +95,7 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             variableName="SYS"
             showSoftInputOnFocus={false}
             magnitude="mmHg"
-            value={sys}
+            value={currentRecord.sys}
             onFocus={() => {
               setActiveInput('sys');
             }}
@@ -108,12 +108,11 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             variableName="DIA"
             magnitude="mmHg"
             showSoftInputOnFocus={false}
-            value={dia}
+            value={currentRecord.dia}
             onFocus={() => {
               setActiveInput('dia');
             }}
             onSubmitEditing={({ nativeEvent: { text } }) => {
-              updateInput('dia', text);
               PULRef.current?.focus();
             }}
           />
@@ -122,12 +121,9 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
             variableName="PUL"
             magnitude="/MIN"
             showSoftInputOnFocus={false}
-            value={bpm}
+            value={currentRecord.bpm}
             onFocus={() => {
               setActiveInput('bpm');
-            }}
-            onChangeText={text => {
-              updateInput('bpm', text);
             }}
           />
           {/* <View style={styles.textAreaContainer}>
@@ -135,10 +131,12 @@ const BloodPressureMeassuringV1: React.FC<Props> = ({ navigation }) => {
           </View> */}
         </View>
         <NumericVirtualKeyboard
-          onChange={num => {
-            console.log(activeInput, typeof num, num);
-            if (num.length < 4) {
-              updateInput(activeInput, num);
+          onKeyDown={num => {
+            const activeInputVal = currentRecord[activeInput];
+            if(num == 'back' && activeInputVal.length > 0) {
+              updateInput(activeInput, activeInputVal.slice(0, -1));
+            } else if (activeInputVal.length < 4 && num != 'back') {
+              updateInput(activeInput, `${activeInputVal}${num}`);
             }
           }}
         />

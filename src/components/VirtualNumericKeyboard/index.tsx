@@ -3,13 +3,13 @@ import { VirtualKeyboard } from 'react-native-screen-keyboard';
 import { StyleSheet, View } from 'react-native';
 
 type props = {
-  onChange: (num: string) => void;
+  onKeyDown: (num: string) => void;
 };
 
-const NumericVirtualKeyboard: React.FC<props> = ({ onChange }) => {
+const NumericVirtualKeyboard: React.FC<props> = ({ onKeyDown }) => {
   return (
     <View style={styles.container}>
-      <VirtualKeyboard onChange={onChange} />
+      <VirtualKeyboard onKeyDown={onKeyDown} />
     </View>
   );
 };

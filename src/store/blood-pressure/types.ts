@@ -1,7 +1,7 @@
 export type BloodPressureRecord = {
-  sys: number;
-  dia: number;
-  bpm: number;
+  sys: string;
+  dia: string;
+  bpm: string;
   datetime: string;
 };
 

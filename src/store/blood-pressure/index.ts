@@ -10,9 +10,9 @@ import type {
 const initialState: BloodPressureState = {
   records: [],
   currentRecord: {
-    sys: 0,
-    dia: 0,
-    bpm: 0,
+    sys: '0',
+    dia: '0',
+    bpm: '0',
     datetime: '',
   },
   lastMeasuring: '',
