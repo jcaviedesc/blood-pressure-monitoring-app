@@ -11,10 +11,23 @@ import {
 import rootReducer from './rootReducers';
 import { persistedReducer } from './configurePersistStore';
 import Api from '../services/api';
+import { setScreenLoading } from './app/appSlice';
 
 const clientApi = Api();
 
 const persistedReducerSetup = persistedReducer(rootReducer);
+
+const customMiddleWare = store => next => action => {
+  if (action.type.includes('pending')) {
+    store.dispatch(setScreenLoading(true));
+  } else if (
+    action.type.includes('rejected') ||
+    action.type.includes('fulfilled')
+  ) {
+    store.dispatch(setScreenLoading(false));
+  }
+  next(action);
+};
 
 const store = configureStore({
   reducer: persistedReducerSetup,
@@ -27,7 +40,7 @@ const store = configureStore({
       thunk: {
         extraArgument: clientApi,
       },
-    }),
+    }).concat(customMiddleWare),
 });
 
 export const persistor = persistStore(store);

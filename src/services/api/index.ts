@@ -1,7 +1,7 @@
 import axios, { AxiosPromise, AxiosRequestConfig, AxiosError } from 'axios';
 import { API_URL } from 'react-native-dotenv';
 import auth from '@react-native-firebase/auth';
-import type { RegisterUser } from './types';
+import type { RegisterUser, BPbody } from './types';
 
 const handleError = (error: AxiosError) => {
   if (error.response) {
@@ -74,7 +74,7 @@ const create = (baseURL = API_URL) => {
   const registerUser = (data: RegisterUser): AxiosPromise =>
     api.post('/users', data);
 
-  const registerBloodPressureRecord = (data: RegisterUser): AxiosPromise =>
+  const registerBloodPressureRecord = (data: BPbody): AxiosPromise =>
     api.post('/blood-pressure/', data);
 
   // ------

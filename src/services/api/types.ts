@@ -24,7 +24,7 @@ export type BPRecord = {
   datetime: string;
 };
 
-export type BPMeasuring = {
+export type BPbody = {
   records: BPRecord[];
   xmsg?: string;
   datetime: string;

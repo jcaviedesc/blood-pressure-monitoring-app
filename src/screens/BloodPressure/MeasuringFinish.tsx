@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { saveBloodPressureRecord } from '../../thunks/blood-pressure';
+import { postRequestBloodPressure } from '../../thunks/blood-pressure';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
   addObservations,
@@ -23,7 +23,9 @@ const BloodPressureMeasuringFinish: React.FC<Props> = ({ navigation }) => {
   const records = useAppSelector(selectResumeRecords);
 
   const onSaveRecord = () => {
-    dispatch(saveBloodPressureRecord({ navigation }));
+    dispatch(postRequestBloodPressure(navigation)).then(result => {
+      console.log(result);
+    });
   };
 
   return (

@@ -1,10 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View, TextInput } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-// TODO import according to i18n
-import 'dayjs/locale/es-mx';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
@@ -21,9 +18,7 @@ import {
   selectCurrentRecord,
 } from '../../store/blood-pressure';
 import type { BloodPressureRecord } from '../../store/blood-pressure/types';
-import { useFocusEffect } from '@react-navigation/native';
-
-dayjs.extend(utc);
+import dayjs from '../../services/DatatimeUtil';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,

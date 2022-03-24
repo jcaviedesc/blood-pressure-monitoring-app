@@ -1,10 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../configureStore';
-import type {
-  BloodPressureState,
-  updateCurrentRecordAction,
-  TotalRecords,
-} from './types';
+import type { BloodPressureState, updateCurrentRecordAction } from './types';
+export * from './selectors';
+import { postRequestBloodPressure } from '../../thunks/blood-pressure';
 
 /* ------------- blood pressure Initial State ------------- */
 const initialState: BloodPressureState = {
@@ -43,32 +40,14 @@ export const bloodPressureSlice = createSlice({
       state.observations = action.payload;
     },
   },
+  extraReducers: builder => {
+    builder.addCase(postRequestBloodPressure.fulfilled, state => {
+      state.records = state.records.slice(2);
+    });
+  },
 });
 
 export const { addRecord, updateCurrentRecord, addObservations } =
   bloodPressureSlice.actions;
-
-export const selectCurrentRecord = (state: RootState) =>
-  state.bloodPressure.currentRecord;
-
-export const selectTotalRecords = (state: RootState): TotalRecords => {
-  const totalRecords = state.bloodPressure.records.length;
-  return { totalRecords, isMeasuringComplete: totalRecords % 2 > 0 };
-};
-
-export const selectResumeRecords = (state: RootState) => {
-  const totalRecords = state.bloodPressure.records.length;
-  let records = state.bloodPressure.records;
-  if (totalRecords > 2) {
-    records = state.bloodPressure.records.slice(0, 2);
-  }
-  const transformRecords = records.map(({ sys, dia, bpm }) => {
-    return {
-      bloodPressure: `${sys}/${dia} mmHg`,
-      heartRate: `${bpm} pul/min`,
-    };
-  });
-  return transformRecords;
-};
 
 export default bloodPressureSlice.reducer;
