@@ -14,7 +14,6 @@ import auth from '@react-native-firebase/auth';
 import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { RouteName } from '../../router/routeNames';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Button } from '../../components';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
@@ -23,11 +22,10 @@ import { useAppSelector } from '../../hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale } from '../../store/app/appSlice';
 
-interface Props
-  extends NativeStackScreenProps<RootStackParamList, RouteName.SINGUP> {
+interface Props extends NativeStackScreenProps<RootStackParamList, 'Login'> {
   setLoading: (state: boolean) => void;
 }
-
+// TODO refactor P1
 const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
   const { translate } = useI18nLocate();
   const { countryCode } = useAppSelector(selectAppLocale);
@@ -95,11 +93,14 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
         barStyle="dark-content"
       />
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{translate('login_screen.title')}</Text>
+        <Text style={styles.titleScreen}>
+          {translate('login_screen.title')}
+        </Text>
       </View>
       <View style={styles.bodyContainer}>
         <View style={styles.section}>
           <PhoneInputWrapper
+            title={translate('login_screen.subtitle')}
             initialCountry={countryCode}
             value={phone}
             onPhoneInputChange={phoneNumer => {
@@ -107,14 +108,6 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
             }}
             autoFocus
           />
-          {/* <Input
-            keyboardType="number-pad"
-            value={phone}
-            onChangeText={text => {
-              setPhone(text);
-            }}
-            autoFocus
-          /> */}
         </View>
       </View>
 
@@ -148,13 +141,6 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
-  title: {
-    fontSize: Fonts.size.h3,
-    lineHeight: Fonts.size.h3 + 4,
-    color: Colors.headline,
-    textAlign: 'left',
-    fontFamily: Fonts.type.bold,
-  },
   titleContainer: {
     flex: 20,
     marginTop: 50,

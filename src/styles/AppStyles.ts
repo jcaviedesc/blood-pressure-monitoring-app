@@ -13,7 +13,7 @@ interface IApplicationStyles {
     content: ViewStyle;
     section: ViewStyle;
     titleContainer: ViewStyle;
-    titleText: TextStyle;
+    titleScreen: TextStyle;
   };
 }
 
@@ -43,11 +43,11 @@ const ApplicationStyles: IApplicationStyles = {
       marginBottom: 31,
       marginTop: 21,
     },
-    titleText: {
+    titleScreen: {
       fontFamily: Fonts.type.bold,
       color: Colors.headline,
       fontSize: Fonts.size.h1,
-      textAlign: 'center',
+      textAlign: 'left',
     },
   },
 };

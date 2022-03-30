@@ -23,9 +23,7 @@ const BloodPressureMeasuringFinish: React.FC<Props> = ({ navigation }) => {
   const records = useAppSelector(selectResumeRecords);
 
   const onSaveRecord = () => {
-    dispatch(postRequestBloodPressure(navigation)).then(result => {
-      console.log(result);
-    });
+    dispatch(postRequestBloodPressure(navigation));
   };
 
   return (

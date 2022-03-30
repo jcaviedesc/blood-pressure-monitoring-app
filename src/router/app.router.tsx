@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import {
-  createStackNavigator,
-  StackHeaderProps,
-} from '@react-navigation/stack';
+  createNativeStackNavigator,
+  NativeStackHeaderProps,
+} from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
 import type { RootStackParamList } from './types';
 import { RouteName } from './routeNames';
@@ -28,7 +28,7 @@ import BloodPressureMeasuringFinish from '../screens/BloodPressure/MeasuringFini
 // import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate'; // v2
 import ProfileScreen from '../screens/Profile';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 type AppProps = {
   onReady: (() => void) | undefined;
@@ -38,8 +38,12 @@ function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
       <Stack.Navigator
-        initialRouteName="BloodPressure/MeasuringFinish"
-        screenOptions={{ headerStyle: styles.header, gestureEnabled: true }}>
+        initialRouteName="Splash"
+        screenOptions={{
+          headerStyle: styles.header,
+          gestureEnabled: true,
+          presentation: 'modal',
+        }}>
         <Stack.Screen
           name="Splash"
           component={SplashScreen}
@@ -70,7 +74,7 @@ function App({ onReady }: AppProps) {
               route,
               options,
               back,
-            }: StackHeaderProps) => {
+            }: NativeStackHeaderProps) => {
               return options.showStepHeader ? (
                 renderSingUpHeader(navigation, route, options, back, {
                   nsteps: 5,

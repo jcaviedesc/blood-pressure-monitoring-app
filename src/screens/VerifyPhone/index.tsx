@@ -2,18 +2,20 @@ import React, { useCallback, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
-import type { RootStackParamList } from '../../router/types';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import type { RootStackParamList } from '../../router/types';
 import { VerifyCode } from '../../components';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { useAppDispatch } from '../../hooks';
 import { changeUserSessionState } from '../../store/app/appSlice';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
 
 const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   const { verificationType } = route.params;
+  const { translate } = useI18nLocate();
   useFocusEffect(
     useCallback(() => {
       if (verificationType === 'SingUp') {
@@ -34,7 +36,9 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   }, [navigation, verificationType, dispatch]);
 
   // If null, no SMS has been sent
-  const { confirm } = useConfirmPhone();
+  const {
+    values: { confirm, phone },
+  } = useConfirmPhone();
   // Handle user state changes
   const onAuthStateChanged = useCallback(
     (user: FirebaseAuthTypes.User | null) => {
@@ -64,17 +68,25 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <View style={[styles.content, styles.contentExtra]}>
-        <Text style={styles.title}>
-          Te enviamos un código para verificar tu numero de celuar
-        </Text>
+        <View>
+          <Text style={styles.titleScreen}>
+            {translate('verify_phone.title')}
+          </Text>
+        </View>
+        <View>
+          <Text style={styles.subtitle}>
+            {translate('verify_phone.subtitle', { phone })}
+          </Text>
+        </View>
         <VerifyCode
           onCompleteCode={(code: string) => {
             confirmCode(code);
           }}
         />
-        <Text style={styles.noCode}>¿No recibiste el código?</Text>
+        <Text style={styles.noCode}>{translate('verify_phone.no_code')}</Text>
         <TouchableOpacity style={styles.resend}>
-          <Text>Reenviar en: 00: 05</Text>
+          {/* TODO add timer */}
+          <Text>{translate('verify_phone.resend', { time: '1:00' })}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -86,10 +98,9 @@ const styles = StyleSheet.create({
   contentExtra: {
     paddingTop: Metrics.screenHeight / 10,
   },
-  title: {
-    ...Fonts.style.h4,
-    textAlign: 'center',
-    color: Colors.gray300,
+  subtitle: {
+    ...Fonts.style.normal,
+    color: Colors.paragraph,
     marginBottom: 21,
   },
   codeContainer: {

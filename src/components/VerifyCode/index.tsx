@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { TextInput, View, StyleSheet } from "react-native";
-import { Colors, Fonts, Metrics } from "../../styles";
+import React, { useEffect, useRef, useState } from 'react';
+import { TextInput, View, StyleSheet } from 'react-native';
+import { Colors, Fonts, Metrics } from '../../styles';
 
 type Props = {
   onCompleteCode: (code: string) => void;
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 6,
-    color: Colors.primary,
+    color: Colors.headline,
     fontFamily: Fonts.type.bold,
     fontSize: Fonts.size.h1,
     textAlign: 'center',

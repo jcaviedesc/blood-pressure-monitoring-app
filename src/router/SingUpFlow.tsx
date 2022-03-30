@@ -1,5 +1,5 @@
 import React from 'react';
-import { StackHeaderProps } from '@react-navigation/stack';
+import { NativeStackHeaderProps } from '@react-navigation/native-stack';
 import { getHeaderTitle, HeaderBackButton } from '@react-navigation/elements';
 import { StepsHeader } from '../components/Layout';
 import { RouteName } from './routeNames';
@@ -12,10 +12,10 @@ import SelectUserTypeScreen from '../screens/SingUp/SelectUserType';
 import HealtInfoScreen from '../screens/SingUp/HealtInfo';
 
 export const renderSingUpHeader = (
-  navigation: StackHeaderProps['navigation'],
-  route: StackHeaderProps['route'],
-  options: StackHeaderProps['options'],
-  back: StackHeaderProps['back'],
+  navigation: NativeStackHeaderProps['navigation'],
+  route: NativeStackHeaderProps['route'],
+  options: NativeStackHeaderProps['options'],
+  back: NativeStackHeaderProps['back'],
   step: { nsteps: number; activeStep: number },
 ) => {
   const title = getHeaderTitle(options, route.name);
@@ -35,7 +35,12 @@ const SingUpFlow = {
   [RouteName.SINGUP]: {
     component: SingUpScreen,
     options: {
-      header: ({ navigation, route, options, back }: StackHeaderProps) => {
+      header: ({
+        navigation,
+        route,
+        options,
+        back,
+      }: NativeStackHeaderProps) => {
         return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 6,
           activeStep: 1,
@@ -46,7 +51,12 @@ const SingUpFlow = {
   [RouteName.SELECT_GENDER]: {
     component: SelectGenderScreen,
     options: {
-      header: ({ navigation, route, options, back }: StackHeaderProps) => {
+      header: ({
+        navigation,
+        route,
+        options,
+        back,
+      }: NativeStackHeaderProps) => {
         return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 6,
           activeStep: 3,
@@ -57,7 +67,12 @@ const SingUpFlow = {
   [RouteName.BASIC_INFO]: {
     component: BasicInfoScreen,
     options: {
-      header: ({ navigation, route, options, back }: StackHeaderProps) => {
+      header: ({
+        navigation,
+        route,
+        options,
+        back,
+      }: NativeStackHeaderProps) => {
         return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 6,
           activeStep: 4,
@@ -68,7 +83,12 @@ const SingUpFlow = {
   'Singup/SelectUserType': {
     component: SelectUserTypeScreen,
     options: {
-      header: ({ navigation, route, options, back }: StackHeaderProps) => {
+      header: ({
+        navigation,
+        route,
+        options,
+        back,
+      }: NativeStackHeaderProps) => {
         return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 6,
           activeStep: 5,
@@ -79,7 +99,12 @@ const SingUpFlow = {
   'Singup/HealtInfo': {
     component: HealtInfoScreen,
     options: {
-      header: ({ navigation, route, options, back }: StackHeaderProps) => {
+      header: ({
+        navigation,
+        route,
+        options,
+        back,
+      }: NativeStackHeaderProps) => {
         return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 6,
           activeStep: 6,
@@ -90,7 +115,12 @@ const SingUpFlow = {
   [RouteName.PROFILE_PICTURE]: {
     component: SelectProfilePictureScreen,
     options: {
-      header: ({ navigation, route, options, back }: StackHeaderProps) => {
+      header: ({
+        navigation,
+        route,
+        options,
+        back,
+      }: NativeStackHeaderProps) => {
         return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 6,
           activeStep: 6,

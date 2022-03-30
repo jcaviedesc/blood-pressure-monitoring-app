@@ -42,7 +42,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(setScreenLoading(true));
     try {
       const confirmation = await auth().signInWithPhoneNumber(phone);
-      setConfirm(confirmation);
+      setConfirm({ confirmation, phone });
       navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
     } catch (error) {
       // TODO Senty

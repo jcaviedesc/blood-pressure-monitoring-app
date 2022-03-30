@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 interface IConfirmPhoneContenxt {
-  confirm: null | FirebaseAuthTypes.ConfirmationResult;
+  values: {
+    phone: string;
+    confirm: null | FirebaseAuthTypes.ConfirmationResult;
+  };
   setConfirm:
     | Function
     | React.Dispatch<
@@ -10,7 +13,7 @@ interface IConfirmPhoneContenxt {
       >;
 }
 const ConfirmPhoneContext = React.createContext({
-  confirm: null,
+  values: { confirm: null, phone: '' },
   setConfirm: () => {},
 } as IConfirmPhoneContenxt);
 
@@ -19,10 +22,10 @@ interface IConfirmPhoneProvider {
 }
 
 const ConfirmPhoneProvider = ({ children }: IConfirmPhoneProvider) => {
-  const [confirm, setConfirm] = useState(null);
+  const [values, setConfirm] = useState({ confirm: null, phone: '' });
   // NOTE: you *might* need to memoize this value
   // Learn more in http://kcd.im/optimize-context
-  const value = { confirm, setConfirm };
+  const value = { values, setConfirm };
   return (
     <ConfirmPhoneContext.Provider value={value}>
       {children}
