@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
+interface IconfirmValues {
+  phone: string;
+  confirm: null | FirebaseAuthTypes.ConfirmationResult;
+}
+
+interface IsetConfirm {
+  confirm: React.SetStateAction<FirebaseAuthTypes.ConfirmationResult>;
+  phone: string;
+}
 interface IConfirmPhoneContenxt {
-  values: {
-    phone: string;
-    confirm: null | FirebaseAuthTypes.ConfirmationResult;
-  };
-  setConfirm:
-    | Function
-    | React.Dispatch<
-        React.SetStateAction<FirebaseAuthTypes.ConfirmationResult>
-      >;
+  values: IconfirmValues;
+  setConfirm: Function | React.Dispatch<IsetConfirm>;
 }
 const ConfirmPhoneContext = React.createContext({
   values: { confirm: null, phone: '' },

@@ -18,16 +18,15 @@ import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Button } from '../../components';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { PhoneInputWrapper } from '../../wrappers';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { selectAppLocale } from '../../store/app/appSlice';
+import { selectAppLocale, setScreenLoading } from '../../store/app/appSlice';
 
-interface Props extends NativeStackScreenProps<RootStackParamList, 'Login'> {
-  setLoading: (state: boolean) => void;
-}
+type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 // TODO refactor P1
-const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
+const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
+  const dispatch = useAppDispatch();
   const { countryCode } = useAppSelector(selectAppLocale);
   const isDarkMode = useColorScheme() === 'dark';
   const [phone, setPhone] = useState('');
@@ -35,12 +34,10 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
   const { setConfirm } = useConfirmPhone();
 
   async function navigate() {
-    setLoading(true);
+    dispatch(setScreenLoading(true));
     try {
-      const confirmation = await auth().signInWithPhoneNumber(
-        phone.split(' ')[1],
-      );
-      setConfirm(confirmation);
+      const confirm = await auth().signInWithPhoneNumber(phone);
+      setConfirm({ confirm, phone });
       setPhone('');
       navigation.navigate('VerifyPhone', {
         verificationType: 'Login',
@@ -48,7 +45,7 @@ const LoginScreen: React.FC<Props> = ({ navigation, setLoading }) => {
     } catch (error) {
       // TODO add sentry or other platform for track error
     } finally {
-      setLoading(false);
+      dispatch(setScreenLoading(false));
     }
   }
 

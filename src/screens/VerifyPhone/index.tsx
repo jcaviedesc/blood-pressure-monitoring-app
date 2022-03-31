@@ -67,14 +67,14 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
 
   return (
     <View style={styles.mainContainer}>
-      <View style={[styles.content, styles.contentExtra]}>
-        <View>
+      <View style={styles.content}>
+        <View style={styles.titleContainer}>
           <Text style={styles.titleScreen}>
             {translate('verify_phone.title')}
           </Text>
         </View>
         <View>
-          <Text style={styles.subtitle}>
+          <Text style={styles.subTitleScreen}>
             {translate('verify_phone.subtitle', { phone })}
           </Text>
         </View>
@@ -95,14 +95,6 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
-  contentExtra: {
-    paddingTop: Metrics.screenHeight / 10,
-  },
-  subtitle: {
-    ...Fonts.style.normal,
-    color: Colors.paragraph,
-    marginBottom: 21,
-  },
   codeContainer: {
     flexDirection: 'row',
     height: 80,

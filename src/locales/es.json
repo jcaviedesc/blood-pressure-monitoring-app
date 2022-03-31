@@ -18,6 +18,8 @@
     "singup": "Registrarme"
   },
   "singup_screen": {
+    "title": "Registro",
+    "subtitle": "Gracias por tomarte el tiempo de crear una cuenta con nosotros. Aquí empieza la parte divertida",
     "full_name": "Nombre completo",
     "phone_number": "Numero de celuar",
     "address": "Dirección de donde vives",

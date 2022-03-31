@@ -14,6 +14,7 @@ interface IApplicationStyles {
     section: ViewStyle;
     titleContainer: ViewStyle;
     titleScreen: TextStyle;
+    subTitleScreen: TextStyle;
   };
 }
 
@@ -47,7 +48,11 @@ const ApplicationStyles: IApplicationStyles = {
       fontFamily: Fonts.type.bold,
       color: Colors.headline,
       fontSize: Fonts.size.h1,
-      textAlign: 'left',
+      textAlign: 'center',
+    },
+    subTitleScreen: {
+      ...Fonts.style.normal,
+      color: Colors.paragraph,
     },
   },
 };

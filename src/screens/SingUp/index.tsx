@@ -41,8 +41,8 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
     // add validation
     dispatch(setScreenLoading(true));
     try {
-      const confirmation = await auth().signInWithPhoneNumber(phone);
-      setConfirm({ confirmation, phone });
+      const confirm = await auth().signInWithPhoneNumber(phone);
+      setConfirm({ confirm, phone });
       navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
     } catch (error) {
       // TODO Senty
@@ -62,68 +62,74 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
         hidden={false}
         barStyle="dark-content"
       />
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>
-          Registrate en Tracking BP y empieza un seguimiento de tu presión
-          arterial
-        </Text>
-      </View>
-      <View style={styles.bodyContainer}>
-        <View style={styles.section}>
-          <Input
-            title={translate('singup_screen.full_name')}
-            value={fullName}
-            onChangeText={text => {
-              dispatchAction('fullName', text);
-            }}
-            autoFocus
-          />
+      <View style={styles.content}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleScreen}>
+            {translate('singup_screen.title')}
+          </Text>
         </View>
-
-        <View style={styles.section}>
-          <PhoneInputWrapper
-            title={translate('singup_screen.phone_number')}
-            initialCountry={countryCode}
-            value={phone}
-            onPhoneInputChange={phoneNumer => {
-              dispatchAction('phone', phoneNumer);
-            }}
-          />
+        <View style={styles.subtitleContainer}>
+          <Text style={styles.subTitleScreen}>
+            {translate('singup_screen.subtitle', { app_name: 'Betty' })}
+          </Text>
         </View>
-        <View style={styles.section}>
-          <Input
-            title={translate('singup_screen.address')}
-            value={address}
-            onChangeText={text => {
-              dispatchAction('address', text);
-            }}
-            hint="Ejemplo. Vereda Calucata, La mesa, cundinamarca"
-          />
-        </View>
-      </View>
-
-      <View style={styles.footer}>
-        <Button
-          title={translate('button.next')}
-          onPress={() => {
-            nextRoute();
-          }}
-        />
-        <View style={styles.allreadyAccount}>
-          <View>
-            <Text style={styles.allreadyAccountText}>
-              {translate('singup_screen.all_ready_account')}
-            </Text>
+        <View style={styles.bodyContainer}>
+          <View style={styles.inputSection}>
+            <Input
+              title={translate('singup_screen.full_name')}
+              value={fullName}
+              onChangeText={text => {
+                dispatchAction('fullName', text);
+              }}
+              autoFocus
+            />
           </View>
-          <TouchableHighlight
-            underlayColor={Colors.background}
+
+          <View style={styles.inputSection}>
+            <PhoneInputWrapper
+              title={translate('singup_screen.phone_number')}
+              initialCountry={countryCode}
+              value={phone}
+              onPhoneInputChange={phoneNumer => {
+                dispatchAction('phone', phoneNumer);
+              }}
+            />
+          </View>
+          <View style={styles.inputSection}>
+            <Input
+              title={translate('singup_screen.address')}
+              value={address}
+              onChangeText={text => {
+                dispatchAction('address', text);
+              }}
+              hint="Ejemplo. Vereda Calucata, La mesa, cundinamarca"
+            />
+          </View>
+        </View>
+
+        <View style={styles.footer}>
+          <Button
+            title={translate('button.next')}
             onPress={() => {
-              navigation.navigate('Login', { from: 'Login' });
-            }}>
-            <Text style={[styles.allreadyAccountText, styles.loginText]}>
-              {translate('singup_screen.log_in')}
-            </Text>
-          </TouchableHighlight>
+              nextRoute();
+            }}
+          />
+          <View style={styles.allreadyAccount}>
+            <View>
+              <Text style={styles.allreadyAccountText}>
+                {translate('singup_screen.all_ready_account')}
+              </Text>
+            </View>
+            <TouchableHighlight
+              underlayColor={Colors.background}
+              onPress={() => {
+                navigation.navigate('Login', { from: 'Login' });
+              }}>
+              <Text style={[styles.allreadyAccountText, styles.loginText]}>
+                {translate('singup_screen.log_in')}
+              </Text>
+            </TouchableHighlight>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -132,17 +138,15 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
-  title: {
-    fontSize: Fonts.size.h3,
-    lineHeight: Fonts.size.h3 + 4,
-    color: Colors.headline,
-    textAlign: 'left',
-    fontFamily: Fonts.type.bold,
-  },
   titleContainer: {
     flex: 20,
-    marginBottom: 42,
-    paddingHorizontal: Metrics.marginHorizontal,
+  },
+  subtitleContainer: {
+    marginTop: 9,
+    marginBottom: 15,
+  },
+  inputSection: {
+    marginTop: 12,
   },
   bodyContainer: {
     flex: 40,
@@ -151,7 +155,6 @@ const styles = StyleSheet.create({
     flex: 20,
     paddingTop: 60,
     paddingBottom: 30,
-    paddingHorizontal: Metrics.marginHorizontal,
     justifyContent: 'flex-end',
   },
   allreadyAccount: {
