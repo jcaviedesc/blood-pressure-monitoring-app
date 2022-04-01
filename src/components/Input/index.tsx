@@ -21,6 +21,7 @@ type InputProps = {
   hint?: string;
   rigthComponent?: Element;
   autoFocus?: boolean;
+  hasError?: boolean;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -35,6 +36,7 @@ const Input: React.FC<InputProps> = ({
   hint,
   rigthComponent,
   autoFocus,
+  hasError = false,
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const onFocuesHandler = () => {
@@ -55,7 +57,11 @@ const Input: React.FC<InputProps> = ({
         style={{
           ...styles.inputContainer,
           backgroundColor: isDarkMode ? Colors.darkGrayMode : Colors.lightGray,
-          borderColor: isDarkMode ? Colors.darkGrayMode : Colors.lightGray,
+          borderColor: isDarkMode
+            ? Colors.darkGrayMode
+            : hasError
+            ? Colors.error
+            : Colors.lightGray,
         }}>
         <TextInput
           style={styles.input}
@@ -86,7 +92,6 @@ const styles = StyleSheet.create({
     height: 48,
     minHeight: 48,
     flexDirection: 'row',
-    borderColor: Colors.lightGray,
     borderRadius: 5,
     borderStyle: 'solid',
     borderWidth: 1,

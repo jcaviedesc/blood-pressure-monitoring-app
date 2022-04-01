@@ -178,7 +178,7 @@ function App({ onReady }: AppProps) {
           <Stack.Screen
             key={name}
             options={params.options}
-            name={name}
+            name={name as keyof RootStackParamList}
             component={params.component}
           />
         ))}

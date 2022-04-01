@@ -16,7 +16,6 @@ type StepsHeaderProps = {
   step: StepProps;
   leftButton: React.ComponentType<any> | Element | undefined;
   style: StyleProp<ViewStyle>;
-  showStepHeader: string;
 };
 
 const StepsHeader: React.FC<StepsHeaderProps> = ({

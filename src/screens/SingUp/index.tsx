@@ -8,11 +8,11 @@ import {
   TouchableHighlight,
   StatusBar,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
+import _ from 'lodash';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
-import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
+import { AppStyles, Colors, Fonts } from '../../styles';
 import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
@@ -20,6 +20,7 @@ import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { PhoneInputWrapper } from '../../wrappers';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale, setScreenLoading } from '../../store/app/appSlice';
+import validator, { ajv } from './schemaValidators/singup';
 
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
 
@@ -39,17 +40,22 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
 
   async function nextRoute() {
     // add validation
-    dispatch(setScreenLoading(true));
-    try {
-      const confirm = await auth().signInWithPhoneNumber(phone);
-      setConfirm({ confirm, phone });
-      navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
-    } catch (error) {
-      // TODO Senty
-      console.log(error);
-    } finally {
-      dispatch(setScreenLoading(false));
-    }
+    const formValues = _.omitBy({ fullName, phone, address }, _.isEmpty);
+    console.log(formValues);
+    const validtionResult = validator(formValues);
+    const textE = ajv.errorsText(validator.errors);
+    console.log(textE, validator.errors);
+    // dispatch(setScreenLoading(true));
+    // try {
+    //   const confirm = await auth().signInWithPhoneNumber(phone);
+    //   setConfirm({ confirm, phone });
+    //   navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
+    // } catch (error) {
+    //   // TODO Senty
+    //   console.log(error);
+    // } finally {
+    //   dispatch(setScreenLoading(false));
+    // }
   }
 
   return (
@@ -82,6 +88,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
                 dispatchAction('fullName', text);
               }}
               autoFocus
+              hasError
             />
           </View>
 
