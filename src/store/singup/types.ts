@@ -15,28 +15,24 @@ type Picture = {
   uri: string;
   type: string;
 };
-
-export type userState = {
+export interface SingUpState {
   fullName: string;
+  docId: string; // cedula, dni, documento de identificaion
   phone: string;
   address: string;
   location: number[];
   gender: Gender | '';
   weight: string;
-  stature: string;
+  height: string;
   birthdate: string;
   userType: 'healthUser' | 'normalUser' | '';
   healtInfo: HealtInfo;
   picture: Picture;
-};
-export interface SingUpState {
-  user: userState;
-  loading: boolean;
 }
 
 export type updateUserFieldType = {
-  field: keyof userState;
-  value: number[] | '' | string | Date | Picture;
+  field: keyof SingUpState;
+  value: number[] & '' & string & Date & Picture;
 };
 
 export type HealtInfoAction = {
