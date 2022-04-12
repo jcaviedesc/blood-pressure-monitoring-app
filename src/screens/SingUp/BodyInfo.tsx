@@ -7,7 +7,7 @@ import { AppStyles, Colors, Fonts } from '../../styles';
 import { updateUserField } from '../../store/singup/singupSlice';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppDispatch } from '../../hooks';
-import { Button } from '../../components';
+import { Button, HeightSlider } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup/BodyInfo'>;
 
@@ -25,6 +25,7 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.bodyScreenContent}>
+        <HeightSlider />
         <SwiperUnits
           title={translate('weight')}
           titleStyles={styles.titleWeight}

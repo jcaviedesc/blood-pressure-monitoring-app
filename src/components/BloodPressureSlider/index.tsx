@@ -25,7 +25,7 @@ const BloodPressureSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
         customLabel={CustomLabel}
         min={min}
         max={max}
-        sliderLength={Metrics.screenHeight - DIFFERENCE - 10}
+        sliderLength={400}
         // snapped
         onValuesChangeFinish={values => {
           setValue(values);

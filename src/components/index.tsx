@@ -12,6 +12,7 @@ import BloodPressureSlider from './BloodPressureSlider';
 import BloodPressureInput from './BloodPressureInput';
 import TextAreaInput from './TextAreaInput';
 import NumericVirtualKeyboard from './VirtualNumericKeyboard';
+import HeightSlider from './HeightSlider';
 
 export {
   Input,
@@ -28,4 +29,5 @@ export {
   BloodPressureInput,
   TextAreaInput,
   NumericVirtualKeyboard,
+  HeightSlider,
 };
