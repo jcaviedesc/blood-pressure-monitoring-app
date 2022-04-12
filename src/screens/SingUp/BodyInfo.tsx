@@ -12,9 +12,11 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.mainContainer}>
       <View>
         <SwiperUnits
-          range={[5, 15]}
+          range={[5, 21]}
           unitStyles={styles.weightUnit}
+          activeUnitStyles={styles.activeWeightUnit}
           magnitudeSyles={styles.magnitude}
+          onActiveItem={activeItem => {}}
         />
       </View>
     </View>
@@ -28,6 +30,9 @@ const styles = StyleSheet.create({
     fontSize: Fonts.size.h5,
     color: Colors.paragraph,
     textAlign: 'center',
+  },
+  activeWeightUnit: {
+    color: Colors.headline,
   },
   magnitude: {
     fontFamily: Fonts.type.regular,
