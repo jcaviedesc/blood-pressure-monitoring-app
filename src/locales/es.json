@@ -57,5 +57,6 @@
   "date": "Fecha",
   "measuring": "Medición",
   "blood_pressure": "Presión Arterial",
-  "heart_rate": "Ritmo cardiaco "
+  "heart_rate": "Ritmo cardiaco ",
+  "weight": "Peso"
 }

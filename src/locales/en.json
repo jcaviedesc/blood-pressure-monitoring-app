@@ -35,5 +35,6 @@
   "yes": "SI",
   "not": "NO",
   "do_not_know": "NO SÉ",
-  "date": "Date"
+  "date": "Date",
+  "weight": "Peso"
 }

@@ -12,6 +12,8 @@ import { SwiperUnit } from './components/SwiperUnit';
 import { SideEmpty } from './components/SideEmpty';
 
 type Props = {
+  title: string;
+  titleStyles: TextStyle;
   range: [number, number];
   unitStyles: TextStyle;
   activeUnitStyles: TextStyle;
@@ -25,6 +27,8 @@ const DELTA_X = 20.5;
 const DELTA_INDICATOR = 48;
 
 const SwiperUnits: React.FC<Props> = ({
+  title,
+  titleStyles,
   range,
   unitStyles,
   activeUnitStyles,
@@ -78,26 +82,31 @@ const SwiperUnits: React.FC<Props> = ({
   }, [units, initialUnitIndex]);
 
   return (
-    <View style={styles.swiperContainer}>
-      <FlatList
-        ListHeaderComponent={<SideEmpty width={ITEM_WIDTH * 3} />}
-        ListFooterComponent={
-          <SideEmpty width={ITEM_WIDTH * 3 - DELTA_INDICATOR} />
-        }
-        keyExtractor={item => `${item}`}
-        data={units}
-        renderItem={_renderItem}
-        horizontal
-        // onViewableItemsChanged={onViewableItemsChanged}
-        getItemLayout={_getItemLayout}
-        initialScrollIndex={handlerInitialScrollIndex()}
-        extraData={activeItem}
-        showsHorizontalScrollIndicator={false}
-        viewabilityConfig={{
-          itemVisiblePercentThreshold: 90,
-        }}
-        onScroll={handleScroll}
-      />
+    <View>
+      <View style={styles.titleContainer}>
+        <Text style={titleStyles}>{title}</Text>
+      </View>
+      <View style={styles.swiperContainer}>
+        <FlatList
+          ListHeaderComponent={<SideEmpty width={ITEM_WIDTH * 3} />}
+          ListFooterComponent={
+            <SideEmpty width={ITEM_WIDTH * 3 - DELTA_INDICATOR} />
+          }
+          keyExtractor={item => `${item}`}
+          data={units}
+          renderItem={_renderItem}
+          horizontal
+          // onViewableItemsChanged={onViewableItemsChanged}
+          getItemLayout={_getItemLayout}
+          initialScrollIndex={handlerInitialScrollIndex()}
+          extraData={activeItem}
+          showsHorizontalScrollIndicator={false}
+          viewabilityConfig={{
+            itemVisiblePercentThreshold: 90,
+          }}
+          onScroll={handleScroll}
+        />
+      </View>
       <View style={styles.lineIndicatorContainer}>
         <View style={styles.magnitudeContainer}>
           <Text style={magnitudeSyles}>kg</Text>
@@ -109,6 +118,10 @@ const SwiperUnits: React.FC<Props> = ({
 };
 
 const styles = StyleSheet.create({
+  titleContainer: {
+    marginHorizontal: 20,
+    marginBottom: 9,
+  },
   swiperContainer: {
     height: 90,
     position: 'relative',
@@ -121,7 +134,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: 'rgba(6,6,6, 0.4)',
+    // backgroundColor: 'rgba(6,6,6, 0.4)',
   },
   lineIndicator: {
     width: 2,
