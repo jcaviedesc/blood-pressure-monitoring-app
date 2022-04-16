@@ -34,7 +34,7 @@ export const renderSingUpHeader = (
 
 const SingUpFlow = {
   [RouteName.SINGUP]: {
-    component: BodyInfoScreen,
+    component: SingUpScreen,
     options: {
       header: ({
         navigation,
