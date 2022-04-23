@@ -8,26 +8,42 @@ type Pros = {
   max?: number;
   min?: number;
   imageGenderSex: ImagePropsBase['source'];
+  labelUnit: string;
+  onValueChangeFinish: (heigth: number) => void;
+  initialValue?: number[];
 };
 
 const PENDIENTE_M = 1.873;
 const CORTE_N = 25;
 
-const HeightSlider: React.FC<Pros> = ({ min = 40, max = 180, imageGenderSex }) => {
-  const [value, setValue] = useState([120]);
+const HeightSlider: React.FC<Pros> = ({
+  min = 40,
+  max = 180,
+  imageGenderSex,
+  labelUnit,
+  initialValue = [120],
+  onValueChangeFinish,
+}) => {
+  // TODO validar que initialValue este en el rango min y max;
+  const [value, setValue] = useState(initialValue);
   return (
     <View style={styles.heightSliderContainer}>
       <View style={styles.multiSliderContainer}>
         <MultiSlider
           values={value}
           enableLabel={true}
-          customLabel={CustomLabel}
+          customLabel={props => (
+            <CustomLabel {...props} labelUnit={labelUnit} />
+          )}
           min={min}
           max={max}
           sliderLength={300}
           // snapped
           onValuesChange={values => {
             setValue(values);
+          }}
+          onValuesChangeFinish={([height]) => {
+            onValueChangeFinish(height);
           }}
           touchDimensions={{
             height: 30,

@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type {
+import {
   SingUpState,
   updateUserFieldType,
   HealtInfoAction,
+  Gender,
 } from './types';
 import type { RootState } from '../configureStore';
 
@@ -14,7 +15,7 @@ const initialState: SingUpState = {
   address: '',
   location: [],
   birthdate: '',
-  gender: '',
+  gender: Gender.female,
   weight: '',
   height: '',
   userType: '',

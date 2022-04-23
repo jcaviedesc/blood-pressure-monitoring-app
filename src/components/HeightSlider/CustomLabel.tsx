@@ -5,11 +5,15 @@ import { Colors, Fonts, Metrics } from '../../styles';
 
 const height = 45;
 
+interface CustomLabelPros extends LabelProps {
+  labelUnit: string;
+}
+
 export default function CustomLabel({
   oneMarkerValue,
   oneMarkerLeftPosition,
-  oneMarkerPressed,
-}: LabelProps) {
+  labelUnit,
+}: CustomLabelPros) {
   return (
     <View>
       <View
@@ -20,6 +24,7 @@ export default function CustomLabel({
           },
         ]}>
         <Text style={styles.sliderLabelText}>{`${oneMarkerValue}`}</Text>
+        <Text style={[styles.sliderLabelText, styles.unitText]}>{labelUnit}</Text>
       </View>
     </View>
   );
@@ -29,21 +34,24 @@ const styles = StyleSheet.create({
   sliderLabel: {
     position: 'absolute',
     zIndex: 30,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
     width: Metrics.screenWidth - 70,
     height: height,
     right: 150,
     borderBottomColor: Colors.stroke,
     borderBottomWidth: 1,
+    flexDirection: 'row',
   },
   sliderLabelText: {
     textAlign: 'left',
-    lineHeight: height,
     backgroundColor: Colors.transparent,
-    flex: 1,
     fontSize: Fonts.size.h1,
     color: Colors.headline,
     fontFamily: Fonts.type.regular,
-    paddingRight: 12,
+    paddingRight: 6,
+  },
+  unitText: {
+    fontSize: Fonts.size.h4,
   },
 });

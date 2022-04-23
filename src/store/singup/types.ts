@@ -21,7 +21,7 @@ export interface SingUpState {
   phone: string;
   address: string;
   location: number[];
-  gender: Gender | '';
+  gender: Gender;
   weight: string;
   height: string;
   birthdate: string;

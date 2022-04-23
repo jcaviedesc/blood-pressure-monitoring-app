@@ -38,9 +38,13 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
         <View style={{ flex: 70 }}>
           <HeightSlider
             max={200}
+            labelUnit="cm"
             imageGenderSex={
               gender === 'male' ? Images.menGender : Images.womenGender
             }
+            onValueChangeFinish={heigthVal => {
+              onUpdateField('height', heigthVal);
+            }}
           />
         </View>
         <View style={{ flex: 20 }}>
