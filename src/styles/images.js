@@ -11,6 +11,8 @@ const images = {
   animateHeart: require('../images/animate-heart.gif'),
   healtcareProfessionals: require('../images/healthcare-professionals.png'),
   normalPerson: require('../images/normal-person.png'),
+  womenGender: require('../images/women.png'),
+  menGender: require('../images/men.png'),
 };
 
 export default images;

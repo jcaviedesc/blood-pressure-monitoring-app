@@ -25,18 +25,22 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.bodyScreenContent}>
-        <HeightSlider />
-        <SwiperUnits
-          title={translate('weight')}
-          titleStyles={styles.titleWeight}
-          range={[20, 129]} // TODO cambiar de acuerdo a escala
-          unitStyles={styles.weightUnit}
-          activeUnitStyles={styles.activeWeightUnit}
-          magnitudeSyles={styles.magnitude}
-          onActiveItem={activeItem => {
-            onUpdateField('weight', activeItem);
-          }}
-        />
+        <View style={{ flex: 80 }}>
+          <HeightSlider />
+        </View>
+        <View style={{flex: 20}}>
+          <SwiperUnits
+            title={translate('weight')}
+            titleStyles={styles.titleWeight}
+            range={[20, 129]} // TODO cambiar de acuerdo a escala
+            unitStyles={styles.weightUnit}
+            activeUnitStyles={styles.activeWeightUnit}
+            magnitudeSyles={styles.magnitude}
+            onActiveItem={activeItem => {
+              onUpdateField('weight', activeItem);
+            }}
+          />
+        </View>
         <View style={styles.section}>
           <Button title={translate('button.next')} />
         </View>

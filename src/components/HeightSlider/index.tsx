@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { Colors, Fonts, Metrics } from '../../styles';
+import { Colors, Fonts, Images, Metrics } from '../../styles';
 import CustomLabel, { DIFFERENCE } from './CustomLabel';
 
 type Pros = {
@@ -13,24 +13,16 @@ const HeightSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
   const [value, setValue] = useState([120]);
   return (
     <View style={styles.heightSliderContainer}>
-      <View
-        style={{
-          borderBottomColor: 'yellow',
-          borderBottomWidth: 3,
-          width: 200,
-          height: 150,
-          transform: [{ rotate: '0deg' }],
-          backgroundColor: 'green',
-        }}
-      />
       <View style={styles.multiSliderContainer}>
         <MultiSlider
           values={value}
-          // enableLabel={true}
-          // customLabel={CustomLabel}
+          enableLabel={true}
+          customLabel={props => (
+            <CustomLabel {...props} imageSource={Images.womenGender} />
+          )}
           min={min}
           max={max}
-          sliderLength={200}
+          sliderLength={300}
           // snapped
           onValuesChangeFinish={values => {
             setValue(values);
@@ -50,6 +42,9 @@ const HeightSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
           vertical
         />
       </View>
+      <View style={styles.imageGenderContainer}>
+        <Image source={Images.womenGender} style={styles.imageGender} />
+      </View>
     </View>
   );
 };
@@ -68,16 +63,16 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.button,
   },
   marker: {
-    width: 30,
-    height: 60,
+    width: 6,
+    height: 42,
     borderRadius: 5,
-    backgroundColor: Colors.transparent,
-    borderColor: Colors.lightGray,
+    backgroundColor: 'black',
+    borderColor: Colors.transparent,
     borderWidth: 1,
   },
   markerPress: {
-    width: 36,
-    height: 62,
+    width: 6,
+    height: 42,
     borderWidth: 2,
   },
   markerContainer: {
@@ -86,13 +81,15 @@ const styles = StyleSheet.create({
   heightSliderContainer: {
     flex: 1,
     alignItems: 'flex-end',
-    backgroundColor: 'blue',
+    justifyContent: 'flex-end',
   },
   multiSliderContainer: {
-    // height: 400,
-    // width: 300,
+    backgroundColor: 'blue',
+    height: 200,
+    marginBottom: 70,
+    marginRight: -100,
+    position: 'relative',
     zIndex: 100,
-    backgroundColor: 'red',
   },
   trackStepsContainer: {
     right: 20,
@@ -109,6 +106,19 @@ const styles = StyleSheet.create({
     fontSize: Fonts.size.h5,
     color: Colors.paragraph,
     textAlign: 'right',
+  },
+  imageGenderContainer: {
+    backgroundColor: 'red',
+    width: '100%',
+    alignItems: 'center',
+    position: 'absolute',
+  },
+  imageGender: {
+    resizeMode: 'contain',
+    width: 210,
+    height: 420,
+    backgroundColor: 'green',
+    transform: [{ scale: 1 }, { translateY: 18 }],
   },
 });
 
