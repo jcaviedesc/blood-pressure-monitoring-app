@@ -13,6 +13,8 @@ const images = {
   normalPerson: require('../images/normal-person.png'),
   womenGender: require('../images/women.png'),
   menGender: require('../images/men.png'),
+  menGenderAvatar: require('../images/men-avatar.png'),
+  womenGenderAvatar: require('../images/women-avatar.png'),
 };
 
 export default images;

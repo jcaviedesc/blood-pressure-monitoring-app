@@ -13,6 +13,7 @@ import BloodPressureInput from './BloodPressureInput';
 import TextAreaInput from './TextAreaInput';
 import NumericVirtualKeyboard from './VirtualNumericKeyboard';
 import HeightSlider from './HeightSlider';
+import SelectGenderSexToggle from './SelectGenderSexToggle';
 
 export {
   Input,
@@ -30,4 +31,5 @@ export {
   TextAreaInput,
   NumericVirtualKeyboard,
   HeightSlider,
+  SelectGenderSexToggle,
 };

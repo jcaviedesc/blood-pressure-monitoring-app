@@ -3,16 +3,17 @@ import { StyleSheet, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import SwiperUnits from '../../lib/swiperUnits';
-import { AppStyles, Colors, Fonts } from '../../styles';
-import { updateUserField } from '../../store/singup/singupSlice';
+import { AppStyles, Colors, Fonts, Images } from '../../styles';
+import { updateUserField, selectUser } from '../../store/singup/singupSlice';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { useAppDispatch } from '../../hooks';
-import { Button, HeightSlider } from '../../components';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { Button, HeightSlider, SelectGenderSexToggle } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup/BodyInfo'>;
 
 const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
+  const { gender } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
   const onUpdateField = (
@@ -25,8 +26,22 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.bodyScreenContent}>
-        <View style={{ flex: 80 }}>
-          <HeightSlider max={200} />
+        <View style={{ flex: 10 }}>
+          <SelectGenderSexToggle
+            maleImage={Images.menGenderAvatar}
+            femaleImage={Images.womenGenderAvatar}
+            onSelect={genderSex => {
+              onUpdateField('gender', genderSex);
+            }}
+          />
+        </View>
+        <View style={{ flex: 70 }}>
+          <HeightSlider
+            max={200}
+            imageGenderSex={
+              gender === 'male' ? Images.menGender : Images.womenGender
+            }
+          />
         </View>
         <View style={{ flex: 20 }}>
           <SwiperUnits

@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, ImagePropsBase } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { Colors, Fonts, Images, Metrics } from '../../styles';
+import { Colors, Fonts, Metrics } from '../../styles';
 import CustomLabel from './CustomLabel';
 
 type Pros = {
   max?: number;
   min?: number;
+  imageGenderSex: ImagePropsBase['source'];
 };
 
 const PENDIENTE_M = 1.873;
 const CORTE_N = 25;
 
-const HeightSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
+const HeightSlider: React.FC<Pros> = ({ min = 40, max = 180, imageGenderSex }) => {
   const [value, setValue] = useState([120]);
   return (
     <View style={styles.heightSliderContainer}>
@@ -45,7 +46,7 @@ const HeightSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
       </View>
       <View style={styles.imageGenderContainer}>
         <Image
-          source={Images.womenGender}
+          source={imageGenderSex}
           style={[
             styles.imageGender,
             { height: value[0] * PENDIENTE_M + CORTE_N },
