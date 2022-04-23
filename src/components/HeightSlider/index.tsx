@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { Colors, Fonts, Images, Metrics } from '../../styles';
-import CustomLabel, { DIFFERENCE } from './CustomLabel';
+import CustomLabel from './CustomLabel';
 
 type Pros = {
   max?: number;
   min?: number;
 };
+
+const PENDIENTE_M = 1.873;
+const CORTE_N = 25;
 
 const HeightSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
   const [value, setValue] = useState([120]);
@@ -17,14 +20,12 @@ const HeightSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
         <MultiSlider
           values={value}
           enableLabel={true}
-          customLabel={props => (
-            <CustomLabel {...props} imageSource={Images.womenGender} />
-          )}
+          customLabel={CustomLabel}
           min={min}
           max={max}
           sliderLength={300}
           // snapped
-          onValuesChangeFinish={values => {
+          onValuesChange={values => {
             setValue(values);
           }}
           touchDimensions={{
@@ -33,8 +34,8 @@ const HeightSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
             borderRadius: 30,
             slipDisplacement: 40,
           }}
-          // selectedStyle={styles.selected}
-          // trackStyle={styles.track}
+          selectedStyle={styles.selected}
+          trackStyle={styles.track}
           // markerContainerStyle={styles.markerContainer}
           markerStyle={styles.marker}
           pressedMarkerStyle={{ ...styles.marker, ...styles.markerPress }}
@@ -43,7 +44,13 @@ const HeightSlider: React.FC<Pros> = ({ min = 40, max = 180 }) => {
         />
       </View>
       <View style={styles.imageGenderContainer}>
-        <Image source={Images.womenGender} style={styles.imageGender} />
+        <Image
+          source={Images.womenGender}
+          style={[
+            styles.imageGender,
+            { height: value[0] * PENDIENTE_M + CORTE_N },
+          ]}
+        />
       </View>
     </View>
   );
@@ -55,24 +62,24 @@ const styles = StyleSheet.create({
     marginTop: Metrics.screenWidth - 120,
   },
   track: {
-    height: 10,
-    backgroundColor: Colors.lightGray,
+    height: 6,
+    backgroundColor: Colors.stroke,
     borderRadius: 5,
   },
   selected: {
     backgroundColor: Colors.button,
   },
   marker: {
-    width: 6,
+    width: 9,
     height: 42,
     borderRadius: 5,
-    backgroundColor: 'black',
+    backgroundColor: Colors.stroke,
     borderColor: Colors.transparent,
     borderWidth: 1,
   },
   markerPress: {
-    width: 6,
-    height: 42,
+    width: 12,
+    height: 46,
     borderWidth: 2,
   },
   markerContainer: {
@@ -84,7 +91,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   multiSliderContainer: {
-    backgroundColor: 'blue',
     height: 200,
     marginBottom: 70,
     marginRight: -100,
@@ -108,17 +114,14 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   imageGenderContainer: {
-    backgroundColor: 'red',
     width: '100%',
     alignItems: 'center',
     position: 'absolute',
+    justifyContent: 'flex-end',
   },
   imageGender: {
     resizeMode: 'contain',
     width: 210,
-    height: 420,
-    backgroundColor: 'green',
-    transform: [{ scale: 1 }, { translateY: 18 }],
   },
 });
 

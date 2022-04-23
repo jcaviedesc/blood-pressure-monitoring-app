@@ -1,11 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ImagePropsBase } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { LabelProps } from '@ptomasroos/react-native-multi-slider';
 import { Colors, Fonts, Metrics } from '../../styles';
-
-interface CustomLabelProps extends LabelProps {
-  imageSource: ImagePropsBase['source'];
-}
 
 const height = 45;
 
@@ -13,9 +9,7 @@ export default function CustomLabel({
   oneMarkerValue,
   oneMarkerLeftPosition,
   oneMarkerPressed,
-  imageSource,
-}: CustomLabelProps) {
-  console.log("oneMarkerLeftPosition", oneMarkerLeftPosition)
+}: LabelProps) {
   return (
     <View>
       <View
@@ -36,7 +30,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 30,
     justifyContent: 'center',
-    width: Metrics.screenWidth - 100,
+    width: Metrics.screenWidth - 70,
     height: height,
     right: 150,
     borderBottomColor: Colors.stroke,
@@ -48,7 +42,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.transparent,
     flex: 1,
     fontSize: Fonts.size.h1,
-    color: Colors.button,
+    color: Colors.headline,
     fontFamily: Fonts.type.regular,
     paddingRight: 12,
   },

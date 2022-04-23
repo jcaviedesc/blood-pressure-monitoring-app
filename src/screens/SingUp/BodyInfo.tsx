@@ -26,9 +26,9 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.mainContainer}>
       <View style={styles.bodyScreenContent}>
         <View style={{ flex: 80 }}>
-          <HeightSlider />
+          <HeightSlider max={200} />
         </View>
-        <View style={{flex: 20}}>
+        <View style={{ flex: 20 }}>
           <SwiperUnits
             title={translate('weight')}
             titleStyles={styles.titleWeight}
