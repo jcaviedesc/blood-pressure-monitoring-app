@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   TouchableHighlight,
   StatusBar,
 } from 'react-native';
-import _ from 'lodash';
+import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
@@ -20,42 +20,48 @@ import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { PhoneInputWrapper } from '../../wrappers';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale, setScreenLoading } from '../../store/app/appSlice';
-import validator, { ajv } from './schemaValidators/singup';
+import { singUpSchema } from './schemaValidators/singup';
 
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
 
 const SingUpScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const isDarkMode = useColorScheme() === 'dark';
-  // The `state` arg is correctly typed as `RootState` already
-  const { fullName, phone, address } = useAppSelector(selectUser);
+  const { fullName, phone, docId } = useAppSelector(selectUser);
   const { countryCode } = useAppSelector(selectAppLocale);
   const dispatch = useAppDispatch();
-
   const { setConfirm } = useConfirmPhone();
+  // local state
+  const [inputErrors, setInputErrors] = useState({});
 
   const dispatchAction = (userField: string, value: string) => {
     dispatch(updateUserField({ field: userField, value }));
   };
 
   async function nextRoute() {
-    // add validation
-    const formValues = _.omitBy({ fullName, phone, address }, _.isEmpty);
-    console.log(formValues);
-    const validtionResult = validator(formValues);
-    const textE = ajv.errorsText(validator.errors);
-    console.log(textE, validator.errors);
-    // dispatch(setScreenLoading(true));
-    // try {
-    //   const confirm = await auth().signInWithPhoneNumber(phone);
-    //   setConfirm({ confirm, phone });
-    //   navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
-    // } catch (error) {
-    //   // TODO Senty
-    //   console.log(error);
-    // } finally {
-    //   dispatch(setScreenLoading(false));
-    // }
+    const { error } = singUpSchema.validate(
+      { fullName, phone, docId },
+      { abortEarly: false },
+    );
+
+    if (error) {
+      const errorTransform = error.details.reduce((prev, curr) => {
+        prev[curr.path[0]] = curr.message;
+        return prev;
+      }, {});
+      setInputErrors(errorTransform);
+    } else {
+      dispatch(setScreenLoading(true));
+      try {
+        const confirm = await auth().signInWithPhoneNumber(phone);
+        setConfirm({ confirm, phone });
+        navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
+      } catch (autError) {
+        // TODO Senty
+      } finally {
+        dispatch(setScreenLoading(false));
+      }
+    }
   }
 
   return (
@@ -88,7 +94,24 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
                 dispatchAction('fullName', text);
               }}
               autoFocus
-              hasError
+              hasError={inputErrors?.fullName}
+              hint={inputErrors?.fullName}
+            />
+          </View>
+
+          <View style={styles.inputSection}>
+            <Input
+              title={translate('singup_screen.document_id')}
+              value={docId}
+              keyboardType="numeric"
+              onChangeText={text => {
+                dispatchAction('docId', text);
+              }}
+              hasError={inputErrors?.docId}
+              hint={
+                inputErrors?.docId ??
+                translate('singup_screen.document_id_hint')
+              }
             />
           </View>
 
@@ -100,16 +123,6 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
               onPhoneInputChange={phoneNumer => {
                 dispatchAction('phone', phoneNumer);
               }}
-            />
-          </View>
-          <View style={styles.inputSection}>
-            <Input
-              title={translate('singup_screen.address')}
-              value={address}
-              onChangeText={text => {
-                dispatchAction('address', text);
-              }}
-              hint="Ejemplo. Vereda Calucata, La mesa, cundinamarca"
             />
           </View>
         </View>

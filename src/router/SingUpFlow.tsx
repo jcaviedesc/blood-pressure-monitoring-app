@@ -5,6 +5,7 @@ import { StepsHeader } from '../components/Layout';
 import { RouteName } from './routeNames';
 // screena
 import SingUpScreen from '../screens/SingUp';
+import BirthdateScreen from '../screens/SingUp/Birthdate';
 import BodyInfoScreen from '../screens/SingUp/BodyInfo';
 import SelectUserTypeScreen from '../screens/SingUp/SelectUserType';
 import SelectProfilePictureScreen from '../screens/SingUp/SelectProfilePicture';
@@ -43,6 +44,22 @@ const SingUpFlow = {
         return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 6,
           activeStep: 1,
+        });
+      },
+    },
+  },
+  'Singup/Birthdate': {
+    component: BirthdateScreen,
+    options: {
+      header: ({
+        navigation,
+        route,
+        options,
+        back,
+      }: NativeStackHeaderProps) => {
+        return renderSingUpHeader(navigation, route, options, back, {
+          nsteps: 6,
+          activeStep: 2,
         });
       },
     },

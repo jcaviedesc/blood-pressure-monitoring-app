@@ -1,19 +1,17 @@
-import Ajv from 'ajv';
+import Joi from 'joi';
 
-const ajv = new Ajv({ allErrors: true }); // options can be passed, e.g. {allErrors: true}
+const transformError = (error: { details: any[] }) =>
+  error.details.reduce((prev, curr) => {
+    prev[curr.path[0]] = curr.message;
+    return prev;
+  }, {});
 
-const schema = {
-  type: 'object',
-  properties: {
-    fullName: { type: 'string' },
-    phone: { type: 'string' },
-    address: { type: 'string' },
-  },
-  required: ['fullName', 'phone', 'address'],
-  additionalProperties: false,
-};
+const singUpSchema = Joi.object({
+  fullName: Joi.string().required(),
+  docId: Joi.string().pattern(new RegExp('^[0-9]*$')),
+  phone: Joi.string().required(),
+});
 
-const validate = ajv.compile(schema);
+const birthdateSchema = Joi.string().required();
 
-export { ajv };
-export default validate;
+export { singUpSchema, birthdateSchema, transformError };

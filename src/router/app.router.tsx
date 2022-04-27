@@ -38,7 +38,7 @@ function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
       <Stack.Navigator
-        initialRouteName="Singup/BodyInfo"
+        initialRouteName="Splash"
         screenOptions={{
           headerStyle: styles.header,
           gestureEnabled: true,

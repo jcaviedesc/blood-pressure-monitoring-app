@@ -5,7 +5,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import type { RootStackParamList } from '../../router/types';
 import { VerifyCode } from '../../components';
-import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
+import { AppStyles, Fonts } from '../../styles';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { useAppDispatch } from '../../hooks';
 import { changeUserSessionState } from '../../store/app/appSlice';
@@ -16,6 +16,8 @@ type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
 const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   const { verificationType } = route.params;
   const { translate } = useI18nLocate();
+  const dispatch = useAppDispatch();
+
   useFocusEffect(
     useCallback(() => {
       if (verificationType === 'SingUp') {
@@ -27,11 +29,10 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
     }, [verificationType, navigation]),
   );
 
-  const dispatch = useAppDispatch();
   const verifyPhoneSuccess = useCallback(() => {
     dispatch(changeUserSessionState(true));
     navigation.navigate(
-      verificationType === 'SingUp' ? 'Singup/SelectGender' : 'Home',
+      verificationType === 'SingUp' ? 'Singup/Birthdate' : 'Home',
     );
   }, [navigation, verificationType, dispatch]);
 
@@ -73,7 +74,7 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
             {translate('verify_phone.title')}
           </Text>
         </View>
-        <View>
+        <View style={styles.subTitleContainer}>
           <Text style={styles.subTitleScreen}>
             {translate('verify_phone.subtitle', { phone })}
           </Text>
@@ -108,6 +109,9 @@ const styles = StyleSheet.create({
     marginTop: 12,
     padding: 9,
     alignItems: 'center',
+  },
+  subTitleContainer: {
+    marginBottom: 12,
   },
 });
 

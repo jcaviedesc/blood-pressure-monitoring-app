@@ -21,10 +21,17 @@
     "title": "Registro",
     "subtitle": "Gracias por tomarte el tiempo de crear una cuenta con nosotros. Aquí empieza la parte divertida",
     "full_name": "Nombre completo",
-    "phone_number": "Numero de celuar",
-    "address": "Dirección de donde vives",
+    "document_id":"Número de identificación",
+    "document_id_hint": "cédula de ciudadania",
+    "phone_number": "Número de celular",
     "all_ready_account": "¿Ya tienes una cuenta?",
     "log_in": "Iniciar sesión"
+  },
+  "birthdate_screen":{
+    "title": "Residencia",
+    "birthdate": "Fecha de nacimiento",
+    "address": "Dirección de donde vives",
+    "address_hint": "Ej. dirección, ciudad, departamento"
   },
   "healt_info_screen": {
     "title": "Información de Salud",
@@ -59,5 +66,8 @@
   "blood_pressure": "Presión Arterial",
   "heart_rate": "Ritmo cardiaco ",
   "weight": "Peso",
-  "height": "Altura"
+  "height": "Altura",
+  "validation": {
+    "required": "Este campo debe ser completado"
+  }
 }
