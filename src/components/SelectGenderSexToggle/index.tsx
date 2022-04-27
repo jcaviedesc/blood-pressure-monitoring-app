@@ -31,6 +31,7 @@ const SelectGenderSexToggle: React.FC<props> = ({
     <View style={styles.container}>
       <View style={styles.selectGenderSex}>
         <TouchableHighlight
+          underlayColor={Colors.tertiary}
           onPress={() => {
             onPressHandler('male');
           }}
@@ -42,6 +43,7 @@ const SelectGenderSexToggle: React.FC<props> = ({
           <Image source={maleImage} style={[styles.imageGenderSex]} />
         </TouchableHighlight>
         <TouchableHighlight
+          underlayColor={Colors.highlight}
           onPress={() => {
             onPressHandler('female');
           }}

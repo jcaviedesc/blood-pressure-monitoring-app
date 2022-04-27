@@ -23,7 +23,7 @@ const SwiperUnit: React.FC<Props> = ({
         <Text style={unitStyles}>{unit}</Text>
       </View>
       <View style={styles.swiperUnitContainer}>
-        <View style={styles.line} />
+        <View style={[styles.line, { height: 14 }]} />
         <View style={styles.line} />
         <View style={styles.line} />
         <View style={styles.line} />
@@ -64,10 +64,11 @@ const styles = StyleSheet.create({
     width: 2,
     height: 10,
     marginRight: 5,
-    backgroundColor: 'gray',
+    backgroundColor: '#778596',
   },
   middleLine: {
     height: 18,
+    backgroundColor: '#5f6c7b',
   },
 });
 

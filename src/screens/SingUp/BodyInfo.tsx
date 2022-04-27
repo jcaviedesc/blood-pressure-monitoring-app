@@ -23,6 +23,11 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(updateUserField({ field, value }));
   };
 
+  const nextStepHandler = () => {
+    //TODO add validation
+    navigation.navigate('Singup/SelectUserType');
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.bodyScreenContent}>
@@ -51,7 +56,7 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
           <SwiperUnits
             title={translate('weight')}
             titleStyles={styles.titleWeight}
-            range={[20, 129]} // TODO cambiar de acuerdo a escala
+            range={[20, 120]} // TODO cambiar de acuerdo a escala
             unitStyles={styles.weightUnit}
             activeUnitStyles={styles.activeWeightUnit}
             magnitudeSyles={styles.magnitude}
@@ -61,7 +66,7 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.section}>
-          <Button title={translate('button.next')} />
+          <Button title={translate('button.next')} onPress={nextStepHandler} />
         </View>
       </View>
     </View>
