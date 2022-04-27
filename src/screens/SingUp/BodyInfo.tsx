@@ -42,6 +42,8 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={{ flex: 70 }}>
           <HeightSlider
+            title={translate('height')}
+            titleStyles={styles.titleWeight}
             max={200}
             labelUnit="cm"
             imageGenderSex={
@@ -56,7 +58,7 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
           <SwiperUnits
             title={translate('weight')}
             titleStyles={styles.titleWeight}
-            range={[20, 120]} // TODO cambiar de acuerdo a escala
+            range={[20, 129]} // TODO cambiar de acuerdo a escala
             unitStyles={styles.weightUnit}
             activeUnitStyles={styles.activeWeightUnit}
             magnitudeSyles={styles.magnitude}

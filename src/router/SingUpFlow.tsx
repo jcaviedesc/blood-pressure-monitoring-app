@@ -6,10 +6,8 @@ import { RouteName } from './routeNames';
 // screena
 import SingUpScreen from '../screens/SingUp';
 import BodyInfoScreen from '../screens/SingUp/BodyInfo';
-import SelectGenderScreen from '../screens/SingUp/SelectGender';
-import BasicInfoScreen from '../screens/SingUp/BasicInfo';
-import SelectProfilePictureScreen from '../screens/SingUp/SelectProfilePicture';
 import SelectUserTypeScreen from '../screens/SingUp/SelectUserType';
+import SelectProfilePictureScreen from '../screens/SingUp/SelectProfilePicture';
 import HealtInfoScreen from '../screens/SingUp/HealtInfo';
 
 export const renderSingUpHeader = (
@@ -31,7 +29,7 @@ export const renderSingUpHeader = (
     />
   );
 };
-
+// TODO add birtdate screen
 const SingUpFlow = {
   [RouteName.SINGUP]: {
     component: SingUpScreen,
@@ -61,38 +59,6 @@ const SingUpFlow = {
         return renderSingUpHeader(navigation, route, options, back, {
           nsteps: 6,
           activeStep: 3,
-        });
-      },
-    },
-  },
-  [RouteName.SELECT_GENDER]: {
-    component: SelectGenderScreen,
-    options: {
-      header: ({
-        navigation,
-        route,
-        options,
-        back,
-      }: NativeStackHeaderProps) => {
-        return renderSingUpHeader(navigation, route, options, back, {
-          nsteps: 6,
-          activeStep: 3,
-        });
-      },
-    },
-  },
-  [RouteName.BASIC_INFO]: {
-    component: BasicInfoScreen,
-    options: {
-      header: ({
-        navigation,
-        route,
-        options,
-        back,
-      }: NativeStackHeaderProps) => {
-        return renderSingUpHeader(navigation, route, options, back, {
-          nsteps: 6,
-          activeStep: 4,
         });
       },
     },

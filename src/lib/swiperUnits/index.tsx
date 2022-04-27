@@ -24,7 +24,7 @@ type Props = {
 };
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const ITEM_WIDTH = 63;
-const DELTA_X = 20.5;
+const DELTA = 3;
 const EMPTY_SPACE = SCREEN_WIDTH / 2 - ITEM_WIDTH / 2;
 
 const SwiperUnits: React.FC<Props> = ({
@@ -53,7 +53,10 @@ const SwiperUnits: React.FC<Props> = ({
   );
 
   const _getItemLayout = (data, index) => {
-    const offset = index === 0 ? EMPTY_SPACE + 3 : ITEM_WIDTH * index;
+    const offset =
+      index === 0
+        ? EMPTY_SPACE + DELTA
+        : EMPTY_SPACE + DELTA + ITEM_WIDTH * index;
 
     return {
       length: ITEM_WIDTH,
@@ -63,7 +66,8 @@ const SwiperUnits: React.FC<Props> = ({
   };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const xOffset = event.nativeEvent.contentOffset.x + EMPTY_SPACE + DELTA_X;
+    const xOffset =
+      event.nativeEvent.contentOffset.x + EMPTY_SPACE + ITEM_WIDTH / 2;
     const index = xOffset / ITEM_WIDTH;
     const roundIndex = Math.round(index - 3);
     if (roundIndex !== activeItem) {

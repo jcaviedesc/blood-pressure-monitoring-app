@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, ImagePropsBase } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  ImagePropsBase,
+  Text,
+  TextStyle,
+} from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { Colors, Fonts, Metrics } from '../../styles';
 import CustomLabel from './CustomLabel';
@@ -11,6 +18,8 @@ type Pros = {
   labelUnit: string;
   onValueChangeFinish: (heigth: number) => void;
   initialValue?: number[];
+  title: string;
+  titleStyles: TextStyle;
 };
 
 const PENDIENTE_M = 1.873;
@@ -23,11 +32,16 @@ const HeightSlider: React.FC<Pros> = ({
   labelUnit,
   initialValue = [120],
   onValueChangeFinish,
+  title,
+  titleStyles,
 }) => {
   // TODO validar que initialValue este en el rango min y max;
   const [value, setValue] = useState(initialValue);
   return (
     <View style={styles.heightSliderContainer}>
+      <View style={styles.titleText}>
+        <Text style={titleStyles}>{title}</Text>
+      </View>
       <View style={styles.multiSliderContainer}>
         <MultiSlider
           values={value}
@@ -77,6 +91,11 @@ const styles = StyleSheet.create({
   container: {
     margin: 0,
     marginTop: Metrics.screenWidth - 120,
+  },
+  titleText: {
+    position: 'absolute',
+    top: 0,
+    paddingRight: 20,
   },
   track: {
     height: 6,

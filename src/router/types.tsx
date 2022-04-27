@@ -4,8 +4,6 @@ export type RootStackParamList = {
   Singup: undefined;
   VerifyPhone: { verificationType: string };
   'Singup/BodyInfo': undefined;
-  'Singup/SelectGender': undefined; // deprecated
-  'Singup/BasicInfo': undefined;
   'Singup/SelectUserType': undefined;
   'Singup/HealtInfo': undefined;
   'Singup/ProfilePicture': undefined;
