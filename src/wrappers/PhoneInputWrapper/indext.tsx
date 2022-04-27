@@ -9,6 +9,7 @@ type PhoneInputProps = {
   value: string;
   onPhoneInputChange: (number: string) => void;
   autoFocus?: boolean;
+  error: string | undefined;
 };
 
 type PhoneInputRef = {
@@ -22,6 +23,7 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
   value,
   onPhoneInputChange,
   autoFocus,
+  error,
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const ref = useRef<PhoneInputRef>();
@@ -45,7 +47,14 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
       )}
       <PhoneInput
         ref={ref}
-        containerStyle={styles.inputContainer}
+        containerStyle={{
+          ...styles.inputContainer,
+          borderColor: isDarkMode
+            ? Colors.darkGrayMode
+            : error
+            ? Colors.error
+            : Colors.lightGray,
+        }}
         defaultCode={initialCountry}
         defaultValue={value}
         textContainerStyle={styles.inputContent}
@@ -55,6 +64,7 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
         onChangeFormattedText={onChangePhoneNumberHandler}
         autoFocus={autoFocus}
       />
+      {error && <Text style={styles.hint}>{error}</Text>}
     </View>
   );
 };
@@ -76,6 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGray,
     marginTop: 9,
     paddingRight: 9,
+    overflow: 'hidden',
   },
   inputContent: {
     padding: 0,
@@ -101,6 +112,10 @@ const styles = StyleSheet.create({
   intputFlag: {
     marginRight: 0,
     padding: 0,
+  },
+  hint: {
+    fontFamily: Fonts.type.light,
+    fontSize: Fonts.size.hint,
   },
 });
 

@@ -20,7 +20,7 @@ import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { PhoneInputWrapper } from '../../wrappers';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale, setScreenLoading } from '../../store/app/appSlice';
-import { singUpSchema } from './schemaValidators/singup';
+import { singUpSchema, transformError } from './schemaValidators/singup';
 
 type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
 
@@ -45,10 +45,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
     );
 
     if (error) {
-      const errorTransform = error.details.reduce((prev, curr) => {
-        prev[curr.path[0]] = curr.message;
-        return prev;
-      }, {});
+      const errorTransform = transformError(error);
       setInputErrors(errorTransform);
     } else {
       dispatch(setScreenLoading(true));
@@ -123,6 +120,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
               onPhoneInputChange={phoneNumer => {
                 dispatchAction('phone', phoneNumer);
               }}
+              error={inputErrors?.phone}
             />
           </View>
         </View>
