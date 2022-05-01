@@ -6,7 +6,6 @@ import {
 } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
 import type { RootStackParamList } from './types';
-import { RouteName } from './routeNames';
 import defaultOptions from './ScreenConfig';
 import { NormalHeader } from '../components/Layout';
 import styles from './styles';
@@ -27,13 +26,14 @@ import BloodPressureMeasuringFinish from '../screens/BloodPressure/MeasuringFini
 // TODO revisar
 // import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate'; // v2
 import ProfileScreen from '../screens/Profile';
+import DevelopmentScreen from '../screens/Development';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 type AppProps = {
   onReady: (() => void) | undefined;
 };
-
+// TODO implementar google analictys
 function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
@@ -42,7 +42,6 @@ function App({ onReady }: AppProps) {
         screenOptions={{
           headerStyle: styles.header,
           gestureEnabled: true,
-          presentation: 'modal',
         }}>
         <Stack.Screen
           name="Splash"
@@ -52,14 +51,14 @@ function App({ onReady }: AppProps) {
           }}
         />
         <Stack.Screen
-          name={RouteName.ONBOARDING}
+          name="Onboarding"
           component={OnboardingScreen}
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name={RouteName.LOGIN}
+          name="Login"
           component={SignIn}
           options={{
             headerShown: false,
@@ -94,7 +93,7 @@ function App({ onReady }: AppProps) {
           }}
         />
         <Stack.Screen
-          name={RouteName.HOME}
+          name="Home"
           component={HomeScreen}
           options={{
             headerShown: false,
@@ -108,10 +107,13 @@ function App({ onReady }: AppProps) {
           }}
         />
         <Stack.Screen
-          name={RouteName.BLOOD_PRESSURE}
+          name="Home/BloodPressure"
           component={BloodPressureScreen}
           options={{
-            headerShown: true,
+            headerShadowVisible: false,
+            headerStyle: {
+              backgroundColor: 'transpatent',
+            },
             title: '',
           }}
         />
@@ -120,7 +122,6 @@ function App({ onReady }: AppProps) {
           component={BloodPressureStepsScreen}
           options={{
             ...defaultOptions,
-            headerShown: true,
             title: '',
           }}
         />
@@ -129,7 +130,6 @@ function App({ onReady }: AppProps) {
           component={BloodPressurePreparation}
           options={{
             ...defaultOptions,
-            headerShown: true,
             title: '',
           }}
         />
@@ -138,7 +138,6 @@ function App({ onReady }: AppProps) {
           component={BloodPressureMeassuringScreen}
           options={{
             ...defaultOptions,
-            headerShown: true,
             title: 'Presión Arterial',
           }}
         /> */}
@@ -147,7 +146,6 @@ function App({ onReady }: AppProps) {
           component={BloodPressureMeassuringA}
           options={{
             ...defaultOptions,
-            headerShown: true,
             title: 'Presión Arterial',
           }}
         />
@@ -165,6 +163,13 @@ function App({ onReady }: AppProps) {
           options={{
             ...defaultOptions,
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="development"
+          component={DevelopmentScreen}
+          options={{
+            title: 'developing screen',
           }}
         />
         {/* <Stack.Screen

@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     fontFamily: Fonts.type.light,
     fontSize: Fonts.size.h5,
-    color: Colors.paragraph,
   },
   inputContainer: {
     height: 48,
@@ -96,13 +95,11 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1,
     flex: 1,
-    backgroundColor: Colors.lightGray,
     marginTop: 9,
     paddingHorizontal: 6,
   },
   input: {
     flex: 1,
-    paddingTop: 12,
     color: Colors.headline,
     fontFamily: Fonts.type.bold,
     fontSize: 18,

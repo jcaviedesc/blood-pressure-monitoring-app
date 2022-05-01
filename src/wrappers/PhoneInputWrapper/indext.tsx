@@ -55,6 +55,7 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
             ? Colors.error
             : Colors.lightGray,
         }}
+        layout="first"
         defaultCode={initialCountry}
         defaultValue={value}
         textContainerStyle={styles.inputContent}
@@ -95,13 +96,9 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 48,
-    padding: 0,
-    margin: 0,
-    textAlignVertical: 'center',
   },
   inputCode: {
-    marginLeft: 0,
-    padding: 0,
+    paddingVertical: 10,
   },
   inputText: {
     color: Colors.headline,
@@ -110,8 +107,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGray,
   },
   intputFlag: {
-    marginRight: 0,
-    padding: 0,
   },
   hint: {
     fontFamily: Fonts.type.light,

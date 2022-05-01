@@ -9,7 +9,8 @@ import BirthdateScreen from '../screens/SingUp/Birthdate';
 import BodyInfoScreen from '../screens/SingUp/BodyInfo';
 import SelectUserTypeScreen from '../screens/SingUp/SelectUserType';
 import SelectProfilePictureScreen from '../screens/SingUp/SelectProfilePicture';
-import HealtInfoScreen from '../screens/SingUp/HealtInfo';
+import HealthInfoScreen from '../screens/SingUp/HealthInfo';
+import { Colors } from '../styles';
 
 export const renderSingUpHeader = (
   navigation: NativeStackHeaderProps['navigation'],
@@ -23,7 +24,12 @@ export const renderSingUpHeader = (
     <StepsHeader
       title={title}
       leftButton={
-        back ? <HeaderBackButton onPress={navigation.goBack} /> : undefined
+        back ? (
+          <HeaderBackButton
+            onPress={navigation.goBack}
+            tintColor={Colors.stroke}
+          />
+        ) : undefined
       }
       step={step}
       style={options.headerStyle}
@@ -96,8 +102,8 @@ const SingUpFlow = {
       },
     },
   },
-  'Singup/HealtInfo': {
-    component: HealtInfoScreen,
+  'Singup/HealthInfo': {
+    component: HealthInfoScreen,
     options: {
       header: ({
         navigation,

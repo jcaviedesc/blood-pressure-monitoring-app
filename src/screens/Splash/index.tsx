@@ -15,8 +15,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
 const SplashScreen: React.FC<Props> = ({ navigation }) => {
-  const { isFirstTime, hasUserActiveSession } =
-    useAppSelector(selectAppUserState);
+  const { isFirstTime } = useAppSelector(selectAppUserState);
   const dispatch = useAppDispatch();
 
   useFocusEffect(
@@ -32,7 +31,7 @@ const SplashScreen: React.FC<Props> = ({ navigation }) => {
           navigation.navigate('Login', { from: 'splash' });
         }
       };
-      setTimeout(next, 1000);
+      next();
       return () => {
         dispatch(initAppSuccessful());
         changeNavigationBarColor(Colors.background, true, false);

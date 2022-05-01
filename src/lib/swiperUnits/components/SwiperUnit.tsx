@@ -44,11 +44,12 @@ const styles = StyleSheet.create({
   unitContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    paddingTop: 18,
   },
   activeUnit: {
     transform: [
       {
-        translateY: -6,
+        translateY: -9,
       },
       {
         scale: 1.3,

@@ -15,7 +15,7 @@ const images = {
   menGender: require('../images/men.png'),
   menGenderAvatar: require('../images/men-avatar.png'),
   womenGenderAvatar: require('../images/women-avatar.png'),
-  birthdateLocation: require('../images/brazuca-location.png'),
+  congratulations: require('../images/congratulations.png'),
 };
 
 export default images;

@@ -17,6 +17,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A97E68176E4529A08D914888 /* libPods-TrackingBP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DA3315BAE3C71A7CF6C0D10 /* libPods-TrackingBP.a */; };
 		B974D9F327A2EA6E0035873A /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B974D9F227A2EA6E0035873A /* BootSplash.storyboard */; };
+		B9E5658A281B62980079D3CB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B9E56589281B62980079D3CB /* GoogleService-Info.plist */; };
 		E6964186FA1D4F6EA459812C /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EEB72E8341A43BF861B5B66 /* Nunito-Regular.ttf */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,8 @@
 		B1505A01C246BBDC1D4FDB2C /* libPods-TrackingBP-TrackingBPTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TrackingBP-TrackingBPTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C1779A02F7414395A309C9 /* Dongle-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Dongle-Regular.ttf"; path = "../assets/fonts/Dongle-Regular.ttf"; sourceTree = "<group>"; };
 		B974D9F227A2EA6E0035873A /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = TrackingBP/BootSplash.storyboard; sourceTree = "<group>"; };
+		B99B7F58281C35A500CBD24A /* TrackingBP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TrackingBP.entitlements; path = TrackingBP/TrackingBP.entitlements; sourceTree = "<group>"; };
+		B9E56589281B62980079D3CB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BE7BFFF24F27BAB725BE8DC7 /* Pods-TrackingBP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackingBP.release.xcconfig"; path = "Target Support Files/Pods-TrackingBP/Pods-TrackingBP.release.xcconfig"; sourceTree = "<group>"; };
 		D2F1AA40C1824F919E1CA575 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		DE057A3134C58CA0AC62B00E /* Pods-TrackingBP-TrackingBPTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackingBP-TrackingBPTests.release.xcconfig"; path = "Target Support Files/Pods-TrackingBP-TrackingBPTests/Pods-TrackingBP-TrackingBPTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -113,9 +116,11 @@
 		13B07FAE1A68108700A75B9A /* TrackingBP */ = {
 			isa = PBXGroup;
 			children = (
+				B99B7F58281C35A500CBD24A /* TrackingBP.entitlements */,
 				B974D9F227A2EA6E0035873A /* BootSplash.storyboard */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				B9E56589281B62980079D3CB /* GoogleService-Info.plist */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
@@ -307,6 +312,7 @@
 				B974D9F327A2EA6E0035873A /* BootSplash.storyboard in Resources */,
 				E6964186FA1D4F6EA459812C /* Nunito-Regular.ttf in Resources */,
 				34392F0B24E0444792638A86 /* Nunito-SemiBold.ttf in Resources */,
+				B9E5658A281B62980079D3CB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,7 +565,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = TrackingBP/TrackingBP.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R948X6A8YN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TrackingBP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -571,8 +581,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.TrackingBP;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salutemmagna.simagna;
 				PRODUCT_NAME = TrackingBP;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -585,7 +596,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = TrackingBP/TrackingBP.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R948X6A8YN;
 				INFOPLIST_FILE = TrackingBP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -596,8 +611,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.TrackingBP;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salutemmagna.simagna;
 				PRODUCT_NAME = TrackingBP;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

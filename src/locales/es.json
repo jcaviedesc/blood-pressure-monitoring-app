@@ -3,7 +3,8 @@
     "next": "siguiente",
     "save": "guardar",
     "confirm": "confirmar",
-    "finish": "finalizar"
+    "finish": "finalizar",
+    "add": "agregar"
   },
   "verify_phone": {
     "title": "Verficación",
@@ -21,17 +22,20 @@
     "title": "Registro",
     "subtitle": "Gracias por tomarte el tiempo de crear una cuenta con nosotros. Aquí empieza la parte divertida",
     "full_name": "Nombre completo",
-    "document_id":"Número de identificación",
+    "document_id": "Número de identificación",
     "document_id_hint": "cédula de ciudadania",
     "phone_number": "Número de celular",
     "all_ready_account": "¿Ya tienes una cuenta?",
     "log_in": "Iniciar sesión"
   },
-  "birthdate_screen":{
-    "title": "Residencia",
+  "birthdate_screen": {
+    "title": "Cumpleaños",
     "birthdate": "Fecha de nacimiento",
     "address": "Dirección de donde vives",
     "address_hint": "Ej. dirección, ciudad, departamento"
+  },
+  "select_user": {
+    "title": "Tipo de usuario"
   },
   "healt_info_screen": {
     "title": "Información de Salud",
@@ -57,6 +61,11 @@
     "title": "Resumen",
     "description": "Aqui puedes agregar informacion extra como sintomas o cualquier factor que pueda afectar la medición de la presión arterial"
   },
+  "home": {
+    "user_greetings": "Hola,",
+    "mystatus": "Mi estado",
+    "medicines": "Medicamentos"
+  },
   "loading": "Esperando",
   "yes": "SI",
   "not": "NO",
@@ -69,5 +78,9 @@
   "height": "Altura",
   "validation": {
     "required": "Este campo debe ser completado"
+  },
+  "user_type": {
+    "health": "Profesional en Salud",
+    "patient": "Paciente"
   }
 }

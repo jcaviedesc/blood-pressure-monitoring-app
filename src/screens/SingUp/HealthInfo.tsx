@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Fonts, Colors, Metrics } from '../../styles';
@@ -9,9 +9,9 @@ import { selectUser, updateHealtInfo } from '../../store/singup/singupSlice';
 import { HealtInfoAction } from '../../store/singup/types';
 import { InputToggle, Button } from '../../components';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Singup/HealtInfo'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'Singup/HealthInfo'>;
 
-const HealtInfoScreen: React.FC<Props> = ({ navigation }) => {
+const HealthInfoScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const { healtInfo } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -33,8 +33,8 @@ const HealtInfoScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <ScrollView style={styles.mainContainerWitoutHeader}>
-      <View style={styles.content}>
+    <SafeAreaView style={styles.mainContainer}>
+      <ScrollView style={styles.content}>
         <View>
           <Text style={styles.title}>
             {translate('healt_info_screen.title')}
@@ -137,7 +137,6 @@ const HealtInfoScreen: React.FC<Props> = ({ navigation }) => {
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
-                { label: translate('do_not_know'), value: 'not know' },
               ]}
               onPress={({ value }) => {
                 onSelectHealtOption(
@@ -151,8 +150,8 @@ const HealtInfoScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.footer}>
           <Button title={translate('button.next')} onPress={onNext} />
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -189,4 +188,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HealtInfoScreen;
+export default HealthInfoScreen;

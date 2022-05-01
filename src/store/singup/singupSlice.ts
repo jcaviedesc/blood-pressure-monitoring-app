@@ -12,7 +12,7 @@ const initialState: SingUpState = {
   fullName: '',
   docId: '',
   phone: '',
-  address: '',
+  address: 'NaN',
   location: [],
   birthdate: '',
   gender: Gender.female,

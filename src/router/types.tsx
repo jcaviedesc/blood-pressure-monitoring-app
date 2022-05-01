@@ -6,7 +6,7 @@ export type RootStackParamList = {
   'Singup/Birthdate': undefined;
   'Singup/BodyInfo': undefined;
   'Singup/SelectUserType': undefined;
-  'Singup/HealtInfo': undefined;
+  'Singup/HealthInfo': undefined;
   'Singup/ProfilePicture': undefined;
   Onboarding: undefined;
   Home: undefined;
@@ -19,4 +19,5 @@ export type RootStackParamList = {
   // 'BloodPressure/Meassuring': undefined; // version v2
   // 'BloodPressure/HeartRate': undefined; // version v2
   Profile: undefined;
+  development: undefined;
 };

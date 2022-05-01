@@ -1,8 +1,8 @@
 import { mapValues } from 'lodash';
-import type { userState } from '../store/singup/types';
+import type { SingUpState } from '../store/singup/types';
 import { cleanObject } from './utils';
 
-type UserFromApp = userState & { profile_url: string };
+type UserFromApp = SingUpState & { profile_url: string };
 
 const UserEnun = {
   healthUser: 1,
@@ -25,11 +25,11 @@ const GenderEnun = {
 export const userToApi = ({
   fullName,
   phone,
-  address,
+  address = 'NaN',
   location,
   gender,
   weight,
-  stature,
+  height,
   birthdate,
   userType,
   healtInfo,
@@ -38,12 +38,12 @@ export const userToApi = ({
   const userApi = cleanObject({
     full_name: fullName,
     phone_number: phone,
-    address,
+    address: address,
     // location, TODO
     gender: GenderEnun[gender],
     birthdate,
     height: {
-      val: stature,
+      val: height / 100,
       unit: 'm', //TODO get from UI
     },
     weight: {
@@ -59,3 +59,5 @@ export const userToApi = ({
   }
   return userApi;
 };
+
+// "{"full_name":"Juan Camilo caviedes","phone_number":"+573202878844","address":"NaN","gender":"M","birthdate":"1997-01-22","height":{"val":163,"unit":"m"},"weight":{"val":78,"unit":"Kg"},"user_type":1}"

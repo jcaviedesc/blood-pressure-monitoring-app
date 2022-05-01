@@ -10,12 +10,14 @@ import {
   Alert,
   TouchableHighlight,
   StatusBar,
+  SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
 import { RouteName } from '../../router/routeNames';
-import { Colors, Fonts, AppStyles, Images } from '../../styles';
-import { Box } from '../../components';
+import { Colors, Fonts, AppStyles, Images, Metrics } from '../../styles';
+import { Box, Tag } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector } from '../../hooks';
 import { selectUserData } from '../../store/user/userSlice';
@@ -25,7 +27,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const {
-    profile: { fullName, profileUrl },
+    profile: { fullName, profileUrl, gender },
     homeStatus: { bloodPressure, nutritional, heartRate, bloodGlucose },
   } = useAppSelector(selectUserData);
 
@@ -56,19 +58,27 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     navigation.navigate(screen);
   };
   return (
-    <ScrollView style={styles.mainContainer}>
-      <StatusBar
-        animated={true}
-        backgroundColor={Colors.background}
-        showHideTransition="fade"
-        hidden={false}
-        barStyle="dark-content"
-      />
-      <View style={styles.content}>
+    <View style={styles.mainContainer}>
+      {/* TODO implementar alertas */}
+      <View style={styles.alertContainer} />
+      <ScrollView style={styles.content}>
+        <StatusBar
+          animated={true}
+          backgroundColor={Colors.background}
+          showHideTransition="fade"
+          hidden={false}
+          barStyle="dark-content"
+        />
         <View style={styles.userHeader}>
           <View style={styles.userTitleContainer}>
-            <Text style={styles.userTitle} numberOfLines={1}>
-              Hola, <Text style={styles.userNameTitle}>{fullName}</Text>
+            <Text style={styles.userTitle}>
+              {translate('home.user_greetings')}
+            </Text>
+            <Text
+              style={[styles.userTitle, styles.userNameTitle]}
+              lineBreakMode="tail"
+              numberOfLines={1}>
+              {fullName}
             </Text>
           </View>
           <TouchableHighlight
@@ -77,15 +87,38 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
               navigation.navigate('Profile');
             }}>
             <Image
-              source={{
-                uri:
-                  profileUrl ||
-                  'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png',
-              }}
+              source={
+                profileUrl
+                  ? {
+                      uri: profileUrl,
+                    }
+                  : gender === 'M'
+                  ? Images.menGenderAvatar
+                  : Images.womenGenderAvatar
+              }
               defaultSource={Images.userPlaceholder}
               style={styles.avatar}
             />
           </TouchableHighlight>
+        </View>
+        <View style={styles.titleSection}>
+          <Text style={styles.titleSectonText}>
+            {translate('home.medicines')}
+          </Text>
+          <View>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={() => {
+                navigate('development');
+              }}>
+              <Tag value={translate('button.add')} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.titleSection}>
+          <Text style={styles.titleSectonText}>
+            {translate('home.mystatus')}
+          </Text>
         </View>
         <View style={styles.boxContainer}>
           <Box
@@ -95,7 +128,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             colors={['#fe5b5b', '#ef6463']}
             iconName="tint"
             onPress={() => {
-              navigate(RouteName.BLOOD_PRESSURE);
+              navigate('Home/BloodPressure');
             }}
           />
           <Box
@@ -104,6 +137,9 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             value={nutritional.value}
             iconName="balance-scale"
             colors={['#1273a6', '#71c4d2']}
+            onPress={() => {
+              navigate('development');
+            }}
           />
           <Box
             title="Ritmo Cardiaco"
@@ -111,6 +147,9 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             value={heartRate.value} // bpm
             iconName="heartbeat"
             colors={['#10acd4', '#81eb91']}
+            onPress={() => {
+              navigate('development');
+            }}
           />
           <Box
             title="Glucosa en sangre"
@@ -118,10 +157,13 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             value={bloodGlucose.value} // mg / dl
             iconName="eyedropper"
             colors={['#564ef7', '#9994ec']}
+            onPress={() => {
+              navigate('development');
+            }}
           />
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -130,13 +172,12 @@ const styles = StyleSheet.create({
   userHeader: {
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginBottom: 30,
-    marginTop: 21,
+    marginBottom: 21,
   },
   avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     resizeMode: 'cover',
     backgroundColor: Colors.white,
   },
@@ -146,16 +187,31 @@ const styles = StyleSheet.create({
   },
   userTitle: {
     fontFamily: Fonts.type.bold,
-    fontSize: Fonts.size.h2,
-    color: Colors.primary,
+    fontSize: Fonts.size.h5,
+    color: Colors.headline,
   },
   userNameTitle: {
-    fontSize: Fonts.size.h3,
+    fontFamily: Fonts.type.regular,
+    fontSize: Fonts.size.h4,
   },
   boxContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
+  },
+  alertContainer: {
+    paddingTop: Metrics.navBarHeight,
+  },
+  titleSection: {
+    marginVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  titleSectonText: {
+    fontFamily: Fonts.type.bold,
+    fontSize: Fonts.size.h4,
+    color: Colors.headline,
   },
 });
 

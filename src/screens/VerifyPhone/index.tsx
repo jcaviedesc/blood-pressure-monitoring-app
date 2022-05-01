@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
@@ -7,8 +7,6 @@ import type { RootStackParamList } from '../../router/types';
 import { VerifyCode } from '../../components';
 import { AppStyles, Fonts } from '../../styles';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
-import { useAppDispatch } from '../../hooks';
-import { changeUserSessionState } from '../../store/app/appSlice';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
@@ -16,7 +14,8 @@ type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
 const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   const { verificationType } = route.params;
   const { translate } = useI18nLocate();
-  const dispatch = useAppDispatch();
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -30,32 +29,33 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   );
 
   const verifyPhoneSuccess = useCallback(() => {
-    dispatch(changeUserSessionState(true));
     navigation.navigate(
       verificationType === 'SingUp' ? 'Singup/Birthdate' : 'Home',
     );
-  }, [navigation, verificationType, dispatch]);
+  }, [navigation, verificationType]);
 
   // If null, no SMS has been sent
   const {
     values: { confirm, phone },
   } = useConfirmPhone();
   // Handle user state changes
-  const onAuthStateChanged = useCallback(
-    (user: FirebaseAuthTypes.User | null) => {
-      if (user) {
-        verifyPhoneSuccess();
-        // showToast('The phone number is already registered');
-        // TODO naviage to login options?
-      }
-    },
-    [verifyPhoneSuccess],
-  );
+  function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
+    if (user) {
+      verifyPhoneSuccess();
+      // showToast('The phone number is already registered');
+      // TODO naviage to login options?
+    }
+    if (initializing) {
+      setInitializing(false);
+    }
+  }
 
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, [onAuthStateChanged]);
+  useFocusEffect(
+    useCallback(() => {
+      const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+      return subscriber; // unsubscribe on unmount
+    }, []),
+  );
 
   async function confirmCode(code: string) {
     try {
@@ -64,6 +64,10 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
     } catch (error) {
       console.log('Invalid code.', error);
     }
+  }
+
+  if (initializing) {
+    return null;
   }
 
   return (

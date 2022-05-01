@@ -6,52 +6,60 @@ import {
   Text,
   Platform,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Colors } from '../../styles';
+import DateTimePicker, {
+  AndroidNativeProps,
+} from '@react-native-community/datetimepicker';
+import { Colors, Fonts } from '../../styles';
 
-type props = {
+type Props = {
   testID: string;
-  datatime: Date;
-  onClose?: Function;
+  value: Date;
   onChange: Function;
   mode: 'date' | 'time';
+  is24Hour: boolean;
+  display: AndroidNativeProps['display'];
   minimumDate?: Date;
   maximumDate?: Date;
 };
 const Header = ({ children }) => <View style={styles.header}>{children}</View>;
 
-const DatePicker: React.FC<props> = ({
+const DatePicker: React.FC<Props> = ({
   testID,
-  datatime,
-  onClose = () => {},
+  value,
   onChange,
   mode,
+  is24Hour,
+  display,
   minimumDate,
-  maximumDate,
+  maximumDate = new Date(),
 }) => {
-  const [date, setDate] = useState(datatime);
-  const display = Platform.OS === 'android' ? 'default' : 'spinner';
+  const [dateValue, setDateValue] = useState(value);
+
+  const closeHandler = () => {
+    onChange(dateValue);
+  };
+
   const headerIos = Platform.OS === 'ios' && (
     <Header>
-      <TouchableOpacity onPress={onClose}>
+      <TouchableOpacity onPress={closeHandler}>
         <Text style={styles.textDone}>Done</Text>
       </TouchableOpacity>
     </Header>
   );
   return (
-    <TouchableOpacity onPress={onClose} style={styles.container}>
+    <TouchableOpacity onPress={closeHandler} style={styles.container}>
       {headerIos}
       <DateTimePicker
         testID={testID}
-        value={date}
+        value={dateValue}
         mode={mode}
+        is24Hour={is24Hour}
         display={display}
         onChange={(e, d) => {
           if (Platform.OS === 'ios') {
-            setDate(d);
-            onChange(d);
+            setDateValue(d ?? dateValue);
           } else {
-            onClose(d);
+            onChange(d ?? dateValue);
           }
         }}
         style={styles.datePicker}
@@ -64,26 +72,37 @@ const DatePicker: React.FC<props> = ({
 
 const styles = StyleSheet.create({
   datePicker: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
   container: {
-    backgroundColor: 'transparent',
+    backgroundColor: Colors.transparent,
     height: '100%',
     justifyContent: 'flex-end',
     position: 'absolute',
     width: '100%',
+    zIndex: 100,
   },
   header: {
     alignItems: 'flex-end',
-    backgroundColor: Colors.white,
-    borderBottomWidth: 1,
-    borderColor: Colors.gray,
+    backgroundColor: Colors.background,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
     justifyContent: 'flex-end',
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 8,
     width: '100%',
+    shadowColor: '#211446',
+    shadowOffset: {
+      width: 3,
+      height: 4,
+    },
+    shadowOpacity: 0.6,
+    shadowRadius: 5.84,
+    elevation: 5,
   },
   textDone: {
-    fontWeight: '500',
+    fontFamily: Fonts.type.regular,
+    fontSize: Fonts.size.h5,
   },
 });
 

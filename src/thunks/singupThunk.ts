@@ -41,6 +41,9 @@ export const saveUser = ({ navigation, authProviderId }: SaveUserPayload) => {
       const transformUser = snakeCaseToCamelCase(response.data) as userFromApi;
       dispatch(updateUserProfileFromSingup(transformUser));
       navigation.navigate('Home');
+    } else {
+      //TODO sentry
+      console.log(response);
     }
     dispatch(setScreenLoading(false));
   };

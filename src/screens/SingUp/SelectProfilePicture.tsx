@@ -34,7 +34,7 @@ type actionSheetRef = {
 type Props = NativeStackScreenProps<
   RootStackParamList,
   RouteName.PROFILE_PICTURE
-> & { setLoading: (state: boolean) => void };
+>;
 
 const defaulPictureOptions: CameraOptions = {
   mediaType: 'photo',
@@ -68,10 +68,7 @@ const requestCameraPermission = async () => {
   }
 };
 
-const SelectProfilePictureScreen: React.FC<Props> = ({
-  navigation,
-  setLoading,
-}) => {
+const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
   const { picture } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const actionSheetRef = useRef<actionSheetRef>();

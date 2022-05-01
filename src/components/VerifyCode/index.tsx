@@ -7,11 +7,13 @@ type Props = {
 };
 const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
   const [code, setCode] = useState(['', '', '', '', '', '']);
+  const [complete, setComplete] = useState(false);
   useEffect(() => {
-    if (code.every(c => c !== '')) {
+    if (code.every(c => c !== '') && !complete) {
       onCompleteCode(code.join(''));
+      setComplete(true);
     }
-  }, [code, onCompleteCode]);
+  }, [complete, code, onCompleteCode]);
 
   const codeRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
 

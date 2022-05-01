@@ -8,7 +8,6 @@ import Fonts from './Fonts';
 interface IApplicationStyles {
   screen: {
     mainContainer: ViewStyle;
-    mainContainerWitoutHeader: ViewStyle;
     darkContainer: ViewStyle;
     content: ViewStyle;
     section: ViewStyle;
@@ -23,12 +22,7 @@ const ApplicationStyles: IApplicationStyles = {
     mainContainer: {
       flex: 1,
       backgroundColor: Colors.background,
-      paddingTop: Metrics.navBarHeight,
       paddingBottom: 12,
-    },
-    mainContainerWitoutHeader: {
-      flex: 1,
-      backgroundColor: Colors.background,
     },
     darkContainer: { backgroundColor: Colors.darkBackground },
     content: {

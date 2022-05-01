@@ -85,32 +85,30 @@ const SwiperUnits: React.FC<Props> = ({
   }, [units, initialUnitIndex]);
 
   return (
-    <View>
+    <View style={styles.swiperContainer}>
       <View style={styles.titleContainer}>
         <Text style={titleStyles}>{title}</Text>
       </View>
-      <View style={styles.swiperContainer}>
-        <FlatList
-          ListHeaderComponent={<SideEmpty width={EMPTY_SPACE + 3} />}
-          ListFooterComponent={<SideEmpty width={EMPTY_SPACE - 4} />}
-          keyExtractor={item => `${item}`}
-          data={units}
-          renderItem={_renderItem}
-          horizontal
-          // onViewableItemsChanged={onViewableItemsChanged}
-          getItemLayout={_getItemLayout}
-          initialScrollIndex={handlerInitialScrollIndex()}
-          extraData={activeItem}
-          showsHorizontalScrollIndicator={false}
-          viewabilityConfig={{
-            itemVisiblePercentThreshold: 90,
-          }}
-          onScroll={handleScroll}
-          pagingEnabled
-          decelerationRate="fast"
-          snapToInterval={ITEM_WIDTH}
-        />
-      </View>
+      <FlatList
+        ListHeaderComponent={<SideEmpty width={EMPTY_SPACE + 3} />}
+        ListFooterComponent={<SideEmpty width={EMPTY_SPACE - 4} />}
+        keyExtractor={item => `${item}`}
+        data={units}
+        renderItem={_renderItem}
+        horizontal
+        // onViewableItemsChanged={onViewableItemsChanged}
+        getItemLayout={_getItemLayout}
+        initialScrollIndex={handlerInitialScrollIndex()}
+        extraData={activeItem}
+        showsHorizontalScrollIndicator={false}
+        viewabilityConfig={{
+          itemVisiblePercentThreshold: 90,
+        }}
+        onScroll={handleScroll}
+        pagingEnabled
+        decelerationRate="fast"
+        snapToInterval={ITEM_WIDTH}
+      />
       <View style={styles.lineIndicatorContainer}>
         <View style={styles.magnitudeContainer}>
           <Text style={magnitudeSyles}>kg</Text>
@@ -124,10 +122,9 @@ const SwiperUnits: React.FC<Props> = ({
 const styles = StyleSheet.create({
   titleContainer: {
     marginHorizontal: 20,
-    marginBottom: 9,
   },
   swiperContainer: {
-    height: 90,
+    height: '100%',
     position: 'relative',
   },
   lineIndicatorContainer: {
@@ -138,7 +135,6 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-    // backgroundColor: 'rgba(6,6,6, 0.4)',
   },
   lineIndicator: {
     width: 2,
@@ -146,7 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   magnitudeContainer: {
-    marginBottom: 9,
+    left: -8,
   },
 });
 

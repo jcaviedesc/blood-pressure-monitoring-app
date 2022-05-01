@@ -1,3 +1,4 @@
+import 'fast-text-encoding';
 import Joi from 'joi';
 
 const transformError = (error: { details: any[] }) =>

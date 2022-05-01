@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 9,
   },
   step: {
-    height: 9,
+    height: 5,
     borderRadius: 3,
   },
 });

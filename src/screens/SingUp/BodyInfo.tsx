@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import SwiperUnits from '../../lib/swiperUnits';
@@ -29,7 +29,7 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <SafeAreaView style={[styles.mainContainer, styles.mainContainerOverride]}>
       <View style={styles.bodyScreenContent}>
         <View style={{ flex: 10 }}>
           <SelectGenderSexToggle
@@ -40,7 +40,7 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
             }}
           />
         </View>
-        <View style={{ flex: 70 }}>
+        <View style={{ flex: 62 }}>
           <HeightSlider
             title={translate('height')}
             titleStyles={styles.titleWeight}
@@ -54,7 +54,7 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
             }}
           />
         </View>
-        <View style={{ flex: 20 }}>
+        <View style={{ flex: 18 }}>
           <SwiperUnits
             title={translate('weight')}
             titleStyles={styles.titleWeight}
@@ -67,16 +67,19 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
             }}
           />
         </View>
-        <View style={styles.section}>
+        <View style={[styles.section, { flex: 10 }]}>
           <Button title={translate('button.next')} onPress={nextStepHandler} />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
+  mainContainerOverride: {
+    paddingTop: 0,
+  },
   titleWeight: {
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h5,

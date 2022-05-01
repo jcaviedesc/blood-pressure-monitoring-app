@@ -14,6 +14,8 @@ import TextAreaInput from './TextAreaInput';
 import NumericVirtualKeyboard from './VirtualNumericKeyboard';
 import HeightSlider from './HeightSlider';
 import SelectGenderSexToggle from './SelectGenderSexToggle';
+import * as Layout from './Layout';
+import Tag from './Tag';
 
 export {
   Input,
@@ -32,4 +34,6 @@ export {
   NumericVirtualKeyboard,
   HeightSlider,
   SelectGenderSexToggle,
+  Layout,
+  Tag,
 };

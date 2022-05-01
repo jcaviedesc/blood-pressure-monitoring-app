@@ -10,7 +10,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
-import { Fonts, Colors, Images, Metrics } from '../../styles';
+import { Fonts, Colors, Images, Metrics, AppStyles } from '../../styles';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Card } from '../../components';
 
 type Props = NativeStackScreenProps<
@@ -18,20 +19,25 @@ type Props = NativeStackScreenProps<
   'Singup/SelectUserType'
 >;
 
+const SCALE = 0.6;
+
 const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
+  const { translate } = useI18nLocate();
   const { userType } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
   const onSelectGender = (select: string) => {
     dispatch(updateUserField({ field: 'userType', value: select }));
     navigation.navigate(
-      select === 'healthUser' ? 'Singup/ProfilePicture' : 'Singup/HealtInfo',
+      select === 'healthUser' ? 'Singup/ProfilePicture' : 'Singup/HealthInfo',
     );
   };
 
   return (
-    <View style={styles.mainContainerOverride}>
-      <Text style={styles.title}>¿Eres profesional de la salud?</Text>
+    <View style={styles.mainContainer}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleScreen}>{translate('select_user.title')}</Text>
+      </View>
       <View style={styles.userTypesContainer}>
         <TouchableHighlight
           underlayColor={Colors.transparent}
@@ -46,7 +52,7 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
                 style={styles.image}
               />
               <Text style={styles.userTypeText}>
-                Soy profesional de la salud
+                {translate('user_type.health')}
               </Text>
             </View>
           </Card>
@@ -61,7 +67,7 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
             <View style={styles.userTypeContent}>
               <Image source={Images.normalPerson} style={styles.image} />
               <Text style={styles.userTypeText}>
-                No soy profesional de la salud
+                {translate('user_type.patient')}
               </Text>
             </View>
           </Card>
@@ -72,16 +78,10 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  ...AppStyles.screen,
   mainContainerOverride: {
     flex: 1,
     backgroundColor: Colors.background,
-  },
-  title: {
-    ...Fonts.style.h3,
-    textAlign: 'center',
-    color: Colors.headline,
-    marginBottom: 31,
-    marginHorizontal: Metrics.marginHorizontal,
   },
   userTypesContainer: {
     flex: 1,
@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardTouchable: {
-    width: Metrics.screenHeight / 2 - 140,
-    height: Metrics.screenHeight / 2 - 140,
+    width: Metrics.screenWidth * SCALE,
+    height: Metrics.screenWidth * SCALE,
     marginBottom: 24,
   },
   userTypeContent: {
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 120,
+    width: '100%',
     height: 120,
     resizeMode: 'contain',
     marginBottom: 21,
