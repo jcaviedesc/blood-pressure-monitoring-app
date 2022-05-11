@@ -5,12 +5,11 @@ import {
   StyleProp,
   ViewStyle,
   useColorScheme,
-  Platform,
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { Steps } from '..';
 import type { StepProps } from '../Steps';
-import { Colors, AppStyles } from '../../styles';
+import { Colors, AppStyles, Metrics } from '../../styles';
 
 type StepsHeaderProps = {
   title: string;
@@ -34,9 +33,7 @@ const StepsHeader: React.FC<StepsHeaderProps> = ({
         isDarkMode && styles.darkContainer,
         { height: headerHeight },
       ]}>
-      <View style={styles.stepsContainer}>
-        <Steps nsteps={step.nsteps} activeStep={step.activeStep} />
-      </View>
+      <Steps nsteps={step.nsteps} activeStep={step.activeStep} />
       <View style={styles.leftButton}>{leftButton}</View>
     </View>
   );
@@ -46,9 +43,8 @@ const styles = StyleSheet.create({
   ...AppStyles.screen,
   header: {
     backgroundColor: Colors.background,
-    paddingTop: Platform.OS === 'ios' ? 42 : 0,
+    paddingTop: Metrics.navBarHeight,
   },
-  stepsContainer: { paddingVertical: 6 },
   leftButton: {
     width: 60,
     height: '100%',

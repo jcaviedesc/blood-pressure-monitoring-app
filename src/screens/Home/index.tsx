@@ -10,12 +10,10 @@ import {
   Alert,
   TouchableHighlight,
   StatusBar,
-  SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
-import { RouteName } from '../../router/routeNames';
 import { Colors, Fonts, AppStyles, Images, Metrics } from '../../styles';
 import { Box, Tag } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
