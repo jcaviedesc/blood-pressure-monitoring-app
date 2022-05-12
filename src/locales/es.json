@@ -66,6 +66,17 @@
     "mystatus": "Mi estado",
     "medicines": "Medicamentos"
   },
+  "home/BloodPressure": {
+    "title": "Presión Arterial",
+    "sub_title": "Estadística por %{time}",
+    "action_sheet": {
+      "take_bp": "Registrar presión arterial",
+      "tensiometer":"Validar tensiómetro",
+      "reminders": "Recordatorios"
+    },
+    "sys": "Sistólica",
+    "dia": "Diastólica"
+  },
   "loading": "Esperando",
   "yes": "SI",
   "not": "NO",
@@ -82,5 +93,7 @@
   "user_type": {
     "health": "Profesional en Salud",
     "patient": "Paciente"
-  }
+  },
+  "week": "semana",
+  "day": "dia"
 }

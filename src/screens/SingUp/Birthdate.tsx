@@ -15,7 +15,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 // import DateTimePicker from '@react-native-community/datetimepicker';
 import type { RootStackParamList } from '../../router/types';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { Button, Input, DatePicker, Layout } from '../../components';
+import { Button, DatePicker, Layout } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
 import { AppStyles, Fonts, Colors, Images } from '../../styles';
@@ -27,7 +27,7 @@ const BirthdateScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-  const { birthdate, address } = user;
+  const { birthdate } = user;
   const [date, setDate] = useState(new Date(1598051730000));
   const [show, setShow] = useState(false);
   const [inputErrors, setInputErrors] = useState('');

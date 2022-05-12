@@ -1,15 +1,13 @@
-export type RootStackParamList = {
-  Splash: undefined;
-  Login: { from?: string };
+type SingUpStackParamList = {
   Singup: undefined;
-  VerifyPhone: { verificationType: string };
   'Singup/Birthdate': undefined;
   'Singup/BodyInfo': undefined;
   'Singup/SelectUserType': undefined;
   'Singup/HealthInfo': undefined;
   'Singup/ProfilePicture': undefined;
-  Onboarding: undefined;
-  Home: undefined;
+};
+
+type BloodPressureStackParam = {
   'Home/BloodPressure': undefined;
   'BloodPressure/Steps': undefined;
   'BloodPressure/Preparation': undefined;
@@ -18,6 +16,18 @@ export type RootStackParamList = {
   'BloodPressure/MeasuringFinish': undefined;
   // 'BloodPressure/Meassuring': undefined; // version v2
   // 'BloodPressure/HeartRate': undefined; // version v2
+};
+
+export type RootStackParamList = {
+  Splash: undefined;
+  Login: { from?: string };
+  VerifyPhone: { verificationType: string };
+  Onboarding: undefined;
+  Home: undefined;
   Profile: undefined;
   development: undefined;
-};
+} & SingUpStackParamList &
+  BloodPressureStackParam;
+
+export type BloodPressureScreenNames = keyof BloodPressureStackParam;
+export type SingUpScreens = keyof SingUpStackParamList;

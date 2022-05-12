@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { StyleSheet, Switch, Text, View, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { RouteName } from '../../router/routeNames';
 import { Colors, AppStyles, Fonts } from '../../styles';
 import { Button } from '../../components';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
-  RouteName.PREPARATION_READING_BP
+  'BloodPressure/Preparation'
 >;
 
 const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({

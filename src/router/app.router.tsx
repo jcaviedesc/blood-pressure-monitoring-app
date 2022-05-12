@@ -6,7 +6,6 @@ import {
 } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
 import type { RootStackParamList } from './types';
-import defaultOptions from './ScreenConfig';
 import { NormalHeader } from '../components/Layout';
 import styles from './styles';
 // screens
@@ -16,17 +15,12 @@ import VerifyPhoneScreen from '../screens/VerifyPhone';
 import SingUpFlow, { renderSingUpHeader } from './SingUpFlow';
 import OnboardingScreen from '../screens/Onboarding';
 import HomeScreen from '../screens/Home';
-import BloodPressureScreen from '../screens/BloodPressure';
-import BloodPressurePreparation from '../screens/BloodPressure/Preparation';
-import BloodPressureStepsScreen from '../screens/BloodPressure/Steps';
-// import BloodPressureMeassuringScreen from '../screens/BloodPressure/Meassuring';
-import BloodPressureMeassuringA from '../screens/BloodPressure/MeassuringA';
-import Wait1MinuteScreen from '../screens/BloodPressure/Wait1minute';
-import BloodPressureMeasuringFinish from '../screens/BloodPressure/MeasuringFinish';
+import BloodPressureScreens from './BloodPressureScreens';
 // TODO revisar
 // import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate'; // v2
 import ProfileScreen from '../screens/Profile';
 import DevelopmentScreen from '../screens/Development';
+import { Colors } from '../styles';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -38,10 +32,11 @@ function App({ onReady }: AppProps) {
   return (
     <NavigationContainer onReady={onReady}>
       <Stack.Navigator
-        initialRouteName="Splash"
+        initialRouteName="Home"
         screenOptions={{
           headerStyle: styles.header,
           gestureEnabled: true,
+          headerTintColor: Colors.headline,
         }}>
         <Stack.Screen
           name="Splash"
@@ -106,33 +101,6 @@ function App({ onReady }: AppProps) {
             title: '',
           }}
         />
-        <Stack.Screen
-          name="Home/BloodPressure"
-          component={BloodPressureScreen}
-          options={{
-            headerShadowVisible: false,
-            headerStyle: {
-              backgroundColor: 'transpatent',
-            },
-            title: '',
-          }}
-        />
-        <Stack.Screen
-          name={'BloodPressure/Steps'}
-          component={BloodPressureStepsScreen}
-          options={{
-            ...defaultOptions,
-            title: '',
-          }}
-        />
-        <Stack.Screen
-          name={'BloodPressure/Preparation'}
-          component={BloodPressurePreparation}
-          options={{
-            ...defaultOptions,
-            title: '',
-          }}
-        />
         {/* <Stack.Screen
           name={'BloodPressure/Meassuring'}
           component={BloodPressureMeassuringScreen}
@@ -141,30 +109,6 @@ function App({ onReady }: AppProps) {
             title: 'Presión Arterial',
           }}
         /> */}
-        <Stack.Screen
-          name={'BloodPressure/MeassuringA'}
-          component={BloodPressureMeassuringA}
-          options={{
-            ...defaultOptions,
-            title: 'Presión Arterial',
-          }}
-        />
-        <Stack.Screen
-          name="BloodPressure/Wait1minute"
-          component={Wait1MinuteScreen}
-          options={{
-            ...defaultOptions,
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="BloodPressure/MeasuringFinish"
-          component={BloodPressureMeasuringFinish}
-          options={{
-            ...defaultOptions,
-            headerShown: false,
-          }}
-        />
         <Stack.Screen
           name="development"
           component={DevelopmentScreen}
@@ -179,6 +123,7 @@ function App({ onReady }: AppProps) {
         /> */}
         {Object.entries({
           ...SingUpFlow,
+          ...BloodPressureScreens,
         }).map(([name, params]) => (
           <Stack.Screen
             key={name}

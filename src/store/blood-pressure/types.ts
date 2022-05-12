@@ -5,11 +5,20 @@ export type BloodPressureRecord = {
   datetime: string;
 };
 
+type GetRecords = {
+  records: BloodPressureRecord[];
+  sysAvg?: number;
+  diaAvg?: number;
+  interval?: string;
+  startInterval?: string;
+};
+
 export interface BloodPressureState {
   records: BloodPressureRecord[];
   currentRecord: BloodPressureRecord;
   lastMeasuring: string;
   observations: string;
+  recordsPerWeek: GetRecords;
 }
 
 export type updateCurrentRecordAction = {

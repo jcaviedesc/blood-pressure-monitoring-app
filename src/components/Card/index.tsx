@@ -19,7 +19,7 @@ const Card: React.FC<props> = ({ children, selected = false, style }) => {
     ...style,
     backgroundColor: selected ? Colors.tertiary : Colors.background,
     shadowColor: selected ? Colors.tertiary : Colors.stroke,
-    elevation: selected ? 10 : 3,
+    elevation: selected ? 10 : 2,
   };
   return <View style={cardStyles}>{children}</View>;
 };
@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.15,
+    shadowRadius: 2.1,
     borderRadius: 10,
     paddingHorizontal: 9,
     paddingVertical: 15,

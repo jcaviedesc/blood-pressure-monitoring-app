@@ -15,6 +15,12 @@ interface IApplicationStyles {
     titleScreen: TextStyle;
     subTitleScreen: TextStyle;
   };
+  withActionsheet: {
+    actionSheet: ViewStyle;
+    actionSheetTouch: ViewStyle;
+    actionSheetText: TextStyle;
+    actionSheetTouchContent: ViewStyle;
+  };
 }
 
 const ApplicationStyles: IApplicationStyles = {
@@ -47,6 +53,26 @@ const ApplicationStyles: IApplicationStyles = {
     subTitleScreen: {
       ...Fonts.style.normal,
       color: Colors.paragraph,
+    },
+  },
+  withActionsheet: {
+    actionSheet: {
+      paddingBottom: 20,
+      paddingTop: 20,
+    },
+    actionSheetTouch: {
+      paddingVertical: 9,
+      paddingHorizontal: 12,
+    },
+    actionSheetText: {
+      marginLeft: 12,
+      fontFamily: Fonts.type.regular,
+      fontSize: Fonts.size.paragraph,
+      color: Colors.headline,
+    },
+    actionSheetTouchContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
     },
   },
 };

@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colors, Fonts, Metrics } from '../../styles';
-import { LineChart } from '../../components/Charts';
 import { Card } from '../../components';
 
 type dataLine = {
@@ -11,16 +10,18 @@ type dataLine = {
 
 type props = {
   title: string;
-  value: string;
+  value: string | number | undefined;
   magnitude: string;
-  data: dataLine[];
+  altText: string;
+  type: 'sys' | 'dia';
 };
 
 const BloodPressureCard: React.FC<props> = ({
   title,
   value,
   magnitude,
-  data,
+  altText,
+  type,
 }) => {
   return (
     <View style={styles.cardContainer}>
@@ -28,26 +29,17 @@ const BloodPressureCard: React.FC<props> = ({
         <View style={styles.cardHeader}>
           <Text style={styles.title}>{title}</Text>
           <Icon
-            name="heart-o"
+            name={type === 'sys' ? 'heart' : 'heart-o'}
             size={22}
             color={Colors.tertiary}
             style={styles.icon}
           />
         </View>
         <View style={styles.cardBody}>
-          <Text style={styles.valueText}>{value}</Text>
+          <Text style={styles.valueText}>{value ?? altText}</Text>
           <Text style={styles.magnitudeText}>{magnitude}</Text>
         </View>
         <View />
-        <View>
-          <LineChart
-            data={data}
-            width={
-              (Metrics.screenWidth - Metrics.marginHorizontal * 3 - 20) / 2
-            }
-            height={(Metrics.screenWidth - 80) / 4}
-          />
-        </View>
       </Card>
     </View>
   );
@@ -56,7 +48,6 @@ const BloodPressureCard: React.FC<props> = ({
 const styles = StyleSheet.create({
   cardContainer: {
     width: (Metrics.screenWidth - Metrics.marginHorizontal * 3) / 2,
-    height: (Metrics.screenWidth - 50) / 2,
   },
   title: {
     fontFamily: Fonts.type.bold,

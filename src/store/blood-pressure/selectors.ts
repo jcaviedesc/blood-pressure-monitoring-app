@@ -31,3 +31,6 @@ export const selectBloodPressureMeasuring = (state: RootState) => {
     why: observations,
   };
 };
+
+export const selectRecordPerWeek = (state: RootState) =>
+  state.bloodPressure?.recordsPerWeek ?? {};

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
@@ -41,6 +41,8 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   // Handle user state changes
   function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
     if (user) {
+      console.log("onAuthStateChanged")
+      console.log(user)
       verifyPhoneSuccess();
       // showToast('The phone number is already registered');
       // TODO naviage to login options?
@@ -59,7 +61,9 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
 
   async function confirmCode(code: string) {
     try {
-      await confirm?.confirm(code);
+      const result = await confirm?.confirm(code);
+      console.log("confirmCode")
+      console.log(result);
       verifyPhoneSuccess();
     } catch (error) {
       console.log('Invalid code.', error);

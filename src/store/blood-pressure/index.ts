@@ -14,6 +14,11 @@ const initialState: BloodPressureState = {
   },
   observations: '',
   lastMeasuring: '',
+  recordsPerWeek: {
+    records: [],
+    sysAvg: undefined,
+    diaAvg: undefined,
+  },
 };
 
 export const bloodPressureSlice = createSlice({

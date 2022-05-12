@@ -5,9 +5,19 @@ import { Colors, Fonts, Metrics } from '../../styles';
 import { getMaxOrMinValue } from '../../services/ChartUtils';
 import type { ChartProps } from './types';
 
+const DEFAULT_DATA = [
+  { x: 'Lun', y: 0 },
+  { x: 'Mar', y: 0 },
+  { x: 'Mie', y: 0 },
+  { x: 'Jue', y: 0 },
+  { x: 'Vie', y: 0 },
+  { x: 'Sab', y: 0 },
+  { x: 'Dom', y: 0 },
+];
+
 const BarChart: React.FC<ChartProps> = ({ data }) => {
-  const minYaxis = getMaxOrMinValue(data, v => v.y0, true);
-  const maxYaxis = getMaxOrMinValue(data, v => v.y, false);
+  const minYaxis = data ? getMaxOrMinValue(data, v => v.y0, true) : 40;
+  const maxYaxis = data ? getMaxOrMinValue(data, v => v.y, false) : 180;
 
   return (
     <View>
@@ -48,7 +58,7 @@ const BarChart: React.FC<ChartProps> = ({ data }) => {
             data: { fill: Colors.button, width: 9 },
           }}
           cornerRadius={{ top: 5, bottom: 5 }}
-          data={data}
+          data={data ?? DEFAULT_DATA}
           domain={{ y: [minYaxis, maxYaxis] }}
           alignment="middle"
           events={[

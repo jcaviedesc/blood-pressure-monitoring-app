@@ -13,7 +13,6 @@ import {
 import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { RouteName } from '../../router/routeNames';
 import { AppStyles, Colors, Fonts } from '../../styles';
 import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -24,7 +23,7 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale, setScreenLoading } from '../../store/app/appSlice';
 import { singUpSchema, transformError } from './schemaValidators/singup';
 
-type Props = NativeStackScreenProps<RootStackParamList, RouteName.SINGUP>;
+type Props = NativeStackScreenProps<RootStackParamList, 'Singup'>;
 
 const SingUpScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();

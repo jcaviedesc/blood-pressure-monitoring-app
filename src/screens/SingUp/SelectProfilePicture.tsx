@@ -19,7 +19,6 @@ import {
 import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { RouteName } from '../../router/routeNames';
 import { AppStyles, Images, Metrics, Fonts, Colors } from '../../styles';
 import { Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -33,7 +32,7 @@ type actionSheetRef = {
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
-  RouteName.PROFILE_PICTURE
+  'Singup/ProfilePicture'
 >;
 
 const defaulPictureOptions: CameraOptions = {
@@ -185,6 +184,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
+  ...AppStyles.withActionsheet,
   title: {
     ...Fonts.style.h3,
     textAlign: 'center',
@@ -224,24 +224,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.stroke,
     borderWidth: 1,
     overflow: 'hidden',
-  },
-  actionSheet: {
-    paddingBottom: 20,
-    paddingTop: 20,
-  },
-  actionSheetTouch: {
-    paddingVertical: 9,
-    paddingHorizontal: 12,
-  },
-  actionSheetText: {
-    marginLeft: 12,
-    fontFamily: Fonts.type.regular,
-    fontSize: Fonts.size.paragraph,
-    color: Colors.headline,
-  },
-  actionSheetTouchContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   footer: {
     flex: 5,

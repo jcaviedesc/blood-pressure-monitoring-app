@@ -1,8 +1,11 @@
 import React from 'react';
-import { NativeStackHeaderProps } from '@react-navigation/native-stack';
+import {
+  NativeStackHeaderProps,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
 import { getHeaderTitle, HeaderBackButton } from '@react-navigation/elements';
 import { StepsHeader } from '../components/Layout';
-import { RouteName } from './routeNames';
+import { SingUpScreens } from './types';
 // screena
 import SingUpScreen from '../screens/SingUp';
 import BirthdateScreen from '../screens/SingUp/Birthdate';
@@ -36,9 +39,16 @@ export const renderSingUpHeader = (
     />
   );
 };
-// TODO add birtdate screen
-const SingUpFlow = {
-  [RouteName.SINGUP]: {
+
+type SingUpScreensConfig = {
+  [K in SingUpScreens]: {
+    component: React.ComponentType<any>;
+    options: NativeStackNavigationOptions;
+  };
+};
+
+const SingUpFlow: SingUpScreensConfig = {
+  Singup: {
     component: SingUpScreen,
     options: {
       header: ({
@@ -118,7 +128,7 @@ const SingUpFlow = {
       },
     },
   },
-  [RouteName.PROFILE_PICTURE]: {
+  'Singup/ProfilePicture': {
     component: SelectProfilePictureScreen,
     options: {
       header: ({
