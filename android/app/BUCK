@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.trackingbp",
+    package = "com.bettion.bettion",
 )
 
 android_resource(
     name = "res",
-    package = "com.trackingbp",
+    package = "com.bettion.bettion",
     res = "src/main/res",
 )
 

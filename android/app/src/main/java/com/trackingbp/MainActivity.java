@@ -1,4 +1,4 @@
-package com.trackingbp;
+package com.bettion.bettion;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "TrackingBP";
+    return "BettiOn";
   }
 
   @Override
