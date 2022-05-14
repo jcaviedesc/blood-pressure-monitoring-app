@@ -27,18 +27,22 @@ const initialState: BloodPressureState = {
   reminderStage: 'normal',
   reminders: {
     normal: {
+      reschedule: true,
       repeat: '',
       times: [''],
     },
     hta1: {
+      reschedule: false,
       repeat: '',
       times: ['', ''],
     },
     hta2: {
+      reschedule: false,
       repeat: '',
       times: ['', '', ''],
     },
     custom: {
+      reschedule: false,
       repeat: '',
       times: [''],
     },
@@ -75,9 +79,20 @@ export const bloodPressureSlice = createSlice({
       let times = state.reminders[stageName as keyof Reminders].times;
       times[parseInt(index, 10)] = value;
       state.reminders[stageName as keyof Reminders].times = times;
+      state.reminders[stageName as keyof Reminders].reschedule = true;
     },
-    setReminderStage: (stage, action: PayloadAction<keyof Reminders>) => {
-      stage.reminderStage = action.payload;
+    setReminderStage: (state, action: PayloadAction<keyof Reminders>) => {
+      const beforeReminderStage = state.reminderStage;
+      const incomingRemiderStage = action.payload;
+      state.reminderStage = incomingRemiderStage;
+      state.reminders[beforeReminderStage].reschedule = false;
+      state.reminders[incomingRemiderStage].reschedule = true;
+    },
+    rescheduledReminderSuccess: (
+      state,
+      action: PayloadAction<keyof Reminders>,
+    ) => {
+      state.reminders[action.payload].reschedule = false;
     },
   },
   extraReducers: builder => {
@@ -93,6 +108,7 @@ export const {
   addObservations,
   setReminderTime,
   setReminderStage,
+  rescheduledReminderSuccess,
 } = bloodPressureSlice.actions;
 
 export default bloodPressureSlice.reducer;

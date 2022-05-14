@@ -17,6 +17,7 @@ type props = {
   id: string;
   frecuency?: 'everyday' | undefined;
   onSelectReminderTime: (reminderId: string, index: number) => void;
+  disabled: boolean;
 };
 
 const Reminder: React.FC<props> = ({
@@ -28,6 +29,7 @@ const Reminder: React.FC<props> = ({
   id,
   frecuency,
   onSelectReminderTime,
+  disabled,
 }) => {
   const { translate } = useI18nLocate();
 
@@ -41,6 +43,7 @@ const Reminder: React.FC<props> = ({
   return (
     <TouchableOpacity
       activeOpacity={0.3}
+      disabled={disabled}
       onPress={() => {
         onSelected(id);
       }}>
@@ -83,7 +86,7 @@ const Reminder: React.FC<props> = ({
                       onSelectReminderTime && onSelectReminderTime(id, num);
                     }}>
                     <View style={styles.rowTimeContainer}>
-                      <Text>{convertTime(time)}</Text>
+                      <Text style={styles.time}>{convertTime(time)}</Text>
                       <IconEntypo name="chevron-small-right" size={18} />
                     </View>
                   </TouchableOpacity>
@@ -125,6 +128,10 @@ const styles = StyleSheet.create({
   rowTimeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  time: {
+    ...Fonts.style.paragraph,
+    color: Colors.paragraph,
   },
 });
 

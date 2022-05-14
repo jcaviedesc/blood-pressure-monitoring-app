@@ -18,8 +18,13 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { AppStyles, Colors } from '../../styles';
 import { Reminder, DatePicker } from '../../components';
-import { selectReminders } from '../../store/blood-pressure/selectors';
-import { setReminderTime, setReminderStage } from '../../store/blood-pressure';
+import {
+  setReminderTime,
+  setReminderStage,
+  selectActiveReminderTime,
+  selectReminders,
+} from '../../store/blood-pressure';
+import DateInstance from '../../services/DateService';
 
 dayjs.extend(utc);
 type Props = NativeStackScreenProps<
@@ -53,13 +58,9 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
   }
 
   const { translate } = useI18nLocate();
-  const {
-    normal,
-    hta1,
-    hta2,
-    custom,
-    selectedReminder: reminderActive,
-  } = useAppSelector(selectReminders);
+  const { reminders, selectedReminder: reminderActive } =
+    useAppSelector(selectReminders);
+  const { normal, hta1, hta2, custom } = reminders;
   const dispatch = useAppDispatch();
 
   const [showReminderTime, setShowReminderTime] = useState(false);
@@ -110,6 +111,7 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           onSelected={setReminderActive}
           reminders={normal.times}
           id="normal"
+          disabled={reminderActive === 'normal'}
           onSelectReminderTime={onSelectReminderTimeHandler}
         />
         <Reminder
@@ -121,6 +123,7 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           onSelected={setReminderActive}
           reminders={hta1.times}
           id="hta1"
+          disabled={reminderActive === 'hta1'}
           onSelectReminderTime={onSelectReminderTimeHandler}
         />
         <Reminder
@@ -132,6 +135,7 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           onSelected={setReminderActive}
           reminders={hta2.times}
           id="hta2"
+          disabled={reminderActive === 'hta2'}
           frecuency="everyday"
           onSelectReminderTime={onSelectReminderTimeHandler}
         />
@@ -142,13 +146,16 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           onSelected={setReminderActive}
           reminders={custom.times}
           id="custom"
+          disabled={reminderActive === 'custom'}
           onSelectReminderTime={onSelectReminderTimeHandler}
         />
       </View>
       {showReminderTime && (
         <DatePicker
           testID="dateTimePicker"
-          value={new Date()}
+          value={DateInstance(
+            selectActiveReminderTime(reminders, reminderRef.current),
+          )}
           mode="time"
           is24Hour={false}
           display={Platform.OS === 'android' ? 'clock' : 'spinner'}

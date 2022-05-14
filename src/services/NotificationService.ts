@@ -3,7 +3,6 @@ import notifee, {
   TriggerType,
   RepeatFrequency,
 } from '@notifee/react-native';
-import dayjs from 'dayjs';
 import { Colors } from '../styles';
 
 type Notification = {
@@ -23,6 +22,7 @@ export function createTriggerNotificationService(
   const trigger: TimestampTrigger = {
     type: TriggerType.TIMESTAMP,
     timestamp: date,
+    repeatFrequency: frecuency,
   };
 
   return notifee.createTriggerNotification(

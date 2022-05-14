@@ -1,5 +1,5 @@
 import type { RootState } from '../configureStore';
-import type { TotalRecords } from './types';
+import type { TotalRecords, Reminders } from './types';
 
 export const selectCurrentRecord = (state: RootState) =>
   state.bloodPressure.currentRecord;
@@ -38,7 +38,18 @@ export const selectRecordPerWeek = (state: RootState) =>
 export const selectReminders = (state: RootState) => {
   const reminders = state.bloodPressure?.reminders ?? {};
   const selectedReminder = state.bloodPressure?.reminderStage;
-  return { selectedReminder, ...reminders };
+  return { selectedReminder, reminders };
+};
+
+export const selectActiveReminderTime = (
+  reminders: Reminders,
+  path: string,
+) => {
+  const [reminder, index] = path.split('.');
+  const currentActiveReminderTime =
+    reminders[reminder as keyof Reminders].times[parseInt(index, 10)];
+  // TODO mejor el manejo de esto para no crear un objeto cada ves que se llama esta funcion
+  return currentActiveReminderTime;
 };
 
 export const selectCurrentReminder = (state: RootState) => {

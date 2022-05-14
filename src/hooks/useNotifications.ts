@@ -13,3 +13,13 @@ export const useForegroundNotification = () => {
     return unsubscribe;
   }, []);
 };
+
+export const registerBackgroundEventNotifee = () => {
+  notifee.onBackgroundEvent(async ({ detail }) => {
+    const { notification } = detail;
+
+    if (notification !== undefined) {
+      await notifee.displayNotification(notification);
+    }
+  });
+};

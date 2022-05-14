@@ -48,9 +48,9 @@ const requestCameraPermission = async () => {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,
       {
-        title: 'Tracking BP App Camera Permission',
+        title: 'BettiOn App Camera Permission',
         message:
-          'Tracking BP App needs access to your camera ' +
+          'BettiOn App needs access to your camera ' +
           'so you can take awesome pictures.',
         buttonNeutral: 'Ask Me Later',
         buttonNegative: 'Cancel',

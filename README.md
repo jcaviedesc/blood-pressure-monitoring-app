@@ -1,4 +1,5 @@
-# Tracking Blood Pressure App
+# BettiOn
+Tracking Blood Pressure App for iOS y Android
 
 ## Requeriments
 

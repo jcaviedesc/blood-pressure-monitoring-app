@@ -14,6 +14,7 @@ type GetRecords = {
 };
 
 export type RemindersTime = {
+  reschedule: boolean;
   repeat: string;
   times: string[];
 };
