@@ -14,6 +14,7 @@ interface IApplicationStyles {
     titleContainer: ViewStyle;
     titleScreen: TextStyle;
     subTitleScreen: TextStyle;
+    paragraph: TextStyle;
   };
   withActionsheet: {
     actionSheet: ViewStyle;
@@ -52,6 +53,10 @@ const ApplicationStyles: IApplicationStyles = {
     },
     subTitleScreen: {
       ...Fonts.style.normal,
+      color: Colors.paragraph,
+    },
+    paragraph: {
+      ...Fonts.style.paragraph,
       color: Colors.paragraph,
     },
   },

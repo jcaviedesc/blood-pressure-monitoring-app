@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { BloodPressureState, updateCurrentRecordAction } from './types';
+import type {
+  BloodPressureState,
+  UpdateCurrentRecordAction,
+  ReminderTimeAction,
+  Reminders,
+} from './types';
 export * from './selectors';
 import { postRequestBloodPressure } from '../../thunks/blood-pressure';
 
@@ -15,9 +20,28 @@ const initialState: BloodPressureState = {
   observations: '',
   lastMeasuring: '',
   recordsPerWeek: {
-    records: [],
+    records: undefined,
     sysAvg: undefined,
     diaAvg: undefined,
+  },
+  reminderStage: 'normal',
+  reminders: {
+    normal: {
+      repeat: '',
+      times: [''],
+    },
+    hta1: {
+      repeat: '',
+      times: ['', ''],
+    },
+    hta2: {
+      repeat: '',
+      times: ['', '', ''],
+    },
+    custom: {
+      repeat: '',
+      times: [''],
+    },
   },
 };
 
@@ -35,7 +59,7 @@ export const bloodPressureSlice = createSlice({
     },
     updateCurrentRecord: (
       state,
-      action: PayloadAction<updateCurrentRecordAction>,
+      action: PayloadAction<UpdateCurrentRecordAction>,
     ) => {
       const { field, value } = action.payload;
       const newCurrentRecor = { ...state.currentRecord, [field]: value };
@@ -43,6 +67,17 @@ export const bloodPressureSlice = createSlice({
     },
     addObservations: (state, action: PayloadAction<string>) => {
       state.observations = action.payload;
+    },
+    setReminderTime: (state, action: PayloadAction<ReminderTimeAction>) => {
+      const { stage, value } = action.payload;
+      const [stageName, index]: string[] = stage.split('.');
+      // Todo revisar el type-safe
+      let times = state.reminders[stageName as keyof Reminders].times;
+      times[parseInt(index, 10)] = value;
+      state.reminders[stageName as keyof Reminders].times = times;
+    },
+    setReminderStage: (stage, action: PayloadAction<keyof Reminders>) => {
+      stage.reminderStage = action.payload;
     },
   },
   extraReducers: builder => {
@@ -52,7 +87,12 @@ export const bloodPressureSlice = createSlice({
   },
 });
 
-export const { addRecord, updateCurrentRecord, addObservations } =
-  bloodPressureSlice.actions;
+export const {
+  addRecord,
+  updateCurrentRecord,
+  addObservations,
+  setReminderTime,
+  setReminderStage,
+} = bloodPressureSlice.actions;
 
 export default bloodPressureSlice.reducer;

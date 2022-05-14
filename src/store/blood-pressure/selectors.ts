@@ -34,3 +34,16 @@ export const selectBloodPressureMeasuring = (state: RootState) => {
 
 export const selectRecordPerWeek = (state: RootState) =>
   state.bloodPressure?.recordsPerWeek ?? {};
+
+export const selectReminders = (state: RootState) => {
+  const reminders = state.bloodPressure?.reminders ?? {};
+  const selectedReminder = state.bloodPressure?.reminderStage;
+  return { selectedReminder, ...reminders };
+};
+
+export const selectCurrentReminder = (state: RootState) => {
+  const activeReminder = state.bloodPressure?.reminderStage;
+  const reminderData = state.bloodPressure?.reminders[activeReminder];
+  const isConfigured = reminderData.times.join('').length > 0;
+  return { activeReminder, reminderData, isConfigured };
+};

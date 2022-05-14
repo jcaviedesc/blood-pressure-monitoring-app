@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   ScrollView,
@@ -19,7 +19,9 @@ import { BloodPressureCard } from '../../wrappers';
 import { BarChart } from '../../components/Charts';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector, useAppDispatch } from '../../hooks';
+import { createNotificaions } from '../../thunks/blood-pressure';
 import { selectRecordPerWeek } from '../../store/blood-pressure/selectors';
+import { useFocusEffect } from '@react-navigation/native';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home/BloodPressure'>;
 
@@ -48,6 +50,12 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
     sysAvg,
   } = useAppSelector(selectRecordPerWeek);
 
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(createNotificaions({ title: 'Orale', body: 'pero como no' }));
+    }, [dispatch]),
+  );
+
   const actionSheetRef = useRef<actionSheetRef>();
   const navigate = (screen: keyof RootStackParamList) => {
     navigation.navigate(screen);
@@ -55,7 +63,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: translate('home/BloodPressure.title'),
+      title: translate('Home/BloodPressure.title'),
       headerRight: () => (
         <TouchableOpacity
           onPress={() => {
@@ -63,7 +71,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           }}>
           <IconEntypo
             name={Platform.OS === 'ios' ? 'dots-three-vertical' : 'menu'}
-            size={18}
+            size={Platform.OS === 'ios' ? 18 : 28}
           />
         </TouchableOpacity>
       ),
@@ -77,21 +85,21 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.content}>
         <View style={styles.contenHeder}>
           <Text style={styles.statics}>
-            {translate('home/BloodPressure.sub_title', {
+            {translate('Home/BloodPressure.sub_title', {
               time: translate('week'),
             })}
           </Text>
         </View>
         <View style={styles.cardContainer}>
           <BloodPressureCard
-            title={translate('home/BloodPressure.sys')}
+            title={translate('Home/BloodPressure.sys')}
             value={sysAvg}
             magnitude="mmHg"
             altText="--"
             type="sys"
           />
           <BloodPressureCard
-            title={translate('home/BloodPressure.dia')}
+            title={translate('Home/BloodPressure.dia')}
             value={diaAvg}
             magnitude="mmHg"
             altText="--"
@@ -124,7 +132,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
             <View style={styles.actionSheetTouchContent}>
               <Icon name="plus-circle" size={18} color={Colors.tertiary} />
               <Text style={styles.actionSheetText}>
-                {translate('home/BloodPressure.action_sheet.take_bp')}
+                {translate('Home/BloodPressure.action_sheet.take_bp')}
               </Text>
             </View>
           </TouchableHighlight>
@@ -138,7 +146,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
             <View style={styles.actionSheetTouchContent}>
               <Icon name="search" size={18} color={Colors.darkBackground} />
               <Text style={styles.actionSheetText}>
-                {translate('home/BloodPressure.action_sheet.tensiometer')}
+                {translate('Home/BloodPressure.action_sheet.tensiometer')}
               </Text>
             </View>
           </TouchableHighlight>
@@ -147,7 +155,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
             style={styles.actionSheetTouch}
             onPress={() => {
               actionSheetRef.current?.hide();
-              navigate('development');
+              navigate('BloodPressure/Reminders');
             }}>
             <View style={styles.actionSheetTouchContent}>
               <IconEntypo
@@ -156,7 +164,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
                 color={Colors.darkBackground}
               />
               <Text style={styles.actionSheetText}>
-                {translate('home/BloodPressure.action_sheet.reminders')}
+                {translate('Home/BloodPressure.action_sheet.reminders')}
               </Text>
             </View>
           </TouchableHighlight>

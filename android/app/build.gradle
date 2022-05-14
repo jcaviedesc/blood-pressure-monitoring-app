@@ -78,11 +78,31 @@ import com.android.build.OutputFile
  * ]
  */
 
+project.ext {
+  set('react-native', [
+    versions: [
+      // Overriding Build/Android SDK Versions
+      android : [
+        minSdk    : 19,
+        targetSdk : 31,
+        compileSdk: 31,
+        buildTools: "30.0.3"
+      ],
+
+      // Overriding Library SDK Versions
+      firebase: [
+        // Override Firebase SDK Version
+        bom           : "29.2.1"
+      ],
+    ],
+  ])
+}
+
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
 ]
 project.ext.vectoricons = [
-    iconFontNames: [ 'FontAwesome.ttf', 'Entypo.tff' ] // Name of the font files you want to copy
+    iconFontNames: [ 'FontAwesome.ttf', 'Entypo.ttf' ] // Name of the font files you want to copy
 ]
 
 

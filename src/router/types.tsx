@@ -14,6 +14,7 @@ type BloodPressureStackParam = {
   'BloodPressure/MeassuringA': undefined;
   'BloodPressure/Wait1minute': undefined;
   'BloodPressure/MeasuringFinish': undefined;
+  'BloodPressure/Reminders': undefined;
   // 'BloodPressure/Meassuring': undefined; // version v2
   // 'BloodPressure/HeartRate': undefined; // version v2
 };

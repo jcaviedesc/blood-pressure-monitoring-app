@@ -66,7 +66,7 @@
     "mystatus": "Mi estado",
     "medicines": "Medicamentos"
   },
-  "home/BloodPressure": {
+  "Home/BloodPressure": {
     "title": "Presión Arterial",
     "sub_title": "Estadística por %{time}",
     "action_sheet": {
@@ -76,6 +76,18 @@
     },
     "sys": "Sistólica",
     "dia": "Diastólica"
+  },
+  "BloodPressure/Reminders": {
+    "title": "Recordatorios",
+    "subtitle": "Recibe recordatorios para medir la presión arterial y registrar los resultados",
+    "normal": "Normal",
+    "normal_description": "Una vez a la semana después de levantarme",
+    "hypertension_1": "Hipertensión arterial grado 1",
+    "hypertension_1_description": "3 días a la semana después de levantarme y antes de acostarme",
+    "hypertension_2": "Hipertensión arterial grado 2",
+    "hypertension_2_description": "Todos los días después de levantarme, después de almuerzo y antes de dormir",
+    "custom": "Personalizar",
+    "custom_description":"Define la hora y la frecuencia"
   },
   "loading": "Esperando",
   "yes": "SI",
@@ -95,5 +107,7 @@
     "patient": "Paciente"
   },
   "week": "semana",
-  "day": "dia"
+  "day": "dia",
+  "reminder_to": "Recordatorio(%{time})  a las ",
+  "repeat": "Repetir"
 }

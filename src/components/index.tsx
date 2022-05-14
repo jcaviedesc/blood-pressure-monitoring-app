@@ -16,6 +16,7 @@ import HeightSlider from './HeightSlider';
 import SelectGenderSexToggle from './SelectGenderSexToggle';
 import * as Layout from './Layout';
 import Tag from './Tag';
+import Reminder from './Reminder';
 
 export {
   Input,
@@ -36,4 +37,5 @@ export {
   SelectGenderSexToggle,
   Layout,
   Tag,
+  Reminder
 };

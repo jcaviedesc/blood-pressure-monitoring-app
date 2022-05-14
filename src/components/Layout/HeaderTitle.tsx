@@ -10,7 +10,7 @@ const HeaderTitle = ({
   tintColor?: string | undefined;
 }) => {
   return (
-    <Text style={{ color: tintColor, ...Fonts.style.h6 }}>{children}</Text>
+    <Text style={{ color: tintColor, ...Fonts.style.h5 }}>{children}</Text>
   );
 };
 

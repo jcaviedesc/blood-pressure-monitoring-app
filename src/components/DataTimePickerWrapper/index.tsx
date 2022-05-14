@@ -29,9 +29,9 @@ const DatePicker: React.FC<Props> = ({
   onChange,
   mode,
   is24Hour,
-  display,
+  display = 'default',
   minimumDate,
-  maximumDate = new Date(),
+  maximumDate,
 }) => {
   const [dateValue, setDateValue] = useState(value);
 
@@ -65,6 +65,7 @@ const DatePicker: React.FC<Props> = ({
         style={styles.datePicker}
         minimumDate={minimumDate}
         maximumDate={maximumDate}
+        minuteInterval={5}
       />
     </TouchableOpacity>
   );

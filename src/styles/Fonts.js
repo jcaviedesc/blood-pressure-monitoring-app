@@ -12,7 +12,7 @@ const size = {
   h4: 26,
   h5: 20,
   h6: 19,
-  paragraph: 18,
+  paragraph: 17,
   hint: 14,
 };
 
@@ -45,9 +45,9 @@ const style = {
     fontFamily: type.regular,
     fontSize: size.h6,
   },
-  description: {
-    fontFamily: type.light,
-    fontSize: size.medium,
+  paragraph: {
+    fontFamily: type.regular,
+    fontSize: size.paragraph,
   },
   input: {
     fontFamily: type.light,

@@ -37,6 +37,7 @@ function App({ onReady }: AppProps) {
           headerStyle: styles.header,
           gestureEnabled: true,
           headerTintColor: Colors.headline,
+          headerBackTitleVisible: false,
         }}>
         <Stack.Screen
           name="Splash"

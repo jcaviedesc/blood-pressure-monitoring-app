@@ -19,6 +19,8 @@ const BarChart: React.FC<ChartProps> = ({ data }) => {
   const minYaxis = data ? getMaxOrMinValue(data, v => v.y0, true) : 40;
   const maxYaxis = data ? getMaxOrMinValue(data, v => v.y, false) : 180;
 
+  const values = Array.isArray(data) && data.length ? data : DEFAULT_DATA;
+
   return (
     <View>
       <VictoryChart
@@ -58,7 +60,7 @@ const BarChart: React.FC<ChartProps> = ({ data }) => {
             data: { fill: Colors.button, width: 9 },
           }}
           cornerRadius={{ top: 5, bottom: 5 }}
-          data={data ?? DEFAULT_DATA}
+          data={values}
           domain={{ y: [minYaxis, maxYaxis] }}
           alignment="middle"
           events={[

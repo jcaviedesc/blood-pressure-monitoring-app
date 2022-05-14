@@ -18,13 +18,15 @@ const clientApi = Api();
 const persistedReducerSetup = persistedReducer(rootReducer);
 
 const customMiddleWare = store => next => action => {
-  if (action.type.includes('pending')) {
-    store.dispatch(setScreenLoading(true));
-  } else if (
-    action.type.includes('rejected') ||
-    action.type.includes('fulfilled')
-  ) {
-    store.dispatch(setScreenLoading(false));
+  if (action?.type) {
+    if (action.type.includes('pending')) {
+      store.dispatch(setScreenLoading(true));
+    } else if (
+      action.type.includes('rejected') ||
+      action.type.includes('fulfilled')
+    ) {
+      store.dispatch(setScreenLoading(false));
+    }
   }
   next(action);
 };
