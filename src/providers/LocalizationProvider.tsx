@@ -12,7 +12,7 @@ interface ILocalizationProvider {
   children: Element[] | Element;
 }
 
-const translate = memoize(
+export const translate = memoize(
   (key: string, config?: object) => i18n.t(key, config),
   (key: string, config?: object) =>
     config ? key + JSON.stringify(config) : key,

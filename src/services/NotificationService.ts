@@ -10,14 +10,22 @@ type Notification = {
   body: string;
 };
 
-export function createTriggerNotificationService(
+type Channel = {
+  id: string;
+  name: string;
+};
+
+export async function createTriggerNotificationService(
   notificationId: string,
   date: number,
   notification: Notification,
   frecuency: RepeatFrequency,
-  channelId: string = 'default',
+  channel: Channel,
 ) {
   const { title, body } = notification;
+
+  // Create a channel
+  const channelId = await notifee.createChannel(channel);
 
   const trigger: TimestampTrigger = {
     type: TriggerType.TIMESTAMP,

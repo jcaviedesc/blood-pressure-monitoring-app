@@ -15,11 +15,9 @@ export const useForegroundNotification = () => {
 };
 
 export const registerBackgroundEventNotifee = () => {
-  notifee.onBackgroundEvent(async ({ detail }) => {
+  notifee.onBackgroundEvent(async ({ detail, type }) => {
     const { notification } = detail;
-
-    if (notification !== undefined) {
-      await notifee.displayNotification(notification);
-    }
+    console.log(notification, type);
+    // await notifee.displayNotification(notification);
   });
 };

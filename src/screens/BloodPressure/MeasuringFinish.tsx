@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { postRequestBloodPressure } from '../../thunks/blood-pressure';
+import { postRequestBloodPressure } from '../../thunks/blood-pressure-thunk';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
   addObservations,

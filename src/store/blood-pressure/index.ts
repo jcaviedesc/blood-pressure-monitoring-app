@@ -4,9 +4,10 @@ import type {
   UpdateCurrentRecordAction,
   ReminderTimeAction,
   Reminders,
+  RescheduledReminderSuccessAction,
 } from './types';
 export * from './selectors';
-import { postRequestBloodPressure } from '../../thunks/blood-pressure';
+import { postRequestBloodPressure } from '../../thunks/blood-pressure-thunk';
 
 /* ------------- blood pressure Initial State ------------- */
 const initialState: BloodPressureState = {
@@ -25,6 +26,7 @@ const initialState: BloodPressureState = {
     diaAvg: undefined,
   },
   reminderStage: 'normal',
+  activeNotificationRemider: 'normal',
   reminders: {
     normal: {
       reschedule: true,
@@ -75,24 +77,32 @@ export const bloodPressureSlice = createSlice({
     setReminderTime: (state, action: PayloadAction<ReminderTimeAction>) => {
       const { stage, value } = action.payload;
       const [stageName, index]: string[] = stage.split('.');
-      // Todo revisar el type-safe
       let times = state.reminders[stageName as keyof Reminders].times;
       times[parseInt(index, 10)] = value;
       state.reminders[stageName as keyof Reminders].times = times;
       state.reminders[stageName as keyof Reminders].reschedule = true;
     },
     setReminderStage: (state, action: PayloadAction<keyof Reminders>) => {
+      const activeNotificationRemider = state.activeNotificationRemider;
       const beforeReminderStage = state.reminderStage;
       const incomingRemiderStage = action.payload;
       state.reminderStage = incomingRemiderStage;
       state.reminders[beforeReminderStage].reschedule = false;
-      state.reminders[incomingRemiderStage].reschedule = true;
+      state.reminders[incomingRemiderStage].reschedule =
+        activeNotificationRemider !== incomingRemiderStage;
     },
     rescheduledReminderSuccess: (
       state,
-      action: PayloadAction<keyof Reminders>,
+      action: PayloadAction<RescheduledReminderSuccessAction>,
     ) => {
-      state.reminders[action.payload].reschedule = false;
+      const { reminder, times } = action.payload;
+      const currenReminder = state.reminders[reminder];
+      state.activeNotificationRemider = reminder;
+      state.reminders[reminder] = {
+        ...currenReminder,
+        reschedule: false,
+        times,
+      };
     },
   },
   extraReducers: builder => {

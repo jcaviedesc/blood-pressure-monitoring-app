@@ -71,7 +71,7 @@
     "sub_title": "Estadística por %{time}",
     "action_sheet": {
       "take_bp": "Registrar presión arterial",
-      "tensiometer":"Validar tensiómetro",
+      "tensiometer": "Validar tensiómetro",
       "reminders": "Recordatorios"
     },
     "sys": "Sistólica",
@@ -87,7 +87,14 @@
     "hypertension_2": "Hipertensión arterial grado 2",
     "hypertension_2_description": "Todos los días después de levantarme, después de almuerzo y antes de dormir",
     "custom": "Personalizar",
-    "custom_description":"Define la hora y la frecuencia"
+    "custom_description": "Define la hora y la frecuencia"
+  },
+  "notifications": {
+    "bloodPressure": {
+      "title": "%{name} es hora de medir la presión arterial!",
+      "body": "Presiona para iniciar el procedimiento.",
+      "channel": "Presión arterial"
+    }
   },
   "loading": "Esperando",
   "yes": "SI",

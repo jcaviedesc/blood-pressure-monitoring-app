@@ -20,20 +20,20 @@ import { BloodPressureCard } from '../../wrappers';
 import { BarChart } from '../../components/Charts';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { createNotificaions } from '../../thunks/blood-pressure';
+import { createNotificaions } from '../../thunks/blood-pressure-thunk';
 import { selectRecordPerWeek } from '../../store/blood-pressure/selectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home/BloodPressure'>;
 
-const bpdata = [
-  { x: 'Lun', y: 120, y0: 90 },
-  { x: 'Mar', y: 130, y0: 89 },
-  { x: 'Mie', y: 108, y0: 92 },
-  { x: 'Jue', y: 124, y0: 90 },
-  { x: 'Vie', y: 128, y0: 91 },
-  { x: 'Sab', y: 138, y0: 97 },
-  { x: 'Dom', y: 118, y0: 100 },
-];
+// const bpdata = [
+//   { x: 'Lun', y: 120, y0: 90 },
+//   { x: 'Mar', y: 130, y0: 89 },
+//   { x: 'Mie', y: 108, y0: 92 },
+//   { x: 'Jue', y: 124, y0: 90 },
+//   { x: 'Vie', y: 128, y0: 91 },
+//   { x: 'Sab', y: 138, y0: 97 },
+//   { x: 'Dom', y: 118, y0: 100 },
+// ];
 
 type actionSheetRef = {
   setModalVisible: () => void;
@@ -52,7 +52,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(createNotificaions({ title: 'Orale', body: 'pero como no' }));
+      dispatch(createNotificaions());
     }, [dispatch]),
   );
 

@@ -33,6 +33,7 @@ export interface BloodPressureState {
   observations: string;
   recordsPerWeek: GetRecords;
   reminderStage: keyof Reminders;
+  activeNotificationRemider: keyof Reminders;
   reminders: Reminders;
 }
 
@@ -49,4 +50,9 @@ export type TotalRecords = {
 export type ReminderTimeAction = {
   stage: string;
   value: string;
+};
+
+export type RescheduledReminderSuccessAction = {
+  reminder: keyof Reminders;
+  times: string[];
 };
