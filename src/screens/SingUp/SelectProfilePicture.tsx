@@ -16,14 +16,13 @@ import {
   ImagePickerResponse,
   CameraOptions,
 } from 'react-native-image-picker';
-import auth from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Images, Metrics, Fonts, Colors } from '../../styles';
 import { Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/singup/singupSlice';
-import { saveUser } from '../../thunks/singupThunk';
+import { finishSignUpUser } from '../../thunks/singupThunk';
 
 type actionSheetRef = {
   setModalVisible: () => void;
@@ -115,8 +114,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const onNext = async () => {
-    const user = auth().currentUser;
-    dispatch(saveUser({ navigation, authProviderId: user.uid }));
+    dispatch(finishSignUpUser(navigation));
   };
 
   return (

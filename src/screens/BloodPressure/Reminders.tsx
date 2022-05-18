@@ -5,10 +5,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Button,
   View,
 } from 'react-native';
-import notifee, { AndroidImportance } from '@notifee/react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -38,25 +36,6 @@ type actionSheetRef = {
 };
 
 const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
-  async function onDisplayNotification() {
-    // Create a channel
-    const channelId = await notifee.createChannel({
-      id: 'default',
-      name: 'Default Channel',
-    });
-
-    // Display a notification
-    await notifee.displayNotification({
-      title: 'Notification Title',
-      body: 'Main body content of the notification',
-      android: {
-        channelId,
-        smallIcon: 'ic_small_icon',
-        color: Colors.tertiary,
-      },
-    });
-  }
-
   const { translate } = useI18nLocate();
   const { reminders, selectedReminder: reminderActive } =
     useAppSelector(selectReminders);
@@ -98,7 +77,6 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.content}>
-        <Button title="Display Notification" onPress={() => onDisplayNotification()} />
         <View style={styles.subtitleContainer}>
           <Text style={styles.paragraph}>
             {translate('BloodPressure/Reminders.subtitle')}

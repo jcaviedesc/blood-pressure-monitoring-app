@@ -11,12 +11,14 @@ import {
   initAppSuccessful,
 } from '../../store/app/appSlice';
 import { useAppSelector, useAppDispatch } from '../../hooks';
+import { useInitialNotificationLaunchApp } from './hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
 const SplashScreen: React.FC<Props> = ({ navigation }) => {
   const { isFirstTime } = useAppSelector(selectAppUserState);
   const dispatch = useAppDispatch();
+  const loading = useInitialNotificationLaunchApp();
 
   useFocusEffect(
     useCallback(() => {
@@ -31,12 +33,14 @@ const SplashScreen: React.FC<Props> = ({ navigation }) => {
           navigation.navigate('Login', { from: 'splash' });
         }
       };
-      next();
+      if (loading) {
+        next();
+      }
       return () => {
         dispatch(initAppSuccessful());
         changeNavigationBarColor(Colors.background, true, false);
       };
-    }, [isFirstTime, navigation, dispatch]),
+    }, [isFirstTime, navigation, dispatch, loading]),
   );
 
   return (

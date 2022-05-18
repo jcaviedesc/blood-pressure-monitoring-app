@@ -90,10 +90,11 @@
     "custom_description": "Define la hora y la frecuencia"
   },
   "notifications": {
-    "bloodPressure": {
+    "blood_pressure": {
       "title": "%{name} es hora de medir la presión arterial!",
       "body": "Presiona para iniciar el procedimiento.",
-      "channel": "Presión arterial"
+      "channel": "Presión arterial",
+      "android_channel_description": "Canal para recordarte realizar las mediciones de presión arterial"
     }
   },
   "loading": "Esperando",

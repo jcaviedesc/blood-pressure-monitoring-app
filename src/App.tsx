@@ -12,6 +12,7 @@ import { useColorScheme, StatusBar, Alert } from 'react-native';
 import { Provider } from 'react-redux';
 import RNBootSplash from 'react-native-bootsplash';
 import messaging from '@react-native-firebase/messaging';
+import Toast from 'react-native-toast-message';
 import { PersistGate } from 'redux-persist/integration/react';
 import AppScreens from './router/app.router';
 import store, { persistor } from './store/configureStore';
@@ -50,6 +51,7 @@ const App: () => Node = () => {
           </ConfirmPhoneProvider>
         </LocalizationProvider>
       </PersistGate>
+      <Toast />
     </Provider>
   );
 };

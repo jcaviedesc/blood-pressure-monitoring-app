@@ -27,6 +27,7 @@ const ITEM_WIDTH = 63;
 const DELTA = 3;
 const EMPTY_SPACE = SCREEN_WIDTH / 2 - ITEM_WIDTH / 2;
 
+// TOODO revisar shouldComponentUpdate
 const SwiperUnits: React.FC<Props> = ({
   title,
   titleStyles,

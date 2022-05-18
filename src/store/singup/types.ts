@@ -15,7 +15,15 @@ type Picture = {
   uri: string;
   type: string;
 };
+
+export type firstRegistrationResponse = {
+  id: string | number;
+  fullName: string;
+  docId: string;
+  phone: string;
+};
 export interface SingUpState {
+  id?: string | number;
   fullName: string;
   docId: string; // cedula, dni, documento de identificaion
   phone: string;
@@ -25,7 +33,7 @@ export interface SingUpState {
   weight: string;
   height: string;
   birthdate: string;
-  userType: 'healthUser' | 'normalUser' | '';
+  userType: 'health professional' | 'patient' | '';
   healtInfo: HealtInfo;
   picture: Picture;
 }

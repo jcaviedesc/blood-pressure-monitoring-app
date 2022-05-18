@@ -4,8 +4,12 @@ type Meassure = {
 };
 
 export type RegisterUser = {
-  full_name: string;
-  phone_number: string;
+  fullName: string;
+  docId: string;
+  phone: string;
+};
+
+export type RegisterCompleteUser = {
   address: string;
   location?: number[];
   gender: string;

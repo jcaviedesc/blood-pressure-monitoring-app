@@ -6,6 +6,7 @@ import {
   Gender,
 } from './types';
 import type { RootState } from '../configureStore';
+import { signUpUser } from '../../thunks/singupThunk';
 
 /* ------------- Initial State ------------- */
 const initialState: SingUpState = {
@@ -46,6 +47,13 @@ export const singUpSlice = createSlice({
       state.healtInfo = healtInfoState;
     },
     clear: () => initialState,
+  },
+  extraReducers: builder => {
+    builder.addCase(signUpUser.fulfilled, (state, action) => {
+      // TODO ver como tipar action.payload
+      const { id } = action.payload;
+      state.id = id;
+    });
   },
 });
 

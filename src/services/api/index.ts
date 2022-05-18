@@ -1,7 +1,8 @@
 import axios, { AxiosPromise, AxiosRequestConfig, AxiosError } from 'axios';
 import { API_URL } from 'react-native-dotenv';
 import auth from '@react-native-firebase/auth';
-import type { RegisterUser, BPbody } from './types';
+import type { RegisterUser, BPbody, RegisterCompleteUser } from './types';
+import { camelCaseKeysToUnderscore, snakeCaseToCamelCase } from '../utils';
 
 const handleError = (error: AxiosError) => {
   if (error.response) {
@@ -39,6 +40,12 @@ const create = (baseURL = API_URL) => {
     },
     // 15 second timeout...
     timeout: 15000,
+    transformRequest: [
+      function (data) {
+        // Do whatever you want to transform the data
+        return JSON.stringify(camelCaseKeysToUnderscore(data));
+      },
+    ],
   });
 
   api.interceptors.request.use(async function (config: AxiosRequestConfig) {
@@ -54,6 +61,10 @@ const create = (baseURL = API_URL) => {
   api.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(response);
+    }
+    response.data = snakeCaseToCamelCase(response.data);
     return response;
   }, handleError);
 
@@ -74,6 +85,11 @@ const create = (baseURL = API_URL) => {
   const registerUser = (data: RegisterUser): AxiosPromise =>
     api.post('/users', data);
 
+  const finishRegistration = (
+    userId: string,
+    data: RegisterCompleteUser,
+  ): AxiosPromise => api.put(`/users/${userId}`, data);
+
   const registerBloodPressureRecord = (data: BPbody): AxiosPromise =>
     api.post('/blood-pressure/', data);
 
@@ -92,6 +108,7 @@ const create = (baseURL = API_URL) => {
   return {
     registerUser,
     registerBloodPressureRecord,
+    finishRegistration,
   };
 };
 

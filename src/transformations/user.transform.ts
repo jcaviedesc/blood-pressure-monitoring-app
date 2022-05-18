@@ -1,12 +1,12 @@
 import { mapValues } from 'lodash';
 import type { SingUpState } from '../store/singup/types';
-import { cleanObject } from './utils';
+import { cleanObject } from '../services/utils';
 
 type UserFromApp = SingUpState & { profile_url: string };
 
 const UserEnun = {
-  healthUser: 1,
-  normalUser: 2,
+  'health professional': 1,
+  patient: 2,
   '': 2,
 };
 
@@ -23,10 +23,7 @@ const GenderEnun = {
 };
 
 export const userToApi = ({
-  fullName,
-  phone,
-  address = 'NaN',
-  location,
+  address,
   gender,
   weight,
   height,
@@ -36,14 +33,12 @@ export const userToApi = ({
   profile_url,
 }: UserFromApp) => {
   const userApi = cleanObject({
-    full_name: fullName,
-    phone_number: phone,
-    address: address,
+    address,
     // location, TODO
     gender: GenderEnun[gender],
     birthdate,
     height: {
-      val: height / 100,
+      val: parseInt(height, 10) / 100,
       unit: 'm', //TODO get from UI
     },
     weight: {
@@ -54,7 +49,7 @@ export const userToApi = ({
     profile_url,
   });
 
-  if (userApi.user_type === 2) {
+  if (userApi.user_type === UserEnun.patient) {
     userApi.health_info = mapValues(healtInfo, value => healthInfoEnum[value]);
   }
   return userApi;

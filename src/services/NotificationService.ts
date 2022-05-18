@@ -2,6 +2,7 @@ import notifee, {
   TimestampTrigger,
   TriggerType,
   RepeatFrequency,
+  AndroidChannel
 } from '@notifee/react-native';
 import { Colors } from '../styles';
 
@@ -10,17 +11,12 @@ type Notification = {
   body: string;
 };
 
-type Channel = {
-  id: string;
-  name: string;
-};
-
 export async function createTriggerNotificationService(
   notificationId: string,
   date: number,
   notification: Notification,
   frecuency: RepeatFrequency,
-  channel: Channel,
+  channel: AndroidChannel,
 ) {
   const { title, body } = notification;
 
@@ -42,6 +38,9 @@ export async function createTriggerNotificationService(
         channelId,
         smallIcon: 'ic_small_icon',
         color: Colors.tertiary,
+        pressAction: {
+          id: 'default',
+        },
       },
     },
     trigger,

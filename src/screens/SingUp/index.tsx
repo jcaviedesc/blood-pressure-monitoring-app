@@ -10,7 +10,8 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
+import Toast from 'react-native-toast-message';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
@@ -20,8 +21,9 @@ import { selectUser, updateUserField } from '../../store/singup/singupSlice';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { PhoneInputWrapper } from '../../wrappers';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { selectAppLocale, setScreenLoading } from '../../store/app/appSlice';
+import { selectAppLocale } from '../../store/app/appSlice';
 import { singUpSchema, transformError } from './schemaValidators/singup';
+import { signUpUser } from '../../thunks/singupThunk';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup'>;
 
@@ -49,17 +51,27 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
       const errorTransform = transformError(error);
       setInputErrors(errorTransform);
     } else {
-      dispatch(setScreenLoading(true));
-      try {
-        const confirm = await auth().signInWithPhoneNumber(phone);
-        setConfirm({ confirm, phone });
-        navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
-      } catch (autError) {
-        console.log(autError);
-        // TODO Senty
-      } finally {
-        dispatch(setScreenLoading(false));
-      }
+      dispatch(signUpUser(setConfirm))
+        .unwrap()
+        .then(async () => {
+          navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
+        })
+        .catch(err => {
+          Toast.show({
+            type: 'error',
+            text1: err.msg,
+            position: 'bottom',
+          });
+          console.log(err);
+        });
+      // try {
+      //   const confirm = await auth().signInWithPhoneNumber(phone);
+      //   setConfirm({ confirm, phone });
+      //   navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
+      // } catch (autError) {
+      //   console.log(autError);
+      //   // TODO Senty
+      // }
     }
   }
 

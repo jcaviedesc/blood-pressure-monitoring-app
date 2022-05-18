@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import notifee, { RepeatFrequency } from '@notifee/react-native';
+import notifee, { RepeatFrequency, AndroidImportance, AndroidVisibility } from '@notifee/react-native';
 import { capitalize } from 'lodash';
 import type { ClientApi, RootState } from '../store/configureStore';
 import type { RootStackParamList } from '../router/types';
@@ -64,13 +64,17 @@ export const createNotificaions = () => {
     if (reschedule) {
       const notifcationsList: Promise<string>[] = [];
       const newNotificationTimes: string[] = [];
+
       // i18n notification config
-      const notificationTitle = translate('notifications.bloodPressure.title', {
-        name: capitalize(userName[0]),
-      });
-      const notificationBody = translate('notifications.bloodPressure.body');
+      const notificationTitle = translate(
+        'notifications.blood_pressure.title',
+        {
+          name: capitalize(userName.split('')[0]),
+        },
+      );
+      const notificationBody = translate('notifications.blood_pressure.body');
       const notificationChannel = translate(
-        'notifications.bloodPressure.channel',
+        'notifications.blood_pressure.channel',
       );
       const notificationData = {
         title: notificationTitle,
@@ -86,6 +90,18 @@ export const createNotificaions = () => {
       //clear all trigger with $bp prefix
       await notifee.cancelTriggerNotifications(bpTrigersIds);
 
+      // create or update channel
+      const channel = {
+        id: 'bloodpressure',
+        name: notificationChannel,
+        bypassDnd: true,
+        importance: AndroidImportance.HIGH,
+        visibility: AndroidVisibility.PUBLIC,
+        description: translate(
+          'notifications.blood_pressure.android_channel_description',
+        ),
+      };
+
       times.forEach((timeEvent, index) => {
         let dayjsNotification = dayjs(timeEvent);
         if (!dayjs(dayjsNotification).isValid()) {
@@ -97,10 +113,6 @@ export const createNotificaions = () => {
         const min = dayjsNotification.minute();
         const timestamp = dayjs().hour(hour).minute(min);
         console.log("timestamp", timestamp.format());
-        const channel = {
-          id: 'bloodpressure',
-          name: notificationChannel,
-        };
 
         notifcationsList.push(
           createTriggerNotificationService(

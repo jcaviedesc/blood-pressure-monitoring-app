@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -9,10 +9,8 @@ import {
   SafeAreaView,
 } from 'react-native';
 // TODO import according to i18n
-import 'dayjs/locale/es-mx';
-import dayjs from 'dayjs';
+import dayjsUtil from '../../services/DatatimeUtil';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-// import DateTimePicker from '@react-native-community/datetimepicker';
 import type { RootStackParamList } from '../../router/types';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Button, DatePicker, Layout } from '../../components';
@@ -28,9 +26,16 @@ const BirthdateScreen: React.FC<Props> = ({ navigation }) => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const { birthdate } = user;
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date(327207177000));
   const [show, setShow] = useState(false);
   const [inputErrors, setInputErrors] = useState('');
+
+  const limitDate = useMemo(() => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const maxDate = new Date(year, 11, 31, 9, 1, 1, 1);
+    return maxDate;
+  }, []);
 
   const dispatchAction = (userField: string, value: string) => {
     dispatch(updateUserField({ field: userField, value }));
@@ -48,7 +53,7 @@ const BirthdateScreen: React.FC<Props> = ({ navigation }) => {
   const onChange = (selectedDate: Date): void => {
     setShow(false);
     setDate(selectedDate);
-    dispatchAction('birthdate', dayjs(selectedDate).format('YYYY-MM-DD'));
+    dispatchAction('birthdate', dayjsUtil(selectedDate).format('YYYY-MM-DD'));
   };
 
   const showDatepicker = () => {
@@ -94,7 +99,7 @@ const BirthdateScreen: React.FC<Props> = ({ navigation }) => {
                 onPress={showDatepicker}>
                 <Text style={styles.touchableText}>
                   {birthdate
-                    ? dayjs(date).locale('es-mx').format('DD - MMMM -  YYYY')
+                    ? dayjsUtil(date).format('DD - MMMM -  YYYY')
                     : '_ _ - _ _ - _ _'}
                 </Text>
               </TouchableHighlight>
@@ -112,6 +117,7 @@ const BirthdateScreen: React.FC<Props> = ({ navigation }) => {
             is24Hour={true}
             display="spinner"
             onChange={onChange}
+            maximumDate={limitDate}
           />
         )}
         <View style={styles.section}>

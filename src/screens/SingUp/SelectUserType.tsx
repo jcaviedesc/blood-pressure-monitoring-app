@@ -26,10 +26,12 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
   const { userType } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
-  const onSelectGender = (select: string) => {
+  const onSelectGender = (select: typeof userType) => {
     dispatch(updateUserField({ field: 'userType', value: select }));
     navigation.navigate(
-      select === 'healthUser' ? 'Singup/ProfilePicture' : 'Singup/HealthInfo',
+      select === 'health professional'
+        ? 'Singup/ProfilePicture'
+        : 'Singup/HealthInfo',
     );
   };
 
@@ -43,9 +45,9 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
           underlayColor={Colors.transparent}
           style={styles.cardTouchable}
           onPress={() => {
-            onSelectGender('healthUser');
+            onSelectGender('health professional');
           }}>
-          <Card selected={userType === 'healthUser'}>
+          <Card selected={userType === 'health professional'}>
             <View style={styles.userTypeContent}>
               <Image
                 source={Images.healtcareProfessionals}
@@ -61,9 +63,9 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
           underlayColor={Colors.transparent}
           style={styles.cardTouchable}
           onPress={() => {
-            onSelectGender('normalUser');
+            onSelectGender('patient');
           }}>
-          <Card selected={userType === 'normalUser'}>
+          <Card selected={userType === 'patient'}>
             <View style={styles.userTypeContent}>
               <Image source={Images.normalPerson} style={styles.image} />
               <Text style={styles.userTypeText}>
