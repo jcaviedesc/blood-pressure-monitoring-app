@@ -15,7 +15,7 @@ type GetRecords = {
 
 export type RemindersTime = {
   reschedule: boolean;
-  repeat: string;
+  repeat: string[];
   times: string[];
 };
 
@@ -52,7 +52,7 @@ export type ReminderTimeAction = {
   value: string;
 };
 
-export type RescheduledReminderSuccessAction = {
+export type setRepeatReminderAction = {
   reminder: keyof Reminders;
-  times: string[];
+  repeat: string[];
 };

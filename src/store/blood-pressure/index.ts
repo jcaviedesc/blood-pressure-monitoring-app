@@ -4,7 +4,7 @@ import type {
   UpdateCurrentRecordAction,
   ReminderTimeAction,
   Reminders,
-  RescheduledReminderSuccessAction,
+  setRepeatReminderAction,
 } from './types';
 export * from './selectors';
 import { postRequestBloodPressure } from '../../thunks/blood-pressure-thunk';
@@ -30,22 +30,22 @@ const initialState: BloodPressureState = {
   reminders: {
     normal: {
       reschedule: true,
-      repeat: '',
+      repeat: ['monday'],
       times: [''],
     },
     hta1: {
       reschedule: false,
-      repeat: '',
+      repeat: ['tuesday,thursday,saturday'],
       times: ['', ''],
     },
     hta2: {
       reschedule: false,
-      repeat: '',
+      repeat: [''],
       times: ['', '', ''],
     },
     custom: {
       reschedule: false,
-      repeat: '',
+      repeat: ['monday'],
       times: [''],
     },
   },
@@ -82,6 +82,14 @@ export const bloodPressureSlice = createSlice({
       state.reminders[stageName as keyof Reminders].times = times;
       state.reminders[stageName as keyof Reminders].reschedule = true;
     },
+    setRepeatReminder: (
+      state,
+      action: PayloadAction<setRepeatReminderAction>,
+    ) => {
+      const { reminder, repeat } = action.payload;
+      state.reminders[reminder as keyof Reminders].repeat = repeat;
+      state.reminders[reminder as keyof Reminders].reschedule = true;
+    },
     setReminderStage: (state, action: PayloadAction<keyof Reminders>) => {
       const activeNotificationRemider = state.activeNotificationRemider;
       const beforeReminderStage = state.reminderStage;
@@ -93,16 +101,14 @@ export const bloodPressureSlice = createSlice({
     },
     rescheduledReminderSuccess: (
       state,
-      action: PayloadAction<RescheduledReminderSuccessAction>,
+      action: PayloadAction<keyof Reminders>,
     ) => {
-      const { reminder, times } = action.payload;
-      const currenReminder = state.reminders[reminder];
+      const reminder = action.payload;
       state.activeNotificationRemider = reminder;
-      state.reminders[reminder] = {
-        ...currenReminder,
-        reschedule: false,
-        times,
-      };
+      state.reminders[reminder].reschedule = false;
+    },
+    restore: () => {
+      return initialState;
     },
   },
   extraReducers: builder => {
@@ -119,6 +125,7 @@ export const {
   setReminderTime,
   setReminderStage,
   rescheduledReminderSuccess,
+  setRepeatReminder,
 } = bloodPressureSlice.actions;
 
 export default bloodPressureSlice.reducer;

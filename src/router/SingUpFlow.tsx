@@ -6,8 +6,7 @@ import {
 import { getHeaderTitle, HeaderBackButton } from '@react-navigation/elements';
 import { StepsHeader } from '../components/Layout';
 import { SingUpScreens } from './types';
-// screena
-import SingUpScreen from '../screens/SingUp';
+// screens
 import BirthdateScreen from '../screens/SingUp/Birthdate';
 import BodyInfoScreen from '../screens/SingUp/BodyInfo';
 import SelectUserTypeScreen from '../screens/SingUp/SelectUserType';
@@ -48,22 +47,6 @@ type SingUpScreensConfig = {
 };
 
 const SingUpFlow: SingUpScreensConfig = {
-  Singup: {
-    component: SingUpScreen,
-    options: {
-      header: ({
-        navigation,
-        route,
-        options,
-        back,
-      }: NativeStackHeaderProps) => {
-        return renderSingUpHeader(navigation, route, options, back, {
-          nsteps: 6,
-          activeStep: 1,
-        });
-      },
-    },
-  },
   'Singup/Birthdate': {
     component: BirthdateScreen,
     options: {

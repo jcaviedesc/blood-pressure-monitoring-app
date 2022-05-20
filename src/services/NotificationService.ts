@@ -1,39 +1,27 @@
 import notifee, {
   TimestampTrigger,
-  TriggerType,
-  RepeatFrequency,
-  AndroidChannel
+  AndroidChannel,
+  Notification,
 } from '@notifee/react-native';
 import { Colors } from '../styles';
 
-type Notification = {
-  title: string;
-  body: string;
-};
-
 export async function createTriggerNotificationService(
   notificationId: string,
-  date: number,
   notification: Notification,
-  frecuency: RepeatFrequency,
+  trigger: TimestampTrigger,
   channel: AndroidChannel,
 ) {
-  const { title, body } = notification;
+  const { title, body, data } = notification;
 
   // Create a channel
   const channelId = await notifee.createChannel(channel);
-
-  const trigger: TimestampTrigger = {
-    type: TriggerType.TIMESTAMP,
-    timestamp: date,
-    repeatFrequency: frecuency,
-  };
 
   return notifee.createTriggerNotification(
     {
       id: notificationId,
       title,
       body,
+      data,
       android: {
         channelId,
         smallIcon: 'ic_small_icon',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
@@ -16,7 +16,9 @@ type props = {
   reminders: string[];
   id: string;
   frecuency?: 'everyday' | undefined;
+  frecuencyDays: string[];
   onSelectReminderTime: (reminderId: string, index: number) => void;
+  onPressFrecuency?: (reminderId: string) => void;
   disabled: boolean;
 };
 
@@ -28,14 +30,29 @@ const Reminder: React.FC<props> = ({
   reminders,
   id,
   frecuency,
+  frecuencyDays,
   onSelectReminderTime,
+  onPressFrecuency,
   disabled,
 }) => {
   const { translate } = useI18nLocate();
 
+  const i18nDays = useMemo(() => translate('days'), [translate]);
+
+  const parseDays = (arrayDays: string[]) => {
+    return Array.isArray(arrayDays) && arrayDays.join().length
+      ? arrayDays
+          .map(day =>
+            day.split(',').map(dayNested => i18nDays[dayNested].slice(0, 3)),
+          )
+          .flat()
+          .join(', ')
+      : translate('select');
+  };
+
   const convertTime = (time: string) => {
     if (dayjs(time).isValid()) {
-      return dayjs(time).format('	h:mm a');
+      return dayjs(time).format('h:mm a');
     }
     return '00:00';
   };
@@ -65,12 +82,21 @@ const Reminder: React.FC<props> = ({
           <View style={styles.reminderBody}>
             {frecuency !== 'everyday' && (
               <View style={styles.row}>
-                <View>
+                <View style={{ flex: 3 }}>
                   <Text style={styles.title}>{translate('repeat')}</Text>
                 </View>
-                <View>
-                  <Text>{translate('repeat')}</Text>
-                </View>
+                <TouchableOpacity
+                  style={styles.repeatContainer}
+                  onPress={() => {
+                    onPressFrecuency && onPressFrecuency(id);
+                  }}>
+                  <View>
+                    <Text style={styles.time} textBreakStrategy="balanced">
+                      {parseDays(frecuencyDays)}
+                    </Text>
+                  </View>
+                  <IconEntypo name="chevron-small-right" size={18} />
+                </TouchableOpacity>
               </View>
             )}
             {reminders.map((time, num) => {
@@ -123,15 +149,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 12,
+    marginVertical: 6,
   },
   rowTimeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingVertical: 6,
   },
   time: {
     ...Fonts.style.paragraph,
     color: Colors.paragraph,
+  },
+  repeatContainer: {
+    flex: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingVertical: 6,
   },
 });
 

@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  createNavigationContainerRef,
+} from '@react-navigation/native';
 import {
   createNativeStackNavigator,
   NativeStackHeaderProps,
@@ -9,11 +12,11 @@ import type { RootStackParamList } from './types';
 import { NormalHeader } from '../components/Layout';
 import styles from './styles';
 // screens
-import SplashScreen from '../screens/Splash';
 import SignIn from '../screens/Login';
+import SingUpScreen from '../screens/SingUp';
 import VerifyPhoneScreen from '../screens/VerifyPhone';
 import SingUpFlow, { renderSingUpHeader } from './SingUpFlow';
-import OnboardingScreen from '../screens/Onboarding';
+
 import HomeScreen from '../screens/Home';
 import BloodPressureScreens from './BloodPressureScreens';
 // TODO revisar
@@ -23,43 +26,85 @@ import DevelopmentScreen from '../screens/Development';
 import { Colors } from '../styles';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const navigationRef = createNavigationContainerRef();
 
-type AppProps = {
-  onReady: (() => void) | undefined;
+export type NavigationRef = typeof navigationRef;
+
+type MainStackNavigatorProps = {
+  onReady: (navigator: NavigationRef) => void;
+  userLogged: boolean;
 };
 // TODO implementar google analictys
-function App({ onReady }: AppProps) {
+function MainStackNavigator({ onReady, userLogged }: MainStackNavigatorProps) {
+  const onReadyHandler = () => {
+    onReady(navigationRef);
+  };
+
   return (
-    <NavigationContainer onReady={onReady}>
+    <NavigationContainer ref={navigationRef} onReady={onReadyHandler}>
       <Stack.Navigator
-        initialRouteName="Splash"
         screenOptions={{
           headerStyle: styles.header,
           gestureEnabled: true,
           headerTintColor: Colors.headline,
           headerBackTitleVisible: false,
         }}>
-        <Stack.Screen
-          name="Splash"
-          component={SplashScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Onboarding"
-          component={OnboardingScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={SignIn}
-          options={{
-            headerShown: false,
-          }}
-        />
+        {userLogged ? (
+          <>
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Profile"
+              component={ProfileScreen}
+              options={{
+                title: '',
+              }}
+            />
+            {Object.entries({
+              ...BloodPressureScreens,
+            }).map(([name, params]) => (
+              <Stack.Screen
+                key={name}
+                options={params.options}
+                name={name as keyof RootStackParamList}
+                component={params.component}
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={SignIn}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Singup"
+              component={SingUpScreen}
+              options={{
+                headerTitle: '',
+                headerShadowVisible: false,
+              }}
+            />
+          </>
+        )}
+
+        {Object.entries(SingUpFlow).map(([name, params]) => (
+          <Stack.Screen
+            key={name}
+            options={params.options}
+            name={name as keyof RootStackParamList}
+            component={params.component}
+          />
+        ))}
+
         <Stack.Screen
           name="VerifyPhone"
           component={VerifyPhoneScreen}
@@ -88,20 +133,7 @@ function App({ onReady }: AppProps) {
             },
           }}
         />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{
-            title: '',
-          }}
-        />
+
         {/* <Stack.Screen
           name={'BloodPressure/Meassuring'}
           component={BloodPressureMeassuringScreen}
@@ -122,20 +154,9 @@ function App({ onReady }: AppProps) {
           component={BloodPressureHeartRateModalScreen}
           options={ModalTransition}
         /> */}
-        {Object.entries({
-          ...SingUpFlow,
-          ...BloodPressureScreens,
-        }).map(([name, params]) => (
-          <Stack.Screen
-            key={name}
-            options={params.options}
-            name={name as keyof RootStackParamList}
-            component={params.component}
-          />
-        ))}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default App;
+export default MainStackNavigator;

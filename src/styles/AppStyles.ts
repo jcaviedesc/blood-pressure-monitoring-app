@@ -62,11 +62,11 @@ const ApplicationStyles: IApplicationStyles = {
   },
   withActionsheet: {
     actionSheet: {
-      paddingBottom: 20,
+      paddingBottom: 27,
       paddingTop: 20,
     },
     actionSheetTouch: {
-      paddingVertical: 9,
+      paddingVertical: 12,
       paddingHorizontal: 12,
     },
     actionSheetText: {

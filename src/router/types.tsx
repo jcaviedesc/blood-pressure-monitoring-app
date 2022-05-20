@@ -1,5 +1,4 @@
 type SingUpStackParamList = {
-  Singup: undefined;
   'Singup/Birthdate': undefined;
   'Singup/BodyInfo': undefined;
   'Singup/SelectUserType': undefined;
@@ -9,8 +8,8 @@ type SingUpStackParamList = {
 
 type BloodPressureStackParam = {
   'Home/BloodPressure': undefined;
-  'BloodPressure/Steps': undefined;
   'BloodPressure/Preparation': undefined;
+  'BloodPressure/Steps': undefined;
   'BloodPressure/MeassuringA': undefined;
   'BloodPressure/Wait1minute': undefined;
   'BloodPressure/MeasuringFinish': undefined;
@@ -20,10 +19,9 @@ type BloodPressureStackParam = {
 };
 
 export type RootStackParamList = {
-  Splash: undefined;
   Login: { from?: string };
+  Singup: undefined;
   VerifyPhone: { verificationType: string };
-  Onboarding: undefined;
   Home: undefined;
   Profile: undefined;
   development: undefined;

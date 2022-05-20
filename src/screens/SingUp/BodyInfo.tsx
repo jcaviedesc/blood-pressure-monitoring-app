@@ -67,7 +67,7 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
             }}
           />
         </View>
-        <View style={[styles.section, { flex: 10 }]}>
+        <View style={[styles.section, { flex: 8 }]}>
           <Button title={translate('button.next')} onPress={nextStepHandler} />
         </View>
       </View>

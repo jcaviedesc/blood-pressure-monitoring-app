@@ -41,8 +41,6 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   // Handle user state changes
   function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
     if (user) {
-      console.log("onAuthStateChanged")
-      console.log(user)
       verifyPhoneSuccess();
       // showToast('The phone number is already registered');
       // TODO naviage to login options?

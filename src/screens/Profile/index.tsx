@@ -8,12 +8,13 @@ import { Button } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
-const ProfileScreen: React.FC<Props> = ({ navigation }) => {
+const ProfileScreen: React.FC<Props> = () => {
   const logout = () => {
     auth()
       .signOut()
-      .then(() => {
-        navigation.navigate('Login');
+      .catch(err => {
+        //TODO add sentry
+        console.log(err);
       });
   };
 
@@ -21,7 +22,7 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
     <ScrollView style={styles.mainContainer}>
       <View style={styles.content}>
         <Text>ProfileScreen</Text>
-        <Button title="Cerrar sessión" type="outline" onPress={logout} />
+        <Button title="Cerrar sessión" hierarchy="quiet" onPress={logout} />
       </View>
     </ScrollView>
   );

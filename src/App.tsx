@@ -10,11 +10,10 @@ import React, { useEffect } from 'react';
 import type { Node } from 'react';
 import { useColorScheme, StatusBar, Alert } from 'react-native';
 import { Provider } from 'react-redux';
-import RNBootSplash from 'react-native-bootsplash';
 import messaging from '@react-native-firebase/messaging';
 import Toast from 'react-native-toast-message';
 import { PersistGate } from 'redux-persist/integration/react';
-import AppScreens from './router/app.router';
+import Main from './main';
 import store, { persistor } from './store/configureStore';
 import { LoadingWrapper } from './wrappers';
 import { useNotificationPermission } from './hooks/usePermissions';
@@ -24,7 +23,10 @@ import { LocalizationProvider } from './providers/LocalizationProvider';
 import { Colors } from './styles';
 
 const App: () => Node = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   useNotificationPermission();
+
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
@@ -32,7 +34,7 @@ const App: () => Node = () => {
 
     return unsubscribe;
   }, []);
-  const isDarkMode = useColorScheme() === 'dark';
+
   return (
     <Provider store={store}>
       <StatusBar
@@ -46,7 +48,7 @@ const App: () => Node = () => {
         <LocalizationProvider>
           <ConfirmPhoneProvider>
             <LoadingWrapper>
-              <AppScreens onReady={() => RNBootSplash.hide()} />
+              <Main />
             </LoadingWrapper>
           </ConfirmPhoneProvider>
         </LocalizationProvider>

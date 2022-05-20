@@ -1,6 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import notifee, { RepeatFrequency, AndroidImportance, AndroidVisibility } from '@notifee/react-native';
+import notifee, {
+  RepeatFrequency,
+  AndroidImportance,
+  AndroidVisibility,
+  TimestampTrigger,
+  TriggerType,
+} from '@notifee/react-native';
 import { capitalize } from 'lodash';
 import type { ClientApi, RootState } from '../store/configureStore';
 import type { RootStackParamList } from '../router/types';
@@ -10,7 +16,7 @@ import {
   rescheduledReminderSuccess,
 } from '../store/blood-pressure';
 import type { AppDispatch, AppGetState } from '../store/configureStore';
-import dayjs from '../services/DatatimeUtil';
+import dayjs, { weekdays } from '../services/DatatimeUtil';
 import { createTriggerNotificationService } from '../services/NotificationService';
 import { translate } from '../providers/LocalizationProvider';
 
@@ -56,20 +62,19 @@ const BloodPressurePrefix = '$bp';
 export const createNotificaions = () => {
   return async (dispatch: AppDispatch, getState: AppGetState) => {
     const {
-      reminderData: { times, reschedule },
+      reminderData: { times, reschedule, repeat },
       activeReminder,
       userName,
     } = selectCurrentReminder(getState());
 
     if (reschedule) {
       const notifcationsList: Promise<string>[] = [];
-      const newNotificationTimes: string[] = [];
 
       // i18n notification config
       const notificationTitle = translate(
         'notifications.blood_pressure.title',
         {
-          name: capitalize(userName.split('')[0]),
+          name: capitalize(userName.split(' ')[0]),
         },
       );
       const notificationBody = translate('notifications.blood_pressure.body');
@@ -79,6 +84,9 @@ export const createNotificaions = () => {
       const notificationData = {
         title: notificationTitle,
         body: notificationBody,
+        data: {
+          navigateTo: 'BloodPressure/Preparation',
+        },
       };
 
       // get all triggers ids
@@ -102,36 +110,52 @@ export const createNotificaions = () => {
         ),
       };
 
-      times.forEach((timeEvent, index) => {
-        let dayjsNotification = dayjs(timeEvent);
-        if (!dayjs(dayjsNotification).isValid()) {
-          dayjsNotification = dayjs().add(index + 1, 'hour');
-          newNotificationTimes.push(dayjsNotification.format());
-        }
-        newNotificationTimes.push(timeEvent);
-        const hour = dayjsNotification.hour();
-        const min = dayjsNotification.minute();
-        const timestamp = dayjs().hour(hour).minute(min);
-        console.log("timestamp", timestamp.format());
+      // get curred weekday
+      const currentDate = dayjs();
+      const currentWeekDay = currentDate.weekday();
 
-        notifcationsList.push(
-          createTriggerNotificationService(
-            `$bp.${activeReminder}.${index}`,
-            timestamp.valueOf(),
-            notificationData,
-            RepeatFrequency.HOURLY,
-            channel,
-          ),
-        );
-      });
+      repeat
+        .map(repeatday => repeatday.split(','))
+        .flat()
+        .forEach((reminderDay) => {
+          console.log(reminderDay);
+          const indexDay = weekdays.indexOf(reminderDay);
+          let reminderDate = currentDate;
+          if (indexDay > currentWeekDay) {
+            reminderDate = currentDate.weekday(indexDay);
+            //set normal
+          } else {
+            reminderDate = currentDate.add(7, 'day').weekday(indexDay);
+          }
+
+          times.forEach((timeEvent, index) => {
+            let dayjsNotification = dayjs(timeEvent);
+            if (dayjs(dayjsNotification).isValid()) {
+              const hour = dayjsNotification.hour();
+              const min = dayjsNotification.minute();
+              //TODO add 1 day
+              const timestamp = reminderDate.hour(hour).minute(min);
+              console.log('timestamp', timestamp.format());
+              const trigger: TimestampTrigger = {
+                type: TriggerType.TIMESTAMP,
+                timestamp: timestamp.valueOf(),
+                repeatFrequency: RepeatFrequency.WEEKLY,
+              };
+              notifcationsList.push(
+                createTriggerNotificationService(
+                  `$bp.${activeReminder}.${index}`,
+                  notificationData,
+                  trigger,
+                  channel,
+                ),
+              );
+            }
+          });
+        });
+
       // TODO manejar errores
       await Promise.all(notifcationsList);
-      dispatch(
-        rescheduledReminderSuccess({
-          reminder: activeReminder,
-          times: newNotificationTimes,
-        }),
-      );
+      dispatch(rescheduledReminderSuccess(activeReminder));
     }
   };
 };

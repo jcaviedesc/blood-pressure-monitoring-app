@@ -1,47 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, StyleSheet, View, Image } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
-import type { RootStackParamList } from '../../router/types';
 import { Colors, Images, Metrics } from '../../styles';
-import {
-  selectAppUserState,
-  initAppSuccessful,
-} from '../../store/app/appSlice';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { useInitialNotificationLaunchApp } from './hooks';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
-
-const SplashScreen: React.FC<Props> = ({ navigation }) => {
-  const { isFirstTime } = useAppSelector(selectAppUserState);
-  const dispatch = useAppDispatch();
-  const loading = useInitialNotificationLaunchApp();
-
-  useFocusEffect(
-    useCallback(() => {
-      changeNavigationBarColor(Colors.tertiary, false, false);
-      const next = () => {
-        const currentUser = auth().currentUser;
-        if (isFirstTime) {
-          navigation.navigate('Onboarding');
-        } else if (currentUser) {
-          navigation.navigate('Home');
-        } else {
-          navigation.navigate('Login', { from: 'splash' });
-        }
-      };
-      if (loading) {
-        next();
-      }
-      return () => {
-        dispatch(initAppSuccessful());
-        changeNavigationBarColor(Colors.background, true, false);
-      };
-    }, [isFirstTime, navigation, dispatch, loading]),
-  );
+const SplashScreen: React.FC = () => {
+  useEffect(() => {
+    changeNavigationBarColor(Colors.tertiary, false, false);
+    StatusBar.setBackgroundColor(Colors.background, true);
+    StatusBar.setBarStyle('dark-content');
+    changeNavigationBarColor(Colors.background, true, false);
+  }, []);
 
   return (
     <View style={styles.splash}>
@@ -65,8 +33,6 @@ const styles = StyleSheet.create({
   splashImage: {
     width: Metrics.screenWidth,
     resizeMode: 'contain',
-    backgroundColor: Colors.tertiary,
-    overlayColor: Colors.tertiary,
   },
 });
 

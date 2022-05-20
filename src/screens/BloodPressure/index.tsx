@@ -79,47 +79,38 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
   }, [navigation, translate, actionSheetRef]);
 
   return (
-    <ScrollView
-      style={styles.mainContainer}
-      contentContainerStyle={{ paddingBottom: 22 }}>
-      <View style={styles.content}>
-        <View style={styles.contenHeder}>
-          <Text style={styles.statics}>
-            {translate('Home/BloodPressure.sub_title', {
-              time: translate('week'),
-            })}
-          </Text>
+    <View style={styles.mainContainer}>
+      <ScrollView>
+        <View style={styles.content}>
+          <View style={styles.contenHeder}>
+            <Text style={styles.statics}>
+              {translate('Home/BloodPressure.sub_title', {
+                time: translate('week'),
+              })}
+            </Text>
+          </View>
+          <View style={styles.cardContainer}>
+            <BloodPressureCard
+              title={translate('Home/BloodPressure.sys')}
+              value={sysAvg}
+              magnitude="mmHg"
+              altText="--"
+              type="sys"
+            />
+            <BloodPressureCard
+              title={translate('Home/BloodPressure.dia')}
+              value={diaAvg}
+              magnitude="mmHg"
+              altText="--"
+              type="dia"
+            />
+          </View>
+          <View>
+            <HeaderChart />
+            <BarChart data={records} />
+          </View>
         </View>
-        <View style={styles.cardContainer}>
-          <BloodPressureCard
-            title={translate('Home/BloodPressure.sys')}
-            value={sysAvg}
-            magnitude="mmHg"
-            altText="--"
-            type="sys"
-          />
-          <BloodPressureCard
-            title={translate('Home/BloodPressure.dia')}
-            value={diaAvg}
-            magnitude="mmHg"
-            altText="--"
-            type="dia"
-          />
-        </View>
-        <View>
-          <HeaderChart />
-          <BarChart data={records} />
-        </View>
-        {/* TODO add al final de la pantalla y agregar animacion */}
-        <View style={styles.footer}>
-          <Button
-            title="Iniciar Medición"
-            onPress={() => {
-              navigate('BloodPressure/Preparation');
-            }}
-          />
-        </View>
-      </View>
+      </ScrollView>
       <ActionSheet ref={actionSheetRef} bounceOnOpen>
         <View style={styles.actionSheet}>
           <TouchableHighlight
@@ -170,7 +161,16 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           </TouchableHighlight>
         </View>
       </ActionSheet>
-    </ScrollView>
+      {/* TODO add al final de la pantalla y agregar animacion */}
+      <View style={styles.footer}>
+        <Button
+          title="Iniciar Medición"
+          onPress={() => {
+            navigate('BloodPressure/Preparation');
+          }}
+        />
+      </View>
+    </View>
   );
 };
 
@@ -196,6 +196,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     marginTop: 30,
+    marginHorizontal: 20,
   },
 });
 

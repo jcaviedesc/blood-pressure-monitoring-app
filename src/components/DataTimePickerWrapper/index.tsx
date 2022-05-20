@@ -20,6 +20,7 @@ type Props = {
   display: AndroidNativeProps['display'];
   minimumDate?: Date;
   maximumDate?: Date;
+  minuteInterval?: number;
 };
 const Header = ({ children }) => <View style={styles.header}>{children}</View>;
 
@@ -32,6 +33,7 @@ const DatePicker: React.FC<Props> = ({
   display = 'default',
   minimumDate,
   maximumDate,
+  minuteInterval = 5,
 }) => {
   const [dateValue, setDateValue] = useState(value);
 
@@ -65,7 +67,7 @@ const DatePicker: React.FC<Props> = ({
         style={styles.datePicker}
         minimumDate={minimumDate}
         maximumDate={maximumDate}
-        minuteInterval={5}
+        minuteInterval={minuteInterval}
       />
     </TouchableOpacity>
   );

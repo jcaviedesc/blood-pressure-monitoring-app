@@ -1,60 +1,61 @@
 import React, { Children } from 'react';
-import { TouchableHighlight, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Colors, Fonts } from '../../styles';
 
 type props = {
   children?: typeof Children;
   title?: string;
   onPress?: () => void;
-  type?: 'fill' | 'outline';
+  hierarchy?: 'loud' | 'quiet' | 'transparent';
   disabled?: boolean;
   apparence?: object;
+  customBackground?: string;
+};
+
+const background = {
+  loud: Colors.tertiary,
+  quiet: Colors.tertiaryTranslucent,
+  transparent: Colors.transparent,
 };
 
 const Button: React.FC<props> = ({
   children,
   onPress,
-  type = 'fill',
+  hierarchy = 'loud',
   title,
   disabled,
   apparence,
+  customBackground,
 }) => {
-  let buttonStyles = {
+  const buttonStyles = {
     ...apparence,
     ...styles.container,
-    backgroundColor: type === 'fill' ? Colors.button : Colors.transparent,
+    backgroundColor: customBackground ?? background[hierarchy],
   };
+  const textStyles = {
+    ...styles.title,
+    color: hierarchy === 'loud' ? Colors.buttonText : Colors.tertiary,
+  };
+
   if (disabled) {
-    buttonStyles.backgroundColor = Colors.gray;
+    buttonStyles.backgroundColor = Colors.buttonDisabled;
+    textStyles.color = Colors.textDisabled;
   }
 
   return (
-    <TouchableHighlight
-      underlayColor={Colors.transparent}
+    <TouchableOpacity
       onPress={onPress}
       style={buttonStyles}
       disabled={disabled}>
-      {children ? (
-        children
-      ) : (
-        <Text
-          style={{
-            ...styles.title,
-            color: type === 'fill' ? Colors.buttonText : Colors.button,
-          }}>
-          {title}
-        </Text>
-      )}
-    </TouchableHighlight>
+      {children ? children : <Text style={textStyles}>{title}</Text>}
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    borderColor: Colors.button,
     borderRadius: 10,
-    borderWidth: 0.5,
     height: 52,
     justifyContent: 'center',
   },

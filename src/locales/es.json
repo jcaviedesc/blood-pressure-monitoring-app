@@ -1,11 +1,4 @@
 {
-  "button": {
-    "next": "siguiente",
-    "save": "guardar",
-    "confirm": "confirmar",
-    "finish": "finalizar",
-    "add": "agregar"
-  },
   "verify_phone": {
     "title": "Verficación",
     "subtitle": "Ingresa el código de 6 digitos que te enviamos al numero de celular %{phone}",
@@ -91,11 +84,20 @@
   },
   "notifications": {
     "blood_pressure": {
-      "title": "%{name} es hora de medir la presión arterial!",
+      "title": "%{name} es hora de medir la presión arterial",
       "body": "Presiona para iniciar el procedimiento.",
       "channel": "Presión arterial",
       "android_channel_description": "Canal para recordarte realizar las mediciones de presión arterial"
     }
+  },
+  "days": {
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
   },
   "loading": "Esperando",
   "yes": "SI",
@@ -117,5 +119,14 @@
   "week": "semana",
   "day": "dia",
   "reminder_to": "Recordatorio(%{time})  a las ",
-  "repeat": "Repetir"
+  "repeat": "Repetir",
+  "button": {
+    "next": "siguiente",
+    "save": "guardar",
+    "confirm": "confirmar",
+    "finish": "finalizar",
+    "add": "agregar",
+    "cancel": "cancelar"
+  },
+  "select": "Seleccionar"
 }

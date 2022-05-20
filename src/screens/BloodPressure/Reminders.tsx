@@ -1,28 +1,23 @@
-import React, { useEffect, useState, useRef } from 'react';
-import {
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import ActionSheet from 'react-native-actions-sheet';
 import type { RootStackParamList } from '../../router/types';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { AppStyles, Colors } from '../../styles';
 import { Reminder, DatePicker } from '../../components';
+import ActionSheetWeekDays, { OptionMode, SelectModes } from '../../components/ActionSheet/weekdays';
 import {
   setReminderTime,
   setReminderStage,
   selectActiveReminderTime,
   selectReminders,
+  setRepeatReminder,
 } from '../../store/blood-pressure';
 import DateInstance from '../../services/DateService';
+
 
 dayjs.extend(utc);
 type Props = NativeStackScreenProps<
@@ -45,6 +40,7 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
   const [showReminderTime, setShowReminderTime] = useState(false);
   const actionSheetRef = useRef<actionSheetRef>();
   const reminderRef = useRef<string>('');
+  const weekdays = useMemo(() => translate('days'), [translate]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -74,6 +70,14 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
     setShowReminderTime(true);
   };
 
+  const onSetRepeatReminder = (weekday: string[]) => {
+    dispatch(setRepeatReminder({ reminder: reminderActive, repeat: weekday }));
+  };
+
+  const onPressFrecuencyHandler = (remiderId: string) => {
+    actionSheetRef.current?.setModalVisible();
+  };
+
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.content}>
@@ -89,6 +93,8 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           onSelected={setReminderActive}
           reminders={normal.times}
           id="normal"
+          frecuencyDays={reminders[reminderActive].repeat}
+          onPressFrecuency={onPressFrecuencyHandler}
           disabled={reminderActive === 'normal'}
           onSelectReminderTime={onSelectReminderTimeHandler}
         />
@@ -101,6 +107,8 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           onSelected={setReminderActive}
           reminders={hta1.times}
           id="hta1"
+          frecuencyDays={reminders[reminderActive].repeat}
+          onPressFrecuency={onPressFrecuencyHandler}
           disabled={reminderActive === 'hta1'}
           onSelectReminderTime={onSelectReminderTimeHandler}
         />
@@ -114,6 +122,8 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           reminders={hta2.times}
           id="hta2"
           disabled={reminderActive === 'hta2'}
+          frecuencyDays={reminders[reminderActive].repeat}
+          onPressFrecuency={onPressFrecuencyHandler}
           frecuency="everyday"
           onSelectReminderTime={onSelectReminderTimeHandler}
         />
@@ -124,7 +134,9 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           onSelected={setReminderActive}
           reminders={custom.times}
           id="custom"
+          frecuencyDays={reminders[reminderActive].repeat}
           disabled={reminderActive === 'custom'}
+          onPressFrecuency={onPressFrecuencyHandler}
           onSelectReminderTime={onSelectReminderTimeHandler}
         />
       </View>
@@ -138,23 +150,23 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           is24Hour={false}
           display={Platform.OS === 'android' ? 'clock' : 'spinner'}
           onChange={onChangeReminderTime}
+          minuteInterval={1}
         />
       )}
-      {/* <ActionSheet ref={actionSheetRef} bounceOnOpen>
-        <View style={styles.actionSheet}>
-          <TouchableOpacity
-            style={styles.actionSheetTouch}
-            onPress={() => {
-              actionSheetRef.current?.hide();
-            }}>
-            <View style={styles.actionSheetTouchContent}>
-              <Text style={styles.actionSheetText}>
-                {translate('Home/BloodPressure.action_sheet.take_bp')}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </ActionSheet> */}
+      <ActionSheetWeekDays
+        actionSheetRef={actionSheetRef}
+        onPressOption={(id, opionSelected) => {
+          onSetRepeatReminder(opionSelected);
+        }}
+        selected={reminders[reminderActive].repeat}
+        componentId={reminderActive}
+        optionMode={
+          reminderActive === 'hta1' ? OptionMode.GROUPED : OptionMode.INDIVIDUAL
+        }
+        selectMode={
+          reminderActive === 'custom' ? SelectModes.MULTIPLE : SelectModes.UNICA
+        }
+      />
     </ScrollView>
   );
 };
@@ -162,8 +174,20 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   ...AppStyles.screen,
   ...AppStyles.withActionsheet,
+  actionSheetTouch: {
+    ...AppStyles.withActionsheet.actionSheetTouch,
+    paddingVertical: 12,
+  },
   subtitleContainer: {
     marginBottom: 9,
+  },
+  actionSheetButtons: {
+    marginTop: 12,
+    flexDirection: 'row',
+  },
+  actionSheetButton: {
+    flex: 2,
+    marginHorizontal: 21,
   },
 });
 
