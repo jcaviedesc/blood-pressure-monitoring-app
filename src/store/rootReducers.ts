@@ -1,12 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import appReducer from './app/appSlice';
-import singupReducer from './singup/singupSlice';
+import signupReducer from './signup/signupSlice';
 import userReducer from './user/userSlice';
 import bloodPressure from './blood-pressure';
 
 const rootReducer = combineReducers({
   app: appReducer,
-  singup: singupReducer,
+  signup: signupReducer,
   user: userReducer,
   bloodPressure: bloodPressure,
 });

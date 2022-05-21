@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from '../hooks';
 import { selectAppUserState, initAppSuccessful } from '../store/app/appSlice';
 import SplashScreen from '../screens/Splash';
 import OnboardingScreen from '../screens/Onboarding';
-import MainStackNavigator, { NavigationRef } from '../router/App.router';
+import MainStackNavigator, { NavigationRef } from '../router';
 import { useInitialScreenApp } from './hooks';
 
 const Main = () => {

@@ -7,7 +7,7 @@ const transformError = (error: { details: any[] }) =>
     return prev;
   }, {});
 
-const singUpSchema = Joi.object({
+const signUpSchema = Joi.object({
   fullName: Joi.string().required(),
   docId: Joi.string().pattern(new RegExp('^[0-9]*$')),
   phone: Joi.string().required(),
@@ -15,4 +15,4 @@ const singUpSchema = Joi.object({
 
 const birthdateSchema = Joi.string().required();
 
-export { singUpSchema, birthdateSchema, transformError };
+export { signUpSchema, birthdateSchema, transformError };

@@ -15,9 +15,9 @@ import type { RootStackParamList } from '../../router/types';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Button, DatePicker, Layout } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectUser, updateUserField } from '../../store/singup/singupSlice';
+import { selectUser, updateUserField } from '../../store/signup/signupSlice';
 import { AppStyles, Fonts, Colors, Images } from '../../styles';
-import { birthdateSchema } from './schemaValidators/singup';
+import { birthdateSchema } from './schemaValidators/signup';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup/Birthdate'>;
 

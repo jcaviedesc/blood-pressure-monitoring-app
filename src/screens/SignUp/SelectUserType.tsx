@@ -9,7 +9,7 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectUser, updateUserField } from '../../store/singup/singupSlice';
+import { selectUser, updateUserField } from '../../store/signup/signupSlice';
 import { Fonts, Colors, Images, Metrics, AppStyles } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Card } from '../../components';

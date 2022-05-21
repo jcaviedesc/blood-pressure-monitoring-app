@@ -1,40 +1,132 @@
 {
-  "button": {
-    "next": "next",
-    "save": "save",
-    "confirm": "confirm"
+  "verify_phone": {
+    "title": "Verficación",
+    "subtitle": "Ingresa el código de 6 digitos que te enviamos al numero de celular %{phone}",
+    "no_code": "¿No recibiste el código?",
+    "resend": "Reenviar en %{time}"
   },
-  "blood_pressure": "Blood Pressure",
   "login_screen": {
     "title": "Sign in by entering your mobile number",
+    "subtitle": "Ingresa con tu número de celular",
     "not_account": "Do not have an account?",
     "singup": "Singup"
   },
-  "singup_screen":{
-    "full_name": "Full name",
+  "singup_screen": {
+    "title": "Registro",
+    "subtitle": "Gracias por tomarte el tiempo de crear una cuenta con nosotros. Aquí empieza la parte divertida",
+    "full_name": "Nombre completo",
+    "document_id": "Número de identificación",
+    "document_id_hint": "cédula de ciudadania",
     "phone_number": "Phone number",
-    "address": "Address",
     "all_ready_account": "Already have an account?",
     "log_in": "Log in"
   },
-  "healt_info_screen":{
+  "birthdate_screen": {
+    "title": "Cumpleaños",
+    "birthdate": "Fecha de nacimiento",
+    "address": "Dirección de donde vives",
+    "address_hint": "Ej. dirección, ciudad, departamento"
+  },
+  "select_user": {
+    "title": "Tipo de usuario"
+  },
+  "healt_info_screen": {
     "title": "Información de Salud",
     "medicine": "¿Tomas medicamentos para la hipertensión?",
     "smoke": "¿Fumas actualmente o Fumabas?",
-    "heart_attack":"¿Has tenido infartos? (enfermedad coronaria)",
+    "heart_attack": "¿Has tenido infartos? (enfermedad coronaria)",
     "thrombosis": "¿Has tenido trombosis cerebral? (enfermedad cerebrovascular)",
     "nephropathy": "¿Tienes problemas renales? (enfermedad renal cronica)"
   },
   "skip_app_alert": {
-    "title": "Hold on!",
-    "subtitle": "Are you sure you want to leave of the app?",
-    "cancel": "Cancel",
-    "ok": "Yes"
+    "title": "¡Espera!",
+    "subtitle": "¿Seguro quieres salir de la applicación?",
+    "cancel": "Cancelar",
+    "ok": "Si"
+  },
+  "wait1minute": {
+    "title": "Espera minimo 1 minuto y realiza una segunda medición",
+    "description": "todo para que se realizan dos mediciones?",
+    "remaining": "Espera",
+    "seconds": "Segundos"
+  },
+  "blood_pressure_finish": {
+    "title": "Resumen",
+    "description": "Aqui puedes agregar informacion extra como sintomas o cualquier factor que pueda afectar la medición de la presión arterial"
+  },
+  "home": {
+    "user_greetings": "Hola,",
+    "mystatus": "Mi estado",
+    "medicines": "Medicamentos"
+  },
+  "Home/BloodPressure": {
+    "title": "Presión Arterial",
+    "sub_title": "Estadística por %{time}",
+    "action_sheet": {
+      "take_bp": "Registrar presión arterial",
+      "tensiometer": "Validar tensiómetro",
+      "reminders": "Recordatorios"
+    },
+    "sys": "Sistólica",
+    "dia": "Diastólica"
+  },
+  "BloodPressure/Reminders": {
+    "title": "Recordatorios",
+    "subtitle": "Recibe recordatorios para medir la presión arterial y registrar los resultados",
+    "normal": "Normal",
+    "normal_description": "Una vez a la semana después de levantarme",
+    "hypertension_1": "Hipertensión arterial grado 1",
+    "hypertension_1_description": "3 días a la semana después de levantarme y antes de acostarme",
+    "hypertension_2": "Hipertensión arterial grado 2",
+    "hypertension_2_description": "Todos los días después de levantarme, después de almuerzo y antes de dormir",
+    "custom": "Personalizar",
+    "custom_description": "Define la hora y la frecuencia"
+  },
+  "notifications": {
+    "blood_pressure": {
+      "title": "%{name} es hora de medir la presión arterial",
+      "body": "Presiona para iniciar el procedimiento.",
+      "channel": "Presión arterial",
+      "android_channel_description": "Canal para recordarte realizar las mediciones de presión arterial"
+    }
+  },
+  "days": {
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
   },
   "loading": "Esperando",
   "yes": "SI",
   "not": "NO",
   "do_not_know": "NO SÉ",
-  "date": "Date",
-  "weight": "Peso"
+  "date": "Fecha",
+  "measuring": "Medición",
+  "blood_pressure": "Presión Arterial",
+  "heart_rate": "Ritmo cardiaco ",
+  "weight": "Peso",
+  "height": "Altura",
+  "validation": {
+    "required": "Este campo debe ser completado"
+  },
+  "user_type": {
+    "health": "Profesional en Salud",
+    "patient": "Paciente"
+  },
+  "week": "semana",
+  "day": "dia",
+  "reminder_to": "Recordatorio(%{time})  a las ",
+  "repeat": "Repetir",
+  "button": {
+    "next": "next",
+    "save": "save",
+    "confirm": "confirm",
+    "finish": "finish",
+    "add": "add",
+    "cancel": "cancel"
+  },
+  "select": "Seleccionar"
 }

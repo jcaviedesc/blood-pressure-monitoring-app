@@ -22,7 +22,7 @@ export type firstRegistrationResponse = {
   docId: string;
   phone: string;
 };
-export interface SingUpState {
+export interface SignUpState {
   id?: string | number;
   fullName: string;
   docId: string; // cedula, dni, documento de identificaion
@@ -39,7 +39,7 @@ export interface SingUpState {
 }
 
 export type updateUserFieldType = {
-  field: keyof SingUpState;
+  field: keyof SignUpState;
   value: number[] & '' & string & Date & Picture;
 };
 

@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import SwiperUnits from '../../lib/swiperUnits';
 import { AppStyles, Colors, Fonts, Images } from '../../styles';
-import { updateUserField, selectUser } from '../../store/singup/singupSlice';
+import { updateUserField, selectUser } from '../../store/signup/signupSlice';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Button, HeightSlider, SelectGenderSexToggle } from '../../components';

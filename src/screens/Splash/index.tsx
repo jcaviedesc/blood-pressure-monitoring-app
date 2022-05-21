@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import { StatusBar, StyleSheet, View, Image } from 'react-native';
+import { StatusBar, StyleSheet, View, Image, Platform } from 'react-native';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { Colors, Images, Metrics } from '../../styles';
 
 const SplashScreen: React.FC = () => {
   useEffect(() => {
     changeNavigationBarColor(Colors.tertiary, false, false);
-    StatusBar.setBackgroundColor(Colors.background, true);
+    if (Platform.OS === 'android') {
+      StatusBar.setBackgroundColor(Colors.background, true);
+    }
     StatusBar.setBarStyle('dark-content');
     changeNavigationBarColor(Colors.background, true, false);
   }, []);

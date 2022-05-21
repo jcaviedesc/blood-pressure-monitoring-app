@@ -47,7 +47,6 @@ export const postRequestBloodPressure = createAsyncThunk<
     const response = await clientApi.registerBloodPressureRecord(body);
 
     if (response.status !== 201) {
-      console.log('Response ERROR', response);
       return rejectWithValue(response.data);
       // TODO handle error message
     }

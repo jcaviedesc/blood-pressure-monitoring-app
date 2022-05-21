@@ -7,11 +7,11 @@ import { getHeaderTitle, HeaderBackButton } from '@react-navigation/elements';
 import { StepsHeader } from '../components/Layout';
 import { SingUpScreens } from './types';
 // screens
-import BirthdateScreen from '../screens/SingUp/Birthdate';
-import BodyInfoScreen from '../screens/SingUp/BodyInfo';
-import SelectUserTypeScreen from '../screens/SingUp/SelectUserType';
-import SelectProfilePictureScreen from '../screens/SingUp/SelectProfilePicture';
-import HealthInfoScreen from '../screens/SingUp/HealthInfo';
+import BirthdateScreen from '../screens/SignUp/Birthdate';
+import BodyInfoScreen from '../screens/SignUp/BodyInfo';
+import SelectUserTypeScreen from '../screens/SignUp/SelectUserType';
+import SelectProfilePictureScreen from '../screens/SignUp/SelectProfilePicture';
+import HealthInfoScreen from '../screens/SignUp/HealthInfo';
 import { Colors } from '../styles';
 
 export const renderSingUpHeader = (

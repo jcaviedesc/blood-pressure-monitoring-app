@@ -1,5 +1,5 @@
 import { mapValues } from 'lodash';
-import type { SingUpState } from '../store/singup/types';
+import type { SingUpState } from '../store/signup/types';
 import { cleanObject } from '../services/utils';
 
 type UserFromApp = SingUpState & { profile_url: string };

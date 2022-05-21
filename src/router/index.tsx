@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useColorScheme } from 'react-native';
 import {
   NavigationContainer,
   createNavigationContainerRef,
@@ -13,9 +14,9 @@ import { NormalHeader } from '../components/Layout';
 import styles from './styles';
 // screens
 import SignIn from '../screens/Login';
-import SingUpScreen from '../screens/SingUp';
+import SingUpScreen from '../screens/SignUp';
 import VerifyPhoneScreen from '../screens/VerifyPhone';
-import SingUpFlow, { renderSingUpHeader } from './SingUpFlow';
+import SingUpFlow, { renderSingUpHeader } from './SignUpFlow';
 
 import HomeScreen from '../screens/Home';
 import BloodPressureScreens from './BloodPressureScreens';
@@ -36,6 +37,8 @@ type MainStackNavigatorProps = {
 };
 // TODO implementar google analictys
 function MainStackNavigator({ onReady, userLogged }: MainStackNavigatorProps) {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const onReadyHandler = () => {
     onReady(navigationRef);
   };
@@ -44,7 +47,12 @@ function MainStackNavigator({ onReady, userLogged }: MainStackNavigatorProps) {
     <NavigationContainer ref={navigationRef} onReady={onReadyHandler}>
       <Stack.Navigator
         screenOptions={{
-          headerStyle: styles.header,
+          headerStyle: {
+            ...styles.header,
+            backgroundColor: isDarkMode
+              ? Colors.darkBackground
+              : Colors.background,
+          },
           gestureEnabled: true,
           headerTintColor: Colors.headline,
           headerBackTitleVisible: false,

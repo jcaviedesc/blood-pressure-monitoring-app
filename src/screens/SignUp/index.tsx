@@ -11,23 +11,22 @@ import {
   Platform,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
 import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectUser, updateUserField } from '../../store/singup/singupSlice';
+import { selectUser, updateUserField } from '../../store/signup/signupSlice';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { PhoneInputWrapper } from '../../wrappers';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale } from '../../store/app/appSlice';
-import { singUpSchema, transformError } from './schemaValidators/singup';
-import { signUpUser } from '../../thunks/singupThunk';
+import { signUpSchema, transformError } from './schemaValidators/signup';
+import { signUpUser } from '../../thunks/sign-up-thunk';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup'>;
 
-const SingUpScreen: React.FC<Props> = ({ navigation }) => {
+const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const isDarkMode = useColorScheme() === 'dark';
   const { fullName, phone, docId } = useAppSelector(selectUser);
@@ -42,7 +41,7 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   async function nextRoute() {
-    const { error } = singUpSchema.validate(
+    const { error } = signUpSchema.validate(
       { fullName, phone, docId },
       { abortEarly: false },
     );
@@ -64,14 +63,6 @@ const SingUpScreen: React.FC<Props> = ({ navigation }) => {
           });
           console.log(err);
         });
-      // try {
-      //   const confirm = await auth().signInWithPhoneNumber(phone);
-      //   setConfirm({ confirm, phone });
-      //   navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
-      // } catch (autError) {
-      //   console.log(autError);
-      //   // TODO Senty
-      // }
     }
   }
 
@@ -213,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SingUpScreen;
+export default SignUpScreen;

@@ -5,8 +5,8 @@ import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Fonts, Colors, Metrics } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectUser, updateHealtInfo } from '../../store/singup/singupSlice';
-import { HealtInfoAction } from '../../store/singup/types';
+import { selectUser, updateHealtInfo } from '../../store/signup/signupSlice';
+import { HealtInfoAction } from '../../store/signup/types';
 import { InputToggle, Button } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup/HealthInfo'>;

@@ -1,10 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { userToApi } from '../transformations/user.transform';
-import { selectUser, clear } from '../store/singup/singupSlice';
+import { selectUser, clear } from '../store/signup/signupSlice';
 import firebaseStoreService from '../services/FirebaseStore';
 import { updateUserProfileFromSingup } from '../store/user/userSlice';
-import { snakeCaseToCamelCase } from '../services/utils';
 import type { RootState, ClientApi } from '../store/configureStore';
 import { RegisterCompleteUser } from '../services/api/types';
 import { userFromApi } from '../store/user/types';

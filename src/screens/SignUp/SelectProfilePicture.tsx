@@ -21,8 +21,8 @@ import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Images, Metrics, Fonts, Colors } from '../../styles';
 import { Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectUser, updateUserField } from '../../store/singup/singupSlice';
-import { finishSignUpUser } from '../../thunks/singupThunk';
+import { selectUser, updateUserField } from '../../store/signup/signupSlice';
+import { finishSignUpUser } from '../../thunks/sign-up-thunk';
 
 type actionSheetRef = {
   setModalVisible: () => void;

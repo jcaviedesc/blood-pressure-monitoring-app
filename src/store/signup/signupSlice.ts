@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  SingUpState,
+  SignUpState,
   updateUserFieldType,
   HealtInfoAction,
   Gender,
 } from './types';
 import type { RootState } from '../configureStore';
-import { signUpUser } from '../../thunks/singupThunk';
+import { signUpUser } from '../../thunks/sign-up-thunk';
 
 /* ------------- Initial State ------------- */
-const initialState: SingUpState = {
+const initialState: SignUpState = {
   fullName: '',
   docId: '',
   phone: '',
@@ -30,8 +30,8 @@ const initialState: SingUpState = {
   picture: { uri: '', type: '' },
 };
 
-export const singUpSlice = createSlice({
-  name: 'singUp',
+export const signUpSlice = createSlice({
+  name: 'signUp',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
@@ -57,9 +57,9 @@ export const singUpSlice = createSlice({
   },
 });
 
-export const { updateUserField, updateHealtInfo, clear } = singUpSlice.actions;
+export const { updateUserField, updateHealtInfo, clear } = signUpSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectUser = (state: RootState) => state.singup;
+export const selectUser = (state: RootState) => state.signup;
 
-export default singUpSlice.reducer;
+export default signUpSlice.reducer;
