@@ -27,6 +27,7 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const ref = useRef<PhoneInputRef>();
+  const backgroundColor = isDarkMode ? Colors.darkGrayMode : Colors.lightGray;
 
   const onChangePhoneNumberHandler = (phoneNumber: string) => {
     if (ref.current?.isValidNumber(phoneNumber)) {
@@ -49,6 +50,7 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
         ref={ref}
         containerStyle={{
           ...styles.inputContainer,
+          backgroundColor,
           borderColor: isDarkMode
             ? Colors.darkGrayMode
             : error
@@ -58,10 +60,14 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
         layout="first"
         defaultCode={initialCountry}
         defaultValue={value}
-        textContainerStyle={styles.inputContent}
-        textInputStyle={[styles.inputText, styles.input]}
-        codeTextStyle={[styles.inputText, styles.input, styles.inputCode]}
-        flagButtonStyle={styles.intputFlag}
+        textContainerStyle={{ ...styles.inputContent, backgroundColor }}
+        textInputStyle={[styles.inputText, styles.input, { backgroundColor }]}
+        codeTextStyle={[
+          styles.inputText,
+          styles.input,
+          styles.inputCode,
+          { backgroundColor },
+        ]}
         onChangeFormattedText={onChangePhoneNumberHandler}
         autoFocus={autoFocus}
       />
@@ -80,18 +86,15 @@ const styles = StyleSheet.create({
     height: 48,
     width: '100%',
     flexDirection: 'row',
-    borderColor: Colors.lightGray,
     borderRadius: 5,
     borderStyle: 'solid',
     borderWidth: 1,
-    backgroundColor: Colors.lightGray,
     marginTop: 9,
     paddingRight: 9,
     overflow: 'hidden',
   },
   inputContent: {
     padding: 0,
-    backgroundColor: Colors.lightGray,
     justifyContent: 'flex-start',
   },
   input: {
@@ -105,8 +108,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.type.bold,
     fontSize: 18,
     backgroundColor: Colors.lightGray,
-  },
-  intputFlag: {
   },
   hint: {
     fontFamily: Fonts.type.light,

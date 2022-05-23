@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TextInput, View, StyleSheet } from 'react-native';
+import { TextInput, View, StyleSheet, useColorScheme } from 'react-native';
 import { Colors, Fonts, Metrics } from '../../styles';
 
 type Props = {
   onCompleteCode: (code: string) => void;
 };
 const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundColor = isDarkMode ? Colors.darkGrayMode : Colors.lightGray;
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [complete, setComplete] = useState(false);
   useEffect(() => {
@@ -47,7 +49,7 @@ const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
           ref={codeRef[0]}
           maxLength={6}
           keyboardType="phone-pad"
-          style={styles.input}
+          style={[styles.input, { backgroundColor }]}
           onChangeText={text => {
             onChange(text, 0);
             // onSetCode(text, 0);
@@ -67,7 +69,7 @@ const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
                 onChange(text, index + 1);
               }}
               keyboardType="phone-pad"
-              style={styles.input}
+              style={[styles.input, { backgroundColor }]}
               value={code[index + 1]}
             />
           </View>
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGray,
     height: (Metrics.screenWidth - 30) / 6,
     width: (Metrics.screenWidth - 70) / 6,
+    overflow: 'hidden',
   },
   input: {
     padding: 6,

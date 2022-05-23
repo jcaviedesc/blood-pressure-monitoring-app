@@ -1,16 +1,25 @@
 import React, { useEffect } from 'react';
-import { StatusBar, StyleSheet, View, Image, Platform } from 'react-native';
+import {
+  StatusBar,
+  StyleSheet,
+  View,
+  Image,
+  Platform,
+  useColorScheme,
+} from 'react-native';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { Colors, Images, Metrics } from '../../styles';
 
 const SplashScreen: React.FC = () => {
+  const isDarkMode = useColorScheme() === 'dark';
   useEffect(() => {
     changeNavigationBarColor(Colors.tertiary, false, false);
-    if (Platform.OS === 'android') {
-      StatusBar.setBackgroundColor(Colors.background, true);
-    }
-    StatusBar.setBarStyle('dark-content');
-    changeNavigationBarColor(Colors.background, true, false);
+    return () => {
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor(Colors.background, true);
+      }
+      changeNavigationBarColor(Colors.background, true, false);
+    };
   }, []);
 
   return (
@@ -19,8 +28,8 @@ const SplashScreen: React.FC = () => {
         animated={true}
         backgroundColor={Colors.tertiary}
         showHideTransition="fade"
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         hidden={false}
-        barStyle="light-content"
       />
       <Image source={Images.animateHeart} style={styles.splashImage} />
     </View>

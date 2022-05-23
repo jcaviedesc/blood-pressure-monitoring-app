@@ -13,6 +13,7 @@ type props = {
   style?: stylesPros;
 };
 
+// TODO implemente darkMode.
 const Card: React.FC<props> = ({ children, selected = false, style }) => {
   const cardStyles = {
     ...styles.card,

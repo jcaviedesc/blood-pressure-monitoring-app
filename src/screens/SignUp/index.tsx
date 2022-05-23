@@ -5,7 +5,7 @@ import {
   ScrollView,
   View,
   useColorScheme,
-  TouchableHighlight,
+  TouchableOpacity,
   StatusBar,
   KeyboardAvoidingView,
   Platform,
@@ -146,15 +146,14 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                   {translate('singup_screen.all_ready_account')}
                 </Text>
               </View>
-              <TouchableHighlight
-                underlayColor={Colors.background}
+              <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('Login', { from: 'Login' });
                 }}>
                 <Text style={[styles.allreadyAccountText, styles.loginText]}>
                   {translate('singup_screen.log_in')}
                 </Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

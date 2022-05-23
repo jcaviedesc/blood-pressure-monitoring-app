@@ -4,11 +4,10 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  useColorScheme,
-  TouchableHighlight,
   StatusBar,
   BackHandler,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { useFocusEffect } from '@react-navigation/native';
@@ -16,6 +15,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Button } from '../../components';
+import { MainContainer } from '../../components/Layout';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { PhoneInputWrapper } from '../../wrappers';
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -28,7 +28,6 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const dispatch = useAppDispatch();
   const { countryCode } = useAppSelector(selectAppLocale);
-  const isDarkMode = useColorScheme() === 'dark';
   const [phone, setPhone] = useState('');
 
   const { setConfirm } = useConfirmPhone();
@@ -80,59 +79,59 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   );
 
   return (
-    <ScrollView
-      style={[styles.mainContainer, isDarkMode && styles.darkContainer]}>
-      <StatusBar
-        animated={true}
-        backgroundColor={Colors.background}
-        showHideTransition="fade"
-        hidden={false}
-        barStyle="dark-content"
-      />
-      <View style={styles.titleContainer}>
-        <Text style={styles.titleScreen}>
-          {translate('login_screen.title')}
-        </Text>
-      </View>
-      <View style={styles.bodyContainer}>
-        <View style={styles.section}>
-          <PhoneInputWrapper
-            title={translate('login_screen.subtitle')}
-            initialCountry={countryCode}
-            value={phone}
-            onPhoneInputChange={phoneNumer => {
-              setPhone(phoneNumer);
-            }}
-            autoFocus
-          />
-        </View>
-      </View>
-
-      <View style={styles.footer}>
-        <Button
-          title={translate('button.next')}
-          onPress={() => {
-            navigate();
-          }}
+    <MainContainer>
+      <ScrollView>
+        <StatusBar
+          animated={true}
+          backgroundColor={Colors.background}
+          showHideTransition="fade"
+          hidden={false}
+          barStyle="dark-content"
         />
-        <View style={styles.notAccount}>
-          <View>
-            <Text style={styles.notAccountText}>
-              {translate('login_screen.not_account')}
-            </Text>
-          </View>
-          <TouchableHighlight
-            underlayColor={Colors.background}
-            onPress={() => {
-              navigation.navigate('Singup');
-            }}>
-            <Text style={[styles.notAccountText, styles.loginText]}>
-              {translate('login_screen.singup')}
-            </Text>
-          </TouchableHighlight>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleScreen}>
+            {translate('login_screen.title')}
+          </Text>
         </View>
-      </View>
-    </ScrollView>
+        <View style={styles.bodyContainer}>
+          <View style={styles.section}>
+            <PhoneInputWrapper
+              title={translate('login_screen.subtitle')}
+              initialCountry={countryCode}
+              value={phone}
+              onPhoneInputChange={phoneNumer => {
+                setPhone(phoneNumer);
+              }}
+              autoFocus
+            />
+          </View>
+        </View>
+
+        <View style={styles.footer}>
+          <Button
+            title={translate('button.next')}
+            onPress={() => {
+              navigate();
+            }}
+          />
+          <View style={styles.notAccount}>
+            <View>
+              <Text style={styles.notAccountText}>
+                {translate('login_screen.not_account')}
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Singup');
+              }}>
+              <Text style={[styles.notAccountText, styles.loginText]}>
+                {translate('login_screen.singup')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </MainContainer>
   );
 };
 
@@ -145,6 +144,7 @@ const styles = StyleSheet.create({
   },
   bodyContainer: {
     flex: 10,
+    backgroundColor: Colors.transparent,
   },
   footer: {
     flex: 80,

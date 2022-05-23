@@ -128,5 +128,9 @@
     "add": "add",
     "cancel": "cancel"
   },
-  "select": "Seleccionar"
+  "select": "Seleccionar",
+  "headerSearch": {
+    "placeholder": "Buscar tensiometro",
+    "cancel": "cancelar"
+  }
 }

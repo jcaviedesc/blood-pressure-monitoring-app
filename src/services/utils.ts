@@ -4,7 +4,11 @@ export function cleanObject(obj: object) {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== ''));
 }
 
-export function snakeCaseToCamelCase(data: object): object {
+export function snakeCaseToCamelCase<T>(data: any) {
+  if (Array.isArray(data)) {
+    return data.map(item => mapKeys(item, (value, key) => camelCase(key)));
+  }
+
   return mapKeys(data, (value, key) => camelCase(key));
 }
 

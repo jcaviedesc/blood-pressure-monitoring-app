@@ -39,7 +39,6 @@ const ApplicationStyles: IApplicationStyles = {
     section: {
       marginTop: Metrics.marginVertical + 8,
       marginHorizontal: Metrics.marginHorizontal,
-      backgroundColor: Colors.background,
     },
     titleContainer: {
       marginBottom: 31,

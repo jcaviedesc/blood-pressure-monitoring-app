@@ -8,7 +8,7 @@
 
 import React, { useEffect } from 'react';
 import type { Node } from 'react';
-import { useColorScheme, StatusBar, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import { Provider } from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
 import Toast from 'react-native-toast-message';
@@ -20,11 +20,8 @@ import { useNotificationPermission } from './hooks/usePermissions';
 // context
 import { ConfirmPhoneProvider } from './providers/ConfirmPhone';
 import { LocalizationProvider } from './providers/LocalizationProvider';
-import { Colors } from './styles';
 
 const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
   useNotificationPermission();
 
   useEffect(() => {
@@ -37,13 +34,6 @@ const App: () => Node = () => {
 
   return (
     <Provider store={store}>
-      <StatusBar
-        animated={true}
-        backgroundColor={isDarkMode ? Colors.darkMode : Colors.background}
-        showHideTransition="fade"
-        hidden={false}
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-      />
       <PersistGate loading={null} persistor={persistor}>
         <LocalizationProvider>
           <ConfirmPhoneProvider>

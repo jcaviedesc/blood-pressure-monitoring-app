@@ -15,9 +15,19 @@ const Steps: React.FC<StepProps> = ({ nsteps, activeStep }) => {
           ...styles.step,
           width: Metrics.screenWidth / nsteps - 6,
           backgroundColor:
-            step <= activeStep - 1 ? Colors.tertiary : Colors.stroke,
+            step < activeStep - 1 ? Colors.tertiary : Colors.stroke,
         };
-        return <View key={step} style={stepStyle} />;
+        return (
+          <View key={step} style={stepStyle}>
+            <View
+              style={{
+                backgroundColor: Colors.tertiary,
+                height: '100%',
+                width: step === activeStep - 1 ? '80%': 0,
+              }}
+            />
+          </View>
+        );
       })}
     </View>
   );
@@ -32,6 +42,7 @@ const styles = StyleSheet.create({
   step: {
     height: 5,
     borderRadius: 3,
+    overflow: 'hidden',
   },
 });
 

@@ -8,6 +8,7 @@ import { updateUserField, selectUser } from '../../store/signup/signupSlice';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Button, HeightSlider, SelectGenderSexToggle } from '../../components';
+import { MainContainer } from '../../components/Layout';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup/BodyInfo'>;
 
@@ -29,57 +30,56 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={[styles.mainContainer, styles.mainContainerOverride]}>
-      <View style={styles.bodyScreenContent}>
-        <View style={{ flex: 10 }}>
-          <SelectGenderSexToggle
-            maleImage={Images.menGenderAvatar}
-            femaleImage={Images.womenGenderAvatar}
-            onSelect={genderSex => {
-              onUpdateField('gender', genderSex);
-            }}
-          />
+    <MainContainer>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.bodyScreenContent}>
+          <View style={{ flex: 10 }}>
+            <SelectGenderSexToggle
+              maleImage={Images.menGenderAvatar}
+              femaleImage={Images.womenGenderAvatar}
+              onSelect={genderSex => {
+                onUpdateField('gender', genderSex);
+              }}
+            />
+          </View>
+          <View style={{ flex: 62 }}>
+            <HeightSlider
+              title={translate('height')}
+              titleStyles={styles.titleWeight}
+              max={200}
+              labelUnit="cm"
+              imageGenderSex={
+                gender === 'male' ? Images.menGender : Images.womenGender
+              }
+              onValueChangeFinish={heigthVal => {
+                onUpdateField('height', heigthVal);
+              }}
+            />
+          </View>
+          <View style={{ flex: 18 }}>
+            <SwiperUnits
+              title={translate('weight')}
+              titleStyles={styles.titleWeight}
+              range={[20, 129]} // TODO cambiar de acuerdo a escala
+              unitStyles={styles.weightUnit}
+              activeUnitStyles={styles.activeWeightUnit}
+              magnitudeSyles={styles.magnitude}
+              onActiveItem={activeItem => {
+                onUpdateField('weight', activeItem);
+              }}
+            />
+          </View>
+          <View style={[styles.section, { flex: 8 }]}>
+            <Button title={translate('button.next')} onPress={nextStepHandler} />
+          </View>
         </View>
-        <View style={{ flex: 62 }}>
-          <HeightSlider
-            title={translate('height')}
-            titleStyles={styles.titleWeight}
-            max={200}
-            labelUnit="cm"
-            imageGenderSex={
-              gender === 'male' ? Images.menGender : Images.womenGender
-            }
-            onValueChangeFinish={heigthVal => {
-              onUpdateField('height', heigthVal);
-            }}
-          />
-        </View>
-        <View style={{ flex: 18 }}>
-          <SwiperUnits
-            title={translate('weight')}
-            titleStyles={styles.titleWeight}
-            range={[20, 129]} // TODO cambiar de acuerdo a escala
-            unitStyles={styles.weightUnit}
-            activeUnitStyles={styles.activeWeightUnit}
-            magnitudeSyles={styles.magnitude}
-            onActiveItem={activeItem => {
-              onUpdateField('weight', activeItem);
-            }}
-          />
-        </View>
-        <View style={[styles.section, { flex: 8 }]}>
-          <Button title={translate('button.next')} onPress={nextStepHandler} />
-        </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </MainContainer>
   );
 };
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
-  mainContainerOverride: {
-    paddingTop: 0,
-  },
   titleWeight: {
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h5,

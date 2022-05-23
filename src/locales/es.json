@@ -128,5 +128,16 @@
     "add": "agregar",
     "cancel": "cancelar"
   },
-  "select": "Seleccionar"
+  "select": "Seleccionar",
+  "headerSearch": {
+    "placeholder": "Buscar tensiometro",
+    "cancel": "cancelar"
+  },
+  "brand": "Marca",
+  "model": "Modelo",
+  "measurementSite": "Lugar de medición",
+  "use": "Uso",
+  "validationStudy": "Estudio de Validación",
+  "measurementMethod": "Método de medición",
+  "additional": "adicional",
 }

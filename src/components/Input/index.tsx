@@ -6,6 +6,7 @@ import {
   StyleSheet,
   KeyboardTypeOptions,
   useColorScheme,
+  Platform,
 } from 'react-native';
 import { Colors, Fonts } from '../../styles';
 
@@ -22,6 +23,7 @@ type InputProps = {
   rigthComponent?: Element;
   autoFocus?: boolean;
   hasError?: boolean;
+  leftComponent?: Element;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -37,11 +39,23 @@ const Input: React.FC<InputProps> = ({
   rigthComponent,
   autoFocus,
   hasError = false,
+  leftComponent,
+  ...props
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const onFocuesHandler = () => {
     onFocus && onFocus();
   };
+  const inputContainerStyles = {
+    ...styles.inputContainer,
+    backgroundColor: isDarkMode ? Colors.darkGrayMode : Colors.lightGray,
+    borderColor: isDarkMode
+      ? Colors.darkGrayMode
+      : hasError
+      ? Colors.error
+      : Colors.lightGray,
+  };
+
   return (
     <View>
       {title && (
@@ -53,17 +67,10 @@ const Input: React.FC<InputProps> = ({
           {title}
         </Text>
       )}
-      <View
-        style={{
-          ...styles.inputContainer,
-          backgroundColor: isDarkMode ? Colors.darkGrayMode : Colors.lightGray,
-          borderColor: isDarkMode
-            ? Colors.darkGrayMode
-            : hasError
-            ? Colors.error
-            : Colors.lightGray,
-        }}>
+      <View style={inputContainerStyles}>
+        {leftComponent}
         <TextInput
+          {...props}
           style={styles.input}
           onFocus={onFocuesHandler}
           editable={editable}
@@ -76,7 +83,15 @@ const Input: React.FC<InputProps> = ({
         />
         {rigthComponent}
       </View>
-      {hint && <Text style={styles.hint}>{hint}</Text>}
+      {hint && (
+        <Text
+          style={{
+            ...styles.hint,
+            color: isDarkMode ? Colors.darkGrayMode : Colors.paragraph,
+          }}>
+          {hint}
+        </Text>
+      )}
     </View>
   );
 };
@@ -86,16 +101,16 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     fontFamily: Fonts.type.light,
     fontSize: Fonts.size.h5,
+    marginBottom: 9,
   },
   inputContainer: {
-    height: 48,
-    minHeight: 48,
+    height: Platform.OS === 'android' ? 48 : 42,
+    minHeight: Platform.OS === 'android' ? 48 : 42,
     flexDirection: 'row',
     borderRadius: 5,
     borderStyle: 'solid',
     borderWidth: 1,
     flex: 1,
-    marginTop: 9,
     paddingHorizontal: 6,
   },
   input: {

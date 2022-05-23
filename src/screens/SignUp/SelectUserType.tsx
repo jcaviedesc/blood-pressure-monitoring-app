@@ -13,6 +13,7 @@ import { selectUser, updateUserField } from '../../store/signup/signupSlice';
 import { Fonts, Colors, Images, Metrics, AppStyles } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Card } from '../../components';
+import { MainContainer } from '../../components/Layout';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
@@ -36,7 +37,7 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <MainContainer>
       <View style={styles.titleContainer}>
         <Text style={styles.titleScreen}>{translate('select_user.title')}</Text>
       </View>
@@ -75,7 +76,7 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
           </Card>
         </TouchableHighlight>
       </View>
-    </View>
+    </MainContainer>
   );
 };
 

@@ -59,3 +59,7 @@ export const selectCurrentReminder = (state: RootState) => {
   const userName = state.user?.profile.fullName ?? '';
   return { activeReminder, reminderData, userName };
 };
+
+export const selectMonitors = (state: RootState) => {
+  return state.bloodPressure.monitors;
+};

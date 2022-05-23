@@ -18,6 +18,7 @@ import * as Layout from './Layout';
 import Tag from './Tag';
 import Reminder from './Reminder';
 import ActionSheets from './ActionSheet';
+import MonitorCard from './MonitorCard';
 
 export {
   Input,
@@ -40,4 +41,5 @@ export {
   Tag,
   Reminder,
   ActionSheets,
+  MonitorCard,
 };

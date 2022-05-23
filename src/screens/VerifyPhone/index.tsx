@@ -5,7 +5,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import type { RootStackParamList } from '../../router/types';
 import { VerifyCode } from '../../components';
-import { AppStyles, Fonts } from '../../styles';
+import { MainContainer } from '../../components/Layout';
+import { AppStyles, Fonts, Colors } from '../../styles';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 
@@ -73,7 +74,7 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   }
 
   return (
-    <View style={styles.mainContainer}>
+    <MainContainer>
       <View style={styles.content}>
         <View style={styles.titleContainer}>
           <Text style={styles.titleScreen}>
@@ -96,7 +97,7 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
           <Text>{translate('verify_phone.resend', { time: '1:00' })}</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </MainContainer>
   );
 };
 

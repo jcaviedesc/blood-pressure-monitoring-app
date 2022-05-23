@@ -20,6 +20,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Images, Metrics, Fonts, Colors } from '../../styles';
 import { Button } from '../../components';
+import { MainContainer } from '../../components/Layout';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/signup/signupSlice';
 import { finishSignUpUser } from '../../thunks/sign-up-thunk';
@@ -118,7 +119,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <MainContainer>
       <View style={styles.content}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Seleciona una foto de perfil</Text>
@@ -176,7 +177,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
           </TouchableHighlight>
         </View>
       </ActionSheet>
-    </View>
+    </MainContainer>
   );
 };
 

@@ -93,6 +93,9 @@ const create = (baseURL = API_URL) => {
   const registerBloodPressureRecord = (data: BPbody): AxiosPromise =>
     api.post('/blood-pressure/', data);
 
+  const findBloodPressureMonitor = (param: any): AxiosPromise =>
+    api.get('/blood-pressure/monitors', param);
+
   // ------
   // STEP 3
   // ------
@@ -109,6 +112,7 @@ const create = (baseURL = API_URL) => {
     registerUser,
     registerBloodPressureRecord,
     finishRegistration,
+    findBloodPressureMonitor,
   };
 };
 

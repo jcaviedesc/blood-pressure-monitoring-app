@@ -8,6 +8,7 @@ import type {
 } from './types';
 export * from './selectors';
 import { postRequestBloodPressure } from '../../thunks/blood-pressure-thunk';
+import { findMonitors } from '../../thunks/blood-pressure/monitors-thunk';
 
 /* ------------- blood pressure Initial State ------------- */
 const initialState: BloodPressureState = {
@@ -49,6 +50,7 @@ const initialState: BloodPressureState = {
       times: [''],
     },
   },
+  monitors: [],
 };
 
 export const bloodPressureSlice = createSlice({
@@ -114,6 +116,9 @@ export const bloodPressureSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(postRequestBloodPressure.fulfilled, state => {
       state.records = state.records.slice(2);
+    });
+    builder.addCase(findMonitors.fulfilled, (state, action) => {
+      state.monitors = action.payload;
     });
   },
 });

@@ -10,6 +10,7 @@ type props = {
   disabled?: boolean;
   apparence?: object;
   customBackground?: string;
+  size: 'large' | 'normal' | 'small';
 };
 
 const background = {
@@ -26,6 +27,7 @@ const Button: React.FC<props> = ({
   disabled,
   apparence,
   customBackground,
+  size = 'normal',
 }) => {
   const buttonStyles = {
     ...apparence,
@@ -40,6 +42,12 @@ const Button: React.FC<props> = ({
   if (disabled) {
     buttonStyles.backgroundColor = Colors.buttonDisabled;
     textStyles.color = Colors.textDisabled;
+  }
+
+  if (size === 'small') {
+    buttonStyles.height = 32;
+    buttonStyles.paddingHorizontal = 9;
+    textStyles.fontSize = Fonts.size.h5;
   }
 
   return (

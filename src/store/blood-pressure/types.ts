@@ -26,6 +26,17 @@ export type Reminders = {
   custom: RemindersTime;
 };
 
+export type Monitor = {
+  brand: string;
+  model: string;
+  measurementSite: string;
+  use: string;
+  validationStudy: string;
+  img: string;
+  measurementMethod: string;
+  additional?: string;
+};
+
 export interface BloodPressureState {
   records: BloodPressureRecord[];
   currentRecord: BloodPressureRecord;
@@ -35,6 +46,7 @@ export interface BloodPressureState {
   reminderStage: keyof Reminders;
   activeNotificationRemider: keyof Reminders;
   reminders: Reminders;
+  monitors: Monitor[];
 }
 
 export type UpdateCurrentRecordAction = {

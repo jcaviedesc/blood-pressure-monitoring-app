@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Platform,
+  useColorScheme,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconEntypo from 'react-native-vector-icons/Entypo';
@@ -16,6 +17,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import type { RootStackParamList } from '../../router/types';
 import { Colors, Fonts, AppStyles } from '../../styles';
 import { Button, HeaderChart } from '../../components';
+import { MainContainer } from '../../components/Layout';
 import { BloodPressureCard } from '../../wrappers';
 import { BarChart } from '../../components/Charts';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
@@ -42,6 +44,7 @@ type actionSheetRef = {
 
 const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
+  const isDarkMode = useColorScheme() === 'dark';
 
   const dispatch = useAppDispatch();
   const {
@@ -72,6 +75,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           <IconEntypo
             name={Platform.OS === 'ios' ? 'dots-three-vertical' : 'menu'}
             size={Platform.OS === 'ios' ? 18 : 28}
+            color={isDarkMode ? Colors.background : Colors.stroke}
           />
         </TouchableOpacity>
       ),
@@ -79,7 +83,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
   }, [navigation, translate, actionSheetRef]);
 
   return (
-    <View style={styles.mainContainer}>
+    <MainContainer>
       <ScrollView>
         <View style={styles.content}>
           <View style={styles.contenHeder}>
@@ -132,7 +136,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
             style={styles.actionSheetTouch}
             onPress={() => {
               actionSheetRef.current?.hide();
-              navigate('development');
+              navigate('BloodPressure/ValidateMonitor');
             }}>
             <View style={styles.actionSheetTouchContent}>
               <Icon name="search" size={18} color={Colors.darkBackground} />
@@ -170,7 +174,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           }}
         />
       </View>
-    </View>
+    </MainContainer>
   );
 };
 

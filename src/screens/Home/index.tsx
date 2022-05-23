@@ -10,12 +10,12 @@ import {
   Alert,
   TouchableHighlight,
   StatusBar,
-  TouchableOpacity,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
 import { Colors, Fonts, AppStyles, Images, Metrics } from '../../styles';
-import { Box, Tag } from '../../components';
+import { Box, Button } from '../../components';
+import { MainContainer } from '../../components/Layout';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector } from '../../hooks';
 import { selectUserData } from '../../store/user/userSlice';
@@ -56,7 +56,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     navigation.navigate(screen);
   };
   return (
-    <View style={styles.mainContainer}>
+    <MainContainer>
       {/* TODO implementar alertas */}
       <View style={styles.alertContainer} />
       <ScrollView style={styles.content}>
@@ -104,13 +104,14 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             {translate('home.medicines')}
           </Text>
           <View>
-            <TouchableOpacity
-              activeOpacity={0.9}
+            <Button
+              size="small"
+              hierarchy="quiet"
+              title={translate('button.add')}
               onPress={() => {
                 navigate('development');
-              }}>
-              <Tag value={translate('button.add')} />
-            </TouchableOpacity>
+              }}
+            />
           </View>
         </View>
         <View style={styles.titleSection}>
@@ -161,7 +162,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
       </ScrollView>
-    </View>
+    </MainContainer>
   );
 };
 
@@ -203,7 +204,7 @@ const styles = StyleSheet.create({
   titleSection: {
     marginVertical: 12,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
   titleSectonText: {

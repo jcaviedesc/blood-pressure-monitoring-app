@@ -6,10 +6,10 @@ const type = {
 };
 
 const size = {
-  h1: 38,
-  h2: 35,
-  h3: 30,
-  h4: 26,
+  h1: 26,
+  h2: 25,
+  h3: 24,
+  h4: 22,
   h5: 20,
   h6: 19,
   paragraph: 17,
