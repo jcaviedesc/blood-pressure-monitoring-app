@@ -11,6 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
@@ -56,9 +57,10 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
         })
         .catch(err => {
+          crashlytics().recordError(err);
           Toast.show({
             type: 'error',
-            text1: err.msg,
+            text1: err.msg, // TODO traducir
             position: 'bottom',
           });
           console.log(err);

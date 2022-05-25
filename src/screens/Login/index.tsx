@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   StyleSheet,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
@@ -42,7 +43,12 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         verificationType: 'Login',
       });
     } catch (error) {
-      // TODO add sentry or other platform for track error
+      crashlytics()
+        .setAttribute('phone', phone)
+        .then(() => {
+          crashlytics().recordError(error);
+        });
+      // TODO show toast
     } finally {
       dispatch(setScreenLoading(false));
     }
@@ -108,6 +114,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         </View>
 
         <View style={styles.footer}>
+          {/* TODO enable button cuando el campo de telefono tiene un numero valido */}
           <Button
             title={translate('button.next')}
             onPress={() => {

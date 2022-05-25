@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { useFocusEffect } from '@react-navigation/native';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import type { RootStackParamList } from '../../router/types';
 import { VerifyCode } from '../../components';
 import { MainContainer } from '../../components/Layout';
-import { AppStyles, Fonts, Colors } from '../../styles';
+import { AppStyles, Fonts } from '../../styles';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 
@@ -60,12 +61,14 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
 
   async function confirmCode(code: string) {
     try {
-      const result = await confirm?.confirm(code);
-      console.log("confirmCode")
-      console.log(result);
+      await confirm?.confirm(code);
       verifyPhoneSuccess();
     } catch (error) {
-      console.log('Invalid code.', error);
+      crashlytics()
+        .setAttribute('phone', phone)
+        .then(() => {
+          crashlytics().recordError(error);
+        });
     }
   }
 

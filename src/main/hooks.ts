@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import notifee from '@notifee/react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 import type { RootStackParamList } from '../router/types';
 
 type InitialScreenApp = {
@@ -19,6 +21,7 @@ export const useInitialScreenApp = () => {
 
     if (initialNotification) {
       const { data = {} } = initialNotification.notification;
+      // TODO impplement google analitycs
       console.log('Notification caused application to open', initialNotification.notification);
       console.log('Press action used to open the app', initialNotification.pressAction);
       // todo change resolve
@@ -36,7 +39,12 @@ export const useInitialScreenApp = () => {
       setMainScreenState({ loading: false, nextScreen: screen });
     };
 
-    bootstrap().then(onNextScreen).catch(console.error);
+    bootstrap()
+      .then(onNextScreen)
+      .catch(error => {
+        crashlytics().recordError(error);
+        onNextScreen({ navigateTo: 'Home' });
+      });
   }, []);
 
   return mainScreenState;

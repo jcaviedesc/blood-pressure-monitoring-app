@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useColorScheme } from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 import {
   NavigationContainer,
   createNavigationContainerRef,
@@ -16,7 +17,7 @@ import styles from './styles';
 import SignIn from '../screens/Login';
 import SingUpScreen from '../screens/SignUp';
 import VerifyPhoneScreen from '../screens/VerifyPhone';
-import SingUpFlow, { renderSingUpHeader } from './SignUpFlow';
+import SignUpFlow, { renderSingUpHeader } from './SignUpFlow';
 
 import HomeScreen from '../screens/Home';
 import BloodPressureScreens from './BloodPressureScreens';
@@ -27,24 +28,40 @@ import DevelopmentScreen from '../screens/Development';
 import { Colors } from '../styles';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const navigationRef = createNavigationContainerRef();
+const navigationRef = createNavigationContainerRef<RootStackParamList>();
 
 export type NavigationRef = typeof navigationRef;
 
 type MainStackNavigatorProps = {
   onReady: (navigator: NavigationRef) => void;
-  userLogged: boolean;
+  isSignedIn: boolean;
 };
 // TODO implementar google analictys
-function MainStackNavigator({ onReady, userLogged }: MainStackNavigatorProps) {
+function MainStackNavigator({ onReady, isSignedIn }: MainStackNavigatorProps) {
   const isDarkMode = useColorScheme() === 'dark';
+  const routeNameRef = React.useRef('');
 
   const onReadyHandler = () => {
+    routeNameRef.current = navigationRef.getCurrentRoute()?.name || '';
     onReady(navigationRef);
   };
 
   return (
-    <NavigationContainer ref={navigationRef} onReady={onReadyHandler}>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={onReadyHandler}
+      onStateChange={async () => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = navigationRef.getCurrentRoute()?.name ?? '';
+
+        if (previousRouteName !== currentRouteName) {
+          await analytics().logScreenView({
+            screen_name: currentRouteName,
+            screen_class: currentRouteName,
+          });
+        }
+        routeNameRef.current = currentRouteName;
+      }}>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
@@ -57,7 +74,7 @@ function MainStackNavigator({ onReady, userLogged }: MainStackNavigatorProps) {
           headerTintColor: Colors.headline,
           headerBackTitleVisible: false,
         }}>
-        {userLogged ? (
+        {isSignedIn ? (
           <>
             <Stack.Screen
               name="Home"
@@ -103,8 +120,10 @@ function MainStackNavigator({ onReady, userLogged }: MainStackNavigatorProps) {
             />
           </>
         )}
-
-        {Object.entries(SingUpFlow).map(([name, params]) => (
+        {/* SignUpFlow debe ser movido dentro de la logica si el usuario esta logged
+        o implementar navigationKey={isSignedIn ? 'user' : 'guest'}
+        */}
+        {Object.entries(SignUpFlow).map(([name, params]) => (
           <Stack.Screen
             key={name}
             options={params.options}
@@ -123,6 +142,7 @@ function MainStackNavigator({ onReady, userLogged }: MainStackNavigatorProps) {
               options,
               back,
             }: NativeStackHeaderProps) => {
+              // TODO realizar logica en base a la ruta anterior
               return options.showStepHeader ? (
                 renderSingUpHeader(navigation, route, options, back, {
                   nsteps: 5,

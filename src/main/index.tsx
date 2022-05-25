@@ -22,7 +22,9 @@ const Main = () => {
   const onAuthStateChanged = useCallback(
     (fbUser: FirebaseAuthTypes.User | null) => {
       setUser(!!fbUser);
-      if (initializing) setInitializing(false);
+      if (initializing) {
+        setInitializing(false);
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
@@ -59,7 +61,7 @@ const Main = () => {
       onReady={navigation => {
         onNavigateTo(navigation);
       }}
-      userLogged={!!user}
+      isSignedIn={!!user}
     />
   );
 };

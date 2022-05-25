@@ -1,4 +1,4 @@
-package com.bettion;
+package com.rambit.bettion;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

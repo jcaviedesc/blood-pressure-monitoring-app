@@ -13,7 +13,7 @@
   },
   "singup_screen": {
     "title": "Registro",
-    "subtitle": "Gracias por tomarte el tiempo de crear una cuenta con nosotros. Aquí empieza la parte divertida",
+    "subtitle": "Gracias por tomarte el tiempo de crear una cuenta con nosotros.",
     "full_name": "Nombre completo",
     "document_id": "Número de identificación",
     "document_id_hint": "cédula de ciudadania",
@@ -139,5 +139,10 @@
   "use": "Uso",
   "validationStudy": "Estudio de Validación",
   "measurementMethod": "Método de medición",
-  "additional": "adicional"
+  "additional": "adicional",
+  "appCrash": {
+    "title": "¡Ooh no! Algo salió Mal.",
+    "bodyText": "La aplicación tuvo un problema y no pudo continuar. ¡Nos disculpamos por cualquier inconveniente que esto haya causado!. Presiona el botón de abajo para reiniciar la aplicación. Contacta con nosotros si este problema persiste",
+    "buttonText": "Regresar a la pantalla de inicio"
+  }
 }

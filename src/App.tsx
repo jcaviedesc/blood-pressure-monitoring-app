@@ -16,13 +16,18 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Main from './main';
 import store, { persistor } from './store/configureStore';
 import { LoadingWrapper } from './wrappers';
-import { useNotificationPermission } from './hooks/usePermissions';
+import {
+  useNotificationPermission,
+  useGetNotificationSettingsPermission,
+} from './hooks/usePermissions';
 // context
 import { ConfirmPhoneProvider } from './providers/ConfirmPhone';
 import { LocalizationProvider } from './providers/LocalizationProvider';
+import { AppErrorBoundary } from './providers/ErrorBoundary';
 
 const App: () => Node = () => {
   useNotificationPermission();
+  useGetNotificationSettingsPermission();
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
@@ -38,12 +43,14 @@ const App: () => Node = () => {
         <LocalizationProvider>
           <ConfirmPhoneProvider>
             <LoadingWrapper>
-              <Main />
+              <AppErrorBoundary>
+                <Main />
+              </AppErrorBoundary>
             </LoadingWrapper>
           </ConfirmPhoneProvider>
         </LocalizationProvider>
+        <Toast />
       </PersistGate>
-      <Toast />
     </Provider>
   );
 };

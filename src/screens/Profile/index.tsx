@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 import type { RootStackParamList } from '../../router/types';
@@ -13,7 +14,8 @@ const ProfileScreen: React.FC<Props> = () => {
     auth()
       .signOut()
       .catch(err => {
-        //TODO add sentry
+        crashlytics().recordError(err);
+        //TODO handle clear data and go to login or signup
         console.log(err);
       });
   };

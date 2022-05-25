@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import crashlytics from '@react-native-firebase/crashlytics';
 import notifee, {
   RepeatFrequency,
   AndroidImportance,
@@ -95,9 +96,15 @@ export const createNotificaions = () => {
         id.includes(BloodPressurePrefix),
       );
       //clear all trigger with $bp prefix
-      await notifee.cancelTriggerNotifications(bpTrigersIds);
+      if (bpTrigersIds.length) {
+        await notifee.cancelTriggerNotifications(bpTrigersIds).catch(error => {
+          crashlytics().log(`trigersId: ${bpTrigersIds}`);
+          crashlytics().recordError(error);
+        });
+      }
 
       // create or update channel
+      // TODO quiza puedo preguntar si esta o no creado el channel
       const channel = {
         id: 'bloodpressure',
         name: notificationChannel,
@@ -116,7 +123,7 @@ export const createNotificaions = () => {
       repeat
         .map(repeatday => repeatday.split(','))
         .flat()
-        .forEach((reminderDay) => {
+        .forEach(reminderDay => {
           console.log(reminderDay);
           const indexDay = weekdays.indexOf(reminderDay);
           let reminderDate = currentDate;
@@ -153,8 +160,14 @@ export const createNotificaions = () => {
         });
 
       // TODO manejar errores
-      await Promise.all(notifcationsList);
-      dispatch(rescheduledReminderSuccess(activeReminder));
+      await Promise.all(notifcationsList)
+        .catch(error => {
+          // TODO ver que mas se le puede agregar. quiza un retry
+          crashlytics().recordError(error);
+        })
+        .finally(() => {
+          dispatch(rescheduledReminderSuccess(activeReminder));
+        });
     }
   };
 };

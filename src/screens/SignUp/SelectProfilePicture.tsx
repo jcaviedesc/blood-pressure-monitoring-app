@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,6 +8,7 @@ import {
   PermissionsAndroid,
   Platform,
 } from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ActionSheet from 'react-native-actions-sheet';
 import {
@@ -45,6 +46,7 @@ const defaulPictureOptions: CameraOptions = {
 
 const requestCameraPermission = async () => {
   try {
+    // TODO add translations
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,
       {
@@ -58,19 +60,24 @@ const requestCameraPermission = async () => {
       },
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('You can use the camera');
+      crashlytics().log('Bettion can use the camera');
     } else {
-      console.log('Camera permission denied');
+      crashlytics().log('Camera permission denied');
     }
-  } catch (err) {
+  } catch (error) {
+    crashlytics().recordError(error);
     console.warn(err);
   }
 };
 
 const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
-  const { picture } = useAppSelector(selectUser);
+  const { id: userId, picture } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const actionSheetRef = useRef<actionSheetRef>();
+
+  useEffect(() => {
+    crashlytics().setUserId(userId as string);
+  }, [userId]);
 
   const onSelectPicture = () => {
     actionSheetRef.current?.setModalVisible();
@@ -78,10 +85,15 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
 
   const setUriPhoto = (result: ImagePickerResponse) => {
     if (result.errorMessage) {
-      // TODO send to sentry or other tracking error platform
-      // TODO show error
+      const error = new Error(result.errorMessage);
       // https://github.com/react-native-image-picker/react-native-image-picker#errorcode
-      console.log(result.errorCode);
+      crashlytics()
+        .setAttribute('errorCode', String(result.errorCode))
+        .then(() => {
+          crashlytics().recordError(error);
+        });
+
+      // TODO show error
     } else {
       const { assets } = result;
       const photo = assets && assets[0];
@@ -110,8 +122,12 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
 
   const onChooseImage = async () => {
     actionSheetRef.current?.hide();
-    const result = await launchImageLibrary(defaulPictureOptions);
-    setUriPhoto(result);
+    try {
+      const result = await launchImageLibrary(defaulPictureOptions);
+      setUriPhoto(result);
+    } catch (error) {
+      crashlytics().recordError(error);
+    }
   };
 
   const onNext = async () => {

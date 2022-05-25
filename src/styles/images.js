@@ -16,6 +16,7 @@ const images = {
   menGenderAvatar: require('../images/men-avatar.png'),
   womenGenderAvatar: require('../images/women-avatar.png'),
   congratulations: require('../images/congratulations.png'),
+  appCrash: require('../images/app-crash.png'),
 };
 
 export default images;

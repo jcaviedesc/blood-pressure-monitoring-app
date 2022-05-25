@@ -41,7 +41,15 @@ const initialState: BloodPressureState = {
     },
     hta2: {
       reschedule: false,
-      repeat: [''],
+      repeat: [
+        'monday',
+        'tuesday',
+        'wednesday',
+        'thursday',
+        'friday',
+        'saturday',
+        'sunday',
+      ],
       times: ['', '', ''],
     },
     custom: {

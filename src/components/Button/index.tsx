@@ -10,7 +10,7 @@ type props = {
   disabled?: boolean;
   apparence?: object;
   customBackground?: string;
-  size: 'large' | 'normal' | 'small';
+  size?: 'large' | 'normal' | 'small';
 };
 
 const background = {
