@@ -9,7 +9,7 @@ type PhoneInputProps = {
   value: string;
   onPhoneInputChange: (number: string) => void;
   autoFocus?: boolean;
-  error: string | undefined;
+  error?: string | undefined;
 };
 
 type PhoneInputRef = {

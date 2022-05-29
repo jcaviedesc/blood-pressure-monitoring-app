@@ -15,7 +15,6 @@ import { NormalHeader } from '../components/Layout';
 import styles from './styles';
 // screens
 import SignIn from '../screens/Login';
-import SingUpScreen from '../screens/SignUp';
 import VerifyPhoneScreen from '../screens/VerifyPhone';
 import SignUpFlow, { renderSingUpHeader } from './SignUpFlow';
 
@@ -34,10 +33,13 @@ export type NavigationRef = typeof navigationRef;
 
 type MainStackNavigatorProps = {
   onReady: (navigator: NavigationRef) => void;
-  isSignedIn: boolean;
+  isUserLogged: boolean;
 };
 // TODO implementar google analictys
-function MainStackNavigator({ onReady, isSignedIn }: MainStackNavigatorProps) {
+function MainStackNavigator({
+  onReady,
+  isUserLogged,
+}: MainStackNavigatorProps) {
   const isDarkMode = useColorScheme() === 'dark';
   const routeNameRef = React.useRef('');
 
@@ -74,7 +76,7 @@ function MainStackNavigator({ onReady, isSignedIn }: MainStackNavigatorProps) {
           headerTintColor: Colors.headline,
           headerBackTitleVisible: false,
         }}>
-        {isSignedIn ? (
+        {isUserLogged ? (
           <>
             <Stack.Screen
               name="Home"
@@ -103,6 +105,14 @@ function MainStackNavigator({ onReady, isSignedIn }: MainStackNavigatorProps) {
           </>
         ) : (
           <>
+            {Object.entries(SignUpFlow).map(([name, params]) => (
+              <Stack.Screen
+                key={name}
+                options={params.options}
+                name={name as keyof RootStackParamList}
+                component={params.component}
+              />
+            ))}
             <Stack.Screen
               name="Login"
               component={SignIn}
@@ -111,56 +121,39 @@ function MainStackNavigator({ onReady, isSignedIn }: MainStackNavigatorProps) {
               }}
             />
             <Stack.Screen
-              name="Singup"
-              component={SingUpScreen}
+              name="VerifyPhone"
+              component={VerifyPhoneScreen}
               options={{
-                headerTitle: '',
-                headerShadowVisible: false,
+                header: ({
+                  navigation,
+                  route,
+                  options,
+                  back,
+                }: NativeStackHeaderProps) => {
+                  // TODO realizar logica en base a la ruta anterior
+                  return options.showStepHeader ? (
+                    renderSingUpHeader(navigation, route, options, back, {
+                      nsteps: 5,
+                      activeStep: 2,
+                    })
+                  ) : (
+                    <NormalHeader
+                      leftButton={
+                        back ? (
+                          <HeaderBackButton onPress={navigation.goBack} />
+                        ) : undefined
+                      }
+                      style={options.headerStyle}
+                    />
+                  );
+                },
               }}
             />
           </>
         )}
         {/* SignUpFlow debe ser movido dentro de la logica si el usuario esta logged
-        o implementar navigationKey={isSignedIn ? 'user' : 'guest'}
+        o implementar navigationKey={isUserLogged ? 'user' : 'guest'}
         */}
-        {Object.entries(SignUpFlow).map(([name, params]) => (
-          <Stack.Screen
-            key={name}
-            options={params.options}
-            name={name as keyof RootStackParamList}
-            component={params.component}
-          />
-        ))}
-
-        <Stack.Screen
-          name="VerifyPhone"
-          component={VerifyPhoneScreen}
-          options={{
-            header: ({
-              navigation,
-              route,
-              options,
-              back,
-            }: NativeStackHeaderProps) => {
-              // TODO realizar logica en base a la ruta anterior
-              return options.showStepHeader ? (
-                renderSingUpHeader(navigation, route, options, back, {
-                  nsteps: 5,
-                  activeStep: 2,
-                })
-              ) : (
-                <NormalHeader
-                  leftButton={
-                    back ? (
-                      <HeaderBackButton onPress={navigation.goBack} />
-                    ) : undefined
-                  }
-                  style={options.headerStyle}
-                />
-              );
-            },
-          }}
-        />
 
         {/* <Stack.Screen
           name={'BloodPressure/Meassuring'}

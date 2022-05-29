@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { UserState, userFromApi } from './types';
+import type { UserState, userFromApi, onAuthStateChangedAction } from './types';
 import type { RootState } from '../configureStore';
 
 /* ------------- Initial State ------------- */
@@ -23,6 +23,7 @@ const initialState: UserState = {
     profileUrl: '',
     age: '',
     imc: '',
+    isC: false,
   },
   homeStatus: {
     bloodPressure: {
@@ -63,14 +64,31 @@ export const userSlice = createSlice({
         value: `${action.payload.weight.val} ${action.payload.weight.unit}`,
       };
     },
+    onAuthUserStateChanged: (
+      state,
+      action: PayloadAction<onAuthStateChangedAction>,
+    ) => {
+      const { user, token } = action.payload;
+      state.profile.isC = token.claims.isC;
+      state.profile.fullName = user.displayName ?? '';
+      state.profile.profileUrl = user.photoURL ?? '';
+    },
+    signOut: state => {
+      state.profile = initialState.profile;
+    },
   },
 });
 
-export const { updateUserProfie, updateUserProfileFromSingup } =
-  userSlice.actions;
+export const {
+  updateUserProfie,
+  updateUserProfileFromSingup,
+  onAuthUserStateChanged,
+  signOut,
+} = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectProfileUser = (state: RootState) => state.user.profile;
 export const selectUserData = (state: RootState) => state.user;
+export const selectIsUserLogged = (state: RootState) => state.user.profile.isC;
 
 export default userSlice.reducer;

@@ -6,7 +6,7 @@ import firebaseStoreService from '../services/FirebaseStore';
 import { updateUserProfileFromSingup } from '../store/user/userSlice';
 import type { RootState, ClientApi } from '../store/configureStore';
 import { RegisterCompleteUser } from '../services/api/types';
-import { userFromApi } from '../store/user/types';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 export const signUpUser = createAsyncThunk<
   object | FirebaseAuthTypes.ConfirmationResult,
@@ -36,7 +36,7 @@ export const signUpUser = createAsyncThunk<
 );
 
 export const finishSignUpUser = createAsyncThunk<
-  object,
+  any,
   any,
   {
     extra: ClientApi;
@@ -45,7 +45,7 @@ export const finishSignUpUser = createAsyncThunk<
 >(
   'signup/finishRegistration',
   async function signUpUserFinishThunk(
-    navigation,
+    _,
     { getState, extra: clientApi, rejectWithValue, dispatch },
   ) {
     const userFromStore = selectUser(getState());
@@ -67,17 +67,19 @@ export const finishSignUpUser = createAsyncThunk<
     }) as RegisterCompleteUser;
 
     const response = await clientApi.finishRegistration(
-      userFromStore.id,
+      `${userFromStore.id}`,
       userTransformed,
     );
     if (response.status === 201) {
       dispatch(clear());
       dispatch(updateUserProfileFromSingup(response.data));
-      navigation.navigate('Home');
       return Promise.resolve();
     } else {
-      //TODO sentry
-      console.log(response);
+      // TODO create customError
+      const error = new Error(
+        response.data?.message ?? '[API error] post /user failed',
+      );
+      crashlytics().recordError(error);
       return rejectWithValue(response.data);
     }
   },

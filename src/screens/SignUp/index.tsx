@@ -57,7 +57,10 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
         })
         .catch(err => {
-          crashlytics().recordError(err);
+          const errorInstance = new Error(err?.message);
+          errorInstance.name = err.name;
+          errorInstance.stack = err.stack;
+          crashlytics().recordError(errorInstance);
           Toast.show({
             type: 'error',
             text1: err.msg, // TODO traducir

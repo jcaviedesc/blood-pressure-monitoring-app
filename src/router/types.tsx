@@ -1,4 +1,5 @@
 type SingUpStackParamList = {
+  Singup: undefined;
   'Singup/Birthdate': undefined;
   'Singup/BodyInfo': undefined;
   'Singup/SelectUserType': undefined;
@@ -21,7 +22,6 @@ type BloodPressureStackParam = {
 
 export type RootStackParamList = {
   Login: { from?: string };
-  Singup: undefined;
   VerifyPhone: { verificationType: string };
   Home: undefined;
   Profile: undefined;

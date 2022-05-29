@@ -76,7 +76,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
   const actionSheetRef = useRef<actionSheetRef>();
 
   useEffect(() => {
-    crashlytics().setUserId(userId as string);
+    crashlytics().setUserId(`${userId}`);
   }, [userId]);
 
   const onSelectPicture = () => {

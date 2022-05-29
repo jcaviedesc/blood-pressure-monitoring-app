@@ -1,23 +1,23 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useFocusEffect } from '@react-navigation/native';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import type { RootStackParamList } from '../../router/types';
 import { VerifyCode } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { AppStyles, Fonts } from '../../styles';
 import { useConfirmPhone } from '../../providers/ConfirmPhone';
+import { useAppDispatch } from '../../hooks';
+import { AuthValidationThunk } from '../../thunks/Auth-thunk';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
 
 const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   const { verificationType } = route.params;
+  const dispatch = useAppDispatch();
   const { translate } = useI18nLocate();
-  // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -31,33 +31,13 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   );
 
   const verifyPhoneSuccess = useCallback(() => {
-    navigation.navigate(
-      verificationType === 'SingUp' ? 'Singup/Birthdate' : 'Home',
-    );
-  }, [navigation, verificationType]);
+    dispatch(AuthValidationThunk(verificationType, navigation));
+  }, [dispatch, navigation, verificationType]);
 
   // If null, no SMS has been sent
   const {
     values: { confirm, phone },
   } = useConfirmPhone();
-  // Handle user state changes
-  function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
-    if (user) {
-      verifyPhoneSuccess();
-      // showToast('The phone number is already registered');
-      // TODO naviage to login options?
-    }
-    if (initializing) {
-      setInitializing(false);
-    }
-  }
-
-  useFocusEffect(
-    useCallback(() => {
-      const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-      return subscriber; // unsubscribe on unmount
-    }, []),
-  );
 
   async function confirmCode(code: string) {
     try {
@@ -70,10 +50,6 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
           crashlytics().recordError(error);
         });
     }
-  }
-
-  if (initializing) {
-    return null;
   }
 
   return (

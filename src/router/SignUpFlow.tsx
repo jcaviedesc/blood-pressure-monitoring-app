@@ -7,6 +7,7 @@ import { getHeaderTitle, HeaderBackButton } from '@react-navigation/elements';
 import { StepsHeader } from '../components/Layout';
 import { SingUpScreens } from './types';
 // screens
+import SignUpScreen from '../screens/SignUp';
 import BirthdateScreen from '../screens/SignUp/Birthdate';
 import BodyInfoScreen from '../screens/SignUp/BodyInfo';
 import SelectUserTypeScreen from '../screens/SignUp/SelectUserType';
@@ -47,6 +48,13 @@ type SingUpScreensConfig = {
 };
 
 const SingUpFlow: SingUpScreensConfig = {
+  Singup: {
+    component: SignUpScreen,
+    options: {
+      headerTitle: '',
+      headerShadowVisible: false,
+    },
+  },
   'Singup/Birthdate': {
     component: BirthdateScreen,
     options: {

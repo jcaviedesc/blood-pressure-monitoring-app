@@ -1,3 +1,5 @@
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+
 type HealtcareStruc = {
   status: string;
   value: string;
@@ -30,9 +32,16 @@ export type userFromApi = {
   profileUrl: string;
   age: string;
   imc: string;
+  isC: boolean;
 };
 
 export interface UserState {
   profile: userFromApi;
   homeStatus: HomeStatus;
 }
+
+export type onAuthStateChangedAction = {
+  // TODO resolve
+  user: FirebaseAuthTypes.UserInfo;
+  token: FirebaseAuthTypes.IdTokenResult;
+};

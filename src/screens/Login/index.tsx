@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   StyleSheet,
@@ -116,6 +116,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.footer}>
           {/* TODO enable button cuando el campo de telefono tiene un numero valido */}
           <Button
+            disabled={phone === ''}
             title={translate('button.next')}
             onPress={() => {
               navigate();
