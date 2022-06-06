@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Switch, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import HighlightText from '@sanar/react-native-highlight-text';
 import type { RootStackParamList } from '../../router/types';
-import { Colors, AppStyles, Fonts } from '../../styles';
+import { Colors, AppStyles, Fonts, Images } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Button } from '../../components';
 import { MainContainer } from '../../components/Layout';
@@ -16,7 +17,6 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const { translate } = useI18nLocate();
-  const [isEnabled, setIsEnabled] = useState([false, false, false]);
   const [continueTimer, setContinueTimer] = useState(21);
   const timerRef = useRef();
 
@@ -32,13 +32,6 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
     }
   }, [continueTimer]);
 
-  const toggleSwitch = (toggle: number) => {
-    setIsEnabled(previousState => {
-      const newPreparationState = [...previousState];
-      newPreparationState[toggle] = !newPreparationState[toggle];
-      return newPreparationState;
-    });
-  };
   return (
     <MainContainer isScrollView>
       <View style={styles.content}>
@@ -48,22 +41,49 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
           </Text>
         </View>
         <View style={styles.mainCheckContainer}>
-          <View style={styles.checkContainer}>
-            <Text style={styles.checkText}>
-              {translate('BloodPressure/Preparation.p2')}
-            </Text>
+          <View style={[styles.checkContainer, styles.chairContainer]}>
+            <View style={styles.chairTextContainer}>
+              <Text style={styles.checkText}>
+                <HighlightText
+                  highlightStyle={styles.highlightText}
+                  searchWords={translate(
+                    'BloodPressure/Preparation.p2HighligthText',
+                  )}
+                  textToHighlight={translate('BloodPressure/Preparation.p2')}
+                />
+              </Text>
+            </View>
+            <View>
+              <Image source={Images.chair} style={styles.chairImage} />
+            </View>
           </View>
           <View style={styles.checkContainer}>
             <Text style={styles.checkText}>
-              {translate('BloodPressure/Preparation.p1')}
+              <HighlightText
+                highlightStyle={styles.highlightText}
+                searchWords={translate(
+                  'BloodPressure/Preparation.p1HighligthText',
+                )}
+                textToHighlight={translate('BloodPressure/Preparation.p1')}
+              />
             </Text>
           </View>
           <View style={styles.checkContainer}>
+            <View style={styles.imagesContainerRow}>
+              <Image source={Images.notCofee} style={styles.noCofeeImage} />
+              <Image source={Images.notSmoking} style={styles.noCofeeImage} />
+              <Image source={Images.notRunning} style={styles.noCofeeImage} />
+            </View>
             <Text style={styles.checkText}>
-              {translate('BloodPressure/Preparation.p3')}
+              <HighlightText
+                highlightStyle={styles.highlightText}
+                searchWords={translate(
+                  'BloodPressure/Preparation.p3HighligthText',
+                )}
+                textToHighlight={translate('BloodPressure/Preparation.p3')}
+              />
             </Text>
           </View>
-
         </View>
         <View style={styles.footer}>
           <Button
@@ -100,14 +120,39 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h5,
     textAlign: 'left',
-    paddingRight: 12,
   },
   checkContainer: {
     marginBottom: 18,
   },
+  highlightText: {
+    color: Colors.headline,
+    fontFamily: Fonts.type.bold,
+  },
+  chairImage: {
+    resizeMode: 'contain',
+    width: 128,
+    height: 128,
+  },
   footer: {
     justifyContent: 'flex-end',
     marginBottom: 21,
+  },
+  chairContainer: {
+    flexDirection: 'row',
+    marginBottom: 3,
+  },
+  chairTextContainer: {
+    flex: 90,
+  },
+  noCofeeImage: {
+    resizeMode: 'contain',
+    width: 92,
+    height: 92,
+  },
+  imagesContainerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
   },
 });
 
