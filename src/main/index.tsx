@@ -1,20 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { selectAppUserState, initAppSuccessful } from '../store/app/appSlice';
 import {
-  selectIsUserLogged,
+  selectUserIsFullyRegistered,
   onAuthUserStateChanged,
 } from '../store/user/userSlice';
 import SplashScreen from '../screens/Splash';
 import OnboardingScreen from '../screens/Onboarding';
-import MainStackNavigator, { NavigationRef } from '../router';
+import MainStackNavigator, {
+  NavigationRef,
+  StackNavigationRef,
+} from '../router';
 import { useInitialScreenApp } from './hooks';
 
 const Main = () => {
   const { isFirstTime } = useAppSelector(selectAppUserState);
-  const isUserLogged = useAppSelector(selectIsUserLogged);
+  const IsUserFullyRegistered = useAppSelector(selectUserIsFullyRegistered);
+  const [userAuthenticated, setUserAuthenticated] =
+    useState<FirebaseAuthTypes.User | null>(null);
   const dispatch = useAppDispatch();
 
   const { loading, nextScreen } = useInitialScreenApp();
@@ -25,18 +30,28 @@ const Main = () => {
   // Handle user state changes
   const onAuthStateChanged = useCallback(
     (fbUser: FirebaseAuthTypes.User | null) => {
+      console.log({ onAuthStateChanged: '', fbUser });
       if (initializing) {
         setInitializing(false);
       }
-      if (fbUser && !isUserLogged) {
-        fbUser.getIdTokenResult(true).then(jwt => {
+      if (!userAuthenticated && fbUser && !IsUserFullyRegistered) {
+        fbUser.getIdTokenResult(true).then(tokenResult => {
+          const { claims } = tokenResult;
           dispatch(
             onAuthUserStateChanged({
-              token: jwt,
+              token: tokenResult,
               user: fbUser.toJSON() as FirebaseAuthTypes.UserInfo,
             }),
           );
+          console.log({ fbUser, tokenResult });
+          if (!claims.isC) {
+            console.log(StackNavigationRef);
+            StackNavigationRef.navigate('Singup/Birthdate');
+          }
         });
+      }
+      if (fbUser !== userAuthenticated) {
+        setUserAuthenticated(fbUser);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,7 +74,12 @@ const Main = () => {
     dispatch(initAppSuccessful());
   }, [dispatch]);
 
-  console.log('Main', { loading, nextScreen, isUserLogged });
+  console.log('Main', {
+    loading,
+    nextScreen,
+    IsUserFullyRegistered,
+    userAuthenticated,
+  });
 
   if (loading || initializing) {
     return <SplashScreen />;
@@ -74,7 +94,7 @@ const Main = () => {
       onReady={navigation => {
         onNavigateTo(navigation);
       }}
-      isUserLogged={isUserLogged}
+      isUserLogged={IsUserFullyRegistered}
     />
   );
 };

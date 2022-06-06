@@ -27,9 +27,10 @@ import DevelopmentScreen from '../screens/Development';
 import { Colors } from '../styles';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const navigationRef = createNavigationContainerRef<RootStackParamList>();
+export const StackNavigationRef =
+  createNavigationContainerRef<RootStackParamList>();
 
-export type NavigationRef = typeof navigationRef;
+export type NavigationRef = typeof StackNavigationRef;
 
 type MainStackNavigatorProps = {
   onReady: (navigator: NavigationRef) => void;
@@ -44,17 +45,17 @@ function MainStackNavigator({
   const routeNameRef = React.useRef('');
 
   const onReadyHandler = () => {
-    routeNameRef.current = navigationRef.getCurrentRoute()?.name || '';
-    onReady(navigationRef);
+    routeNameRef.current = StackNavigationRef.getCurrentRoute()?.name || '';
+    onReady(StackNavigationRef);
   };
 
   return (
     <NavigationContainer
-      ref={navigationRef}
+      ref={StackNavigationRef}
       onReady={onReadyHandler}
       onStateChange={async () => {
         const previousRouteName = routeNameRef.current;
-        const currentRouteName = navigationRef.getCurrentRoute()?.name ?? '';
+        const currentRouteName = StackNavigationRef.getCurrentRoute()?.name ?? '';
 
         if (previousRouteName !== currentRouteName) {
           await analytics().logScreenView({

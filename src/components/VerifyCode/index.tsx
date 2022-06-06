@@ -11,7 +11,8 @@ const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [complete, setComplete] = useState(false);
   useEffect(() => {
-    if (code.every(c => c !== '') && !complete) {
+    if (code.every(c => c !== '')) {
+      console.log(code);
       onCompleteCode(code.join(''));
       setComplete(true);
     }

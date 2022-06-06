@@ -89,6 +89,8 @@ export const {
 // Other code such as selectors can use the imported `RootState` type
 export const selectProfileUser = (state: RootState) => state.user.profile;
 export const selectUserData = (state: RootState) => state.user;
-export const selectIsUserLogged = (state: RootState) => state.user.profile.isC;
+export const selectUserIsFullyRegistered = (state: RootState) => {
+  return state.user.profile.isC;
+};
 
 export default userSlice.reducer;

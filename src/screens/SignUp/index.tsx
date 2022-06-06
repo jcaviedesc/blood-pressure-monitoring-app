@@ -66,7 +66,6 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
             text1: err.msg, // TODO traducir
             position: 'bottom',
           });
-          console.log(err);
         });
     }
   }

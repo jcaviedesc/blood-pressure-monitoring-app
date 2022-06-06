@@ -40,10 +40,12 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   } = useConfirmPhone();
 
   async function confirmCode(code: string) {
+    console.log("confirmCode", code);
     try {
       await confirm?.confirm(code);
       verifyPhoneSuccess();
     } catch (error) {
+      console.log(error);
       crashlytics()
         .setAttribute('phone', phone)
         .then(() => {
@@ -67,6 +69,7 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
         </View>
         <VerifyCode
           onCompleteCode={(code: string) => {
+            console.log("onCompleteCode", code);
             confirmCode(code);
           }}
         />

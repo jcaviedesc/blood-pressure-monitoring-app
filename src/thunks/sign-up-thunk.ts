@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { userToApi } from '../transformations/user.transform';
 import { selectUser, clear } from '../store/signup/signupSlice';
 import firebaseStoreService from '../services/FirebaseStore';
 import { updateUserProfileFromSingup } from '../store/user/userSlice';
 import type { RootState, ClientApi } from '../store/configureStore';
 import { RegisterCompleteUser } from '../services/api/types';
-import crashlytics from '@react-native-firebase/crashlytics';
 
 export const signUpUser = createAsyncThunk<
   object | FirebaseAuthTypes.ConfirmationResult,
@@ -24,12 +24,20 @@ export const signUpUser = createAsyncThunk<
     const { fullName, docId, phone } = selectUser(getState());
     const response = await clientApi.registerUser({ fullName, docId, phone });
     if (response.status === 201) {
-      const confirm = await auth().signInWithPhoneNumber(phone);
-      setConfirm({ confirm, phone });
+      try {
+        const confirm = await auth().signInWithPhoneNumber(phone);
+        setConfirm({ confirm, phone });
+      } catch (error) {
+        console.log(error);
+        crashlytics().recordError(new Error(error));
+        return rejectWithValue(error);
+      }
       // dispatch(updateUserField({ field: 'id', value: response.data.id }));
       return Promise.resolve(response.data);
     } else {
-      //TODO sentry,
+      crashlytics().recordError(
+        new Error(`[API/error] ${JSON.stringify(response.data)}`),
+      );
       return rejectWithValue(response.data);
     }
   },
