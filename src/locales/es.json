@@ -82,6 +82,12 @@
     "custom": "Personalizar",
     "custom_description": "Define la hora y la frecuencia"
   },
+  "BloodPressure/Preparation":{
+    "title": "Preparación del paciente antes de medir la presión arterial",
+    "p1":"Tener la vejiga vacía.",
+    "p2":"Descansar en una silla, en un ambiente tranquilo durante 5 minutos.",
+    "p3":"No haber comido, ingerido bebidas con cafeína, fumado ni haber practicado ninguna actividad física en los 30 minutos anteriores a la toma de la presión arterial."
+  },
   "notifications": {
     "blood_pressure": {
       "title": "%{name} es hora de medir la presión arterial",

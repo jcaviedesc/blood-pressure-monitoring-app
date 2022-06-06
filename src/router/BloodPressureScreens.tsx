@@ -26,19 +26,18 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
     options: {
       headerTitle: HeaderTitle,
       headerBackTitleVisible: false,
-      headerShadowVisible: false,
       title: 'Presión Arterial',
     },
   },
-  'BloodPressure/Steps': {
-    component: BloodPressureStepsScreen,
+  'BloodPressure/Preparation': {
+    component: BloodPressurePreparation,
     options: {
       ...defaultOptions,
       title: '',
     },
   },
-  'BloodPressure/Preparation': {
-    component: BloodPressurePreparation,
+  'BloodPressure/Steps': {
+    component: BloodPressureStepsScreen,
     options: {
       ...defaultOptions,
       title: '',
@@ -69,7 +68,6 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
     component: BloodPressureReminders,
     options: {
       headerTitle: HeaderTitle,
-      headerShadowVisible: false,
       ...defaultOptions,
     },
   },
@@ -78,7 +76,6 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
     options: {
       ...defaultOptions,
       header: props => <HeaderSearch {...props} />,
-      headerShadowVisible: false,
       headerTransparent: false,
     },
   },

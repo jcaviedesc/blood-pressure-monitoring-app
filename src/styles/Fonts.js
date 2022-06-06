@@ -1,8 +1,9 @@
 const type = {
   light: 'Nunito-Light',
   regular: 'Nunito-Regular',
-  bold: 'Nunito-SemiBold',
-  lcd: 'DigitalPlaySt',
+  semiBold: 'Nunito-SemiBold',
+  bold: 'Nunito-Bold',
+  lcd: 'DigitalPlaySt', //deprecar
 };
 
 const size = {

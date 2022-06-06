@@ -76,6 +76,7 @@ function MainStackNavigator({
           gestureEnabled: true,
           headerTintColor: Colors.headline,
           headerBackTitleVisible: false,
+          headerShadowVisible: false,
         }}>
         {isUserLogged ? (
           <>
