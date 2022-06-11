@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { Colors, Metrics } from '../../styles';
 import { BloodPressureStepTemplate } from '../../components/Templates';
+import type { BloodPressureStepProps } from '../../components/Templates/BloodPressureStep';
 import { Button } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useTimer } from '../../hooks/useTimer';
-import { STEPS } from './data';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'BloodPressure/Steps'>;
 
@@ -19,6 +19,11 @@ const totalStepsIndex = 7;
 
 const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
+  const stepsData = useMemo(() => {
+    return translate(
+      'BloodPressure/Steps.steps',
+    ) as unknown as BloodPressureStepProps[];
+  }, [translate]);
   const stepsRef = React.useRef<stepRef>();
   const [activeStep, setActiveStep] = React.useState(1);
   const { timer, resetTimer } = useTimer(1000, 5);
@@ -30,7 +35,7 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
   const onNext = () => {
     const nextStep = activeStep;
     if (nextStep > totalStepsIndex) {
-      navigation.navigate('BloodPressure/MeassuringA');
+      navigation.navigate('BloodPressure/Meassuring');
     } else {
       stepsRef?.current?.scrollToIndex({
         animated: true,
@@ -44,7 +49,7 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.overrideMainContainer}>
       <FlatList
         ref={stepsRef}
-        data={STEPS}
+        data={stepsData}
         renderItem={({ item }) => {
           const { title, image, description, highLighWord } = item;
           return (

@@ -13,7 +13,7 @@ const size = {
   h4: 26,
   h5: 20,
   h6: 19,
-  paragraph: 17,
+  paragraph: 16,
   hint: 14,
 };
 

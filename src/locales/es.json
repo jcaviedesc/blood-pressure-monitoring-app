@@ -97,6 +97,81 @@
       "30 minutos"
     ]
   },
+  "BloodPressure/Steps": {
+    "steps": [
+      {
+        "title": "No conversar",
+        "image": "",
+        "description": "Hablar o escuchar de forma activa agrega hasta \n10 mmHg",
+        "highLighWord": [
+          "10 mmHg"
+        ]
+      },
+      {
+        "title": "APOYAR EL BRAZO A LA ALTURA DEL CORAZÓN",
+        "image": "",
+        "description": "No apoyar el brazo agrega hasta 10 mmHg",
+        "highLighWord": [
+          "10 mmHg"
+        ]
+      },
+      {
+        "title": "COLOCAR EL MANGUITO EN EL BRAZO SIN ROPA",
+        "image": "",
+        "description": "La ropa gruesa agrega hasta 5-50 mmHg",
+        "highLighWord": [
+          "5-50 mmHg"
+        ]
+      },
+      {
+        "title": "USAR EL TAMAÑO DE MANGUITO ADECUADO",
+        "image": "",
+        "description": "Un manguito pequeño agrega de 2 a 10 mmHg",
+        "highLighWord": [
+          "2 a 10 mmHg"
+        ]
+      },
+      {
+        "title": "APOYAR LOS PIES",
+        "image": "",
+        "description": "No apoyar los pies agrega hasta 6 mmHg",
+        "highLighWord": [
+          "6 mmHg"
+        ]
+      },
+      {
+        "title": "NO CRUZAR LAS PIERNAS",
+        "image": "",
+        "description": "Tener las piernas cruzadas agrega de 2 a 8 mmHg",
+        "highLighWord": [
+          "2 a 8 mmHg"
+        ]
+      },
+      {
+        "title": "TENER LA VEJIGA VACÍA",
+        "image": "",
+        "description": "Tener la vejiga llena agrega hasta 10 mmHg",
+        "highLighWord": [
+          "10 mmHg"
+        ]
+      },
+      {
+        "title": "APOYAR LA ESPALDA",
+        "image": "",
+        "description": "No apoyar la espalda agrega hasta 6 mmHg",
+        "highLighWord": [
+          "6 mmHg"
+        ]
+      }
+    ]
+  },
+  "BloodPressure/Meassuring": {
+    "date":"Fecha",
+    "time": "Hora",
+    "dia": "Diastólica",
+    "sys": "Sistólica",
+    "heart_rate": "Ritmo cardiaco"
+  },
   "notifications": {
     "blood_pressure": {
       "title": "%{name} es hora de medir la presión arterial",

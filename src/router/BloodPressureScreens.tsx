@@ -5,8 +5,7 @@ import defaultOptions from './ScreenConfig';
 import BloodPressureScreen from '../screens/BloodPressure';
 import BloodPressurePreparation from '../screens/BloodPressure/Preparation';
 import BloodPressureStepsScreen from '../screens/BloodPressure/Steps';
-// import BloodPressureMeassuringScreen from '../screens/BloodPressure/Meassuring';
-import BloodPressureMeassuringA from '../screens/BloodPressure/MeassuringA';
+import BloodPressureMeassuring from '../screens/BloodPressure/Meassuring';
 import Wait1MinuteScreen from '../screens/BloodPressure/Wait1minute';
 import BloodPressureMeasuringFinish from '../screens/BloodPressure/MeasuringFinish';
 import BloodPressureReminders from '../screens/BloodPressure/Reminders';
@@ -52,8 +51,8 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
       ),
     },
   },
-  'BloodPressure/MeassuringA': {
-    component: BloodPressureMeassuringA,
+  'BloodPressure/Meassuring': {
+    component: BloodPressureMeassuring,
     options: {
       ...defaultOptions,
       title: 'Presión Arterial',

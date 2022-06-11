@@ -1,130 +1,144 @@
-import React, { useState } from 'react';
-import {
-  Modal,
-  StyleSheet,
-  View,
-  Text,
-  TouchableHighlight,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
+import { Input, Card } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { BloodPressureSlider, Button, Input } from '../../components';
+import Dayjs from '../../services/DatatimeUtil';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
   'BloodPressure/Meassuring'
 >;
 
-const BloodPressureMeassuringScreen: React.FC<Props> = ({ navigation }) => {
+const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
-  const [isOpenHeartRateModal, setIsOpenHeartRateModal] = useState(false)
-
-  const onSaveRecord = () => {
-
-    // navigation.navigate('BloodPressure/HeartRate');
-  };
-
-  const PulByMinComponent = (
-    <View style={styles.rightContainer}>
-      <Text style={styles.rigthText}>PUL/min</Text>
-    </View>
-  );
-
+  const dateTime = Dayjs();
   return (
-    <View style={styles.mainContainer}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={isOpenHeartRateModal}>
-        <View style={styles.heartRateModal}>
-          <View style={styles.heartRateModalCard}>
-            <View style={styles.heartRateModalHeaderClose}>
-              <TouchableHighlight
-                underlayColor={Colors.background}
-                onPress={() => {
-                  setIsOpenHeartRateModal(false);
-                }}>
-                <Icon name="close" size={22} color={Colors.headline} />
-              </TouchableHighlight>
-            </View>
+    <ScrollView style={styles.mainContainer}>
+      <View style={styles.content}>
+        <Card>
+          <View style={styles.rowContainer}>
             <View>
-              <Text style={styles.heartRateModalTitle}>
-                Ingresa las pulsaciones por minuto registradas en el monitor.
+              <Text style={styles.inputTitle}>
+                {translate('BloodPressure/Meassuring.date')}
               </Text>
             </View>
-            <View style={styles.modalInput}>
+            <View style={styles.containerInput}>
               <Input
-                keyboardType="numeric"
-                value={'50'}
-                rigthComponent={PulByMinComponent}
+                editable={false}
+                hierarchy="transparent"
+                textAlign="right"
+                value={dateTime.format('DD MMMM YYYY')}
               />
             </View>
-            <Button
-              title={translate('button.confirm')}
-              onPress={() => {
-                setIsOpenHeartRateModal(false);
-              }}
-            />
           </View>
-        </View>
-      </Modal>
-      <View style={styles.content}>
-        <BloodPressureSlider />
+          <View style={styles.rowContainer}>
+            <View>
+              <Text style={styles.inputTitle}>
+                {translate('BloodPressure/Meassuring.time')}
+              </Text>
+            </View>
+            <View style={styles.containerInput}>
+              <Input
+                editable={false}
+                hierarchy="transparent"
+                textAlign="right"
+                value={dateTime.format('HH:MM A')}
+              />
+            </View>
+          </View>
+          <View style={styles.rowContainer}>
+            <View>
+              <Text style={styles.inputTitle}>
+                {translate('BloodPressure/Meassuring.dia')}
+              </Text>
+            </View>
+            <View style={styles.containerInput}>
+              <Input
+                hierarchy="transparent"
+                keyboardType="numeric"
+                textAlign="right"
+                autoFocus
+                rigthComponent={
+                  <Text style={[styles.inputTitle, styles.rightInput]}>mmHg</Text>
+                }
+              />
+            </View>
+          </View>
+          <View style={styles.rowContainer}>
+            <View>
+              <Text style={styles.inputTitle}>
+                {translate('BloodPressure/Meassuring.sys')}
+              </Text>
+            </View>
+            <View style={styles.containerInput}>
+              <Input
+                hierarchy="transparent"
+                keyboardType="numeric"
+                textAlign="right"
+                rigthComponent={
+                  <Text style={[styles.inputTitle, styles.rightInput]}>mmHg</Text>
+                }
+              />
+            </View>
+          </View>
+          <View style={[styles.rowContainer, styles.lastRowContainer]}>
+            <View>
+              <Text style={styles.inputTitle}>
+                {translate('BloodPressure/Meassuring.heart_rate')}
+              </Text>
+            </View>
+            <View style={styles.containerInput}>
+              <Input
+                hierarchy="transparent"
+                keyboardType="numeric"
+                textAlign="right"
+                rigthComponent={
+                  <Text style={[styles.inputTitle, styles.rightInput]}>bpm</Text>
+                }
+              />
+            </View>
+          </View>
+        </Card>
       </View>
-      <View style={styles.section}>
-        <Button
-          title={translate('button.save')}
-          onPress={() => {
-            setIsOpenHeartRateModal(true);
-          }}
-        />
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
-  heartRateModal: {
-    flex: 1,
-    backgroundColor: Colors.loadingBackground,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  heartRateModalCard: {
-    backgroundColor: Colors.background,
-    width: '80%',
-    padding: 9,
-    borderRadius: 5,
-  },
-  modalButtons: {
-    paddingHorizontal: 10,
-  },
-  heartRateModalTitle: {
-    fontFamily: Fonts.type.regular,
-    fontSize: Fonts.size.h5,
-    textAlign: 'center',
-  },
-  modalInput: {
-    height: 70,
-    marginTop: 12,
-  },
-  rightContainer: {
-    justifyContent: 'center',
-  },
-  rigthText: {
-    fontFamily: Fonts.type.bold,
-    color: Colors.headline,
-    fontSize: Fonts.size.h5,
-  },
-  heartRateModalHeaderClose: {
+  rowContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginBottom: 12,
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomColor: Colors.secondaryTranslucent,
+    borderBottomWidth: 1,
+  },
+  inputTitle: {
+    fontFamily: Fonts.type.regular,
+    fontSize: Fonts.size.h6,
+    color: Colors.paragraph,
+  },
+  containerInput: {
+    width: '45%',
+  },
+  rightInput: {
+    fontSize: Fonts.size.hint,
+    textAlignVertical: 'bottom',
+    marginBottom: 6,
+  },
+  value: {
+    color: Colors.headline,
+    fontFamily: Fonts.type.bold,
+    fontSize: Fonts.size.h6,
+    textAlign: 'right',
+  },
+  lastRowContainer: {
+    borderBottomWidth: 0,
   },
 });
 
-export default BloodPressureMeassuringScreen;
+export default BloodPressureMeassuring;

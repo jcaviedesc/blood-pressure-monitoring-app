@@ -18,7 +18,7 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const { translate } = useI18nLocate();
-  const { timer } = useTimer(1000, 20);
+  const { timer } = useTimer(1000, 10);
 
   return (
     <MainContainer isScrollView>

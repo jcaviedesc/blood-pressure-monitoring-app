@@ -22,8 +22,7 @@ const defaultOptions = {
   },
   headerTitleStyle: {
     fontFamily: Fonts.type.bold,
-    fontSize: 27,
-    color: Colors.highlight,
+    color: Colors.headline,
   },
   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 };

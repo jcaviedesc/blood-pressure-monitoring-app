@@ -1,16 +1,16 @@
 import React from 'react';
 import { Text, View, Image, StyleSheet } from 'react-native';
 import HighlightText from '@sanar/react-native-highlight-text';
-import { Metrics, AppStyles, Fonts, Colors } from '../../styles';
+import { Metrics, AppStyles, Fonts, Colors, Images } from '../../styles';
 
-type Props = {
+export type BloodPressureStepProps = {
   title: string;
   imageSource: any; // TODO
   description: string;
   searchWords?: Array<string>;
 };
 
-const BloodPressureStepTemplate: React.FC<Props> = ({
+const BloodPressureStepTemplate: React.FC<BloodPressureStepProps> = ({
   title,
   imageSource,
   description,
@@ -20,7 +20,10 @@ const BloodPressureStepTemplate: React.FC<Props> = ({
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
-        <Image source={imageSource} style={styles.image} />
+        <Image
+          source={imageSource?.uri ? imageSource : Images.noTalkStep1}
+          style={styles.image}
+        />
         <Text style={styles.description}>
           <HighlightText
             highlightStyle={styles.highLigh}
@@ -49,12 +52,12 @@ const styles = StyleSheet.create({
   description: {
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h4,
-    textAlign: 'center',
+    textAlign: 'left',
     color: Colors.paragraph,
   },
   highLigh: {
     fontFamily: Fonts.type.bold,
-    fontSize: Fonts.size.h3,
+    color: Colors.headline,
   },
 });
 

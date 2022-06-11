@@ -24,6 +24,7 @@ type InputProps = {
   autoFocus?: boolean;
   hasError?: boolean;
   leftComponent?: Element;
+  hierarchy?: 'loud' | 'quiet' | 'transparent';
 };
 
 const Input: React.FC<InputProps> = ({
@@ -40,13 +41,14 @@ const Input: React.FC<InputProps> = ({
   autoFocus,
   hasError = false,
   leftComponent,
+  hierarchy,
   ...props
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const onFocuesHandler = () => {
     onFocus && onFocus();
   };
-  const inputContainerStyles = {
+  let inputContainerStyles = {
     ...styles.inputContainer,
     backgroundColor: isDarkMode ? Colors.darkGrayMode : Colors.lightGray,
     borderColor: isDarkMode
@@ -55,6 +57,13 @@ const Input: React.FC<InputProps> = ({
       ? Colors.error
       : Colors.lightGray,
   };
+  if (hierarchy === 'transparent') {
+    inputContainerStyles = {
+      ...inputContainerStyles,
+      borderWidth: 0,
+      backgroundColor: Colors.transparent,
+    };
+  }
 
   return (
     <View>
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: Colors.headline,
     fontFamily: Fonts.type.bold,
-    fontSize: 18,
+    fontSize: Fonts.size.h6,
   },
   hint: {
     fontFamily: Fonts.type.light,

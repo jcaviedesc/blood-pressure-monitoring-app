@@ -62,6 +62,7 @@ const Main = () => {
     if (nextScreen !== 'Home') {
       navigation.navigate(nextScreen);
     }
+    navigation.navigate('BloodPressure/Meassuring');
   };
 
   useEffect(() => {
