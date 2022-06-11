@@ -1,40 +1,41 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  StyleProp,
-  ViewStyle,
-  useColorScheme,
-} from 'react-native';
-import { useHeaderHeight } from '@react-navigation/elements';
+import { View, StyleSheet, useColorScheme } from 'react-native';
+import { NativeStackHeaderProps } from '@react-navigation/native-stack';
+import { useHeaderHeight, HeaderBackButton } from '@react-navigation/elements';
 import { Steps } from '..';
 import type { StepProps } from '../Steps';
 import { Colors, AppStyles, Metrics } from '../../styles';
 
 type StepsHeaderProps = {
-  title: string;
   step: StepProps;
-  leftButton: React.ComponentType<any> | Element | undefined;
-  style: StyleProp<ViewStyle>;
-};
+} & NativeStackHeaderProps;
 
 const StepsHeader: React.FC<StepsHeaderProps> = ({
+  back,
+  options,
+  navigation,
   step,
-  leftButton,
-  style,
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const headerHeight = useHeaderHeight();
   return (
     <View
       style={[
-        style,
+        options.headerStyle,
         styles.header,
         isDarkMode && styles.darkContainer,
         { height: headerHeight },
       ]}>
+      {/* TODO cambiar nombre de los props */}
       <Steps nsteps={step.nsteps} activeStep={step.activeStep} />
-      <View style={styles.leftButton}>{leftButton}</View>
+      <View style={styles.leftButton}>
+        {back && (
+          <HeaderBackButton
+            onPress={navigation.goBack}
+            tintColor={Colors.stroke}
+          />
+        )}
+      </View>
     </View>
   );
 };

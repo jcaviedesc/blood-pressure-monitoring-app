@@ -11,12 +11,12 @@ import {
 } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
 import type { RootStackParamList } from './types';
-import { NormalHeader } from '../components/Layout';
+import { NormalHeader, StepsHeader } from '../components/Layout';
 import styles from './styles';
 // screens
 import SignIn from '../screens/Login';
 import VerifyPhoneScreen from '../screens/VerifyPhone';
-import SignUpFlow, { renderSingUpHeader } from './SignUpFlow';
+import SignUpFlow from './SignUpFlow';
 
 import HomeScreen from '../screens/Home';
 import BloodPressureScreens from './BloodPressureScreens';
@@ -126,18 +126,14 @@ function MainStackNavigator({
               name="VerifyPhone"
               component={VerifyPhoneScreen}
               options={{
-                header: ({
-                  navigation,
-                  route,
-                  options,
-                  back,
-                }: NativeStackHeaderProps) => {
+                header: headerProps => {
+                  const { navigation, options, back } = headerProps;
                   // TODO realizar logica en base a la ruta anterior
                   return options.showStepHeader ? (
-                    renderSingUpHeader(navigation, route, options, back, {
-                      nsteps: 5,
-                      activeStep: 2,
-                    })
+                    <StepsHeader
+                      {...headerProps}
+                      step={{ activeStep: 2, nsteps: 5 }}
+                    />
                   ) : (
                     <NormalHeader
                       leftButton={
@@ -153,9 +149,6 @@ function MainStackNavigator({
             />
           </>
         )}
-        {/* SignUpFlow debe ser movido dentro de la logica si el usuario esta logged
-        o implementar navigationKey={isUserLogged ? 'user' : 'guest'}
-        */}
 
         {/* <Stack.Screen
           name={'BloodPressure/Meassuring'}

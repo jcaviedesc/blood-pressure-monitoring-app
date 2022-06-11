@@ -141,7 +141,9 @@
     "confirm": "confirmar",
     "finish": "finalizar",
     "add": "agregar",
-    "cancel": "cancelar"
+    "cancel": "cancelar",
+    "nextin": "siguiente en (%{countDown})",
+    "start": "Empezar"
   },
   "select": "Seleccionar",
   "headerSearch": {

@@ -11,7 +11,7 @@ import Wait1MinuteScreen from '../screens/BloodPressure/Wait1minute';
 import BloodPressureMeasuringFinish from '../screens/BloodPressure/MeasuringFinish';
 import BloodPressureReminders from '../screens/BloodPressure/Reminders';
 import ValidateMonitor from '../screens/BloodPressure/ValidateMonitor';
-import { HeaderTitle, HeaderSearch } from '../components/Layout';
+import { HeaderTitle, HeaderSearch, StepsHeader } from '../components/Layout';
 
 type BloodPressureScreensConfig = {
   [K in BloodPressureScreenNames]: {
@@ -40,7 +40,16 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
     component: BloodPressureStepsScreen,
     options: {
       ...defaultOptions,
-      title: '',
+      header: ({ options, ...props }) => (
+        <StepsHeader
+          options={options}
+          {...props}
+          step={{
+            nsteps: 8,
+            activeStep: options.activeStep ?? 1,
+          }}
+        />
+      ),
     },
   },
   'BloodPressure/MeassuringA': {

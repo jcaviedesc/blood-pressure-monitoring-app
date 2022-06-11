@@ -7,6 +7,7 @@ import { Colors, AppStyles, Fonts, Images } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Button } from '../../components';
 import { MainContainer } from '../../components/Layout';
+import { useTimer } from '../../hooks/useTimer';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
@@ -17,20 +18,7 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const { translate } = useI18nLocate();
-  const [continueTimer, setContinueTimer] = useState(21);
-  const timerRef = useRef();
-
-  useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setContinueTimer(timer => timer - 1);
-    }, 1000);
-  }, []);
-
-  useEffect(() => {
-    if (continueTimer >= 30) {
-      clearInterval(timerRef.current);
-    }
-  }, [continueTimer]);
+  const { timer } = useTimer(1000, 20);
 
   return (
     <MainContainer isScrollView>
@@ -87,13 +75,11 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
         </View>
         <View style={styles.footer}>
           <Button
-            title={
-              continueTimer > 0 ? `Empezar en (${continueTimer})` : 'Empezar'
-            }
+            title={timer > 0 ? `Empezar en (${timer})` : 'Empezar'}
             onPress={() => {
               navigation.navigate('BloodPressure/Steps');
             }}
-            disabled={continueTimer > 0}
+            disabled={timer > 0}
           />
         </View>
       </View>

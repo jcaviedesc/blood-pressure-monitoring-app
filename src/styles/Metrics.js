@@ -10,7 +10,7 @@ const metrics = {
   horizontalLineHeight: 1,
   screenWidth: width < height ? width : height,
   screenHeight: width < height ? height : width,
-  navBarHeight: getStatusBarHeight(true),
+  navBarHeight: getStatusBarHeight(true) + 9,
 };
 
 export default metrics;
