@@ -1,7 +1,8 @@
 // https://www.happyhues.co/palettes/3
 // dark https://www.happyhues.co/palettes/4
 const colors = {
-  background: '#fffffe',
+  background: '#edf5fd',
+  darkBackground: '#090a0b',
   headline: '#094067',
   paragraph: '#5f6c7b',
   button: '#3da9fc',
@@ -16,12 +17,13 @@ const colors = {
   tertiary: '#ef4565',
   tertiaryTranslucent: 'rgba(239, 69, 101, 0.1)',
   cardBackground: '#fffffe',
-  cardTagBackground: '#3da9fc',
+  darkCardBackground: '#616c77',
+  cardTagBackground: '#f5f6fa',
   cardTagText: '#fffffe',
   cardHightlight: '#ef4565',
-  darkBackground: '#16161a',
   transparent: 'rgba(0,0,0,0)',
   textDisabled: 'rgba(0,0,0,0.25)',
+  textNormal: '#fffffe',
   buttonDisabled: 'rgba(0,0,0,0.1)',
   //old colors
   darkMode: 'black',

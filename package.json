@@ -20,7 +20,9 @@
     "android:logcat": "$ANDROID_HOME/platform-tools/adb logcat *:S ReactNative:V ReactNativeJS:V",
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'",
     "generate": "npx react-native generate-bootsplash ./assets/original_icon.png --background-color=ef4565   --logo-width=100 --assets-path=./assets --flavor=main",
-    "adb:connect": "adb reverse tcp:8081 tcp:8081"
+    "adb:connect": "adb reverse tcp:8081 tcp:8081",
+    "adb:connect-dev": "adb reverse tcp:8097 tcp:8097",
+    "react-devtools": "react-devtools"
   },
   "dependencies": {
     "@notifee/react-native": "^5.2.2",

@@ -1,5 +1,10 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  useColorScheme,
+  ColorSchemeName,
+} from 'react-native';
 import { Colors } from '../../styles';
 
 type stylesPros = {
@@ -13,14 +18,26 @@ type props = {
   style?: stylesPros;
 };
 
+const backgroundColorPick = (mode: ColorSchemeName) => {
+  if (mode && ['dark', 'light'].includes(mode)) {
+    const colorModes = {
+      light: Colors.cardBackground,
+      dark: Colors.darkCardBackground,
+    };
+    return colorModes[mode];
+  }
+  return Colors.cardBackground;
+};
+
 // TODO implemente darkMode.
 const Card: React.FC<props> = ({ children, selected = false, style }) => {
+  const colorMode = useColorScheme();
   const cardStyles = {
     ...styles.card,
     ...style,
-    backgroundColor: selected ? Colors.tertiary : Colors.background,
-    shadowColor: selected ? Colors.tertiary : Colors.stroke,
-    elevation: selected ? 10 : 2,
+    backgroundColor: selected
+      ? Colors.tertiary
+      : backgroundColorPick(colorMode),
   };
   return <View style={cardStyles}>{children}</View>;
 };
@@ -28,12 +45,6 @@ const Card: React.FC<props> = ({ children, selected = false, style }) => {
 const styles = StyleSheet.create({
   card: {
     flex: 1,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 2.1,
     borderRadius: 10,
     paddingHorizontal: 9,
     paddingVertical: 15,

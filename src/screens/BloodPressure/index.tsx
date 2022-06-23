@@ -22,7 +22,7 @@ import { BloodPressureCard } from '../../wrappers';
 import { BarChart } from '../../components/Charts';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { createNotificaions } from '../../thunks/blood-pressure-thunk';
+import { createNotificaions } from '../../thunks/blood-pressure/blood-pressure-thunk';
 import { selectRecordPerWeek } from '../../store/blood-pressure/selectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home/BloodPressure'>;

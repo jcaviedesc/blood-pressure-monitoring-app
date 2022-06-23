@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import { StyleSheet, Switch, Text, View, ScrollView } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import HighlightText from '@sanar/react-native-highlight-text';
 import type { RootStackParamList } from '../../router/types';
-import { Colors, AppStyles, Fonts } from '../../styles';
+import { Colors, AppStyles, Fonts, Images } from '../../styles';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Button } from '../../components';
+import { MainContainer } from '../../components/Layout';
+import { useTimer } from '../../hooks/useTimer';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
@@ -13,84 +17,73 @@ type Props = NativeStackScreenProps<
 const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
   navigation,
 }) => {
-  const [isEnabled, setIsEnabled] = useState([false, false, false]);
-  const toggleSwitch = (toggle: number) => {
-    setIsEnabled(previousState => {
-      const newPreparationState = [...previousState];
-      newPreparationState[toggle] = !newPreparationState[toggle];
-      return newPreparationState;
-    });
-  };
+  const { translate } = useI18nLocate();
+  const { timer } = useTimer(1000, 10);
+
   return (
-    <ScrollView style={styles.mainContainer}>
-      <View style={[styles.content, styles.contentOverride]}>
+    <MainContainer isScrollView>
+      <View style={styles.content}>
         <View>
           <Text style={styles.title}>
-            PREPARACIÓN ANTES DE MEDIR LA PRESIÓN ARTERIAL
+            {translate('BloodPressure/Preparation.title')}
           </Text>
         </View>
         <View style={styles.mainCheckContainer}>
-          <View style={styles.checkContainer}>
-            <View style={styles.checkTextContainer}>
+          <View style={[styles.checkContainer, styles.chairContainer]}>
+            <View style={styles.chairTextContainer}>
               <Text style={styles.checkText}>
-                {
-                  'Descansar en una silla, en un ambiente tranquilo durante 5 minutos.'
-                }
+                <HighlightText
+                  highlightStyle={styles.highlightText}
+                  searchWords={translate(
+                    'BloodPressure/Preparation.p2HighligthText',
+                  )}
+                  textToHighlight={translate('BloodPressure/Preparation.p2')}
+                />
               </Text>
             </View>
-            <View style={styles.swithcContainer}>
-              <Switch
-                trackColor={{
-                  false: Colors.gray,
-                  true: Colors.cardHightlight,
-                }}
-                thumbColor={isEnabled[0] ? Colors.tertiary : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={() => toggleSwitch(0)}
-                value={isEnabled[0]}
+            <View>
+              <Image source={Images.chair} style={styles.chairImage} />
+            </View>
+          </View>
+          <View style={styles.checkContainer}>
+            <Text style={styles.checkText}>
+              <HighlightText
+                highlightStyle={styles.highlightText}
+                searchWords={translate(
+                  'BloodPressure/Preparation.p1HighligthText',
+                )}
+                textToHighlight={translate('BloodPressure/Preparation.p1')}
               />
-            </View>
+            </Text>
           </View>
           <View style={styles.checkContainer}>
-            <View style={styles.checkTextContainer}>
-              <Text style={styles.checkText}>Tener la vejiga vacía.</Text>
+            <View style={styles.imagesContainerRow}>
+              <Image source={Images.notCofee} style={styles.noCofeeImage} />
+              <Image source={Images.notSmoking} style={styles.noCofeeImage} />
+              <Image source={Images.notRunning} style={styles.noCofeeImage} />
             </View>
-            <Switch
-              trackColor={{ false: Colors.gray, true: Colors.cardHightlight }}
-              thumbColor={isEnabled[1] ? Colors.tertiary : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={() => toggleSwitch(1)}
-              value={isEnabled[1]}
-            />
-          </View>
-          <View style={styles.checkContainer}>
-            <View style={styles.checkTextContainer}>
-              <Text style={styles.checkText}>
-                {'No haber comido, ingerido bebidas con cafeína, fumado ni haber' +
-                  ' practicado ninguna actividad física en los 30 minutos anteriores' +
-                  'a la toma de la presión arterial.'}
-              </Text>
-            </View>
-            <Switch
-              trackColor={{ false: Colors.gray, true: Colors.cardHightlight }}
-              thumbColor={isEnabled[2] ? Colors.tertiary : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={() => toggleSwitch(2)}
-              value={isEnabled[2]}
-            />
+            <Text style={styles.checkText}>
+              <HighlightText
+                highlightStyle={styles.highlightText}
+                searchWords={translate(
+                  'BloodPressure/Preparation.p3HighligthText',
+                )}
+                textToHighlight={translate('BloodPressure/Preparation.p3')}
+              />
+            </Text>
           </View>
         </View>
         <View style={styles.footer}>
           <Button
-            title="Empezar"
+            title={timer > 0 ? `Empezar en (${timer})` : 'Empezar'}
             onPress={() => {
               navigation.navigate('BloodPressure/Steps');
             }}
-            disabled={isEnabled.some(e => !e)}
+            disabled={timer > 0}
           />
         </View>
       </View>
-    </ScrollView>
+    </MainContainer>
   );
 };
 
@@ -101,35 +94,51 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: Fonts.type.bold,
-    fontSize: Fonts.size.h4,
+    fontSize: Fonts.size.h3,
     color: Colors.headline,
     textAlign: 'left',
   },
   mainCheckContainer: {
-    flex: 40,
     marginTop: 27,
     marginBottom: 30,
   },
   checkText: {
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h5,
-    textAlign: 'justify',
-    paddingRight: 12,
+    textAlign: 'left',
   },
   checkContainer: {
     marginBottom: 18,
   },
-  checkTextContainer: {
-    flex: 10,
+  highlightText: {
+    color: Colors.headline,
+    fontFamily: Fonts.type.bold,
+  },
+  chairImage: {
+    resizeMode: 'contain',
+    width: 128,
+    height: 128,
   },
   footer: {
-    flex: 1,
     justifyContent: 'flex-end',
     marginBottom: 21,
   },
-  swithcContainer: {
+  chairContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    marginBottom: 3,
+  },
+  chairTextContainer: {
+    flex: 90,
+  },
+  noCofeeImage: {
+    resizeMode: 'contain',
+    width: 92,
+    height: 92,
+  },
+  imagesContainerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
   },
 });
 

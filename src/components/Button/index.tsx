@@ -1,9 +1,9 @@
-import React, { Children } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors, Fonts } from '../../styles';
 
 type props = {
-  children?: typeof Children;
+  children?: React.ReactNode;
   title?: string;
   onPress?: () => void;
   hierarchy?: 'loud' | 'quiet' | 'transparent';
@@ -55,16 +55,25 @@ const Button: React.FC<props> = ({
       onPress={onPress}
       style={buttonStyles}
       disabled={disabled}>
-      {children ? children : <Text style={textStyles}>{title}</Text>}
+      {children ? (
+        children
+      ) : (
+        <View style={styles.content}>
+          <Text style={textStyles}>{title}</Text>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     borderRadius: 10,
     height: 52,
+  },
+  content: {
+    flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
   },
   title: {

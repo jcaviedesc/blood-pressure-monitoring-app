@@ -82,6 +82,100 @@
     "custom": "Personalizar",
     "custom_description": "Define la hora y la frecuencia"
   },
+  "BloodPressure/Preparation": {
+    "title": "Preparación del paciente antes de medir la presión arterial",
+    "p1": "Tener la vejiga vacía.",
+    "p1HighligthText": [
+      "vejiga vacía."
+    ],
+    "p2": "Descansar en una silla, en un ambiente tranquilo durante 5 minutos.",
+    "p2HighligthText": [
+      "5 minutos."
+    ],
+    "p3": "No haber comido, ingerido bebidas con cafeína, fumado ni haber practicado ninguna actividad física en los 30 minutos anteriores a la toma de la presión arterial.",
+    "p3HighligthText": [
+      "30 minutos"
+    ]
+  },
+  "BloodPressure/Steps": {
+    "steps": [
+      {
+        "title": "No conversar",
+        "image": "",
+        "description": "Hablar o escuchar de forma activa agrega hasta \n10 mmHg",
+        "highLighWord": [
+          "10 mmHg"
+        ]
+      },
+      {
+        "title": "APOYAR EL BRAZO A LA ALTURA DEL CORAZÓN",
+        "image": "",
+        "description": "No apoyar el brazo agrega hasta 10 mmHg",
+        "highLighWord": [
+          "10 mmHg"
+        ]
+      },
+      {
+        "title": "COLOCAR EL MANGUITO EN EL BRAZO SIN ROPA",
+        "image": "",
+        "description": "La ropa gruesa agrega hasta 5-50 mmHg",
+        "highLighWord": [
+          "5-50 mmHg"
+        ]
+      },
+      {
+        "title": "USAR EL TAMAÑO DE MANGUITO ADECUADO",
+        "image": "",
+        "description": "Un manguito pequeño agrega de 2 a 10 mmHg",
+        "highLighWord": [
+          "2 a 10 mmHg"
+        ]
+      },
+      {
+        "title": "APOYAR LOS PIES",
+        "image": "",
+        "description": "No apoyar los pies agrega hasta 6 mmHg",
+        "highLighWord": [
+          "6 mmHg"
+        ]
+      },
+      {
+        "title": "NO CRUZAR LAS PIERNAS",
+        "image": "",
+        "description": "Tener las piernas cruzadas agrega de 2 a 8 mmHg",
+        "highLighWord": [
+          "2 a 8 mmHg"
+        ]
+      },
+      {
+        "title": "TENER LA VEJIGA VACÍA",
+        "image": "",
+        "description": "Tener la vejiga llena agrega hasta 10 mmHg",
+        "highLighWord": [
+          "10 mmHg"
+        ]
+      },
+      {
+        "title": "APOYAR LA ESPALDA",
+        "image": "",
+        "description": "No apoyar la espalda agrega hasta 6 mmHg",
+        "highLighWord": [
+          "6 mmHg"
+        ]
+      }
+    ]
+  },
+  "BloodPressure/Meassuring": {
+    "title": "Registro de Presión Arterial",
+    "header_title": "Presión arterial",
+    "date":"Fecha",
+    "time": "Hora",
+    "dia": "Diastólica",
+    "sys": "Sistólica",
+    "heart_rate": "Ritmo cardiaco",
+    "add_note": "Agregar una nota",
+    "placeholder_add_note": "¿tienes algo para contar?"
+  },
   "notifications": {
     "blood_pressure": {
       "title": "%{name} es hora de medir la presión arterial",
@@ -126,7 +220,9 @@
     "confirm": "confirmar",
     "finish": "finalizar",
     "add": "agregar",
-    "cancel": "cancelar"
+    "cancel": "cancelar",
+    "nextin": "siguiente en (%{countDown})",
+    "start": "Empezar"
   },
   "select": "Seleccionar",
   "headerSearch": {

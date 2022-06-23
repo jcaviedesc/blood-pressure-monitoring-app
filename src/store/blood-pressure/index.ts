@@ -1,26 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type {
   BloodPressureState,
-  UpdateCurrentRecordAction,
   ReminderTimeAction,
   Reminders,
   setRepeatReminderAction,
 } from './types';
 export * from './selectors';
-import { postRequestBloodPressure } from '../../thunks/blood-pressure-thunk';
+import { postRequestBloodPressure } from '../../thunks/blood-pressure/blood-pressure-thunk';
 import { findMonitors } from '../../thunks/blood-pressure/monitors-thunk';
 
 /* ------------- blood pressure Initial State ------------- */
 const initialState: BloodPressureState = {
-  records: [],
-  currentRecord: {
-    sys: '0',
-    dia: '0',
-    bpm: '0',
-    datetime: '',
-  },
-  observations: '',
-  lastMeasuring: '',
+  todayRecords: [],
+  dateLastMeasuring: '',
   recordsPerWeek: {
     records: undefined,
     sysAvg: undefined,
@@ -65,25 +57,6 @@ export const bloodPressureSlice = createSlice({
   name: 'blood-pressure',
   initialState,
   reducers: {
-    clear: state => {
-      state.records = [];
-    },
-    addRecord: state => {
-      state.records.push(state.currentRecord);
-      state.lastMeasuring = state.currentRecord.datetime;
-      state.currentRecord = initialState.currentRecord;
-    },
-    updateCurrentRecord: (
-      state,
-      action: PayloadAction<UpdateCurrentRecordAction>,
-    ) => {
-      const { field, value } = action.payload;
-      const newCurrentRecor = { ...state.currentRecord, [field]: value };
-      state.currentRecord = newCurrentRecor;
-    },
-    addObservations: (state, action: PayloadAction<string>) => {
-      state.observations = action.payload;
-    },
     setReminderTime: (state, action: PayloadAction<ReminderTimeAction>) => {
       const { stage, value } = action.payload;
       const [stageName, index]: string[] = stage.split('.');
@@ -120,6 +93,12 @@ export const bloodPressureSlice = createSlice({
     restore: () => {
       return initialState;
     },
+    addTodayRecord: (state, action) => {
+      state.todayRecords = [action.payload];
+    },
+    clearTodayRecords: state => {
+      state.todayRecords = [];
+    },
   },
   extraReducers: builder => {
     builder.addCase(postRequestBloodPressure.fulfilled, state => {
@@ -132,13 +111,12 @@ export const bloodPressureSlice = createSlice({
 });
 
 export const {
-  addRecord,
-  updateCurrentRecord,
-  addObservations,
   setReminderTime,
   setReminderStage,
   rescheduledReminderSuccess,
   setRepeatReminder,
+  addTodayRecord,
+  clearTodayRecords,
 } = bloodPressureSlice.actions;
 
 export default bloodPressureSlice.reducer;

@@ -1,14 +1,33 @@
 import React from 'react';
-import { View, useColorScheme } from 'react-native';
+import { View, useColorScheme, ScrollView } from 'react-native';
 import { AppStyles, Colors } from '../../styles';
 
 type props = {
   children: JSX.Element | JSX.Element[];
+  isScrollView?: boolean;
+  scrollViewProps?: typeof ScrollView;
 };
 
-const MainContainer: React.FC<props> = ({ children }) => {
+const MainContainer: React.FC<props> = ({
+  children,
+  isScrollView,
+  scrollViewProps,
+}) => {
   const isDarkMode = useColorScheme() === 'dark';
-  console.log("isDarkMode", isDarkMode)
+  if (isScrollView) {
+    return (
+      <ScrollView
+        style={{
+          ...AppStyles.screen.mainContainer,
+          backgroundColor: isDarkMode
+            ? Colors.darkBackground
+            : Colors.background,
+        }}
+        {...scrollViewProps}>
+        {children}
+      </ScrollView>
+    );
+  }
   return (
     <View
       style={{

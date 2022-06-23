@@ -1,8 +1,9 @@
 const type = {
   light: 'Nunito-Light',
   regular: 'Nunito-Regular',
-  bold: 'Nunito-SemiBold',
-  lcd: 'DigitalPlaySt',
+  semiBold: 'Nunito-SemiBold',
+  bold: 'Nunito-Bold',
+  lcd: 'DigitalPlaySt', //deprecar
 };
 
 const size = {
@@ -12,7 +13,7 @@ const size = {
   h4: 26,
   h5: 20,
   h6: 19,
-  paragraph: 17,
+  paragraph: 16,
   hint: 14,
 };
 

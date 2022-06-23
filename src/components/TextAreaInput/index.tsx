@@ -5,16 +5,18 @@ import {
   Text,
   StyleSheet,
   TextInputProps,
+  useColorScheme,
 } from 'react-native';
 import { Fonts, Colors } from '../../styles';
 
 type Props = {
-  title: string;
+  title?: string;
   refInput?: React.LegacyRef<TextInput>;
   onSubmitEditing?: TextInputProps['onSubmitEditing'];
   onEndEditing?: TextInputProps['onEndEditing'];
   autoFocus?: TextInputProps['autoFocus'];
   onChangeText?: TextInputProps['onChangeText'];
+  placeholder: string;
 };
 
 const TextAreaInput: React.FC<Props> = ({
@@ -24,13 +26,25 @@ const TextAreaInput: React.FC<Props> = ({
   onEndEditing,
   autoFocus,
   onChangeText,
+  placeholder,
 }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.title}>{title}</Text>
-      </View>
-      <View style={styles.inputContainer}>
+      {title !== undefined && (
+        <View>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+      )}
+      <View
+        style={[
+          styles.inputContainer,
+          {
+            backgroundColor: isDarkMode
+              ? Colors.darkGrayMode
+              : Colors.lightGray,
+          },
+        ]}>
         <TextInput
           ref={refInput}
           multiline
@@ -39,6 +53,7 @@ const TextAreaInput: React.FC<Props> = ({
           onEndEditing={onEndEditing}
           autoFocus={autoFocus}
           onChangeText={onChangeText}
+          placeholder={placeholder}
         />
       </View>
     </View>
@@ -57,11 +72,12 @@ const styles = StyleSheet.create({
     color: Colors.paragraph,
   },
   inputContainer: {
-    backgroundColor: Colors.lightGray,
-    height: 76,
+    height: 75,
     borderRadius: 5,
+    paddingHorizontal: 6,
   },
   textArea: {
+    color: Colors.headline,
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h6,
   },

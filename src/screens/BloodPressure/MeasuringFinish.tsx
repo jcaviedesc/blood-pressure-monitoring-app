@@ -2,12 +2,9 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { postRequestBloodPressure } from '../../thunks/blood-pressure-thunk';
+import { postRequestBloodPressure } from '../../thunks/blood-pressure/blood-pressure-thunk';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import {
-  addObservations,
-  selectResumeRecords,
-} from '../../store/blood-pressure';
+import { selectResumeRecords } from '../../store/blood-pressure';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Button, TextAreaInput } from '../../components';
 import { AppStyles, Colors, Fonts } from '../../styles';
@@ -60,7 +57,7 @@ const BloodPressureMeasuringFinish: React.FC<Props> = ({ navigation }) => {
             title="Observaciones (opcional)"
             onChangeText={text => {
               // TODO add debounce
-              dispatch(addObservations(text));
+              // dispatch(addObservations(text));
             }}
           />
           <View>

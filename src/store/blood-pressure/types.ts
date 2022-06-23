@@ -36,12 +36,10 @@ export type Monitor = {
   measurementMethod: string;
   additional?: string;
 };
-
+// State
 export interface BloodPressureState {
-  records: BloodPressureRecord[];
-  currentRecord: BloodPressureRecord;
-  lastMeasuring: string;
-  observations: string;
+  todayRecords: BloodPressureRecord[];
+  dateLastMeasuring: string;
   recordsPerWeek: GetRecords;
   reminderStage: keyof Reminders;
   activeNotificationRemider: keyof Reminders;
@@ -49,11 +47,7 @@ export interface BloodPressureState {
   monitors: Monitor[];
 }
 
-export type UpdateCurrentRecordAction = {
-  field: keyof BloodPressureRecord;
-  value: number | string;
-};
-
+// Actions Types
 export type TotalRecords = {
   totalRecords: number;
   isMeasuringComplete: boolean;

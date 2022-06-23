@@ -47,8 +47,7 @@ const ApplicationStyles: IApplicationStyles = {
     titleScreen: {
       fontFamily: Fonts.type.bold,
       color: Colors.headline,
-      fontSize: Fonts.size.h1,
-      textAlign: 'center',
+      fontSize: Fonts.size.h3,
     },
     subTitleScreen: {
       ...Fonts.style.normal,

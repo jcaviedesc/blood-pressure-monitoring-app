@@ -5,13 +5,12 @@ import defaultOptions from './ScreenConfig';
 import BloodPressureScreen from '../screens/BloodPressure';
 import BloodPressurePreparation from '../screens/BloodPressure/Preparation';
 import BloodPressureStepsScreen from '../screens/BloodPressure/Steps';
-// import BloodPressureMeassuringScreen from '../screens/BloodPressure/Meassuring';
-import BloodPressureMeassuringA from '../screens/BloodPressure/MeassuringA';
+import BloodPressureMeassuring from '../screens/BloodPressure/Meassuring';
 import Wait1MinuteScreen from '../screens/BloodPressure/Wait1minute';
 import BloodPressureMeasuringFinish from '../screens/BloodPressure/MeasuringFinish';
 import BloodPressureReminders from '../screens/BloodPressure/Reminders';
 import ValidateMonitor from '../screens/BloodPressure/ValidateMonitor';
-import { HeaderTitle, HeaderSearch } from '../components/Layout';
+import { HeaderTitle, HeaderSearch, StepsHeader } from '../components/Layout';
 
 type BloodPressureScreensConfig = {
   [K in BloodPressureScreenNames]: {
@@ -26,15 +25,7 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
     options: {
       headerTitle: HeaderTitle,
       headerBackTitleVisible: false,
-      headerShadowVisible: false,
       title: 'Presión Arterial',
-    },
-  },
-  'BloodPressure/Steps': {
-    component: BloodPressureStepsScreen,
-    options: {
-      ...defaultOptions,
-      title: '',
     },
   },
   'BloodPressure/Preparation': {
@@ -44,11 +35,27 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
       title: '',
     },
   },
-  'BloodPressure/MeassuringA': {
-    component: BloodPressureMeassuringA,
+  'BloodPressure/Steps': {
+    component: BloodPressureStepsScreen,
     options: {
       ...defaultOptions,
-      title: 'Presión Arterial',
+      header: ({ options, ...props }) => (
+        <StepsHeader
+          options={options}
+          {...props}
+          step={{
+            nsteps: 8,
+            activeStep: options.activeStep ?? 1,
+          }}
+        />
+      ),
+    },
+  },
+  'BloodPressure/Meassuring': {
+    component: BloodPressureMeassuring,
+    options: {
+      ...defaultOptions,
+      title: '',
     },
   },
   'BloodPressure/Wait1minute': {
@@ -69,7 +76,6 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
     component: BloodPressureReminders,
     options: {
       headerTitle: HeaderTitle,
-      headerShadowVisible: false,
       ...defaultOptions,
     },
   },
@@ -78,7 +84,6 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
     options: {
       ...defaultOptions,
       header: props => <HeaderSearch {...props} />,
-      headerShadowVisible: false,
       headerTransparent: false,
     },
   },

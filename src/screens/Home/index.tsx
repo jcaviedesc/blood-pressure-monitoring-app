@@ -88,11 +88,11 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
               source={
                 profileUrl
                   ? {
-                      uri: profileUrl,
-                    }
+                    uri: profileUrl,
+                  }
                   : gender === 'M'
-                  ? Images.menGenderAvatar
-                  : Images.womenGenderAvatar
+                    ? Images.menGenderAvatar
+                    : Images.womenGenderAvatar
               }
               defaultSource={Images.userPlaceholder}
               style={styles.avatar}

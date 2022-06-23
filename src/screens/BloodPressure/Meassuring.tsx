@@ -1,130 +1,246 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import {
-  Modal,
+  Animated,
   StyleSheet,
   View,
-  Text,
-  TouchableHighlight,
+  ScrollView,
+  TextInput,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
+import { Input, Card, Text, Button, TextAreaInput } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { BloodPressureSlider, Button, Input } from '../../components';
+import { MainContainer } from '../../components/Layout';
+import { useAppDispatch } from '../../hooks';
+import { useMeasuringForm } from '../../hooks/blood-pressure/useMeasuring';
+import { useTitleScroll } from '../../hooks/useTitleScroll';
+import { addTodayRecord } from '../../store/blood-pressure';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
   'BloodPressure/Meassuring'
 >;
 
-const BloodPressureMeassuringScreen: React.FC<Props> = ({ navigation }) => {
+const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
-  const [isOpenHeartRateModal, setIsOpenHeartRateModal] = useState(false)
+  const dispatch = useAppDispatch();
+  const { state, isButtonEnabled, onChange, onEnableAddNote, selectRecord } =
+    useMeasuringForm();
+  const { setHeaderTitleShow, fadeAnim } = useTitleScroll(
+    navigation,
+    translate('BloodPressure/Meassuring.header_title'),
+  );
+  const [sysRef, bpmRef] = [useRef<TextInput>(), useRef<TextInput>()];
 
-  const onSaveRecord = () => {
-
-    // navigation.navigate('BloodPressure/HeartRate');
+  const onSubmit = () => {
+    const record = selectRecord();
+    dispatch(addTodayRecord(record));
+    navigation.navigate('Home/BloodPressure');
   };
 
-  const PulByMinComponent = (
-    <View style={styles.rightContainer}>
-      <Text style={styles.rigthText}>PUL/min</Text>
-    </View>
-  );
-
   return (
-    <View style={styles.mainContainer}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={isOpenHeartRateModal}>
-        <View style={styles.heartRateModal}>
-          <View style={styles.heartRateModalCard}>
-            <View style={styles.heartRateModalHeaderClose}>
-              <TouchableHighlight
-                underlayColor={Colors.background}
-                onPress={() => {
-                  setIsOpenHeartRateModal(false);
-                }}>
-                <Icon name="close" size={22} color={Colors.headline} />
-              </TouchableHighlight>
-            </View>
+    <MainContainer>
+      <ScrollView
+        style={styles.content}
+        onScroll={({ nativeEvent }) => {
+          const scrolling = nativeEvent.contentOffset.y;
+          if (scrolling > 25) {
+            setHeaderTitleShow(true);
+          } else {
+            setHeaderTitleShow(false);
+          }
+        }}>
+        <Animated.View
+          style={[
+            styles.titleContainer,
+            { opacity: fadeAnim },
+            // { transform: [{ scaleY: fadeAnim }] },
+          ]}>
+          <Text style={styles.titleScreen}>
+            {translate('BloodPressure/Meassuring.title')}
+          </Text>
+        </Animated.View>
+        <Card>
+          <View style={styles.rowContainer}>
             <View>
-              <Text style={styles.heartRateModalTitle}>
-                Ingresa las pulsaciones por minuto registradas en el monitor.
+              <Text style={styles.inputTitle}>
+                {translate('BloodPressure/Meassuring.date')}
               </Text>
             </View>
-            <View style={styles.modalInput}>
+            <View style={styles.containerInput}>
               <Input
-                keyboardType="numeric"
-                value={'50'}
-                rigthComponent={PulByMinComponent}
+                editable={false}
+                hierarchy="transparent"
+                textAlign="right"
+                value={state.datetime.format('DD MMMM YYYY')}
               />
             </View>
-            <Button
-              title={translate('button.confirm')}
-              onPress={() => {
-                setIsOpenHeartRateModal(false);
-              }}
-            />
           </View>
+          <View style={styles.rowContainer}>
+            <View>
+              <Text style={styles.inputTitle}>
+                {translate('BloodPressure/Meassuring.time')}
+              </Text>
+            </View>
+            <View style={styles.containerInput}>
+              <Input
+                editable={false}
+                hierarchy="transparent"
+                textAlign="right"
+                value={state.datetime.format('hh:MM A')}
+              />
+            </View>
+          </View>
+          <View style={styles.rowContainer}>
+            <View>
+              <Text style={styles.inputTitle}>
+                {translate('BloodPressure/Meassuring.dia')}
+              </Text>
+            </View>
+            <View style={styles.containerInput}>
+              <Input
+                hierarchy="transparent"
+                keyboardType="numeric"
+                textAlign="right"
+                maxLength={3}
+                autoFocus
+                onChangeText={text => {
+                  onChange('dia', text);
+                }}
+                onSubmitEditing={() => {
+                  sysRef.current?.focus();
+                }}
+                rigthComponent={
+                  <Text style={[styles.inputTitle, styles.rightInput]}>
+                    mmHg
+                  </Text>
+                }
+              />
+            </View>
+          </View>
+          <View style={styles.rowContainer}>
+            <View>
+              <Text style={styles.inputTitle}>
+                {translate('BloodPressure/Meassuring.sys')}
+              </Text>
+            </View>
+            <View style={styles.containerInput}>
+              <Input
+                textInputRef={sysRef}
+                hierarchy="transparent"
+                keyboardType="numeric"
+                textAlign="right"
+                maxLength={3}
+                onChangeText={text => {
+                  onChange('sys', text);
+                }}
+                onSubmitEditing={() => {
+                  bpmRef.current?.focus();
+                }}
+                rigthComponent={
+                  <Text style={[styles.inputTitle, styles.rightInput]}>
+                    mmHg
+                  </Text>
+                }
+              />
+            </View>
+          </View>
+          <View style={[styles.rowContainer, styles.lastRowContainer]}>
+            <View>
+              <Text style={styles.inputTitle}>
+                {translate('BloodPressure/Meassuring.heart_rate')}
+              </Text>
+            </View>
+            <View style={styles.containerInput}>
+              <Input
+                textInputRef={bpmRef}
+                hierarchy="transparent"
+                keyboardType="numeric"
+                textAlign="right"
+                maxLength={3}
+                onChangeText={text => {
+                  onChange('bpm', text);
+                }}
+                rigthComponent={
+                  <Text style={[styles.inputTitle, styles.rightInput]}>
+                    {'    bpm'}
+                  </Text>
+                }
+              />
+            </View>
+          </View>
+        </Card>
+        <View style={styles.addNoteContainer}>
+          {state.addNoteEnabled ? (
+            <Button
+              size="small"
+              hierarchy="transparent"
+              onPress={onEnableAddNote}>
+              <Text style={[styles.inputTitle, styles.textLink]}>
+                {translate('BloodPressure/Meassuring.add_note')}
+              </Text>
+            </Button>
+          ) : (
+            <TextAreaInput
+              placeholder={translate(
+                'BloodPressure/Meassuring.placeholder_add_note',
+              )}
+            />
+          )}
         </View>
-      </Modal>
-      <View style={styles.content}>
-        <BloodPressureSlider />
-      </View>
+      </ScrollView>
       <View style={styles.section}>
         <Button
           title={translate('button.save')}
-          onPress={() => {
-            setIsOpenHeartRateModal(true);
-          }}
+          disabled={!isButtonEnabled}
+          onPress={onSubmit}
         />
       </View>
-    </View>
+    </MainContainer>
   );
 };
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
-  heartRateModal: {
-    flex: 1,
-    backgroundColor: Colors.loadingBackground,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  heartRateModalCard: {
-    backgroundColor: Colors.background,
-    width: '80%',
-    padding: 9,
-    borderRadius: 5,
-  },
-  modalButtons: {
-    paddingHorizontal: 10,
-  },
-  heartRateModalTitle: {
-    fontFamily: Fonts.type.regular,
-    fontSize: Fonts.size.h5,
-    textAlign: 'center',
-  },
-  modalInput: {
-    height: 70,
-    marginTop: 12,
-  },
-  rightContainer: {
-    justifyContent: 'center',
-  },
-  rigthText: {
-    fontFamily: Fonts.type.bold,
-    color: Colors.headline,
-    fontSize: Fonts.size.h5,
-  },
-  heartRateModalHeaderClose: {
+  rowContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginBottom: 12,
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomColor: Colors.secondaryTranslucent,
+    borderBottomWidth: 1,
+  },
+  inputTitle: {
+    fontFamily: Fonts.type.regular,
+    fontSize: Fonts.size.h6,
+    color: Colors.paragraph,
+  },
+  containerInput: {
+    width: '45%',
+  },
+  rightInput: {
+    fontSize: Fonts.size.hint,
+    textAlignVertical: 'bottom',
+    marginBottom: 6,
+  },
+  value: {
+    color: Colors.headline,
+    fontFamily: Fonts.type.bold,
+    fontSize: Fonts.size.h6,
+    textAlign: 'right',
+  },
+  lastRowContainer: {
+    borderBottomWidth: 0,
+  },
+  addNoteContainer: {
+    marginTop: 12,
+    marginBottom: 21,
+  },
+  textLink: {
+    textAlign: 'left',
+    fontFamily: Fonts.type.bold,
   },
 });
 
-export default BloodPressureMeassuringScreen;
+export default BloodPressureMeassuring;
