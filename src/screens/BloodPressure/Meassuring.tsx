@@ -31,8 +31,8 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
     navigation,
     translate('BloodPressure/Meassuring.header_title'),
   );
-  const [sysRef, bpmRef] = [useRef<TextInput>(), useRef<TextInput>()];
-
+  const [diaRef, bpmRef] = [useRef<TextInput>(), useRef<TextInput>()];
+  console.log(state)
   const onSubmit = () => {
     const record = selectRecord();
     dispatch(addTodayRecord(record));
@@ -88,14 +88,14 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
                 editable={false}
                 hierarchy="transparent"
                 textAlign="right"
-                value={state.datetime.format('hh:MM A')}
+                value={state.datetime.format('hh:mm A')}
               />
             </View>
           </View>
           <View style={styles.rowContainer}>
             <View>
               <Text style={styles.inputTitle}>
-                {translate('BloodPressure/Meassuring.dia')}
+                {translate('BloodPressure/Meassuring.sys')}
               </Text>
             </View>
             <View style={styles.containerInput}>
@@ -106,10 +106,10 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
                 maxLength={3}
                 autoFocus
                 onChangeText={text => {
-                  onChange('dia', text);
+                  onChange('sys', text);
                 }}
                 onSubmitEditing={() => {
-                  sysRef.current?.focus();
+                  diaRef.current?.focus();
                 }}
                 rigthComponent={
                   <Text style={[styles.inputTitle, styles.rightInput]}>
@@ -122,18 +122,18 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
           <View style={styles.rowContainer}>
             <View>
               <Text style={styles.inputTitle}>
-                {translate('BloodPressure/Meassuring.sys')}
+                {translate('BloodPressure/Meassuring.dia')}
               </Text>
             </View>
             <View style={styles.containerInput}>
               <Input
-                textInputRef={sysRef}
+                textInputRef={diaRef}
                 hierarchy="transparent"
                 keyboardType="numeric"
                 textAlign="right"
                 maxLength={3}
                 onChangeText={text => {
-                  onChange('sys', text);
+                  onChange('dia', text);
                 }}
                 onSubmitEditing={() => {
                   bpmRef.current?.focus();

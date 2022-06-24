@@ -16,7 +16,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
 import type { RootStackParamList } from '../../router/types';
 import { Colors, Fonts, AppStyles } from '../../styles';
-import { Button, HeaderChart } from '../../components';
+import { Button, HeaderChart, BloodPressureResumeCard } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { BloodPressureCard } from '../../wrappers';
 import { BarChart } from '../../components/Charts';
@@ -111,7 +111,10 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View>
             <HeaderChart />
-            <BarChart data={records} />
+            <BarChart data={undefined} />
+          </View>
+          <View>
+            <BloodPressureResumeCard title="Resumen diario" records={records} />
           </View>
         </View>
       </ScrollView>

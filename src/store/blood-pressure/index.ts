@@ -94,7 +94,7 @@ export const bloodPressureSlice = createSlice({
       return initialState;
     },
     addTodayRecord: (state, action) => {
-      state.todayRecords = [action.payload];
+      state.todayRecords = [...state.todayRecords, action.payload];
     },
     clearTodayRecords: state => {
       state.todayRecords = [];

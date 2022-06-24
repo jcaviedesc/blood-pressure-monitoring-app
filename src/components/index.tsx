@@ -19,6 +19,7 @@ import Tag from './Tag';
 import Reminder from './Reminder';
 import ActionSheets from './ActionSheet';
 import MonitorCard from './MonitorCard';
+import BloodPressureResumeCard from './BloodPressureResumeCard';
 export * from './CustomText';
 
 export {
@@ -43,4 +44,5 @@ export {
   Reminder,
   ActionSheets,
   MonitorCard,
+  BloodPressureResumeCard,
 };

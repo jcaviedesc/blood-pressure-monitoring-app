@@ -32,8 +32,13 @@ export const selectBloodPressureMeasuring = (state: RootState) => {
   };
 };
 
-export const selectRecordPerWeek = (state: RootState) =>
-  state.bloodPressure?.recordsPerWeek ?? {};
+export const selectRecordPerWeek = (state: RootState) => {
+  return {
+    records: state.bloodPressure?.todayRecords,
+    sysAvg: undefined,
+    diaAvg: undefined,
+  };
+};
 
 export const selectReminders = (state: RootState) => {
   const reminders = state.bloodPressure?.reminders ?? {};

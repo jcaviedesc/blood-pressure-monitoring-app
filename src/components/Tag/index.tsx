@@ -1,18 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Colors, Fonts } from '../../styles';
+import { Text } from '../CustomText';
 
 type props = {
   value: string;
   color?: string;
 };
 
-const Tag: React.FC<props> = ({ value, color = Colors.button }) => {
+const Tag: React.FC<props> = ({
+  value,
+  color = Colors.tertiaryTranslucent,
+}) => {
   return (
     <View style={{ ...styles.tagContainer, backgroundColor: color }}>
-      <View>
-        <Text style={styles.tagText}>{value}</Text>
-      </View>
+      <Text style={styles.tagText}>{value}</Text>
     </View>
   );
 };
@@ -26,9 +28,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tagText: {
-    color: Colors.cardTagText,
+    color: Colors.tertiary,
     fontFamily: Fonts.type.regular,
-    fontSize: Fonts.size.paragraph,
+    fontSize: Fonts.size.hint,
   },
 });
 

@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import Dayjs from '../../services/DatatimeUtil';
 
 const initialState = {
@@ -20,6 +20,8 @@ function BloodPressureFormReducer(
       return { ...state, [field]: value };
     case 'enableAddNote':
       return { ...state, addNoteEnabled: true };
+    case 'initDatetime':
+      return { ...state, datetime: Dayjs() };
     default:
       throw new Error();
   }
@@ -35,6 +37,11 @@ function isWithinRange(value: number, range: number[]) {
 
 export const useMeasuringForm = () => {
   const [state, dispatch] = useReducer(BloodPressureFormReducer, initialState);
+
+  useEffect(() => {
+    console.log('Que pasa');
+    dispatch({ type: 'initDatetime' });
+  }, []);
 
   const onChange = useCallback(
     (field: keyof typeof initialState, value: string) => {
