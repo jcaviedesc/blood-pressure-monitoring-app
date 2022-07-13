@@ -7,7 +7,7 @@ import type { RootStackParamList } from '../../router/types';
 import { VerifyCode } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { AppStyles, Fonts } from '../../styles';
-import { useConfirmPhone } from '../../providers/ConfirmPhone';
+import { useConfirmPhone } from '../../providers/PhoneAuthProvider';
 import { useAppDispatch } from '../../hooks';
 import { AuthValidationThunk } from '../../thunks/Auth-thunk';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
@@ -15,9 +15,11 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
 
 const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { verificationType } = route.params;
+  const { verificationType, phone } = route.params;
   const dispatch = useAppDispatch();
   const { translate } = useI18nLocate();
+  // If null, no SMS has been sent
+  const { confirm } = useConfirmPhone();
 
   useFocusEffect(
     useCallback(() => {
@@ -34,11 +36,6 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
     dispatch(AuthValidationThunk(verificationType, navigation));
   }, [dispatch, navigation, verificationType]);
 
-  // If null, no SMS has been sent
-  const {
-    values: { confirm, phone },
-  } = useConfirmPhone();
-
   async function confirmCode(code: string) {
     console.log("confirmCode", code);
     try {
@@ -54,6 +51,7 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
     }
   }
 
+  console.log('porque hay cambio en VerifyPhoneScreen');
   return (
     <MainContainer>
       <View style={styles.content}>
@@ -69,7 +67,6 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
         </View>
         <VerifyCode
           onCompleteCode={(code: string) => {
-            console.log("onCompleteCode", code);
             confirmCode(code);
           }}
         />

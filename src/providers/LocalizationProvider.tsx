@@ -8,6 +8,7 @@ import {
   setLenguage,
   setCountry,
 } from '../store/app/appSlice';
+import { changeLocaleDayjs } from '../services/DatatimeUtil';
 interface ILocalizationProvider {
   children: Element[] | Element;
 }
@@ -20,11 +21,13 @@ export const translate = memoize(
 
 interface ILocalizationContext {
   translate: typeof translate;
+  locale: string;
   changeLenguage: (languageTag: 'es' | 'en') => void | (() => void);
 }
 const LocalizationContext = React.createContext({
   translate,
-  changeLenguage: () => {},
+  locale: 'es',
+  changeLenguage: () => { },
 } as ILocalizationContext);
 
 export const LocalizationProvider = ({ children }: ILocalizationProvider) => {
@@ -52,6 +55,7 @@ export const LocalizationProvider = ({ children }: ILocalizationProvider) => {
       i18n.translations = { [lenguage]: translationGetters[lenguage]() };
       i18n.locale = lenguage;
     }
+    changeLocaleDayjs(i18n.locale);
   }, [translationGetters, dispatch, lenguage]);
 
   useEffect(() => {
@@ -75,6 +79,7 @@ export const LocalizationProvider = ({ children }: ILocalizationProvider) => {
     <LocalizationContext.Provider
       value={{
         translate,
+        locale: i18n.locale,
         changeLenguage,
       }}>
       {children}

@@ -18,7 +18,7 @@ import { AppStyles, Colors, Fonts } from '../../styles';
 import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/signup/signupSlice';
-import { useConfirmPhone } from '../../providers/ConfirmPhone';
+import { useConfirmPhone } from '../../providers/PhoneAuthProvider';
 import { PhoneInputWrapper } from '../../wrappers';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale } from '../../store/app/appSlice';
@@ -54,7 +54,10 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
       dispatch(signUpUser(setConfirm))
         .unwrap()
         .then(async () => {
-          navigation.navigate('VerifyPhone', { verificationType: 'SingUp' });
+          navigation.navigate('VerifyPhone', {
+            verificationType: 'SingUp',
+            phone,
+          });
         })
         .catch(err => {
           const errorInstance = new Error(err?.message);

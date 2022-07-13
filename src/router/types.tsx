@@ -20,7 +20,7 @@ type BloodPressureStackParam = {
 
 export type RootStackParamList = {
   Login: { from?: string };
-  VerifyPhone: { verificationType: string };
+  VerifyPhone: { verificationType: string; phone: string };
   Home: undefined;
   Profile: undefined;
   development: undefined;

@@ -12,10 +12,10 @@ import { AppStyles, Colors, Fonts } from '../../styles';
 import { Input, Card, Text, Button, TextAreaInput } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { MainContainer } from '../../components/Layout';
-import { useAppDispatch } from '../../hooks';
+// import { useAppDispatch } from '../../hooks';
 import { useMeasuringForm } from '../../hooks/blood-pressure/useMeasuring';
 import { useTitleScroll } from '../../hooks/useTitleScroll';
-import { addTodayRecord } from '../../store/blood-pressure';
+import { useBloodPressureMeasurement } from '../../hooks/realm/useBloodPressure';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
@@ -24,18 +24,19 @@ type Props = NativeStackScreenProps<
 
 const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
-  const dispatch = useAppDispatch();
+  const { saveMeasurement } = useBloodPressureMeasurement();
+  // const dispatch = useAppDispatch();
   const { state, isButtonEnabled, onChange, onEnableAddNote, selectRecord } =
     useMeasuringForm();
   const { setHeaderTitleShow, fadeAnim } = useTitleScroll(
     navigation,
     translate('BloodPressure/Meassuring.header_title'),
   );
-  const [sysRef, bpmRef] = [useRef<TextInput>(), useRef<TextInput>()];
+  const [diaRef, bpmRef] = [useRef<TextInput>(), useRef<TextInput>()];
 
   const onSubmit = () => {
     const record = selectRecord();
-    dispatch(addTodayRecord(record));
+    saveMeasurement(record);
     navigation.navigate('Home/BloodPressure');
   };
 
@@ -88,14 +89,14 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
                 editable={false}
                 hierarchy="transparent"
                 textAlign="right"
-                value={state.datetime.format('hh:MM A')}
+                value={state.datetime.format('hh:mm A')}
               />
             </View>
           </View>
           <View style={styles.rowContainer}>
             <View>
               <Text style={styles.inputTitle}>
-                {translate('BloodPressure/Meassuring.dia')}
+                {translate('BloodPressure/Meassuring.sys')}
               </Text>
             </View>
             <View style={styles.containerInput}>
@@ -106,10 +107,10 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
                 maxLength={3}
                 autoFocus
                 onChangeText={text => {
-                  onChange('dia', text);
+                  onChange('sys', text);
                 }}
                 onSubmitEditing={() => {
-                  sysRef.current?.focus();
+                  diaRef.current?.focus();
                 }}
                 rigthComponent={
                   <Text style={[styles.inputTitle, styles.rightInput]}>
@@ -122,18 +123,18 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
           <View style={styles.rowContainer}>
             <View>
               <Text style={styles.inputTitle}>
-                {translate('BloodPressure/Meassuring.sys')}
+                {translate('BloodPressure/Meassuring.dia')}
               </Text>
             </View>
             <View style={styles.containerInput}>
               <Input
-                textInputRef={sysRef}
+                textInputRef={diaRef}
                 hierarchy="transparent"
                 keyboardType="numeric"
                 textAlign="right"
                 maxLength={3}
                 onChangeText={text => {
-                  onChange('sys', text);
+                  onChange('dia', text);
                 }}
                 onSubmitEditing={() => {
                   bpmRef.current?.focus();
@@ -173,6 +174,12 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
         </Card>
         <View style={styles.addNoteContainer}>
           {state.addNoteEnabled ? (
+            <TextAreaInput
+              placeholder={translate(
+                'BloodPressure/Meassuring.placeholder_add_note',
+              )}
+            />
+          ) : (
             <Button
               size="small"
               hierarchy="transparent"
@@ -181,12 +188,6 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
                 {translate('BloodPressure/Meassuring.add_note')}
               </Text>
             </Button>
-          ) : (
-            <TextAreaInput
-              placeholder={translate(
-                'BloodPressure/Meassuring.placeholder_add_note',
-              )}
-            />
           )}
         </View>
       </ScrollView>

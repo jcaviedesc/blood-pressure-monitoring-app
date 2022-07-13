@@ -16,15 +16,18 @@ const DEFAULT_DATA = [
 ];
 
 const BarChart: React.FC<ChartProps> = ({ data }) => {
-  const minYaxis = data ? getMaxOrMinValue(data, v => v.y0, true) : 40;
-  const maxYaxis = data ? getMaxOrMinValue(data, v => v.y, false) : 180;
-
+  // TODO refactor para obtener los valores maximos y minimos en
+  // una sola funcion.
+  const minYaxis = getMaxOrMinValue(data, v => v.y0, 'min', 40);
+  const maxYaxis = getMaxOrMinValue(data, v => v.y, 'max', 180);
+  // TODO evaluar si podemos elimiar esta validacion y pasar data
+  // directamente.
   const values = Array.isArray(data) && data.length ? data : DEFAULT_DATA;
 
   return (
     <View>
       <VictoryChart
-        padding={{ top: 20, left: 0, right: 50, bottom: 50 }}
+        padding={{ top: 12, left: 0, right: 50, bottom: 40 }}
         width={Metrics.screenWidth - Metrics.marginHorizontal * 2}
         domainPadding={{ x: 18, y: 9 }}>
         <VictoryAxis
@@ -33,13 +36,14 @@ const BarChart: React.FC<ChartProps> = ({ data }) => {
           style={{
             axis: { stroke: Colors.transparent, width: 32 },
             tickLabels: {
-              fontSize: 16,
+              fontSize: Fonts.size.paragraph,
               fontFamily: Fonts.type.regular,
               fill: Colors.paragraph,
             },
-            grid: { stroke: Colors.lightGray },
+            grid: { stroke: Colors.textDisabled },
             ticks: { stroke: Colors.transparent, size: 12 },
           }}
+          tickCount={10}
         />
         <VictoryAxis
           crossAxis
@@ -47,7 +51,7 @@ const BarChart: React.FC<ChartProps> = ({ data }) => {
           style={{
             axis: { stroke: Colors.transparent },
             tickLabels: {
-              fontSize: 16,
+              fontSize: Fonts.size.hint,
               fontFamily: Fonts.type.regular,
               fill: Colors.paragraph,
             },
@@ -57,18 +61,29 @@ const BarChart: React.FC<ChartProps> = ({ data }) => {
         />
         <VictoryBar
           style={{
-            data: { fill: Colors.button, width: 9 },
+            data: { fill: Colors.button, width: 12 },
           }}
+          // animate={{
+          //   duration: 200,
+          //   onLoad: { duration: 200 },
+          // }}
           cornerRadius={{ top: 5, bottom: 5 }}
           data={values}
           domain={{ y: [minYaxis, maxYaxis] }}
           alignment="middle"
           events={[
             {
+              childName: 'all',
               target: 'data',
               eventHandlers: {
-                onPress: () => {
+                onClick: () => {
                   console.log('press');
+                },
+                onPress: () => {
+                  console.log('onPress');
+                },
+                onPressIn: () => {
+                  console.log('onPressIn');
                 },
               },
             },

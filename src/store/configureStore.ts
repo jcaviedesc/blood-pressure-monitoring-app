@@ -34,15 +34,23 @@ const customMiddleWare = store => next => action => {
 const store = configureStore({
   reducer: persistedReducerSetup,
   devTools: process.env.NODE_ENV !== 'production',
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
+  middleware: getDefaultMiddleware => {
+    const middlewares = getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
       thunk: {
         extraArgument: clientApi,
       },
-    }).concat(customMiddleWare),
+    }).concat(customMiddleWare);
+
+    if (__DEV__) {
+      const createDebugger = require('redux-flipper').default;
+      middlewares.push(createDebugger());
+    }
+
+    return middlewares;
+  },
 });
 
 export const persistor = persistStore(store);

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { useAppSelector, useAppDispatch } from '../hooks';
@@ -14,6 +14,7 @@ import MainStackNavigator, {
   StackNavigationRef,
 } from '../router';
 import { useInitialScreenApp } from './hooks';
+import { RealmAppWrapper } from '../hooks/realm/provider';
 
 const Main = () => {
   const { isFirstTime } = useAppSelector(selectAppUserState);
@@ -30,7 +31,6 @@ const Main = () => {
   // Handle user state changes
   const onAuthStateChanged = useCallback(
     (fbUser: FirebaseAuthTypes.User | null) => {
-      console.log({ onAuthStateChanged: '', fbUser });
       if (initializing) {
         setInitializing(false);
       }
@@ -43,9 +43,8 @@ const Main = () => {
               user: fbUser.toJSON() as FirebaseAuthTypes.UserInfo,
             }),
           );
-          console.log({ fbUser, tokenResult });
           if (!claims.isC) {
-            console.log(StackNavigationRef);
+            console.log({ claims });
             StackNavigationRef.navigate('Singup/Birthdate');
           }
         });
@@ -62,7 +61,7 @@ const Main = () => {
     if (nextScreen !== 'Home') {
       navigation.navigate(nextScreen);
     }
-    // navigation.navigate('BloodPressure/Meassuring');
+    navigation.navigate('BloodPressure/Meassuring');
   };
 
   useEffect(() => {
@@ -91,12 +90,14 @@ const Main = () => {
   }
 
   return (
-    <MainStackNavigator
-      onReady={navigation => {
-        onNavigateTo(navigation);
-      }}
-      isUserLogged={IsUserFullyRegistered}
-    />
+    <RealmAppWrapper fallback={() => <SplashScreen />}>
+      <MainStackNavigator
+        onReady={navigation => {
+          onNavigateTo(navigation);
+        }}
+        isUserLogged={IsUserFullyRegistered}
+      />
+    </RealmAppWrapper>
   );
 };
 

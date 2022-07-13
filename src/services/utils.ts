@@ -35,3 +35,25 @@ export function camelCaseKeysToUnderscore(obj: object) {
   return data;
 }
 
+export function getAverage<T>(
+  data: T[],
+  keyAvgs: (keyof T)[],
+): { [k in keyof T]: number } {
+  const initialObj = keyAvgs.reduce((prev, curr) => {
+    prev[curr] = 0;
+    return prev;
+  }, {});
+
+  const sumKeyAvg = data.reduce((prev, curr) => {
+    keyAvgs.forEach(key => {
+      prev[key] = prev[key] + curr[key];
+    });
+    return prev;
+  }, initialObj);
+
+  keyAvgs.forEach(key => {
+    sumKeyAvg[key] = Number((sumKeyAvg[key] / data.length).toFixed(2));
+  });
+
+  return sumKeyAvg;
+}

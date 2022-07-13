@@ -21,9 +21,10 @@ import {
   useGetNotificationSettingsPermission,
 } from './hooks/usePermissions';
 // context
-import { ConfirmPhoneProvider } from './providers/ConfirmPhone';
+import { ConfirmPhoneProvider } from './providers/PhoneAuthProvider';
 import { LocalizationProvider } from './providers/LocalizationProvider';
 import { AppErrorBoundary } from './providers/ErrorBoundary';
+import { RealmAuthProvider } from './providers/RealmProvider';
 
 const App: () => Node = () => {
   useNotificationPermission();
@@ -44,7 +45,9 @@ const App: () => Node = () => {
           <ConfirmPhoneProvider>
             <LoadingWrapper>
               <AppErrorBoundary>
-                <Main />
+                <RealmAuthProvider>
+                  <Main />
+                </RealmAuthProvider>
               </AppErrorBoundary>
             </LoadingWrapper>
           </ConfirmPhoneProvider>

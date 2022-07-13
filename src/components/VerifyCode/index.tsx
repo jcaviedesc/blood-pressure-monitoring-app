@@ -11,11 +11,14 @@ const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [complete, setComplete] = useState(false);
   useEffect(() => {
-    if (code.every(c => c !== '')) {
+    if (code.join('').length === 6) {
       console.log(code);
       onCompleteCode(code.join(''));
       setComplete(true);
     }
+    // return () => {
+    //   setCode(['', '', '', '', '', '']);
+    // };
   }, [complete, code, onCompleteCode]);
 
   const codeRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
@@ -30,6 +33,7 @@ const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
         (currentSlot === 0 && text === '') || (currentSlot === 5 && text !== '')
           ? currentSlot
           : currentSlot + 1 * factor;
+      console.log({ nextFocus })
       changeDigit(text, currentSlot);
       codeRef[nextFocus].current?.focus();
     }

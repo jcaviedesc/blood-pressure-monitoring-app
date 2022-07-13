@@ -1,33 +1,26 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
-interface IconfirmValues {
-  phone: string;
-  confirm: null | FirebaseAuthTypes.ConfirmationResult;
-}
-
-interface IsetConfirm {
-  confirm: React.SetStateAction<FirebaseAuthTypes.ConfirmationResult>;
-  phone: string;
-}
 interface IConfirmPhoneContenxt {
-  values: IconfirmValues;
-  setConfirm: Function | React.Dispatch<IsetConfirm>;
+  confirm: null | FirebaseAuthTypes.ConfirmationResult;
+  setConfirm: Function | React.Dispatch<FirebaseAuthTypes.ConfirmationResult>;
 }
 const ConfirmPhoneContext = React.createContext({
-  values: { confirm: null, phone: '' },
-  setConfirm: () => {},
+  confirm: null,
+  setConfirm: () => {
+    // noop
+  },
 } as IConfirmPhoneContenxt);
 
 interface IConfirmPhoneProvider {
-  children: Element[] | Element;
+  children: React.ReactNode;
 }
 
 const ConfirmPhoneProvider = ({ children }: IConfirmPhoneProvider) => {
-  const [values, setConfirm] = useState({ confirm: null, phone: '' });
+  const [confirm, setConfirm] = useState(null);
   // NOTE: you *might* need to memoize this value
   // Learn more in http://kcd.im/optimize-context
-  const value = { values, setConfirm };
+  const value = useMemo(() => ({ setConfirm, confirm }), [confirm]);
   return (
     <ConfirmPhoneContext.Provider value={value}>
       {children}

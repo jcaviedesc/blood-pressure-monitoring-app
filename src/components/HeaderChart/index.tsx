@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,27 +7,38 @@ import {
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-// TODO import according to i18n
-import 'dayjs/locale/es-mx';
-import dayjs from 'dayjs';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
+import dayjs, { getWeekRange } from '../../services/DatatimeUtil';
 import { Colors, Fonts } from '../../styles';
 
-dayjs.locale('es-mx');
 type props = {
-  onChangeDate?: (date: string) => void;
+  onChangeDate?: (startDate: string, endDate: string) => void;
+  initialLoad: (startDate: string, endDate: string) => void;
 };
 
-const HeaderChart: React.FC<props> = ({ onChangeDate }) => {
-  const [date, setDate] = useState(dayjs().startOf('w'));
+const HeaderChart: React.FC<props> = ({ onChangeDate, initialLoad }) => {
+  const { locale } = useI18nLocate();
+  const [date, setDate] = useState(dayjs().locale(locale).startOf('w'));
+
+  useEffect(() => {
+    const [initialDate, finalDate] = getWeekRange(date);
+    initialLoad(initialDate, finalDate);
+  }, []);
+
   const changeWeekDate = (weeks: number) => {
-    setDate(date.add(weeks, 'week'));
-    onChangeDate && onChangeDate(date.format('YYYY-MM-DD'));
+    const newDate = date.add(weeks, 'week');
+    setDate(newDate);
+    onChangeDate &&
+      onChangeDate(
+        newDate.format('YYYY-MM-DD'),
+        newDate.endOf('w').format('YYYY-MM-DD'),
+      );
   };
   return (
     <View style={styles.container}>
       <TouchableHighlight
         style={styles.touchable}
-        underlayColor={Colors.button}
+        underlayColor={Colors.buttonTranslucent}
         onPress={() => {
           changeWeekDate(-1);
         }}>
@@ -40,13 +51,13 @@ const HeaderChart: React.FC<props> = ({ onChangeDate }) => {
       <View>
         <Text style={styles.text}>{`${date.date()} ${date
           .endOf('w')
-          .format('- D MMM YYYY')}`}</Text>
+          .format('- D MMMM YYYY')}`}</Text>
       </View>
-      <View>
+      <View style={styles.touchableRightContainer}>
         {date.isBefore(dayjs().startOf('w')) && (
           <TouchableHighlight
-            style={styles.touchable}
-            underlayColor={Colors.button}
+            style={[styles.touchable, styles.tochableRight]}
+            underlayColor={Colors.buttonTranslucent}
             onPress={() => {
               changeWeekDate(1);
             }}>
@@ -65,9 +76,9 @@ const HeaderChart: React.FC<props> = ({ onChangeDate }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    marginTop: 31,
-    marginBottom: 11,
+    marginTop: 16,
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   text: {
     fontFamily: Fonts.type.regular,
@@ -75,11 +86,18 @@ const styles = StyleSheet.create({
     color: Colors.paragraph,
   },
   touchable: {
-    width: 25,
-    height: 25,
-    borderRadius: 25 / 2,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+  },
+  tochableRight: {
+    alignItems: 'flex-end',
+  },
+  touchableRightContainer: {
+    width: 40,
+    height: 40,
   },
 });
 

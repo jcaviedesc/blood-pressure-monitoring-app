@@ -5,10 +5,7 @@ import {
   NavigationContainer,
   createNavigationContainerRef,
 } from '@react-navigation/native';
-import {
-  createNativeStackNavigator,
-  NativeStackHeaderProps,
-} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HeaderBackButton } from '@react-navigation/elements';
 import type { RootStackParamList } from './types';
 import { NormalHeader, StepsHeader } from '../components/Layout';
@@ -36,7 +33,7 @@ type MainStackNavigatorProps = {
   onReady: (navigator: NavigationRef) => void;
   isUserLogged: boolean;
 };
-// TODO implementar google analictys
+
 function MainStackNavigator({
   onReady,
   isUserLogged,
@@ -55,7 +52,8 @@ function MainStackNavigator({
       onReady={onReadyHandler}
       onStateChange={async () => {
         const previousRouteName = routeNameRef.current;
-        const currentRouteName = StackNavigationRef.getCurrentRoute()?.name ?? '';
+        const currentRouteName =
+          StackNavigationRef.getCurrentRoute()?.name ?? '';
 
         if (previousRouteName !== currentRouteName) {
           await analytics().logScreenView({

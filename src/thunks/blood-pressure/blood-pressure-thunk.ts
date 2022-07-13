@@ -1,5 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import crashlytics from '@react-native-firebase/crashlytics';
 import notifee, {
   RepeatFrequency,
@@ -9,10 +7,7 @@ import notifee, {
   TriggerType,
 } from '@notifee/react-native';
 import { capitalize } from 'lodash';
-import type { ClientApi, RootState } from '../../store/configureStore';
-import type { RootStackParamList } from '../../router/types';
 import {
-  selectBloodPressureMeasuring,
   selectCurrentReminder,
   rescheduledReminderSuccess,
 } from '../../store/blood-pressure';
@@ -20,42 +15,6 @@ import type { AppDispatch, AppGetState } from '../../store/configureStore';
 import dayjs, { weekdays } from '../../services/DatatimeUtil';
 import { createTriggerNotificationService } from '../../services/NotificationService';
 import { translate } from '../../providers/LocalizationProvider';
-
-type Router = NativeStackScreenProps<
-  RootStackParamList,
-  'BloodPressure/MeasuringFinish'
->;
-
-export const postRequestBloodPressure = createAsyncThunk<
-  object,
-  Router['navigation'],
-  {
-    extra: ClientApi;
-    state: RootState;
-  }
->(
-  'blood-pressure/request-post',
-  async (navigation, { getState, extra: clientApi, rejectWithValue }) => {
-    let body = {
-      datetime: dayjs().utc().format(),
-      user_id: 'testing',
-      location: [0.9, 0.1],
-    };
-
-    const BPdata = selectBloodPressureMeasuring(getState());
-    body = { ...body, ...BPdata };
-
-    const response = await clientApi.registerBloodPressureRecord(body);
-
-    if (response.status !== 201) {
-      return rejectWithValue(response.data);
-      // TODO handle error message
-    }
-
-    navigation.navigate('Home/BloodPressure');
-    return Promise.resolve(response.data);
-  },
-);
 
 const BloodPressurePrefix = '$bp';
 
@@ -124,7 +83,6 @@ export const createNotificaions = () => {
         .map(repeatday => repeatday.split(','))
         .flat()
         .forEach(reminderDay => {
-          console.log(reminderDay);
           const indexDay = weekdays.indexOf(reminderDay);
           let reminderDate = currentDate;
           if (indexDay > currentWeekDay) {

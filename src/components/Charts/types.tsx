@@ -9,7 +9,7 @@ export type LineData = {
 };
 
 export type ChartProps = {
-  data: ChartData[] | LineData[] | undefined;
+  data: ChartData[] | LineData[] | [];
   height?: number;
   width?: number;
 };

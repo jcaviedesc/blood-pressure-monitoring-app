@@ -16,13 +16,13 @@ const ProfileScreen: React.FC<Props> = () => {
   const logout = () => {
     auth()
       .signOut()
-      .then(() => {
-        dispatch(signOut());
-      })
       .catch(err => {
         crashlytics().recordError(err);
         //TODO handle clear data and go to login or signup
         console.log(err);
+      })
+      .finally(() => {
+        dispatch(signOut());
       });
   };
 

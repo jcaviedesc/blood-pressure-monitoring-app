@@ -26,7 +26,7 @@ export const signUpUser = createAsyncThunk<
     if (response.status === 201) {
       try {
         const confirm = await auth().signInWithPhoneNumber(phone);
-        setConfirm({ confirm, phone });
+        setConfirm(confirm);
       } catch (error) {
         console.log(error);
         crashlytics().recordError(new Error(error));

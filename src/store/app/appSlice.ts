@@ -31,6 +31,7 @@ export const appSlice = createSlice({
     },
     initAppSuccessful: state => {
       state.appIsLoaded = true;
+      state.screenLoading = false;
     },
     setLenguage: (state, action: PayloadAction<'es' | 'en'>) => {
       state.lenguage = action.payload;

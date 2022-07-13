@@ -17,7 +17,7 @@ import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { Button } from '../../components';
 import { MainContainer } from '../../components/Layout';
-import { useConfirmPhone } from '../../providers/ConfirmPhone';
+import { useConfirmPhone } from '../../providers/PhoneAuthProvider';
 import { PhoneInputWrapper } from '../../wrappers';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
@@ -37,10 +37,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(setScreenLoading(true));
     try {
       const confirm = await auth().signInWithPhoneNumber(phone);
-      setConfirm({ confirm, phone });
+      setConfirm(confirm);
       setPhone('');
       navigation.navigate('VerifyPhone', {
         verificationType: 'Login',
+        phone,
       });
     } catch (error) {
       crashlytics()

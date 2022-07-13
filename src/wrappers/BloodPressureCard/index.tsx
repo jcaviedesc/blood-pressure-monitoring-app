@@ -4,10 +4,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colors, Fonts, Metrics } from '../../styles';
 import { Card } from '../../components';
 
-type dataLine = {
-  y: number;
-};
-
 type props = {
   title: string;
   value: string | number | undefined;
@@ -36,7 +32,7 @@ const BloodPressureCard: React.FC<props> = ({
           />
         </View>
         <View style={styles.cardBody}>
-          <Text style={styles.valueText}>{value ?? altText}</Text>
+          <Text style={styles.valueText}>{value || altText}</Text>
           <Text style={styles.magnitudeText}>{magnitude}</Text>
         </View>
         <View />
@@ -56,7 +52,7 @@ const styles = StyleSheet.create({
   },
   valueText: {
     fontFamily: Fonts.type.bold,
-    fontSize: Fonts.size.h1,
+    fontSize: Fonts.size.h3,
     color: Colors.button,
     marginRight: 6,
   },

@@ -1,16 +1,8 @@
 export type BloodPressureRecord = {
-  sys: string;
-  dia: string;
-  bpm: string;
+  sys: number;
+  dia: number;
+  bpm: number;
   datetime: string;
-};
-
-type GetRecords = {
-  records?: BloodPressureRecord[];
-  sysAvg?: number;
-  diaAvg?: number;
-  interval?: string;
-  startInterval?: string;
 };
 
 export type RemindersTime = {
@@ -38,20 +30,12 @@ export type Monitor = {
 };
 // State
 export interface BloodPressureState {
-  todayRecords: BloodPressureRecord[];
   dateLastMeasuring: string;
-  recordsPerWeek: GetRecords;
   reminderStage: keyof Reminders;
   activeNotificationRemider: keyof Reminders;
   reminders: Reminders;
   monitors: Monitor[];
 }
-
-// Actions Types
-export type TotalRecords = {
-  totalRecords: number;
-  isMeasuringComplete: boolean;
-};
 
 export type ReminderTimeAction = {
   stage: string;

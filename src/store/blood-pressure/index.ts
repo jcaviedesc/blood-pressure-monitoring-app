@@ -6,18 +6,11 @@ import type {
   setRepeatReminderAction,
 } from './types';
 export * from './selectors';
-import { postRequestBloodPressure } from '../../thunks/blood-pressure/blood-pressure-thunk';
 import { findMonitors } from '../../thunks/blood-pressure/monitors-thunk';
 
 /* ------------- blood pressure Initial State ------------- */
 const initialState: BloodPressureState = {
-  todayRecords: [],
   dateLastMeasuring: '',
-  recordsPerWeek: {
-    records: undefined,
-    sysAvg: undefined,
-    diaAvg: undefined,
-  },
   reminderStage: 'normal',
   activeNotificationRemider: 'normal',
   reminders: {
@@ -93,17 +86,8 @@ export const bloodPressureSlice = createSlice({
     restore: () => {
       return initialState;
     },
-    addTodayRecord: (state, action) => {
-      state.todayRecords = [action.payload];
-    },
-    clearTodayRecords: state => {
-      state.todayRecords = [];
-    },
   },
   extraReducers: builder => {
-    builder.addCase(postRequestBloodPressure.fulfilled, state => {
-      state.records = state.records.slice(2);
-    });
     builder.addCase(findMonitors.fulfilled, (state, action) => {
       state.monitors = action.payload;
     });
@@ -115,8 +99,6 @@ export const {
   setReminderStage,
   rescheduledReminderSuccess,
   setRepeatReminder,
-  addTodayRecord,
-  clearTodayRecords,
 } = bloodPressureSlice.actions;
 
 export default bloodPressureSlice.reducer;

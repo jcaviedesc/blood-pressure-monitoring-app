@@ -16,26 +16,16 @@ import { useFocusEffect } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
 import type { RootStackParamList } from '../../router/types';
 import { Colors, Fonts, AppStyles } from '../../styles';
-import { Button, HeaderChart } from '../../components';
+import { Button, HeaderChart, BloodPressureResumeCard } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { BloodPressureCard } from '../../wrappers';
 import { BarChart } from '../../components/Charts';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { useAppSelector, useAppDispatch } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { createNotificaions } from '../../thunks/blood-pressure/blood-pressure-thunk';
-import { selectRecordPerWeek } from '../../store/blood-pressure/selectors';
+import { useResume } from '../../hooks/blood-pressure/useResume';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home/BloodPressure'>;
-
-// const bpdata = [
-//   { x: 'Lun', y: 120, y0: 90 },
-//   { x: 'Mar', y: 130, y0: 89 },
-//   { x: 'Mie', y: 108, y0: 92 },
-//   { x: 'Jue', y: 124, y0: 90 },
-//   { x: 'Vie', y: 128, y0: 91 },
-//   { x: 'Sab', y: 138, y0: 97 },
-//   { x: 'Dom', y: 118, y0: 100 },
-// ];
 
 type actionSheetRef = {
   setModalVisible: () => void;
@@ -44,25 +34,22 @@ type actionSheetRef = {
 
 const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const dispatch = useAppDispatch();
   const {
-    records = undefined,
-    diaAvg,
-    sysAvg,
-  } = useAppSelector(selectRecordPerWeek);
+    weekRecords,
+    todayRecords,
+    avgDIAPerWeek,
+    avgSYSPerWeek,
+    getBloodPressureData,
+  } = useResume();
+  const isDarkMode = useColorScheme() === 'dark';
+  const dispatch = useAppDispatch();
+  const actionSheetRef = useRef<actionSheetRef>();
 
   useFocusEffect(
     useCallback(() => {
       dispatch(createNotificaions());
     }, [dispatch]),
   );
-
-  const actionSheetRef = useRef<actionSheetRef>();
-  const navigate = (screen: keyof RootStackParamList) => {
-    navigation.navigate(screen);
-  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -80,11 +67,15 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation, translate, actionSheetRef]);
+  }, [navigation, translate, actionSheetRef, isDarkMode]);
+
+  const navigate = (screen: keyof RootStackParamList) => {
+    navigation.navigate(screen);
+  };
 
   return (
     <MainContainer>
-      <ScrollView>
+      <ScrollView style={styles.scrollView}>
         <View style={styles.content}>
           <View style={styles.contenHeder}>
             <Text style={styles.statics}>
@@ -96,22 +87,31 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           <View style={styles.cardContainer}>
             <BloodPressureCard
               title={translate('Home/BloodPressure.sys')}
-              value={sysAvg}
+              value={avgSYSPerWeek}
               magnitude="mmHg"
               altText="--"
               type="sys"
             />
             <BloodPressureCard
               title={translate('Home/BloodPressure.dia')}
-              value={diaAvg}
+              value={avgDIAPerWeek}
               magnitude="mmHg"
               altText="--"
               type="dia"
             />
           </View>
           <View>
-            <HeaderChart />
-            <BarChart data={records} />
+            <HeaderChart
+              onChangeDate={getBloodPressureData}
+              initialLoad={getBloodPressureData}
+            />
+            <BarChart data={weekRecords} />
+          </View>
+          <View style={{ marginTop: 18 }}>
+            <BloodPressureResumeCard
+              title={translate('Home/BloodPressure.today_records_title')}
+              records={todayRecords}
+            />
           </View>
         </View>
       </ScrollView>
@@ -201,6 +201,9 @@ const styles = StyleSheet.create({
   footer: {
     marginTop: 30,
     marginHorizontal: 20,
+  },
+  scrollView: {
+    paddingBottom: 36,
   },
 });
 

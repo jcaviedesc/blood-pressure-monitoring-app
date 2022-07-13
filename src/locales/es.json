@@ -68,7 +68,8 @@
       "reminders": "Recordatorios"
     },
     "sys": "Sistólica",
-    "dia": "Diastólica"
+    "dia": "Diastólica",
+    "today_records_title": "Mis mediciones de hóy"
   },
   "BloodPressure/Reminders": {
     "title": "Recordatorios",

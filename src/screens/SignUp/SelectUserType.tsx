@@ -39,7 +39,9 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <MainContainer>
       <View style={styles.titleContainer}>
-        <Text style={styles.titleScreen}>{translate('select_user.title')}</Text>
+        <Text style={[styles.titleScreen, styles.titleCenter]}>
+          {translate('select_user.title')}
+        </Text>
       </View>
       <View style={styles.userTypesContainer}>
         <TouchableHighlight
@@ -82,6 +84,9 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
+  titleCenter: {
+    textAlign: 'center',
+  },
   mainContainerOverride: {
     flex: 1,
     backgroundColor: Colors.background,
