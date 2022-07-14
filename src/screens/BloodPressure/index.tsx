@@ -10,6 +10,8 @@ import {
   Platform,
   useColorScheme,
 } from 'react-native';
+// TODO implemented
+// import { BlurView } from '@react-native-community/blur';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import { useFocusEffect } from '@react-navigation/native';
@@ -33,6 +35,7 @@ type actionSheetRef = {
 };
 
 const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const { translate } = useI18nLocate();
   const {
     weekRecords,
@@ -41,7 +44,6 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
     avgSYSPerWeek,
     getBloodPressureData,
   } = useResume();
-  const isDarkMode = useColorScheme() === 'dark';
   const dispatch = useAppDispatch();
   const actionSheetRef = useRef<actionSheetRef>();
 
@@ -77,7 +79,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
     <MainContainer>
       <ScrollView
         style={styles.scrollView}
-        contentContainerStyle={{ paddingBottom: 70 }}>
+        contentContainerStyle={{ paddingBottom: 80 }}>
         <View style={styles.content}>
           <View style={styles.contenHeder}>
             <Text style={styles.statics}>
@@ -168,7 +170,15 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
         </View>
       </ActionSheet>
       {/* TODO add al final de la pantalla y agregar animacion */}
-      <View style={styles.footer}>
+      <View
+        style={[
+          styles.footer,
+          {
+            backgroundColor: isDarkMode
+              ? Colors.darkBackground
+              : Colors.background,
+          },
+        ]}>
         <Button
           title="Iniciar Medición"
           onPress={() => {
@@ -205,10 +215,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
-    backgroundColor: Colors.background,
     width: Metrics.screenWidth,
     paddingTop: 12,
-    paddingBottom: 21,
+    paddingBottom: 18,
     paddingHorizontal: 20,
   },
   scrollView: {
