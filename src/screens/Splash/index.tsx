@@ -16,11 +16,18 @@ const SplashScreen: React.FC = () => {
     changeNavigationBarColor(Colors.tertiary, false, false);
     return () => {
       if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor(Colors.background, true);
+        StatusBar.setBackgroundColor(
+          isDarkMode ? Colors.darkBackground : Colors.background,
+          true,
+        );
       }
-      changeNavigationBarColor(Colors.background, true, false);
+      changeNavigationBarColor(
+        isDarkMode ? Colors.darkBackground : Colors.background,
+        true,
+        false,
+      );
     };
-  }, []);
+  }, [isDarkMode]);
 
   return (
     <View style={styles.splash}>

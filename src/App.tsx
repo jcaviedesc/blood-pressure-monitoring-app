@@ -13,6 +13,8 @@ import { Provider } from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
 import Toast from 'react-native-toast-message';
 import { PersistGate } from 'redux-persist/integration/react';
+import { REALM_APPID } from 'react-native-dotenv';
+import { AppProvider } from '@realm/react';
 import Main from './main';
 import store, { persistor } from './store/configureStore';
 import { LoadingWrapper } from './wrappers';
@@ -24,7 +26,6 @@ import {
 import { ConfirmPhoneProvider } from './providers/PhoneAuthProvider';
 import { LocalizationProvider } from './providers/LocalizationProvider';
 import { AppErrorBoundary } from './providers/ErrorBoundary';
-import { RealmAuthProvider } from './providers/RealmProvider';
 
 const App: () => Node = () => {
   useNotificationPermission();
@@ -45,9 +46,9 @@ const App: () => Node = () => {
           <ConfirmPhoneProvider>
             <LoadingWrapper>
               <AppErrorBoundary>
-                <RealmAuthProvider>
+                <AppProvider id={REALM_APPID}>
                   <Main />
-                </RealmAuthProvider>
+                </AppProvider>
               </AppErrorBoundary>
             </LoadingWrapper>
           </ConfirmPhoneProvider>

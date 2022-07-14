@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, useColorScheme } from 'react-native';
 import { VictoryBar, VictoryChart, VictoryAxis } from 'victory-native';
 import { Colors, Fonts, Metrics } from '../../styles';
 import { getMaxOrMinValue } from '../../services/ChartUtils';
@@ -16,6 +16,7 @@ const DEFAULT_DATA = [
 ];
 
 const BarChart: React.FC<ChartProps> = ({ data }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   // TODO refactor para obtener los valores maximos y minimos en
   // una sola funcion.
   const minYaxis = getMaxOrMinValue(data, v => v.y0, 'min', 40);
@@ -40,7 +41,9 @@ const BarChart: React.FC<ChartProps> = ({ data }) => {
               fontFamily: Fonts.type.regular,
               fill: Colors.paragraph,
             },
-            grid: { stroke: Colors.textDisabled },
+            grid: {
+              stroke: isDarkMode ? Colors.paragraph : Colors.textDisabled,
+            },
             ticks: { stroke: Colors.transparent, size: 12 },
           }}
           tickCount={10}

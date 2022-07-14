@@ -15,6 +15,7 @@ import MainStackNavigator, {
 } from '../router';
 import { useInitialScreenApp } from './hooks';
 import { RealmAppWrapper } from '../hooks/realm/provider';
+import { RealmAuthProvider } from '../providers/RealmProvider';
 
 const Main = () => {
   const { isFirstTime } = useAppSelector(selectAppUserState);
@@ -49,7 +50,7 @@ const Main = () => {
           }
         });
       }
-      if (fbUser !== userAuthenticated) {
+      if (fbUser) {
         setUserAuthenticated(fbUser);
       }
     },
@@ -61,7 +62,7 @@ const Main = () => {
     if (nextScreen !== 'Home') {
       navigation.navigate(nextScreen);
     }
-    navigation.navigate('BloodPressure/Meassuring');
+    // navigation.navigate('BloodPressure/Meassuring');
   };
 
   useEffect(() => {
@@ -89,15 +90,25 @@ const Main = () => {
     return <OnboardingScreen />;
   }
 
+  // return (
+  //   <MainStackNavigator
+  //     onReady={navigation => {
+  //       onNavigateTo(navigation);
+  //     }}
+  //     isUserLogged={IsUserFullyRegistered}
+  //   />
+  // );
   return (
-    <RealmAppWrapper fallback={() => <SplashScreen />}>
-      <MainStackNavigator
-        onReady={navigation => {
-          onNavigateTo(navigation);
-        }}
-        isUserLogged={IsUserFullyRegistered}
-      />
-    </RealmAppWrapper>
+    <RealmAuthProvider AuthUser={userAuthenticated}>
+      <RealmAppWrapper fallback={() => <SplashScreen />}>
+        <MainStackNavigator
+          onReady={navigation => {
+            onNavigateTo(navigation);
+          }}
+          isUserLogged={IsUserFullyRegistered}
+        />
+      </RealmAppWrapper>
+    </RealmAuthProvider>
   );
 };
 

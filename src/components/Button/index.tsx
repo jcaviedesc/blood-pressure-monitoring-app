@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  useColorScheme,
+} from 'react-native';
 import { Colors, Fonts } from '../../styles';
 
 type props = {
@@ -29,6 +35,7 @@ const Button: React.FC<props> = ({
   customBackground,
   size = 'normal',
 }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const buttonStyles = {
     ...apparence,
     ...styles.container,
@@ -40,8 +47,10 @@ const Button: React.FC<props> = ({
   };
 
   if (disabled) {
-    buttonStyles.backgroundColor = Colors.buttonDisabled;
-    textStyles.color = Colors.textDisabled;
+    buttonStyles.backgroundColor = isDarkMode
+      ? Colors.darkCardBackground
+      : Colors.buttonDisabled;
+    textStyles.color = isDarkMode ? Colors.textNormal : Colors.textDisabled;
   }
 
   if (size === 'small') {

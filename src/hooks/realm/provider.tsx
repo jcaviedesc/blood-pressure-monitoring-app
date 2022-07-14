@@ -12,13 +12,16 @@ function RealmAppWrapper({
 }) {
   const { user } = useRealmAuth();
 
-  const syncConfig = {
-    user: user || undefined,
-    partitionValue: user?.id ?? 'unLogged',
-  };
+  const syncProps =
+    user !== null
+      ? {
+        sync: { user: user, partitionValue: user.id },
+      }
+      : {};
 
+  console.log({ syncProps });
   return (
-    <RealmProvider sync={syncConfig} fallback={fallback}>
+    <RealmProvider {...syncProps} fallback={fallback}>
       {children}
     </RealmProvider>
   );

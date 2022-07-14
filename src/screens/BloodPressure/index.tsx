@@ -15,7 +15,7 @@ import IconEntypo from 'react-native-vector-icons/Entypo';
 import { useFocusEffect } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
 import type { RootStackParamList } from '../../router/types';
-import { Colors, Fonts, AppStyles } from '../../styles';
+import { Colors, Fonts, AppStyles, Metrics } from '../../styles';
 import { Button, HeaderChart, BloodPressureResumeCard } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { BloodPressureCard } from '../../wrappers';
@@ -75,7 +75,9 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <MainContainer>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={{ paddingBottom: 70 }}>
         <View style={styles.content}>
           <View style={styles.contenHeder}>
             <Text style={styles.statics}>
@@ -199,8 +201,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   footer: {
-    marginTop: 30,
-    marginHorizontal: 20,
+    position: 'absolute',
+    bottom: 0,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    backgroundColor: Colors.background,
+    width: Metrics.screenWidth,
+    paddingTop: 12,
+    paddingBottom: 21,
+    paddingHorizontal: 20,
   },
   scrollView: {
     paddingBottom: 36,

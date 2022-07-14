@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import Realm from 'realm';
+import { useApp } from '@realm/react';
 import auth from '@react-native-firebase/auth';
-import RealmApp from '../services/RealmApp';
 
 // Create a new Context object that will be provided to descendants of
 // the RealmAuthProvider.
@@ -24,8 +24,15 @@ export const RealmAuthContext = React.createContext<RealmAuthContextType>({
 // The RealmAuthProvider is responsible for user management and provides the
 // RealmAuthContext value to its descendants. Components under an RealmAuthProvider can
 // use the useRealmAuth() hook to access the auth value.
-const RealmAuthProvider = ({ children }) => {
-  const [user, setUser] = useState(RealmApp.currentUser);
+const RealmAuthProvider = ({
+  children,
+  AuthUser,
+}: {
+  children: React.ReactNode;
+  AuthUser: any;
+}) => {
+  const app = useApp();
+  const [user, setUser] = useState(app?.currentUser);
 
   const signIn = useCallback(async () => {
     const fbUser = auth().currentUser;
@@ -35,22 +42,23 @@ const RealmAuthProvider = ({ children }) => {
     const jwt = await fbUser?.getIdToken();
     try {
       const credentials = Realm.Credentials.jwt(jwt);
-      const userLogged = await RealmApp.logIn(credentials);
+      const userLogged = await app.logIn(credentials);
       console.log('Successfully logged in!', userLogged.id);
       setUser(userLogged);
     } catch (err) {
+      // TODO add crashreport
       console.error('Failed to log in', err.message);
     }
-  }, [user]);
+  }, [app, user]);
 
   useEffect(() => {
     signIn();
-  }, [signIn]);
+  }, [signIn, AuthUser]);
 
   // The signOut function calls the logOut function on the currently
   // logged in user
   const signOut = () => {
-    if (user == null) {
+    if (user === null) {
       console.warn("Not logged in, can't log out!");
       return;
     }
