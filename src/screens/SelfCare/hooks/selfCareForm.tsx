@@ -4,13 +4,14 @@ const initialState = {
   selectedTab: 'patients',
   professionals: '',
   patients: '',
-  keywords: [],
+  keywords: '',
 };
 
 const ACTIONS = {
   update_patients: 'UPDATE_PATIENTS',
   update_professionals: 'UPDATE_PROFESSIONALS',
   change_tab: 'CHANGE_TAB',
+  update_keywords: 'UPDATE_KEYWORDS',
 };
 
 type Inizializer = typeof initialState;
@@ -26,6 +27,8 @@ function selfCareReducer(state: Inizializer, action: any) {
       return { ...state, professionals: action.payload };
     case ACTIONS.change_tab:
       return { ...state, selectedTab: action.payload };
+    case ACTIONS.update_keywords:
+      return { ...state, keywords: action.payload };
     default:
       throw new Error('Not action supported');
   }
@@ -39,7 +42,10 @@ export const useSelfCareForm = () => {
 
   const tabEditorContent = state[state.selectedTab as keyof Inizializer];
 
-  const formIsComplete = state.patients !== '' && state.professionals !== '';
+  const formIsComplete =
+    state.patients !== '' &&
+    state.professionals !== '' &&
+    state.keywords !== '';
 
   const updateEditorByUser = useCallback(
     (user: SelectedTab, payload: string) => {
@@ -52,11 +58,16 @@ export const useSelfCareForm = () => {
     dispatch({ type: ACTIONS.change_tab, payload: tab });
   }, []);
 
+  const updatekeywords = useCallback((keywords: string) => {
+    dispatch({ type: ACTIONS.update_keywords, payload: keywords });
+  }, []);
+
   return {
     state,
     tabEditorContent,
     formIsComplete,
     updateEditorByUser,
     updateTab,
+    updatekeywords,
   };
 };

@@ -1,13 +1,16 @@
 export function buildSelfcareRequest(data: {
   professionals: string;
   patients: string;
-  keywords: string[];
+  keywords: string;
 }) {
+  const splitKeywords = data.keywords
+    .split(',')
+    .map(keyword => keyword.trimStart().trimEnd());
   return {
     editor: {
       professional: data?.professionals,
       patient: data?.patients,
     },
-    keywords: data?.keywords,
+    keywords: splitKeywords,
   };
 }

@@ -187,7 +187,9 @@
     "tabs": {
       "professionals": "Profesionales",
       "patients": "Pacientes"
-    }
+    },
+    "keywords": "Palabras clave",
+    "keywords_hints": "separa con una coma cada palabra clave"
   },
   "days": {
     "monday": "Lunes",

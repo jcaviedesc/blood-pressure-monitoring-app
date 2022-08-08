@@ -16,7 +16,7 @@ import {
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
 import { MainContainer } from '../../components/Layout';
-import { Button, InputToggle, Text } from '../../components';
+import { Button, Input, InputToggle, Text } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useSelfCareForm } from './hooks/selfCareForm';
 import { useAppDispatch } from '../../hooks';
@@ -35,11 +35,14 @@ const AddSelfCareTipScreen: React.FC<Props> = ({ navigation }) => {
     tabEditorContent,
     formIsComplete,
     updateEditorByUser,
+    updatekeywords,
     updateTab,
   } = useSelfCareForm();
 
   const onSave = () => {
-    dispatch(createSelfcareTipThunk(state));
+    dispatch(createSelfcareTipThunk(state)).then(() => {
+      navigation.goBack();
+    });
   };
 
   useEffect(() => {
@@ -131,6 +134,15 @@ const AddSelfCareTipScreen: React.FC<Props> = ({ navigation }) => {
               />
             </KeyboardAvoidingView>
           </View>
+          <View style={styles.sectionOverview}>
+            <Input
+              title={translate('AddSelfCareTip.keywords')}
+              hint={translate('AddSelfCareTip.keywords_hints')}
+              onChangeText={text => {
+                updatekeywords(text);
+              }}
+            />
+          </View>
           {Platform.OS === 'android' && formIsComplete && (
             <Button title={translate('button.save')} onPress={onSave} />
           )}
@@ -177,6 +189,9 @@ const styles = StyleSheet.create({
   },
   tabsContainer: {
     marginBottom: 12,
+  },
+  sectionOverview: {
+    marginTop: 16,
   },
   tabsTitle: {
     textAlign: Platform.OS === 'ios' ? 'center' : 'left',
