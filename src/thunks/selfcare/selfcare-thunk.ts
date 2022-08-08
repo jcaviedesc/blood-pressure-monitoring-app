@@ -1,22 +1,22 @@
-import crashlytics from '@react-native-firebase/crashlytics';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { ClientApi, RootState } from '../../store/configureStore';
+import { buildSelfcareRequest } from '../../transformations/selfcare.transform';
 
-export const findMonitors = createAsyncThunk<
+export const createSelfcareTipThunk = createAsyncThunk<
   object,
-  string,
+  object,
   {
     extra: ClientApi;
     state: RootState;
   }
 >(
-  'blood-pressure/find-monitors',
-  async (search, { extra: clientApi, rejectWithValue }) => {
+  'selfcarte/create',
+  async (selfcareTip, { extra: clientApi, rejectWithValue }) => {
     // TODO select language
-    const response = await clientApi.findBloodPressureMonitor({ q: search });
+    const buildRequestData = buildSelfcareRequest(selfcareTip);
+    const response = await clientApi.createSelfcareTip(buildRequestData);
 
     if (response.status >= 300) {
-      crashlytics().recordError(response.error);
       return rejectWithValue(response.data);
       // TODO handle error message
     }

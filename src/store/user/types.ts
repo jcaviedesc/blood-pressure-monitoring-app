@@ -17,6 +17,11 @@ type UserBodyMeasures = {
   unit: string;
 };
 
+export enum userTypeEnum {
+  HEALT_PROFESSIONAL = 1,
+  PATIENT = 2,
+}
+
 export type userFromApi = {
   id: string;
   fullName: string;
@@ -27,7 +32,7 @@ export type userFromApi = {
   weight: UserBodyMeasures;
   height: UserBodyMeasures;
   birthdate: string;
-  userType: string;
+  userType: userTypeEnum;
   healtInfo?: object;
   profileUrl: string;
   age: string;

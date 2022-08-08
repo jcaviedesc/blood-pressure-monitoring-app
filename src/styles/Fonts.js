@@ -3,7 +3,6 @@ const type = {
   regular: 'Nunito-Regular',
   semiBold: 'Nunito-SemiBold',
   bold: 'Nunito-Bold',
-  lcd: 'DigitalPlaySt', //deprecar
 };
 
 const size = {

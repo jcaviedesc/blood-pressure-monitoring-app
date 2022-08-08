@@ -169,7 +169,7 @@
   "BloodPressure/Meassuring": {
     "title": "Registro de Presión Arterial",
     "header_title": "Presión arterial",
-    "date":"Fecha",
+    "date": "Fecha",
     "time": "Hora",
     "dia": "Diastólica",
     "sys": "Sistólica",
@@ -183,6 +183,25 @@
       "body": "Presiona para iniciar el procedimiento.",
       "channel": "Presión arterial",
       "android_channel_description": "Canal para recordarte realizar las mediciones de presión arterial"
+    }
+  },
+  "Tabs": {
+    "summary": "Resumen",
+    "search": "Buscar"
+  },
+  "TabsSearch": {
+    "header": {
+      "title": "Autocuidado",
+      "placeholder": "Buscar Tips"
+    }
+  },
+  "AddSelfCareTip": {
+    "title": "Titulo",
+    "description": "Descripción",
+    "aimed_at": "Dirigido a",
+    "tabs": {
+      "professionals": "Profesionales",
+      "patients": "Pacientes"
     }
   },
   "days": {

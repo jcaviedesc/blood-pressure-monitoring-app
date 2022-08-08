@@ -15,13 +15,14 @@ import SignIn from '../screens/Login';
 import VerifyPhoneScreen from '../screens/VerifyPhone';
 import SignUpFlow from './SignUpFlow';
 
-import HomeScreen from '../screens/Home';
+import MainTabsHome from './MainTabs';
 import BloodPressureScreens from './BloodPressureScreens';
 // TODO revisar
 // import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate'; // v2
 import ProfileScreen from '../screens/Profile';
 import DevelopmentScreen from '../screens/Development';
 import { Colors } from '../styles';
+import AddSelfCareTipScreen from '../screens/SelfCare/CreateSelfCareTip';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export const StackNavigationRef =
@@ -79,10 +80,19 @@ function MainStackNavigator({
         {isUserLogged ? (
           <>
             <Stack.Screen
-              name="Home"
-              component={HomeScreen}
+              name="HomeTabs"
+              component={MainTabsHome}
               options={{
                 headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="AddSelfCareTip"
+              component={AddSelfCareTipScreen}
+              options={{
+                headerBackTitle: 'cancel',
+                animation: 'slide_from_bottom',
+                presentation: 'modal',
               }}
             />
             <Stack.Screen

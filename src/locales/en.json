@@ -170,6 +170,25 @@
       "android_channel_description": "Canal para recordarte realizar las mediciones de presión arterial"
     }
   },
+  "Tabs": {
+    "summary": "Summary",
+    "search": "Search"
+  },
+  "TabsSearch": {
+    "header": {
+      "title": "Autocuidado",
+      "placeholder": "Buscar Tips"
+    }
+  },
+  "AddSelfCareTip": {
+    "title": "Titulo",
+    "description": "Descripción",
+    "aimed_at": "Dirigido a",
+    "tabs": {
+      "professionals": "Profesionales",
+      "patients": "Pacientes"
+    }
+  },
   "days": {
     "monday": "Lunes",
     "tuesday": "Martes",

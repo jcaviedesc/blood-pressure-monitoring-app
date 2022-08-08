@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableHighlight, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  Platform,
+} from 'react-native';
 import { Colors, Fonts } from '../../styles';
 
 type option = {
@@ -16,57 +22,70 @@ type Props = {
 const InputToggle: React.FC<Props> = ({ options, selected, onPress }) => {
   const [selectOpt, setSelectOpt] = useState(selected);
   return (
-    <View style={styles.container}>
-      {options.map(({ label, value }) => (
-        <TouchableHighlight
-          key={value}
-          underlayColor={Colors.transparent}
-          style={[
-            styles.touchableHighlight,
-            value === selectOpt ? styles.optionSelected : {},
-          ]}
-          onPress={() => {
-            setSelectOpt(value);
-            onPress({ label, value });
-          }}>
-          <Text
+    <View>
+      <View style={styles.container}>
+        {options.map(({ label, value }, index) => (
+          <TouchableOpacity
+            key={value}
             style={[
-              styles.optionText,
-              value === selectOpt ? styles.optionSelectedText : {},
-            ]}>
-            {label}
-          </Text>
-        </TouchableHighlight>
-      ))}
+              styles.touchableHighlight,
+              value === selectOpt ? styles.touchableHighlightSelected : {},
+              index === 0 ? styles.firstTouchable : {},
+              index === options.length - 1 ? styles.lastTouchable : {},
+            ]}
+            onPress={() => {
+              setSelectOpt(value);
+              onPress({ label, value });
+            }}>
+            <Text
+              style={[
+                styles.optionText,
+                value === selectOpt ? styles.optionSelectedText : {},
+              ]}>
+              {label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.lightGray,
+    backgroundColor: Colors.transparent,
     flexDirection: 'row',
-    borderRadius: 5,
-    height: 48,
-    padding: 6,
+    justifyContent: 'flex-start',
+    height: Platform.OS === 'ios' ? 30 : 42,
+    overflow: 'hidden',
     flex: 1,
   },
   touchableHighlight: {
-    paddingHorizontal: 12,
-    justifyContent: 'center',
     alignItems: 'center',
+    borderColor: Colors.tertiary,
+    borderWidth: 1,
     flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 8,
   },
-  optionSelected: {
-    backgroundColor: Colors.button,
-    borderRadius: 5,
+  touchableHighlightSelected: {
+    backgroundColor: Colors.tertiary,
+    borderWidth: 0,
+  },
+  firstTouchable: {
+    borderBottomLeftRadius: 6,
+    borderTopLeftRadius: 6,
+  },
+  lastTouchable: {
+    borderBottomRightRadius: 6,
+    borderTopRightRadius: 6,
   },
   optionText: {
-    fontFamily: Fonts.type.bold,
-    fontSize: Fonts.size.h5,
+    fontFamily: Fonts.type.semiBold,
+    fontSize: Platform.OS === 'ios' ? Fonts.size.h6 : Fonts.size.h5,
     textAlignVertical: 'center',
     textAlign: 'center',
-    color: Colors.paragraph,
+    color: Colors.tertiary,
   },
   optionSelectedText: {
     color: Colors.buttonText,

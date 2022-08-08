@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, useColorScheme, ScrollView } from 'react-native';
+import {
+  View,
+  useColorScheme,
+  ScrollView,
+  ScrollViewProps,
+} from 'react-native';
 import { AppStyles, Colors } from '../../styles';
 
 type props = {
   children: JSX.Element | JSX.Element[];
   isScrollView?: boolean;
-  scrollViewProps?: typeof ScrollView;
+  scrollViewProps?: ScrollViewProps;
 };
 
 const MainContainer: React.FC<props> = ({

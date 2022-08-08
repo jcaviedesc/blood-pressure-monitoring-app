@@ -21,6 +21,7 @@ import ActionSheets from './ActionSheet';
 import MonitorCard from './MonitorCard';
 import BloodPressureResumeCard from './BloodPressureResumeCard';
 export * from './CustomText';
+export * from './SearchBar';
 
 export {
   Input,

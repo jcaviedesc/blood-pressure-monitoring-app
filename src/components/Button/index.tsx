@@ -47,16 +47,19 @@ const Button: React.FC<props> = ({
   };
 
   if (disabled) {
-    buttonStyles.backgroundColor = isDarkMode
-      ? Colors.darkCardBackground
-      : Colors.buttonDisabled;
+    if (hierarchy !== 'transparent') {
+      buttonStyles.backgroundColor = isDarkMode
+        ? Colors.darkCardBackground
+        : Colors.buttonDisabled;
+    }
     textStyles.color = isDarkMode ? Colors.textNormal : Colors.textDisabled;
   }
 
   if (size === 'small') {
     buttonStyles.height = 32;
-    buttonStyles.paddingHorizontal = 9;
-    textStyles.fontSize = Fonts.size.h5;
+    buttonStyles.paddingHorizontal = 6;
+    textStyles.fontSize = Fonts.size.paragraph;
+    textStyles.fontFamily = Fonts.type.regular;
   }
 
   return (
