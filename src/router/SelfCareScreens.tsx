@@ -1,5 +1,5 @@
 import React from 'react';
-import { useColorScheme } from 'react-native';
+import { Platform, useColorScheme } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SearchAcademicBlogPosts from '../screens/SelfCare/Search';
 import { Colors } from '../styles';
@@ -25,7 +25,18 @@ export default function SelfCareScreens() {
         name="SearchSelfCareTip"
         component={SearchAcademicBlogPosts}
         options={{
+          headerTransparent: true,
+          headerTitleAlign: 'left',
+          headerBlurEffect: 'light',
+          headerStyle: {
+            backgroundColor:
+              Platform.OS === 'ios' ? Colors.transparent : Colors.background,
+          },
+          headerIconColor: Colors.tertiary,
           headerSearchBarOptions: {
+            textColor: Colors.headline,
+            headerIconColor: Colors.tertiary,
+            hintTextColor: Colors.headline,
             autoFocus: true,
           },
         }}

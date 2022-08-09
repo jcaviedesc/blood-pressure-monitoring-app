@@ -22,6 +22,8 @@ import MonitorCard from './MonitorCard';
 import BloodPressureResumeCard from './BloodPressureResumeCard';
 export * from './CustomText';
 export * from './SearchBar';
+export { default as SearchSelfcareCard } from './SelfcareCardList';
+export * from './Loading';
 
 export {
   Input,

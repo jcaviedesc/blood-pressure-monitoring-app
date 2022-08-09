@@ -8,6 +8,8 @@ import {
   useColorScheme,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import crashlytics from '@react-native-firebase/crashlytics';
+import Toast from 'react-native-toast-message';
 import {
   actions,
   RichEditor,
@@ -40,9 +42,27 @@ const AddSelfCareTipScreen: React.FC<Props> = ({ navigation }) => {
   } = useSelfCareForm();
 
   const onSave = () => {
-    dispatch(createSelfcareTipThunk(state)).then(() => {
-      navigation.goBack();
-    });
+    dispatch(createSelfcareTipThunk(state))
+      .unwrap()
+      .then(() => {
+        Toast.show({
+          type: 'success',
+          text1: translate('AddSelfCareTip.successToast'),
+          position: 'bottom',
+        });
+        navigation.goBack();
+      })
+      .catch(error => {
+        const errorInstance = new Error(error?.message);
+        errorInstance.name = error.name;
+        errorInstance.stack = error.stack;
+        crashlytics().recordError(errorInstance);
+        Toast.show({
+          type: 'error',
+          text1: err.msg, // TODO traducir
+          position: 'bottom',
+        });
+      });
   };
 
   useEffect(() => {

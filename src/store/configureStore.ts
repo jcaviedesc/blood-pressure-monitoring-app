@@ -42,7 +42,8 @@ const store = configureStore({
       thunk: {
         extraArgument: clientApi,
       },
-    }).concat(customMiddleWare);
+    });
+    // .concat(customMiddleWare);
 
     if (__DEV__) {
       const createDebugger = require('redux-flipper').default;

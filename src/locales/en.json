@@ -178,7 +178,8 @@
     "header": {
       "title": "Autocuidado",
       "placeholder": "Buscar Tips"
-    }
+    },
+    "loading": "buscando tips"
   },
   "AddSelfCareTip": {
     "title": "Titulo",
@@ -189,7 +190,8 @@
       "patients": "Pacientes"
     },
     "keywords": "Palabras clave",
-    "keywords_hints": "separa con una coma cada palabra clave"
+    "keywords_hints": "separa con una coma cada palabra clave",
+    "successToast": "Tip creado correctamente"
   },
   "days": {
     "monday": "Lunes",
