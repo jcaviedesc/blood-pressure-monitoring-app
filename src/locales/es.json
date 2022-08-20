@@ -1,15 +1,14 @@
 {
+  "welcome": {
+    "title": "Bienvenido",
+    "start_button": "Iniciar",
+    "continue_with_email": "Continuar con email"
+  },
   "verify_phone": {
     "title": "Verficación",
     "subtitle": "Ingresa el código de 6 digitos que te enviamos al numero de celular %{phone}",
     "no_code": "¿No recibiste el código?",
     "resend": "Reenviar en %{time}"
-  },
-  "login_screen": {
-    "title": "Iniciar sesión",
-    "subtitle": "Ingresa con tu número de celular",
-    "not_account": "¿No tienes una cuenta?",
-    "singup": "Registrarme"
   },
   "singup_screen": {
     "title": "Registro",
@@ -264,5 +263,6 @@
     "title": "¡Ooh no! Algo salió Mal.",
     "bodyText": "La aplicación tuvo un problema y no pudo continuar. ¡Nos disculpamos por cualquier inconveniente que esto haya causado!. Presiona el botón de abajo para reiniciar la aplicación. Contacta con nosotros si este problema persiste",
     "buttonText": "Regresar a la pantalla de inicio"
-  }
+  },
+  "phone number": "numero celular"
 }

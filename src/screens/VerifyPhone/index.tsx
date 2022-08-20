@@ -15,26 +15,15 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
 
 const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { verificationType, phone } = route.params;
+  const { phone } = route.params;
   const dispatch = useAppDispatch();
   const { translate } = useI18nLocate();
   // If null, no SMS has been sent
   const { confirm } = useConfirmPhone();
 
-  useFocusEffect(
-    useCallback(() => {
-      if (verificationType === 'SingUp') {
-        // search how typed navigation options
-        navigation.setOptions({ showStepHeader: true });
-      } else {
-        navigation.setOptions({ showStepHeader: false });
-      }
-    }, [verificationType, navigation]),
-  );
-
   const verifyPhoneSuccess = useCallback(() => {
-    dispatch(AuthValidationThunk(verificationType, navigation));
-  }, [dispatch, navigation, verificationType]);
+  
+  }, []);
 
   async function confirmCode(code: string) {
     console.log("confirmCode", code);

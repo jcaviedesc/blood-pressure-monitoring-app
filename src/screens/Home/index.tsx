@@ -20,7 +20,7 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector } from '../../hooks';
 import { selectUserData } from '../../store/user/userSlice';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabs'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();

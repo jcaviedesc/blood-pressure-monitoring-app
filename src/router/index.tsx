@@ -6,12 +6,10 @@ import {
   createNavigationContainerRef,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HeaderBackButton } from '@react-navigation/elements';
 import type { RootStackParamList } from './types';
-import { NormalHeader, StepsHeader } from '../components/Layout';
 import styles from './styles';
 // screens
-import SignIn from '../screens/Login';
+import Welcome from '../screens/Welcome';
 import VerifyPhoneScreen from '../screens/VerifyPhone';
 import SignUpFlow from './SignUpFlow';
 
@@ -115,6 +113,13 @@ function MainStackNavigator({
           </>
         ) : (
           <>
+            <Stack.Screen
+              name="Welcome"
+              component={Welcome}
+              options={{
+                headerShown: false,
+              }}
+            />
             {Object.entries(SignUpFlow).map(([name, params]) => (
               <Stack.Screen
                 key={name}
@@ -124,35 +129,10 @@ function MainStackNavigator({
               />
             ))}
             <Stack.Screen
-              name="Login"
-              component={SignIn}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
               name="VerifyPhone"
               component={VerifyPhoneScreen}
               options={{
-                header: headerProps => {
-                  const { navigation, options, back } = headerProps;
-                  // TODO realizar logica en base a la ruta anterior
-                  return options.showStepHeader ? (
-                    <StepsHeader
-                      {...headerProps}
-                      step={{ activeStep: 2, nsteps: 5 }}
-                    />
-                  ) : (
-                    <NormalHeader
-                      leftButton={
-                        back ? (
-                          <HeaderBackButton onPress={navigation.goBack} />
-                        ) : undefined
-                      }
-                      style={options.headerStyle}
-                    />
-                  );
-                },
+                headerShown: false,
               }}
             />
           </>

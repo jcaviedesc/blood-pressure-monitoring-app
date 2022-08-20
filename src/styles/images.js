@@ -21,6 +21,7 @@ const images = {
   chair: require('../images/figures/chair.png'),
   notSmoking: require('../images/figures/no-smoking.png'),
   notRunning: require('../images/figures/no-running.png'),
+  welcome1: require('../images/welcome-1.gif'),
 };
 
 export default images;

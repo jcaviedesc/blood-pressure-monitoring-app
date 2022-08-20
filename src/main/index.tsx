@@ -59,7 +59,7 @@ const Main = () => {
   );
 
   const onNavigateTo = (navigation: NavigationRef) => {
-    if (nextScreen !== 'Home') {
+    if (nextScreen !== 'HomeTabs') {
       navigation.navigate(nextScreen);
     }
     // navigation.navigate('BloodPressure/Meassuring');

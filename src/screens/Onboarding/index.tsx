@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Onboarding from 'react-native-onboarding-swiper';
-import { useFocusEffect } from '@react-navigation/native';
 import {
   Image,
   StyleSheet,

@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontFamily: Fonts.type.bold,
+    fontFamily: Fonts.type.semiBold,
     fontSize: Fonts.size.h4,
   },
 });
