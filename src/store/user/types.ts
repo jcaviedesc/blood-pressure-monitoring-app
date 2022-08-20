@@ -41,7 +41,21 @@ export type userFromApi = {
 };
 
 export interface UserState {
-  profile: userFromApi;
+  id: string;
+  name: string;
+  lastName: string;
+  phone: string;
+  address: string;
+  location?: number[];
+  sex: string;
+  weight: UserBodyMeasures;
+  height: UserBodyMeasures;
+  birthdate: string;
+  userType: userTypeEnum;
+  profileUrl: string;
+  age: string;
+  imc: string;
+  isC: boolean;
   homeStatus: HomeStatus;
 }
 

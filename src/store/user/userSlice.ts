@@ -3,28 +3,27 @@ import type { UserState, userFromApi, onAuthStateChangedAction } from './types';
 import type { RootState } from '../configureStore';
 
 /* ------------- Initial State ------------- */
+// TODO deprecar homeStatus
 const initialState: UserState = {
-  profile: {
-    id: '',
-    fullName: '',
-    phone: '',
-    address: '',
-    gender: '',
-    weight: {
-      val: 0,
-      unit: 'Kg',
-    },
-    height: {
-      val: 0,
-      unit: 'm',
-    },
-    birthdate: '',
-    userType: '',
-    profileUrl: '',
-    age: '',
-    imc: '',
-    isC: false,
+  id: '',
+  fullName: '',
+  phone: '',
+  address: '',
+  gender: '',
+  weight: {
+    val: 0,
+    unit: 'Kg',
   },
+  height: {
+    val: 0,
+    unit: 'm',
+  },
+  birthdate: '',
+  userType: '',
+  profileUrl: '',
+  age: '',
+  imc: '',
+  isC: false,
   homeStatus: {
     bloodPressure: {
       status: 'no data',
@@ -64,33 +63,16 @@ export const userSlice = createSlice({
         value: `${action.payload.weight.val} ${action.payload.weight.unit}`,
       };
     },
-    onAuthUserStateChanged: (
-      state,
-      action: PayloadAction<onAuthStateChangedAction>,
-    ) => {
-      const { user, token } = action.payload;
-      state.profile.isC = token.claims.isC;
-      state.profile.fullName = user.displayName ?? '';
-      state.profile.profileUrl = user.photoURL ?? '';
-    },
-    signOut: state => {
-      state.profile = initialState.profile;
+    signOut: () => {
+      return initialState;
     },
   },
 });
 
-export const {
-  updateUserProfie,
-  updateUserProfileFromSingup,
-  onAuthUserStateChanged,
-  signOut,
-} = userSlice.actions;
+export const { updateUserProfie, updateUserProfileFromSingup, signOut } =
+  userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectProfileUser = (state: RootState) => state.user.profile;
 export const selectUserData = (state: RootState) => state.user;
-export const selectUserIsFullyRegistered = (state: RootState) => {
-  return state.user.profile.isC;
-};
 
 export default userSlice.reducer;

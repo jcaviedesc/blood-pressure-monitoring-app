@@ -36,6 +36,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   async function navigate() {
     dispatch(setScreenLoading(true));
     try {
+      // const provider = auth.PhoneAuthProvider
       const confirm = await auth().signInWithPhoneNumber(phone);
       setConfirm(confirm);
       setPhone('');

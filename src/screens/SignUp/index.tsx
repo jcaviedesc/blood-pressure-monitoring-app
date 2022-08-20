@@ -126,18 +126,6 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                 }
               />
             </View>
-
-            <View style={styles.inputSection}>
-              <PhoneInputWrapper
-                title={translate('singup_screen.phone_number')}
-                initialCountry={countryCode}
-                value={phone}
-                onPhoneInputChange={phoneNumer => {
-                  dispatchAction('phone', phoneNumer);
-                }}
-                error={inputErrors?.phone}
-              />
-            </View>
           </View>
 
           <View style={styles.footer}>
@@ -147,21 +135,6 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                 nextRoute();
               }}
             />
-            <View style={styles.allreadyAccount}>
-              <View>
-                <Text style={styles.allreadyAccountText}>
-                  {translate('singup_screen.all_ready_account')}
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Login', { from: 'Login' });
-                }}>
-                <Text style={[styles.allreadyAccountText, styles.loginText]}>
-                  {translate('singup_screen.log_in')}
-                </Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </View>
       </ScrollView>
@@ -189,21 +162,6 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 30,
     justifyContent: 'flex-end',
-  },
-  allreadyAccount: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 12,
-  },
-  allreadyAccountText: {
-    fontFamily: Fonts.type.regular,
-    fontSize: Fonts.size.paragraph,
-    color: Colors.paragraph,
-    marginRight: 9,
-  },
-  loginText: {
-    fontFamily: Fonts.type.bold,
-    color: Colors.button,
   },
   container: {
     flex: 1,

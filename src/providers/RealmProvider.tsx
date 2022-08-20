@@ -1,14 +1,13 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import Realm from 'realm';
 import { useApp } from '@realm/react';
-import auth from '@react-native-firebase/auth';
 
 // Create a new Context object that will be provided to descendants of
 // the RealmAuthProvider.
 type RealmAuthContextType = {
-  signIn: () => void;
+  signIn: (token: string) => void;
   signOut: () => void;
-  user: null | Realm.User;
+  realmAuthUser: null | Realm.User;
 };
 
 export const RealmAuthContext = React.createContext<RealmAuthContextType>({
@@ -18,7 +17,7 @@ export const RealmAuthContext = React.createContext<RealmAuthContextType>({
   signOut: () => {
     // noop
   },
-  user: null,
+  realmAuthUser: null,
 });
 
 // The RealmAuthProvider is responsible for user management and provides the
@@ -26,44 +25,46 @@ export const RealmAuthContext = React.createContext<RealmAuthContextType>({
 // use the useRealmAuth() hook to access the auth value.
 const RealmAuthProvider = ({
   children,
-  AuthUser,
+  authToken,
 }: {
   children: React.ReactNode;
-  AuthUser: any;
+  authToken: string;
 }) => {
   const app = useApp();
-  const [user, setUser] = useState(app?.currentUser);
+  const [realmAuthUser, setRealmAuthUser] = useState(app?.currentUser);
 
-  const signIn = useCallback(async () => {
-    const fbUser = auth().currentUser;
-    if (user !== null || fbUser === null) {
-      return;
-    }
-    const jwt = await fbUser?.getIdToken();
-    try {
-      const credentials = Realm.Credentials.jwt(jwt);
-      const userLogged = await app.logIn(credentials);
-      console.log('Successfully logged in!', userLogged.id);
-      setUser(userLogged);
-    } catch (err) {
-      // TODO add crashreport
-      console.error('Failed to log in', err.message);
-    }
-  }, [app, user]);
+  const signIn = useCallback(
+    async token => {
+      if (realmAuthUser !== null || token === '') {
+        return;
+      }
+      const jwt = token;
+      try {
+        const credentials = Realm.Credentials.jwt(jwt);
+        const userLogged = await app.logIn(credentials);
+        console.log('Successfully logged in!', userLogged.id);
+        setRealmAuthUser(userLogged);
+      } catch (err) {
+        // TODO add crashreport
+        console.error('Failed to log in', err?.message);
+      }
+    },
+    [app, realmAuthUser],
+  );
 
   useEffect(() => {
-    signIn();
-  }, [signIn, AuthUser]);
+    signIn(authToken);
+  }, [signIn, authToken]);
 
   // The signOut function calls the logOut function on the currently
-  // logged in user
+  // logged in realmAuthUser
   const signOut = () => {
-    if (user === null) {
+    if (realmAuthUser === null) {
       console.warn("Not logged in, can't log out!");
       return;
     }
-    user.logOut();
-    setUser(null);
+    realmAuthUser.logOut();
+    setRealmAuthUser(null);
   };
 
   return (
@@ -71,7 +72,7 @@ const RealmAuthProvider = ({
       value={{
         signIn,
         signOut,
-        user,
+        realmAuthUser,
       }}>
       {children}
     </RealmAuthContext.Provider>

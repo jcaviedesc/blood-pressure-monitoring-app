@@ -10,14 +10,17 @@ function RealmAppWrapper({
   children: React.ReactNode;
   fallback: any;
 }) {
-  const { user } = useRealmAuth();
+  const { realmAuthUser } = useRealmAuth();
+  let syncProps = {};
 
-  const syncProps =
-    user !== null
-      ? {
-        sync: { user: user, partitionValue: user.id },
-      }
-      : {};
+  if (realmAuthUser) {
+    syncProps = {
+      sync: {
+        user: realmAuthUser,
+        partitionValue: realmAuthUser.id,
+      },
+    };
+  }
 
   console.log({ syncProps });
   return (

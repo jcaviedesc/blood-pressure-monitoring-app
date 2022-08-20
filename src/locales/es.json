@@ -15,10 +15,7 @@
     "subtitle": "Gracias por tomarte el tiempo de crear una cuenta con nosotros.",
     "full_name": "Nombre completo",
     "document_id": "Número de identificación",
-    "document_id_hint": "cédula de ciudadania",
-    "phone_number": "Número de celular",
-    "all_ready_account": "¿Ya tienes una cuenta?",
-    "log_in": "Iniciar sesión"
+    "document_id_hint": "cédula de ciudadania"
   },
   "birthdate_screen": {
     "title": "Cumpleaños",

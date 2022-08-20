@@ -2,14 +2,13 @@ import React, { useCallback } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import crashlytics from '@react-native-firebase/crashlytics';
-import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
 import { VerifyCode } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { AppStyles, Fonts } from '../../styles';
 import { useConfirmPhone } from '../../providers/PhoneAuthProvider';
 import { useAppDispatch } from '../../hooks';
-import { AuthValidationThunk } from '../../thunks/Auth-thunk';
+// import { AuthValidationThunk } from '../../thunks/Auth-thunk';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
@@ -19,17 +18,33 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   const dispatch = useAppDispatch();
   const { translate } = useI18nLocate();
   // If null, no SMS has been sent
-  const { confirm } = useConfirmPhone();
-
-  const verifyPhoneSuccess = useCallback(() => {
-  
-  }, []);
+  const { result } = useConfirmPhone();
 
   async function confirmCode(code: string) {
     console.log("confirmCode", code);
     try {
-      await confirm?.confirm(code);
-      verifyPhoneSuccess();
+      const userCredential = await result?.confirm(code);
+      const isRegistered = await userCredential?.user
+        .getIdTokenResult()
+        .then(resultToken => {
+          const { claims } = resultToken;
+          return claims?.isRegistered;
+        });
+      // isNewUser or register incomplete
+      console.log(userCredential?.additionalUserInfo, isRegistered);
+      if (userCredential?.additionalUserInfo?.isNewUser || !isRegistered) {
+        navigation.navigate('Singup');
+        // navigate to signin flow
+      } else {
+        console.log(userCredential?.user);
+        /*
+         * get profile info
+         * - displayName = name + lastname
+         * - avatar = photo or defaul
+         * and redirecto to homeTabs
+         */
+      }
+      // verifyPhoneSuccess();
     } catch (error) {
       console.log(error);
       crashlytics()
