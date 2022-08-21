@@ -12,7 +12,7 @@ export type RegisterUser = {
 export type RegisterCompleteUser = {
   address: string;
   location?: number[];
-  gender: string;
+  sex: string;
   birthdate: string;
   height: Meassure;
   weight: Meassure;

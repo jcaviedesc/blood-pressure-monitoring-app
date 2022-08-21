@@ -3,24 +3,25 @@ import {
   SignUpState,
   updateUserFieldType,
   HealtInfoAction,
-  Gender,
+  SexEnum,
 } from './types';
 import type { RootState } from '../configureStore';
 import { signUpUser } from '../../thunks/sign-up-thunk';
 
 /* ------------- Initial State ------------- */
 const initialState: SignUpState = {
-  fullName: '',
+  name: '',
+  lastName: '',
   docId: '',
   phone: '',
   address: 'NaN',
   location: [],
   birthdate: '',
-  gender: Gender.female,
+  sex: SexEnum.female,
   weight: '',
   height: '',
   userType: '',
-  healtInfo: {
+  healtQuestions: {
     medicine: '',
     smoke: '',
     heartAttack: '',
@@ -40,11 +41,11 @@ export const signUpSlice = createSlice({
       const { field, value } = action.payload;
       state[field] = value;
     },
-    updateHealtInfo: (state, action: PayloadAction<HealtInfoAction>) => {
-      const healtInfoState = state.healtInfo;
+    updateHealtQuestions: (state, action: PayloadAction<HealtInfoAction>) => {
+      const healtInfoState = state.healtQuestions;
       const { field, value } = action.payload;
       healtInfoState[field] = value;
-      state.healtInfo = healtInfoState;
+      state.healtQuestions = healtInfoState;
     },
     clear: () => initialState,
   },
@@ -57,7 +58,8 @@ export const signUpSlice = createSlice({
   },
 });
 
-export const { updateUserField, updateHealtInfo, clear } = signUpSlice.actions;
+export const { updateUserField, updateHealtQuestions, clear } =
+  signUpSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUser = (state: RootState) => state.signup;

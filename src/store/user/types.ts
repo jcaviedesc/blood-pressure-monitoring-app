@@ -28,7 +28,7 @@ export type userFromApi = {
   phone: string;
   address: string;
   location?: number[];
-  gender: string;
+  sex: string;
   weight: UserBodyMeasures;
   height: UserBodyMeasures;
   birthdate: string;

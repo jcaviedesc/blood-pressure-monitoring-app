@@ -28,6 +28,7 @@ const Main = () => {
   // Handle user state changes
   const onAuthStateChanged = useCallback(
     (user: FirebaseAuthTypes.User | null) => {
+      console.log("cambio")
       if (initializing) {
         setInitializing(false);
       }
@@ -52,7 +53,7 @@ const Main = () => {
     if (nextScreen !== 'HomeTabs') {
       navigation.navigate(nextScreen);
     }
-    // navigation.navigate('Profile');
+    navigation.navigate('Singup');
   };
 
   useEffect(() => {

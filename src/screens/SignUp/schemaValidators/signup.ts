@@ -8,9 +8,9 @@ const transformError = (error: { details: any[] }) =>
   }, {});
 
 const signUpSchema = Joi.object({
-  fullName: Joi.string().required(),
-  docId: Joi.string().pattern(new RegExp('^[0-9]*$')),
-  phone: Joi.string().required(),
+  name: Joi.string().required(),
+  lastName: Joi.string().required(),
+  docId: Joi.string().alphanum().required(),
 });
 
 const birthdateSchema = Joi.string().required();

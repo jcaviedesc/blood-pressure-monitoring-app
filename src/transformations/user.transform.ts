@@ -1,8 +1,8 @@
 import { mapValues } from 'lodash';
-import type { SingUpState } from '../store/signup/types';
+import { SignUpState } from '../store/signup/types';
 import { cleanObject } from '../services/utils';
 
-type UserFromApp = SingUpState & { profile_url: string };
+type UserFromApp = SignUpState & { profile_url: string };
 
 const UserEnun = {
   'health professional': 1,
@@ -24,7 +24,7 @@ const GenderEnun = {
 
 export const userToApi = ({
   address,
-  gender,
+  sex,
   weight,
   height,
   birthdate,
@@ -35,7 +35,7 @@ export const userToApi = ({
   const userApi = cleanObject({
     address,
     // location, TODO
-    gender: GenderEnun[gender],
+    sex: GenderEnun[sex],
     birthdate,
     height: {
       val: parseInt(height, 10) / 100,

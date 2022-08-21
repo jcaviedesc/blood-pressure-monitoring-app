@@ -9,7 +9,7 @@ const initialState: UserState = {
   fullName: '',
   phone: '',
   address: '',
-  gender: '',
+  sex: '',
   weight: {
     val: 0,
     unit: 'Kg',

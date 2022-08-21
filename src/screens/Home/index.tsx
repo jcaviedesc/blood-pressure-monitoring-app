@@ -25,7 +25,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabs'>;
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const {
-    profile: { fullName, profileUrl, gender },
+    profile: { fullName, profileUrl, sex },
     homeStatus: { bloodPressure, nutritional, heartRate, bloodGlucose },
   } = useAppSelector(selectUserData);
 
@@ -90,7 +90,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
                   ? {
                     uri: profileUrl,
                   }
-                  : gender === 'M'
+                  : sex === 'M'
                     ? Images.menGenderAvatar
                     : Images.womenGenderAvatar
               }

@@ -5,7 +5,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 import type { RootStackParamList } from '../../router/types';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { selectProfileUser, signOut } from '../../store/user/userSlice';
+import { selectUserData, signOut } from '../../store/user/userSlice';
 import { AppStyles, Images, Colors, Metrics, Fonts } from '../../styles';
 import { Button, Text } from '../../components';
 import { MainContainer } from '../../components/Layout';
@@ -14,8 +14,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 const ProfileScreen: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
-  // TODO change gender por sex
-  const { fullName, profileUrl, gender } = useAppSelector(selectProfileUser);
+  const { fullName, profileUrl, sex } = useAppSelector(selectUserData);
   const logout = () => {
     auth()
       .signOut()
@@ -37,7 +36,7 @@ const ProfileScreen: React.FC<Props> = () => {
             source={
               profileUrl
                 ? { uri: profileUrl }
-                : gender === 'M'
+                : sex === 'M'
                 ? Images.menGenderAvatar
                 : Images.womenGenderAvatar
             }

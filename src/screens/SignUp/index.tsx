@@ -2,15 +2,11 @@ import React, { useState } from 'react';
 import {
   Text,
   StyleSheet,
-  ScrollView,
   View,
   useColorScheme,
-  TouchableOpacity,
-  StatusBar,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import Toast from 'react-native-toast-message';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
@@ -18,102 +14,83 @@ import { AppStyles, Colors, Fonts } from '../../styles';
 import { Input, Button } from '../../components';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/signup/signupSlice';
-import { useConfirmPhone } from '../../providers/PhoneAuthProvider';
-import { PhoneInputWrapper } from '../../wrappers';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { selectAppLocale } from '../../store/app/appSlice';
 import { signUpSchema, transformError } from './schemaValidators/signup';
-import { signUpUser } from '../../thunks/sign-up-thunk';
+import { MainContainer } from '../../components/Layout';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup'>;
 
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const isDarkMode = useColorScheme() === 'dark';
-  const { fullName, phone, docId } = useAppSelector(selectUser);
-  const { countryCode } = useAppSelector(selectAppLocale);
+  const { name, lastName, docId } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-  const { setConfirm } = useConfirmPhone();
   // local state
   const [inputErrors, setInputErrors] = useState({});
 
   const dispatchAction = (userField: string, value: string) => {
-    dispatch(updateUserField({ field: userField, value }));
+    dispatch(updateUserField({ field: userField, value: value.trimEnd() }));
   };
 
   async function nextRoute() {
     const { error } = signUpSchema.validate(
-      { fullName, phone, docId },
+      { name, lastName, docId },
       { abortEarly: false },
     );
 
+    console.log("SignUpScreen", error);
     if (error) {
       const errorTransform = transformError(error);
       setInputErrors(errorTransform);
     } else {
-      dispatch(signUpUser(setConfirm))
-        .unwrap()
-        .then(async () => {
-          navigation.navigate('VerifyPhone', {
-            verificationType: 'SingUp',
-            phone,
-          });
-        })
-        .catch(err => {
-          const errorInstance = new Error(err?.message);
-          errorInstance.name = err.name;
-          errorInstance.stack = err.stack;
-          crashlytics().recordError(errorInstance);
-          Toast.show({
-            type: 'error',
-            text1: err.msg, // TODO traducir
-            position: 'bottom',
-          });
-        });
+      navigation.navigate('Singup/Birthdate');
     }
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}>
-      <ScrollView
-        style={[styles.mainContainer, isDarkMode && styles.darkContainer]}>
-        <StatusBar
-          animated={true}
-          backgroundColor={Colors.background}
-          showHideTransition="fade"
-          hidden={false}
-          barStyle="dark-content"
-        />
+    <MainContainer isScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
         <View style={styles.content}>
           <View style={styles.titleContainer}>
-            <Text style={styles.titleScreen}>
-              {translate('singup_screen.title')}
-            </Text>
+            <Text style={styles.titleScreen}>{translate('singup.title')}</Text>
           </View>
           <View style={styles.subtitleContainer}>
             <Text style={styles.subTitleScreen}>
-              {translate('singup_screen.subtitle', { app_name: 'Betty' })}
+              {translate('singup.subtitle')}
             </Text>
           </View>
           <View style={styles.bodyContainer}>
             <View style={styles.inputSection}>
               <Input
-                title={translate('singup_screen.full_name')}
-                value={fullName}
+                title={translate('singup.name')}
+                value={name}
                 onChangeText={text => {
-                  dispatchAction('fullName', text);
+                  dispatchAction('name', text);
                 }}
                 autoFocus
-                hasError={inputErrors?.fullName}
-                hint={inputErrors?.fullName}
+                hasError={inputErrors?.name}
+                hint={inputErrors?.name}
               />
             </View>
 
             <View style={styles.inputSection}>
               <Input
-                title={translate('singup_screen.document_id')}
+                title={translate('singup.lastName')}
+                value={lastName}
+                onChangeText={text => {
+                  dispatchAction('lastName', text);
+                }}
+                autoFocus
+                hasError={inputErrors?.lastName}
+                hint={inputErrors?.lastName}
+              />
+            </View>
+
+            <View style={styles.inputSection}>
+              <Input
+                title={translate('singup.document_id')}
                 value={docId}
                 keyboardType="numeric"
                 onChangeText={text => {
@@ -121,8 +98,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                 }}
                 hasError={inputErrors?.docId}
                 hint={
-                  inputErrors?.docId ??
-                  translate('singup_screen.document_id_hint')
+                  inputErrors?.docId ?? translate('singup.document_id_hint')
                 }
               />
             </View>
@@ -137,8 +113,8 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
             />
           </View>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </MainContainer>
   );
 };
 

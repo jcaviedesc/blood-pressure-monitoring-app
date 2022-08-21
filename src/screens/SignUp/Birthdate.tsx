@@ -17,7 +17,7 @@ import { Button, DatePicker, Layout } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/signup/signupSlice';
-import { AppStyles, Fonts, Colors, Images } from '../../styles';
+import { AppStyles, Fonts, Colors, Images, Metrics } from '../../styles';
 import { birthdateSchema } from './schemaValidators/signup';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup/Birthdate'>;
@@ -64,68 +64,52 @@ const BirthdateScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <MainContainer>
       <SafeAreaView style={{ flex: 1 }}>
-        <Layout.HOCKeyboardView>
-          <ScrollView style={styles.content}>
-            <View style={styles.titleContainer}>
-              <View>
-                <Text style={styles.titleScreen}>
-                  {translate('birthdate_screen.title')}
-                </Text>
-              </View>
-              <Image source={Images.congratulations} style={styles.image} />
-            </View>
-            {/* <View style={styles.section}>
-            <Input
-              title={translate('birthdate_screen.address')}
-              value={address}
-              onChangeText={text => {
-                dispatchAction('address', text);
-              }}
-              hint={translate('birthdate_screen.address_hint')}
-            />
-          </View> */}
-            <View style={styles.section}>
-              <Text style={styles.birthdateText}>
-                {translate('birthdate_screen.birthdate')}
+        <View style={styles.titleContainer}>
+          <Text style={[styles.titleScreen, styles.title]}>
+            {translate('birthdate_screen.title')}
+          </Text>
+        </View>
+        <View style={styles.imageContainer}>
+          <Image source={Images.congratulations} style={styles.image} />
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.birthdateText}>
+            {translate('birthdate_screen.birthdate')}
+          </Text>
+          <View>
+            <TouchableHighlight
+              underlayColor={Colors.background}
+              style={[
+                styles.touchableBirthdate,
+                {
+                  borderColor:
+                    inputErrors !== '' ? Colors.error : Colors.lightGray,
+                },
+              ]}
+              onPress={showDatepicker}>
+              <Text style={styles.touchableText}>
+                {birthdate
+                  ? dayjsUtil(date).format('DD - MMMM -  YYYY')
+                  : '_ _ - _ _ - _ _'}
               </Text>
-              <View>
-                <TouchableHighlight
-                  underlayColor={Colors.background}
-                  style={[
-                    styles.touchableBirthdate,
-                    {
-                      borderColor:
-                        inputErrors !== '' ? Colors.error : Colors.lightGray,
-                    },
-                  ]}
-                  onPress={showDatepicker}>
-                  <Text style={styles.touchableText}>
-                    {birthdate
-                      ? dayjsUtil(date).format('DD - MMMM -  YYYY')
-                      : '_ _ - _ _ - _ _'}
-                  </Text>
-                </TouchableHighlight>
-              </View>
-              {inputErrors !== '' && (
-                <Text style={styles.hint}>{inputErrors}</Text>
-              )}
-            </View>
-          </ScrollView>
-          {show && (
-            <DatePicker
-              testID="dateTimePicker"
-              value={date}
-              mode="date"
-              is24Hour={true}
-              display="spinner"
-              onChange={onChange}
-              maximumDate={limitDate}
-            />
-          )}
-          <View style={styles.section}>
-            <Button title={translate('button.next')} onPress={nextStepHandler} />
+            </TouchableHighlight>
           </View>
-        </Layout.HOCKeyboardView>
+          {inputErrors !== '' && <Text style={styles.hint}>{inputErrors}</Text>}
+        </View>
+        {show && (
+          <DatePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            is24Hour={true}
+            display="spinner"
+            onChange={onChange}
+            maximumDate={limitDate}
+          />
+        )}
+        <View style={[styles.section, styles.footer]}>
+          <Button title={translate('button.next')} onPress={nextStepHandler} />
+        </View>
       </SafeAreaView>
     </MainContainer>
   );
@@ -134,9 +118,12 @@ const BirthdateScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   ...AppStyles.screen,
   titleContainer: {
-    flex: 11,
-    alignItems: 'center',
+    marginHorizontal: Metrics.marginHorizontal,
   },
+  title: {
+    textAlign: 'center',
+  },
+  imageContainer: {},
   birthdateText: {
     marginLeft: 3,
     fontFamily: Fonts.type.light,
@@ -166,6 +153,10 @@ const styles = StyleSheet.create({
   hint: {
     fontFamily: Fonts.type.light,
     fontSize: Fonts.size.hint,
+  },
+  footer: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
 });
 

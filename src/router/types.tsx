@@ -3,7 +3,7 @@ type SingUpStackParamList = {
   'Singup/Birthdate': undefined;
   'Singup/BodyInfo': undefined;
   'Singup/SelectUserType': undefined;
-  'Singup/HealthInfo': undefined;
+  'Singup/HealthQuestions': undefined;
   'Singup/ProfilePicture': undefined;
 };
 

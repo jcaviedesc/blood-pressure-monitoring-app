@@ -40,22 +40,22 @@ const App: () => Node = () => {
   }, []);
 
   return (
-    <Provider store={store}>
+    <AppErrorBoundary>
       <PersistGate loading={null} persistor={persistor}>
-        <LocalizationProvider>
-          <ConfirmPhoneProvider>
-            <LoadingWrapper>
-              <AppErrorBoundary>
+        <Provider store={store}>
+          <LocalizationProvider>
+            <ConfirmPhoneProvider>
+              <LoadingWrapper>
                 <AppProvider id={REALM_APPID}>
                   <Main />
                 </AppProvider>
-              </AppErrorBoundary>
-            </LoadingWrapper>
-          </ConfirmPhoneProvider>
-        </LocalizationProvider>
-        <Toast />
+              </LoadingWrapper>
+            </ConfirmPhoneProvider>
+          </LocalizationProvider>
+          <Toast />
+        </Provider>
       </PersistGate>
-    </Provider>
+    </AppErrorBoundary>
   );
 };
 
