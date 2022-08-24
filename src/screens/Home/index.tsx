@@ -20,14 +20,15 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector } from '../../hooks';
 import { selectUserData } from '../../store/user/userSlice';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabs'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
-  const {
-    profile: { fullName, profileUrl, gender },
-    homeStatus: { bloodPressure, nutritional, heartRate, bloodGlucose },
-  } = useAppSelector(selectUserData);
+  const bloodPressure = { status: 'x', value: 'v' }
+  const nutritional = { status: 'x', value: 'v' }
+  const heartRate = { status: 'x', value: 'v' }
+  const bloodGlucose = { status: 'x', value: 'v' }
+  const { name, lastName, avatar, sex } = useAppSelector(selectUserData);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -76,7 +77,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
               style={[styles.userTitle, styles.userNameTitle]}
               lineBreakMode="tail"
               numberOfLines={1}>
-              {fullName}
+              {`${name} ${lastName}`}
             </Text>
           </View>
           <TouchableHighlight
@@ -86,11 +87,11 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             }}>
             <Image
               source={
-                profileUrl
+                avatar
                   ? {
-                    uri: profileUrl,
+                    uri: avatar,
                   }
-                  : gender === 'M'
+                  : sex === 'M'
                     ? Images.menGenderAvatar
                     : Images.womenGenderAvatar
               }

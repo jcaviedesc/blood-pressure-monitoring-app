@@ -1,27 +1,27 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { AppState } from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 import RNBootSplash from 'react-native-bootsplash';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { selectAppUserState, initAppSuccessful } from '../store/app/appSlice';
-import {
-  selectUserIsFullyRegistered,
-  onAuthUserStateChanged,
-} from '../store/user/userSlice';
 import SplashScreen from '../screens/Splash';
 import OnboardingScreen from '../screens/Onboarding';
-import MainStackNavigator, {
-  NavigationRef,
-  StackNavigationRef,
-} from '../router';
+import MainStackNavigator, { NavigationRef } from '../router';
 import { useInitialScreenApp } from './hooks';
 import { RealmAppWrapper } from '../hooks/realm/provider';
-import { RealmAuthProvider } from '../providers/RealmProvider';
+import { useRealmAuth } from '../providers/RealmProvider';
+import { MainAppContext } from './context';
 
 const Main = () => {
   const { isFirstTime } = useAppSelector(selectAppUserState);
-  const IsUserFullyRegistered = useAppSelector(selectUserIsFullyRegistered);
-  const [userAuthenticated, setUserAuthenticated] =
-    useState<FirebaseAuthTypes.User | null>(null);
+  const { signIn: signInRealm } = useRealmAuth();
+  // TODO change to useReducer
+  const [userAuthenticated, setUserAuthenticated] = useState<{
+    data: FirebaseAuthTypes.User | null;
+    isRegistered: boolean;
+    userToken: string;
+  }>({ data: null, isRegistered: false, userToken: '' });
   const dispatch = useAppDispatch();
 
   const { loading, nextScreen } = useInitialScreenApp();
@@ -29,29 +29,43 @@ const Main = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
 
+  const registerUser = useCallback(async () => {
+    const authUser = auth().currentUser;
+    const token = await authUser?.getIdToken();
+    setUserAuthenticated(prevState => ({
+      ...prevState,
+      isRegistered: true,
+      userToken: token as string,
+    }));
+    signInRealm(token as string);
+  }, [signInRealm]);
+
   // Handle user state changes
   const onAuthStateChanged = useCallback(
-    (fbUser: FirebaseAuthTypes.User | null) => {
+    (user: FirebaseAuthTypes.User | null) => {
       if (initializing) {
         setInitializing(false);
       }
-      if (!userAuthenticated && fbUser && !IsUserFullyRegistered) {
-        fbUser.getIdTokenResult(true).then(tokenResult => {
+      if (user) {
+        user.getIdTokenResult(true).then(tokenResult => {
           const { claims } = tokenResult;
-          dispatch(
-            onAuthUserStateChanged({
-              token: tokenResult,
-              user: fbUser.toJSON() as FirebaseAuthTypes.UserInfo,
-            }),
-          );
-          if (!claims.isC) {
-            console.log({ claims });
-            StackNavigationRef.navigate('Singup/Birthdate');
+          console.log({ claims });
+          console.log(tokenResult.token);
+          setUserAuthenticated({
+            data: user,
+            isRegistered: !!claims?.isRegistered,
+            userToken: tokenResult.token,
+          });
+          if (claims?.isRegistered) {
+            signInRealm(tokenResult.token);
           }
         });
-      }
-      if (fbUser) {
-        setUserAuthenticated(fbUser);
+      } else {
+        setUserAuthenticated({
+          data: null,
+          isRegistered: false,
+          userToken: '',
+        });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,10 +73,10 @@ const Main = () => {
   );
 
   const onNavigateTo = (navigation: NavigationRef) => {
-    if (nextScreen !== 'Home') {
+    if (nextScreen !== 'HomeTabs') {
       navigation.navigate(nextScreen);
     }
-    // navigation.navigate('BloodPressure/Meassuring');
+    // navigation.navigate('Singup');
   };
 
   useEffect(() => {
@@ -75,10 +89,42 @@ const Main = () => {
     dispatch(initAppSuccessful());
   }, [dispatch]);
 
+  const handleAppStateChange = useCallback(
+    (nextAppState: string) => {
+      console.log({ nextAppState });
+      if (nextAppState === 'background') {
+        if (userAuthenticated?.data && !userAuthenticated.isRegistered) {
+          auth()
+            .signOut()
+            .then(() => {
+              crashlytics().setAttribute(
+                'phone',
+                userAuthenticated.data?.phoneNumber as string,
+              );
+              crashlytics().log(
+                `Info: User with phone ${userAuthenticated.data?.phoneNumber} abort the registration`,
+              );
+            });
+        }
+      }
+    },
+    [userAuthenticated],
+  );
+
+  useEffect(() => {
+    const appStateId = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
+
+    return () => {
+      appStateId.remove();
+    };
+  }, [handleAppStateChange]);
+
   console.log('Main', {
     loading,
     nextScreen,
-    IsUserFullyRegistered,
     userAuthenticated,
   });
 
@@ -90,25 +136,17 @@ const Main = () => {
     return <OnboardingScreen />;
   }
 
-  // return (
-  //   <MainStackNavigator
-  //     onReady={navigation => {
-  //       onNavigateTo(navigation);
-  //     }}
-  //     isUserLogged={IsUserFullyRegistered}
-  //   />
-  // );
   return (
-    <RealmAuthProvider AuthUser={userAuthenticated}>
-      <RealmAppWrapper fallback={() => <SplashScreen />}>
+    <RealmAppWrapper fallback={() => <SplashScreen />}>
+      <MainAppContext.Provider value={{ registerUser }}>
         <MainStackNavigator
           onReady={navigation => {
             onNavigateTo(navigation);
           }}
-          isUserLogged={IsUserFullyRegistered}
+          isUserLogged={userAuthenticated.isRegistered}
         />
-      </RealmAppWrapper>
-    </RealmAuthProvider>
+      </MainAppContext.Provider>
+    </RealmAppWrapper>
   );
 };
 

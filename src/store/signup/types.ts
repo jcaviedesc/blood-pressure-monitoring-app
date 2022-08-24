@@ -1,14 +1,15 @@
-export enum Gender {
+export enum SexEnum {
   male = 'male',
   female = 'female',
 }
 
-type HealtInfo = {
-  medicine: 'yes' | 'not' | 'not know' | '';
-  smoke: 'yes' | 'not' | 'not know' | '';
-  heartAttack: 'yes' | 'not' | 'not know' | '';
-  thrombosis: 'yes' | 'not' | 'not know' | '';
-  nephropathy: 'yes' | 'not' | 'not know' | '';
+type ResponseOptions = 'yes' | 'not' | 'not know' | '';
+type HealtQuestions = {
+  medicine: ResponseOptions;
+  smoke: ResponseOptions;
+  heartAttack: ResponseOptions;
+  thrombosis: ResponseOptions;
+  nephropathy: ResponseOptions;
 };
 
 type Picture = {
@@ -16,34 +17,29 @@ type Picture = {
   type: string;
 };
 
-export type firstRegistrationResponse = {
-  id: string | number;
-  fullName: string;
-  docId: string;
-  phone: string;
-};
 export interface SignUpState {
   id?: string | number;
-  fullName: string;
-  docId: string; // cedula, dni, documento de identificaion
+  name: string;
+  lastName: string;
+  docId: string; // cedula, DNI, pasaporte
   phone: string;
   address: string;
   location: number[];
-  gender: Gender;
+  sex: SexEnum;
   weight: string;
   height: string;
   birthdate: string;
   userType: 'health professional' | 'patient' | '';
-  healtInfo: HealtInfo;
+  healtQuestions: HealtQuestions;
   picture: Picture;
 }
 
 export type updateUserFieldType = {
   field: keyof SignUpState;
-  value: number[] & '' & string & Date & Picture;
+  value: number[] | '' | string | Date | Picture;
 };
 
 export type HealtInfoAction = {
-  field: keyof HealtInfo;
+  field: keyof HealtQuestions;
   value: 'yes' | 'not' | 'not know' | '';
 };

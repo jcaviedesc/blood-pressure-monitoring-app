@@ -1,48 +1,49 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { UserState, userFromApi, onAuthStateChangedAction } from './types';
+import type { UserState, UpdateUserProfieAction } from './types';
 import type { RootState } from '../configureStore';
+import { signUpUser } from '../../thunks/users-thunk';
 
 /* ------------- Initial State ------------- */
+// TODO deprecar homeStatus
 const initialState: UserState = {
-  profile: {
-    id: '',
-    fullName: '',
-    phone: '',
-    address: '',
-    gender: '',
-    weight: {
-      val: 0,
-      unit: 'Kg',
-    },
-    height: {
-      val: 0,
-      unit: 'm',
-    },
-    birthdate: '',
-    userType: '',
-    profileUrl: '',
-    age: '',
-    imc: '',
-    isC: false,
+  id: '',
+  name: '',
+  lastName: '',
+  phone: '',
+  address: '',
+  sex: '',
+  weight: {
+    val: 0,
+    unit: 'Kg',
   },
-  homeStatus: {
-    bloodPressure: {
-      status: 'no data',
-      value: '--',
-    },
-    nutritional: {
-      status: 'no data',
-      value: '--',
-    },
-    heartRate: {
-      status: 'no data',
-      value: '--',
-    },
-    bloodGlucose: {
-      status: 'no data',
-      value: '--',
-    },
+  height: {
+    val: 0,
+    unit: 'm',
   },
+  birthdate: '',
+  userType: 2,
+  profileUrl: '',
+  age: '',
+  imc: '',
+  avatar: '',
+  // homeStatus: {
+  //   bloodPressure: {
+  //     status: 'no data',
+  //     value: '--',
+  //   },
+  //   nutritional: {
+  //     status: 'no data',
+  //     value: '--',
+  //   },
+  //   heartRate: {
+  //     status: 'no data',
+  //     value: '--',
+  //   },
+  //   bloodGlucose: {
+  //     status: 'no data',
+  //     value: '--',
+  //   },
+  // },
 };
 
 export const userSlice = createSlice({
@@ -51,46 +52,27 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    updateUserProfie: (state, action: PayloadAction<userFromApi>) => {
-      state.profile = action.payload;
-    },
-    updateUserProfileFromSingup: (
+    updateUserProfie: (
       state,
-      action: PayloadAction<userFromApi>,
+      action: PayloadAction<UpdateUserProfieAction>,
     ) => {
-      state.profile = action.payload;
-      state.homeStatus.nutritional = {
-        status: 'estable',
-        value: `${action.payload.weight.val} ${action.payload.weight.unit}`,
-      };
+      return { ...state, ...action.payload };
     },
-    onAuthUserStateChanged: (
-      state,
-      action: PayloadAction<onAuthStateChangedAction>,
-    ) => {
-      const { user, token } = action.payload;
-      state.profile.isC = token.claims.isC;
-      state.profile.fullName = user.displayName ?? '';
-      state.profile.profileUrl = user.photoURL ?? '';
+    signOut: () => {
+      return initialState;
     },
-    signOut: state => {
-      state.profile = initialState.profile;
-    },
+  },
+  extraReducers: builder => {
+    builder.addCase(signUpUser.fulfilled, (state, action) => {
+      console.log({ userSlice: action.payload });
+      return action.payload;
+    });
   },
 });
 
-export const {
-  updateUserProfie,
-  updateUserProfileFromSingup,
-  onAuthUserStateChanged,
-  signOut,
-} = userSlice.actions;
+export const { updateUserProfie, signOut } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectProfileUser = (state: RootState) => state.user.profile;
 export const selectUserData = (state: RootState) => state.user;
-export const selectUserIsFullyRegistered = (state: RootState) => {
-  return state.user.profile.isC;
-};
 
 export default userSlice.reducer;

@@ -9,73 +9,47 @@ const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundColor = isDarkMode ? Colors.darkGrayMode : Colors.lightGray;
   const [code, setCode] = useState(['', '', '', '', '', '']);
-  const [complete, setComplete] = useState(false);
+
+  const inputRefs = useRef<Array<TextInput | null>>([]);
+
   useEffect(() => {
-    if (code.join('').length === 6) {
-      console.log(code);
-      onCompleteCode(code.join(''));
-      setComplete(true);
-    }
-    // return () => {
-    //   setCode(['', '', '', '', '', '']);
-    // };
-  }, [complete, code, onCompleteCode]);
+    inputRefs.current[0]?.focus();
+  }, []);
 
-  const codeRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
-
-  const onChange = (text: string, currentSlot: number) => {
-    if (text.length === 6) {
-      setCode(text.split(''));
-      codeRef[5].current?.focus();
-    } else if (text.length <= 1 && currentSlot <= 5) {
-      const factor = text === '' ? -1 : 1;
+  const onChange = (currentSlot: number) => (digit: string) => {
+    if (digit.length === 6) {
+      setCode(digit.split(''));
+      inputRefs.current[5]?.focus();
+      onCompleteCode(digit);
+    } else if (digit.length <= 1 && currentSlot <= 5) {
+      const factor = digit === '' ? -1 : 1;
       const nextFocus =
-        (currentSlot === 0 && text === '') || (currentSlot === 5 && text !== '')
+        (currentSlot === 0 && digit === '') ||
+        (currentSlot === 5 && digit !== '')
           ? currentSlot
           : currentSlot + 1 * factor;
-      console.log({ nextFocus })
-      changeDigit(text, currentSlot);
-      codeRef[nextFocus].current?.focus();
+      inputRefs.current[nextFocus]?.focus();
+      let newCode = code;
+      newCode[currentSlot] = digit;
+      setCode(newCode);
+      if (newCode.join('').length === 6) {
+        onCompleteCode(newCode.join(''));
+      }
     }
-  };
-
-  const changeDigit = (codeNum: string, codeSlot: number) => {
-    setCode(prevCode => {
-      const localCode = [...prevCode];
-      localCode[codeSlot] = codeNum;
-      return localCode;
-    });
   };
 
   return (
     <View style={styles.contaier}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          ref={codeRef[0]}
-          maxLength={6}
-          keyboardType="phone-pad"
-          style={[styles.input, { backgroundColor }]}
-          onChangeText={text => {
-            onChange(text, 0);
-            // onSetCode(text, 0);
-          }}
-          autoFocus
-          value={code[0]}
-        />
-      </View>
-      {codeRef.slice(1).map((item, index) => {
+      {[...Array(6).keys()].map(inputKey => {
         return (
-          <View style={styles.inputContainer} key={`Code-${index}`}>
+          <View style={styles.inputContainer} key={`Code-${inputKey}`}>
             <TextInput
-              ref={item}
-              maxLength={1}
-              onChangeText={text => {
-                // onSetCode(text, index + 1);
-                onChange(text, index + 1);
-              }}
+              ref={refInput => (inputRefs.current[inputKey] = refInput)}
+              maxLength={inputKey === 0 ? 6 : 1}
               keyboardType="phone-pad"
               style={[styles.input, { backgroundColor }]}
-              value={code[index + 1]}
+              onChangeText={onChange(inputKey)}
+              value={code[inputKey]}
             />
           </View>
         );

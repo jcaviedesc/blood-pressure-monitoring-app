@@ -5,20 +5,25 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 import type { RootStackParamList } from '../../router/types';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { selectProfileUser, signOut } from '../../store/user/userSlice';
+import { selectUserData, signOut } from '../../store/user/userSlice';
 import { AppStyles, Images, Colors, Metrics, Fonts } from '../../styles';
 import { Button, Text } from '../../components';
 import { MainContainer } from '../../components/Layout';
+import { useRealmAuth } from '../../providers/RealmProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 const ProfileScreen: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
-  // TODO change gender por sex
-  const { fullName, profileUrl, gender } = useAppSelector(selectProfileUser);
+  const { signOutRealm } = useRealmAuth();
+  const { name, lastName, avatar, sex } = useAppSelector(selectUserData);
   const logout = () => {
+    signOutRealm();
     auth()
       .signOut()
+      .then(() => {
+        signOutRealm();
+      })
       .catch(err => {
         crashlytics().recordError(err);
         //TODO handle clear data and go to login or signup
@@ -35,17 +40,18 @@ const ProfileScreen: React.FC<Props> = () => {
         <View style={styles.avatarContainer}>
           <Image
             source={
-              profileUrl
-                ? { uri: profileUrl }
-                : gender === 'M'
-                ? Images.menGenderAvatar
-                : Images.womenGenderAvatar
+              avatar
+                ? { uri: avatar }
+                : sex === 'M'
+                  ? Images.menGenderAvatar
+                  : Images.womenGenderAvatar
             }
             defaultSource={Images.userPlaceholder}
             style={styles.avatar}
           />
         </View>
-        <Text style={styles.fullName}>{fullName}</Text>
+        <Text style={styles.names}>{name}</Text>
+        <Text style={styles.names}>{lastName}</Text>
         <Button
           title="Cerrar sessión"
           size="small"
@@ -63,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  fullName: {
+  names: {
     fontSize: Fonts.size.h3,
     textAlign: 'center',
     marginVertical: 18,

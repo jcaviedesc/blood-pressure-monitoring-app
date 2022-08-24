@@ -17,36 +17,46 @@ type Props = {
   options: Array<option>;
   onPress: (option: option) => void;
   selected?: string;
+  size?: 'full' | 'small';
 };
 
-const InputToggle: React.FC<Props> = ({ options, selected, onPress }) => {
+const InputToggle: React.FC<Props> = ({
+  options,
+  selected,
+  onPress,
+  size = 'full',
+}) => {
+  // TODO add dark modo
   const [selectOpt, setSelectOpt] = useState(selected);
+  let touchableInput = {};
+  if (size === 'full') {
+    touchableInput = { flex: 1 };
+  }
   return (
-    <View>
-      <View style={styles.container}>
-        {options.map(({ label, value }, index) => (
-          <TouchableOpacity
-            key={value}
+    <View style={styles.container}>
+      {options.map(({ label, value }, index) => (
+        <TouchableOpacity
+          key={value}
+          style={[
+            styles.touchableHighlight,
+            touchableInput,
+            value === selectOpt ? styles.touchableHighlightSelected : {},
+            index === 0 ? styles.firstTouchable : {},
+            index === options.length - 1 ? styles.lastTouchable : {},
+          ]}
+          onPress={() => {
+            setSelectOpt(value);
+            onPress({ label, value });
+          }}>
+          <Text
             style={[
-              styles.touchableHighlight,
-              value === selectOpt ? styles.touchableHighlightSelected : {},
-              index === 0 ? styles.firstTouchable : {},
-              index === options.length - 1 ? styles.lastTouchable : {},
-            ]}
-            onPress={() => {
-              setSelectOpt(value);
-              onPress({ label, value });
-            }}>
-            <Text
-              style={[
-                styles.optionText,
-                value === selectOpt ? styles.optionSelectedText : {},
-              ]}>
-              {label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+              styles.optionText,
+              value === selectOpt ? styles.optionSelectedText : {},
+            ]}>
+            {label}
+          </Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };
@@ -64,7 +74,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: Colors.tertiary,
     borderWidth: 1,
-    flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 8,
   },
@@ -86,6 +95,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     textAlign: 'center',
     color: Colors.tertiary,
+    textTransform: 'capitalize',
   },
   optionSelectedText: {
     color: Colors.buttonText,

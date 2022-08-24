@@ -1,30 +1,36 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { ScrollView, StyleSheet, View, SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Fonts, Colors, Metrics } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectUser, updateHealtInfo } from '../../store/signup/signupSlice';
+import {
+  selectUser,
+  updateHealtQuestions,
+} from '../../store/signup/signupSlice';
 import { HealtInfoAction } from '../../store/signup/types';
-import { InputToggle, Button } from '../../components';
+import { InputToggle, Button, Text } from '../../components';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Singup/HealthInfo'>;
+type Props = NativeStackScreenProps<
+  RootStackParamList,
+  'Singup/HealthQuestions'
+>;
 
-const HealthInfoScreen: React.FC<Props> = ({ navigation }) => {
+const HealthQuestionsScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
-  const { healtInfo } = useAppSelector(selectUser);
+  const { healtQuestions } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
   const onSelectHealtOption = (
     key: HealtInfoAction['field'],
     value: HealtInfoAction['value'],
   ) => {
-    dispatch(updateHealtInfo({ field: key, value }));
+    dispatch(updateHealtQuestions({ field: key, value }));
   };
 
   const onNext = () => {
-    const isCompleteForm = !Object.values(healtInfo).some(
+    const isCompleteForm = !Object.values(healtQuestions).some(
       value => value === '',
     );
     if (isCompleteForm) {
@@ -48,7 +54,7 @@ const HealthInfoScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.inputToggleContainer}>
             <InputToggle
-              selected={healtInfo.medicine}
+              selected={healtQuestions.medicine}
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
@@ -70,7 +76,7 @@ const HealthInfoScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.inputToggleContainer}>
             <InputToggle
-              selected={healtInfo.smoke}
+              selected={healtQuestions.smoke}
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
@@ -89,7 +95,7 @@ const HealthInfoScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.inputToggleContainer}>
             <InputToggle
-              selected={healtInfo.heartAttack}
+              selected={healtQuestions.heartAttack}
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
@@ -111,7 +117,7 @@ const HealthInfoScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.inputToggleContainer}>
             <InputToggle
-              selected={healtInfo.thrombosis}
+              selected={healtQuestions.thrombosis}
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
@@ -133,7 +139,7 @@ const HealthInfoScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.inputToggleContainer}>
             <InputToggle
-              selected={healtInfo.nephropathy}
+              selected={healtQuestions.nephropathy}
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
@@ -188,4 +194,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HealthInfoScreen;
+export default HealthQuestionsScreen;

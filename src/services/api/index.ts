@@ -50,7 +50,7 @@ const create = (baseURL = API_URL) => {
 
   api.interceptors.request.use(async function (config: AxiosRequestConfig) {
     const user = auth().currentUser;
-    const token = await user?.getIdToken();
+    const token = await user?.getIdToken(true);
     if (config?.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -61,9 +61,6 @@ const create = (baseURL = API_URL) => {
   api.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(response);
-    }
     response.data = snakeCaseToCamelCase(response.data);
     return response;
   }, handleError);

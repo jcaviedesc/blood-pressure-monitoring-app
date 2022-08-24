@@ -2,19 +2,18 @@ import React, { useState } from 'react';
 import {
   Text,
   StyleSheet,
-  ScrollView,
   View,
   StatusBar,
   BackHandler,
   Alert,
-  TouchableOpacity,
+  Image,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
+import { AppStyles, Colors, Fonts, Images, Metrics } from '../../styles';
 import { Button } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { useConfirmPhone } from '../../providers/PhoneAuthProvider';
@@ -23,22 +22,29 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale, setScreenLoading } from '../../store/app/appSlice';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 // TODO refactor P1
-const LoginScreen: React.FC<Props> = ({ navigation }) => {
+const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const dispatch = useAppDispatch();
   const { countryCode } = useAppSelector(selectAppLocale);
-  const [phone, setPhone] = useState('');
+  const [{ phone, isValidPhoneNumber }, setPhone] = useState({
+    phone: '',
+    isValidPhoneNumber: false,
+  });
 
   const { setConfirm } = useConfirmPhone();
 
   async function navigate() {
     dispatch(setScreenLoading(true));
     try {
+      // const provider = auth.PhoneAuthProvider
       const confirm = await auth().signInWithPhoneNumber(phone);
       setConfirm(confirm);
-      setPhone('');
+      setPhone({
+        phone: '',
+        isValidPhoneNumber: false,
+      });
       navigation.navigate('VerifyPhone', {
         verificationType: 'Login',
         phone,
@@ -86,60 +92,57 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   );
 
   return (
-    <MainContainer>
-      <ScrollView>
-        <StatusBar
-          animated={true}
-          backgroundColor={Colors.background}
-          showHideTransition="fade"
-          hidden={false}
-          barStyle="dark-content"
-        />
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleScreen}>
-            {translate('login_screen.title')}
-          </Text>
+    <MainContainer isScrollView>
+      <StatusBar
+        animated={true}
+        backgroundColor={Colors.background}
+        showHideTransition="fade"
+        hidden={false}
+        barStyle="dark-content"
+      />
+      <View style={styles.titleContainer}>
+        <Text style={[styles.titleScreen, styles.titleOverride]}>
+          {translate('welcome.title')}
+        </Text>
+      </View>
+      <View>
+        <Image source={Images.welcome1} style={styles.welcomeImage} />
+      </View>
+      <View style={styles.bodyContainer}>
+        <View style={styles.section}>
+          <PhoneInputWrapper
+            initialCountry={countryCode}
+            onValidPhoneInput={(isValidPhone, number) => {
+              setPhone({
+                phone: number,
+                isValidPhoneNumber: isValidPhone,
+              });
+            }}
+            autoFocus
+          />
         </View>
-        <View style={styles.bodyContainer}>
-          <View style={styles.section}>
-            <PhoneInputWrapper
-              title={translate('login_screen.subtitle')}
-              initialCountry={countryCode}
-              value={phone}
-              onPhoneInputChange={phoneNumer => {
-                setPhone(phoneNumer);
-              }}
-              autoFocus
-            />
-          </View>
-        </View>
+      </View>
 
-        <View style={styles.footer}>
-          {/* TODO enable button cuando el campo de telefono tiene un numero valido */}
+      <View style={styles.footer}>
+        {/* TODO enable button cuando el campo de telefono tiene un numero valido */}
+        <Button
+          disabled={!isValidPhoneNumber}
+          title={translate('welcome.start_button')}
+          onPress={() => {
+            navigate();
+          }}
+        />
+        <View style={styles.emailButtonContainer}>
           <Button
-            disabled={phone === ''}
-            title={translate('button.next')}
+            size="normal"
+            hierarchy="transparent"
+            title={translate('welcome.continue_with_email')}
             onPress={() => {
-              navigate();
+              navigation.navigate('development');
             }}
           />
-          <View style={styles.notAccount}>
-            <View>
-              <Text style={styles.notAccountText}>
-                {translate('login_screen.not_account')}
-              </Text>
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Singup');
-              }}>
-              <Text style={[styles.notAccountText, styles.loginText]}>
-                {translate('login_screen.singup')}
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
-      </ScrollView>
+      </View>
     </MainContainer>
   );
 };
@@ -151,6 +154,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
     paddingHorizontal: Metrics.marginHorizontal,
   },
+  titleOverride: {
+    textAlign: 'center',
+  },
+  welcomeImage: {
+    width: Metrics.screenWidth,
+    resizeMode: 'contain',
+  },
   bodyContainer: {
     flex: 10,
     backgroundColor: Colors.transparent,
@@ -161,9 +171,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Metrics.marginHorizontal,
     justifyContent: 'flex-end',
   },
-  notAccount: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+  emailButtonContainer: {
     marginTop: 12,
   },
   notAccountText: {
@@ -178,4 +186,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default WelcomeScreen;

@@ -1,5 +1,3 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
-
 type HealtcareStruc = {
   status: string;
   value: string;
@@ -22,31 +20,25 @@ export enum userTypeEnum {
   PATIENT = 2,
 }
 
-export type userFromApi = {
+export interface UserState {
   id: string;
-  fullName: string;
+  name: string;
+  lastName: string;
   phone: string;
   address: string;
   location?: number[];
-  gender: string;
+  sex: string;
   weight: UserBodyMeasures;
   height: UserBodyMeasures;
   birthdate: string;
   userType: userTypeEnum;
-  healtInfo?: object;
   profileUrl: string;
   age: string;
   imc: string;
-  isC: boolean;
-};
-
-export interface UserState {
-  profile: userFromApi;
-  homeStatus: HomeStatus;
+  avatar: string;
+  // homeStatus: HomeStatus;
 }
 
-export type onAuthStateChangedAction = {
-  // TODO resolve
-  user: FirebaseAuthTypes.UserInfo;
-  token: FirebaseAuthTypes.IdTokenResult;
+export type UpdateUserProfieAction = {
+  [index in keyof UserState]: any;
 };

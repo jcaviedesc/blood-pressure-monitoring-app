@@ -62,18 +62,19 @@ const Button: React.FC<props> = ({
     textStyles.fontFamily = Fonts.type.regular;
   }
 
+  if (hierarchy === 'transparent') {
+    textStyles.fontSize = Fonts.size.h5;
+    textStyles.fontFamily = Fonts.type.regular;
+  }
+
   return (
     <TouchableOpacity
       onPress={onPress}
       style={buttonStyles}
       disabled={disabled}>
-      {children ? (
-        children
-      ) : (
-        <View style={styles.content}>
-          <Text style={textStyles}>{title}</Text>
-        </View>
-      )}
+      <View style={styles.content}>
+        <Text style={textStyles}>{children ? children : title}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontFamily: Fonts.type.bold,
+    fontFamily: Fonts.type.semiBold,
     fontSize: Fonts.size.h4,
   },
 });

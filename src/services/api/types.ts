@@ -4,20 +4,14 @@ type Meassure = {
 };
 
 export type RegisterUser = {
-  fullName: string;
-  docId: string;
-  phone: string;
-};
-
-export type RegisterCompleteUser = {
   address: string;
   location?: number[];
-  gender: string;
+  sex: string;
   birthdate: string;
   height: Meassure;
   weight: Meassure;
   user_type: number;
-  health_info?: object;
+  healt_questions?: object;
   profile_url?: string;
 };
 

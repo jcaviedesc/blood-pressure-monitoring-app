@@ -1,8 +1,8 @@
 import { mapValues } from 'lodash';
-import type { SingUpState } from '../store/signup/types';
+import { SignUpState } from '../store/signup/types';
 import { cleanObject } from '../services/utils';
 
-type UserFromApp = SingUpState & { profile_url: string };
+type UserFromApp = SignUpState & { profile_url: string };
 
 const UserEnun = {
   'health professional': 1,
@@ -23,19 +23,28 @@ const GenderEnun = {
 };
 
 export const userToApi = ({
+  name,
+  lastName,
+  docId,
+  phone,
   address,
-  gender,
+  sex,
   weight,
   height,
   birthdate,
   userType,
-  healtInfo,
+  healtQuestions,
   profile_url,
 }: UserFromApp) => {
+  // TODO agregar un map values para limpiar todos los valores de espacios en blanco start-end
   const userApi = cleanObject({
+    name: name.trimStart().trimEnd(),
+    lastName: lastName.trimStart().trimEnd(),
+    docId: docId.trimStart().trimEnd(),
+    phone,
     address,
     // location, TODO
-    gender: GenderEnun[gender],
+    sex: GenderEnun[sex],
     birthdate,
     height: {
       val: parseInt(height, 10) / 100,
@@ -45,13 +54,17 @@ export const userToApi = ({
       val: weight,
       unit: 'Kg', //TODO get from UI
     },
-    user_type: UserEnun[userType],
-    profile_url,
+    role: UserEnun[userType],
+    avatar: profile_url,
   });
 
-  if (userApi.user_type === UserEnun.patient) {
-    userApi.health_info = mapValues(healtInfo, value => healthInfoEnum[value]);
+  if (userApi.role === UserEnun.patient) {
+    userApi.healthQuestions = mapValues(
+      healtQuestions,
+      value => healthInfoEnum[value],
+    );
   }
+
   return userApi;
 };
 

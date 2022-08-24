@@ -8,7 +8,7 @@ import BirthdateScreen from '../screens/SignUp/Birthdate';
 import BodyInfoScreen from '../screens/SignUp/BodyInfo';
 import SelectUserTypeScreen from '../screens/SignUp/SelectUserType';
 import SelectProfilePictureScreen from '../screens/SignUp/SelectProfilePicture';
-import HealthInfoScreen from '../screens/SignUp/HealthInfo';
+import HealthQuestionsScreen from '../screens/SignUp/HealthQuestions';
 
 type SingUpScreensConfig = {
   [K in SingUpScreens]: {
@@ -32,7 +32,7 @@ const SingUpFlow: SingUpScreensConfig = {
         <StepsHeader
           {...props}
           step={{
-            nsteps: 5,
+            nsteps: 4,
             activeStep: 1,
           }}
         />
@@ -46,7 +46,7 @@ const SingUpFlow: SingUpScreensConfig = {
         <StepsHeader
           {...props}
           step={{
-            nsteps: 5,
+            nsteps: 4,
             activeStep: 2,
           }}
         />
@@ -67,8 +67,8 @@ const SingUpFlow: SingUpScreensConfig = {
       ),
     },
   },
-  'Singup/HealthInfo': {
-    component: HealthInfoScreen,
+  'Singup/HealthQuestions': {
+    component: HealthQuestionsScreen,
     options: {
       header: props => (
         <StepsHeader

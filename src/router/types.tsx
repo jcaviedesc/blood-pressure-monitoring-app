@@ -3,7 +3,7 @@ type SingUpStackParamList = {
   'Singup/Birthdate': undefined;
   'Singup/BodyInfo': undefined;
   'Singup/SelectUserType': undefined;
-  'Singup/HealthInfo': undefined;
+  'Singup/HealthQuestions': undefined;
   'Singup/ProfilePicture': undefined;
 };
 
@@ -19,7 +19,7 @@ type BloodPressureStackParam = {
 };
 
 export type RootStackParamList = {
-  Login: { from?: string };
+  Welcome: undefined;
   VerifyPhone: { verificationType: string; phone: string };
   HomeTabs: undefined;
   Profile: undefined;

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   Image,
   TouchableHighlight,
@@ -20,11 +19,13 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Images, Metrics, Fonts, Colors } from '../../styles';
-import { Button } from '../../components';
+import { Button, Text } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/signup/signupSlice';
-import { finishSignUpUser } from '../../thunks/sign-up-thunk';
+import { signUpUser } from '../../thunks/users-thunk';
+import { useMainApp } from '../../main/hooks';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 type actionSheetRef = {
   setModalVisible: () => void;
@@ -71,7 +72,9 @@ const requestCameraPermission = async () => {
 };
 
 const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
-  const { id: userId, picture } = useAppSelector(selectUser);
+  const { translate } = useI18nLocate();
+  const { registerUser } = useMainApp();
+  const { id: userId, picture, userType } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const actionSheetRef = useRef<actionSheetRef>();
 
@@ -131,14 +134,16 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const onNext = async () => {
-    dispatch(finishSignUpUser(navigation));
+    dispatch(signUpUser(navigation)).then(() => {
+      registerUser();
+    });
   };
 
   return (
     <MainContainer>
       <View style={styles.content}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Seleciona una foto de perfil</Text>
+          <Text style={styles.title}>{translate('selectAvatar.title')}</Text>
         </View>
         <View style={styles.pictureContainer}>
           <TouchableHighlight
@@ -157,16 +162,26 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
                     ? Colors.darkBackground
                     : Colors.buttonText,
                 }}>
-                {picture.uri !== '' ? 'Modificar' : 'Agregar'}
+                {picture.uri !== ''
+                  ? translate('selectAvatar.modify')
+                  : translate('selectAvatar.add')}
               </Text>
             </View>
           </TouchableHighlight>
         </View>
         <View style={styles.footer}>
-          {picture.uri !== '' && <Button title="siguiente" onPress={onNext} />}
-          <View style={styles.omitButton}>
-            <Button type="outline" title="omitir" onPress={onNext} />
-          </View>
+          {userType !== 'patient' && (
+            <Button
+              title="siguiente"
+              onPress={onNext}
+              disabled={picture.uri === ''}
+            />
+          )}
+          {userType === 'patient' && (
+            <View style={styles.omitButton}>
+              <Button hierarchy="quiet" title="omitir" onPress={onNext} />
+            </View>
+          )}
         </View>
       </View>
       <ActionSheet ref={actionSheetRef} bounceOnOpen>
@@ -177,7 +192,9 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
             onPress={onLaunchCamera}>
             <View style={styles.actionSheetTouchContent}>
               <Icon name="camera" size={18} color={Colors.darkBackground} />
-              <Text style={styles.actionSheetText}>Tomar Fotografia</Text>
+              <Text style={styles.actionSheetText}>
+                {translate('selectAvatar.take_photo')}
+              </Text>
             </View>
           </TouchableHighlight>
           <TouchableHighlight
@@ -187,7 +204,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
             <View style={styles.actionSheetTouchContent}>
               <Icon name="photo" size={18} color={Colors.darkBackground} />
               <Text style={styles.actionSheetText}>
-                Seleccionar de mi galeria
+                {translate('selectAvatar.Seleccionar de mi galeria')}
               </Text>
             </View>
           </TouchableHighlight>

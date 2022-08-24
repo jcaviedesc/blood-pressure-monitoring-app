@@ -6,12 +6,10 @@ import {
   createNavigationContainerRef,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HeaderBackButton } from '@react-navigation/elements';
 import type { RootStackParamList } from './types';
-import { NormalHeader, StepsHeader } from '../components/Layout';
 import styles from './styles';
 // screens
-import SignIn from '../screens/Login';
+import Welcome from '../screens/Welcome';
 import VerifyPhoneScreen from '../screens/VerifyPhone';
 import SignUpFlow from './SignUpFlow';
 
@@ -115,17 +113,9 @@ function MainStackNavigator({
           </>
         ) : (
           <>
-            {Object.entries(SignUpFlow).map(([name, params]) => (
-              <Stack.Screen
-                key={name}
-                options={params.options}
-                name={name as keyof RootStackParamList}
-                component={params.component}
-              />
-            ))}
             <Stack.Screen
-              name="Login"
-              component={SignIn}
+              name="Welcome"
+              component={Welcome}
               options={{
                 headerShown: false,
               }}
@@ -134,27 +124,17 @@ function MainStackNavigator({
               name="VerifyPhone"
               component={VerifyPhoneScreen}
               options={{
-                header: headerProps => {
-                  const { navigation, options, back } = headerProps;
-                  // TODO realizar logica en base a la ruta anterior
-                  return options.showStepHeader ? (
-                    <StepsHeader
-                      {...headerProps}
-                      step={{ activeStep: 2, nsteps: 5 }}
-                    />
-                  ) : (
-                    <NormalHeader
-                      leftButton={
-                        back ? (
-                          <HeaderBackButton onPress={navigation.goBack} />
-                        ) : undefined
-                      }
-                      style={options.headerStyle}
-                    />
-                  );
-                },
+                headerShown: false,
               }}
             />
+            {Object.entries(SignUpFlow).map(([name, params]) => (
+              <Stack.Screen
+                key={name}
+                options={params.options}
+                name={name as keyof RootStackParamList}
+                component={params.component}
+              />
+            ))}
           </>
         )}
 

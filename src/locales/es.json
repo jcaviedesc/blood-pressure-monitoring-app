@@ -1,34 +1,41 @@
 {
+  "welcome": {
+    "title": "Bienvenido",
+    "start_button": "Iniciar",
+    "continue_with_email": "Continuar con email"
+  },
   "verify_phone": {
     "title": "Verficación",
     "subtitle": "Ingresa el código de 6 digitos que te enviamos al numero de celular %{phone}",
     "no_code": "¿No recibiste el código?",
-    "resend": "Reenviar en %{time}"
+    "resendTimer": "Reenviar en ",
+    "resendCode": "Reenviar código",
+    "try_other_method": "Probar otro metodo"
   },
-  "login_screen": {
-    "title": "Iniciar sesión",
-    "subtitle": "Ingresa con tu número de celular",
-    "not_account": "¿No tienes una cuenta?",
-    "singup": "Registrarme"
-  },
-  "singup_screen": {
+  "singup": {
     "title": "Registro",
-    "subtitle": "Gracias por tomarte el tiempo de crear una cuenta con nosotros.",
-    "full_name": "Nombre completo",
+    "subtitle": "Vamos a necesitar algunos datos para completar tu registro.",
+    "name": "Nombres",
+    "lastName": "Apellidos",
     "document_id": "Número de identificación",
-    "document_id_hint": "cédula de ciudadania",
-    "phone_number": "Número de celular",
-    "all_ready_account": "¿Ya tienes una cuenta?",
-    "log_in": "Iniciar sesión"
+    "document_id_hint": "cédula de ciudadania, DNI, pasaporte"
   },
   "birthdate_screen": {
-    "title": "Cumpleaños",
-    "birthdate": "Fecha de nacimiento",
+    "title": "¿Cuando es tu cumpleaños?",
+    "birthdate": "Selecciona tu fecha de nacimiento.",
     "address": "Dirección de donde vives",
     "address_hint": "Ej. dirección, ciudad, departamento"
   },
   "select_user": {
-    "title": "Tipo de usuario"
+    "title": "Elige tu rol",
+    "description": "Selecciona el rol con el que quieres usar la aplicaión"
+  },
+  "selectAvatar": {
+    "title": "Seleciona una foto de perfil",
+    "modify": "Modificar",
+    "add": "Agregar",
+    "take_photo": "Tomar Fotografia",
+    "Seleccionar de mi galeria": "Seleccionar de mi galeria"
   },
   "healt_info_screen": {
     "title": "Información de Salud",
@@ -264,5 +271,9 @@
     "title": "¡Ooh no! Algo salió Mal.",
     "bodyText": "La aplicación tuvo un problema y no pudo continuar. ¡Nos disculpamos por cualquier inconveniente que esto haya causado!. Presiona el botón de abajo para reiniciar la aplicación. Contacta con nosotros si este problema persiste",
     "buttonText": "Regresar a la pantalla de inicio"
-  }
+  },
+  "phone number": "numero celular",
+  "sex": "Sexo",
+  "men": "hombre",
+  "women": "mujer"
 }

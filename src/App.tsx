@@ -26,6 +26,7 @@ import {
 import { ConfirmPhoneProvider } from './providers/PhoneAuthProvider';
 import { LocalizationProvider } from './providers/LocalizationProvider';
 import { AppErrorBoundary } from './providers/ErrorBoundary';
+import { RealmAuthProvider } from './providers/RealmProvider';
 
 const App: () => Node = () => {
   useNotificationPermission();
@@ -40,22 +41,24 @@ const App: () => Node = () => {
   }, []);
 
   return (
-    <Provider store={store}>
+    <AppErrorBoundary>
       <PersistGate loading={null} persistor={persistor}>
-        <LocalizationProvider>
-          <ConfirmPhoneProvider>
-            <LoadingWrapper>
-              <AppErrorBoundary>
+        <Provider store={store}>
+          <LocalizationProvider>
+            <ConfirmPhoneProvider>
+              <LoadingWrapper>
                 <AppProvider id={REALM_APPID}>
-                  <Main />
+                  <RealmAuthProvider>
+                    <Main />
+                  </RealmAuthProvider>
                 </AppProvider>
-              </AppErrorBoundary>
-            </LoadingWrapper>
-          </ConfirmPhoneProvider>
-        </LocalizationProvider>
-        <Toast />
+              </LoadingWrapper>
+            </ConfirmPhoneProvider>
+          </LocalizationProvider>
+          <Toast />
+        </Provider>
       </PersistGate>
-    </Provider>
+    </AppErrorBoundary>
   );
 };
 

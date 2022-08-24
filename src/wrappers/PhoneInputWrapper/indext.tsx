@@ -1,13 +1,14 @@
 import React, { useRef } from 'react';
 import { StyleSheet, View, Text, useColorScheme } from 'react-native';
-import PhoneInput from 'react-native-phone-number-input';
+import PhoneInput, { PhoneInputProps } from 'react-native-phone-number-input';
 import { Colors, Fonts } from '../../styles';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 
-type PhoneInputProps = {
+type PhoneInputWrapperProps = {
   title?: string;
-  initialCountry: string;
-  value: string;
-  onPhoneInputChange: (number: string) => void;
+  initialCountry: PhoneInputProps['defaultCode'];
+  value?: string;
+  onValidPhoneInput: (isValidNumber: boolean, number: string) => void;
   autoFocus?: boolean;
   error?: string | undefined;
 };
@@ -17,23 +18,35 @@ type PhoneInputRef = {
   getCallingCode: () => string;
 };
 
-const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
+const PhoneInputWrapper: React.FC<PhoneInputWrapperProps> = ({
   title,
   initialCountry,
   value,
-  onPhoneInputChange,
+  onValidPhoneInput,
   autoFocus,
   error,
 }) => {
+  const { translate } = useI18nLocate();
   const isDarkMode = useColorScheme() === 'dark';
   const ref = useRef<PhoneInputRef>();
   const backgroundColor = isDarkMode ? Colors.darkGrayMode : Colors.lightGray;
 
   const onChangePhoneNumberHandler = (phoneNumber: string) => {
     if (ref.current?.isValidNumber(phoneNumber)) {
-      onPhoneInputChange(phoneNumber);
+      onValidPhoneInput(true, phoneNumber);
+    } else {
+      onValidPhoneInput(false, '');
     }
   };
+  const phoneContainerStyles = {
+    ...styles.inputContainer,
+    backgroundColor,
+    borderColor: isDarkMode ? Colors.darkGrayMode : Colors.lightGray,
+  };
+
+  if (error) {
+    phoneContainerStyles.borderColor = Colors.error;
+  }
 
   return (
     <View>
@@ -48,15 +61,7 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
       )}
       <PhoneInput
         ref={ref}
-        containerStyle={{
-          ...styles.inputContainer,
-          backgroundColor,
-          borderColor: isDarkMode
-            ? Colors.darkGrayMode
-            : error
-            ? Colors.error
-            : Colors.lightGray,
-        }}
+        containerStyle={phoneContainerStyles}
         layout="first"
         defaultCode={initialCountry}
         defaultValue={value}
@@ -68,6 +73,7 @@ const PhoneInputWrapper: React.FC<PhoneInputProps> = ({
           styles.inputCode,
           { backgroundColor },
         ]}
+        placeholder={translate('phone number')}
         onChangeFormattedText={onChangePhoneNumberHandler}
         autoFocus={autoFocus}
       />

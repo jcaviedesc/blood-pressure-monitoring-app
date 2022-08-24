@@ -13,6 +13,6 @@ const rootReducer = combineReducers({
   selfcare: selfcareReducer,
 });
 
-export type rootReducerT = typeof rootReducer;
+export type RootReducer = typeof rootReducer;
 
 export default rootReducer;

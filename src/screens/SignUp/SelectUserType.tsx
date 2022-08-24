@@ -32,7 +32,7 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
     navigation.navigate(
       select === 'health professional'
         ? 'Singup/ProfilePicture'
-        : 'Singup/HealthInfo',
+        : 'Singup/HealthQuestions',
     );
   };
 
@@ -41,6 +41,9 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.titleContainer}>
         <Text style={[styles.titleScreen, styles.titleCenter]}>
           {translate('select_user.title')}
+        </Text>
+        <Text style={styles.textDescription}>
+          {translate('select_user.description')}
         </Text>
       </View>
       <View style={styles.userTypesContainer}>
@@ -118,15 +121,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: Colors.headline,
   },
-  descriptionContainer: {
-    marginTop: 30,
-    marginHorizontal: Metrics.marginHorizontal,
-  },
   textDescription: {
-    fontFamily: Fonts.type.light,
+    fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h6,
-    textAlign: 'center',
+    textAlign: 'left',
     color: Colors.paragraph,
+    marginHorizontal: Metrics.marginHorizontal,
   },
 });
 

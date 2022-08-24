@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import notifee from '@notifee/react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 
 import type { RootStackParamList } from '../router/types';
+import { MainAppContext } from './context';
 
 type InitialScreenApp = {
   loading: boolean;
@@ -12,7 +13,7 @@ type InitialScreenApp = {
 export const useInitialScreenApp = () => {
   const [mainScreenState, setMainScreenState] = useState<InitialScreenApp>({
     loading: true,
-    nextScreen: 'Home',
+    nextScreen: 'HomeTabs',
   });
 
   // Bootstrap sequence function
@@ -22,14 +23,20 @@ export const useInitialScreenApp = () => {
     if (initialNotification) {
       const { data = {} } = initialNotification.notification;
       // TODO impplement google analitycs
-      console.log('Notification caused application to open', initialNotification.notification);
-      console.log('Press action used to open the app', initialNotification.pressAction);
+      console.log(
+        'Notification caused application to open',
+        initialNotification.notification,
+      );
+      console.log(
+        'Press action used to open the app',
+        initialNotification.pressAction,
+      );
       // todo change resolve
-      const mergeData = { navigateTo: 'Home', ...data };
+      const mergeData = { navigateTo: 'HomeTabs', ...data };
       return Promise.resolve(mergeData);
     }
 
-    return Promise.resolve({ navigateTo: 'Home' });
+    return Promise.resolve({ navigateTo: 'HomeTabs' });
   }
 
   useEffect(() => {
@@ -43,9 +50,17 @@ export const useInitialScreenApp = () => {
       .then(onNextScreen)
       .catch(error => {
         crashlytics().recordError(error);
-        onNextScreen({ navigateTo: 'Home' });
+        onNextScreen({ navigateTo: 'HomeTabs' });
       });
   }, []);
 
   return mainScreenState;
+};
+
+export const useMainApp = () => {
+  const mainContext = useContext(MainAppContext);
+  if (mainContext == null) {
+    throw new Error('useMainApp() called outside of a MainAppContext?');
+  }
+  return mainContext;
 };
