@@ -15,7 +15,7 @@ type UserBodyMeasures = {
   unit: string;
 };
 
-export enum userTypeEnum {
+export enum userRole {
   HEALT_PROFESSIONAL = 1,
   PATIENT = 2,
 }
@@ -31,7 +31,7 @@ export interface UserState {
   weight: UserBodyMeasures;
   height: UserBodyMeasures;
   birthdate: string;
-  userType: userTypeEnum;
+  userType: userRole;
   profileUrl: string;
   age: string;
   imc: string;

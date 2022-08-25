@@ -42,7 +42,7 @@ const defaulPictureOptions: CameraOptions = {
   maxWidth: 512,
   maxHeight: 512,
   quality: 0.7,
-  includeExtra: true,
+  includeExtra: false, // TODO ver que permisos se necesitan para habilitar esta opcion
 };
 
 const requestCameraPermission = async () => {
@@ -127,6 +127,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
     actionSheetRef.current?.hide();
     try {
       const result = await launchImageLibrary(defaulPictureOptions);
+      console.log("onChooseImage", result);
       setUriPhoto(result);
     } catch (error) {
       crashlytics().recordError(error);
@@ -225,8 +226,8 @@ const styles = StyleSheet.create({
     marginTop: 21,
   },
   picture: {
-    width: Metrics.screenWidth / 2,
-    height: Metrics.screenWidth / 2,
+    width: Metrics.screenWidth * 0.7,
+    height: Metrics.screenWidth * 0.7,
     resizeMode: 'cover',
   },
   pictureContainer: {
@@ -239,8 +240,8 @@ const styles = StyleSheet.create({
     color: Colors.buttonText,
     fontFamily: Fonts.type.bold,
     fontSize: Fonts.size.h5,
-    left: (Metrics.screenWidth / 2 - 85) / 2,
-    width: 85,
+    left: (Metrics.screenWidth * 0.7 - 85) / 2,
+    width: 87,
     textShadowColor: Colors.paragraph,
     textShadowOffset: {
       width: 1,
@@ -250,9 +251,9 @@ const styles = StyleSheet.create({
   },
   touchPicture: {
     position: 'relative',
-    width: Metrics.screenWidth / 2,
-    height: Metrics.screenWidth / 2,
-    borderRadius: Metrics.screenWidth / 4,
+    width: Metrics.screenWidth * 0.7,
+    height: Metrics.screenWidth * 0.7,
+    borderRadius: Metrics.screenWidth * 0.7,
     borderColor: Colors.stroke,
     borderWidth: 1,
     overflow: 'hidden',

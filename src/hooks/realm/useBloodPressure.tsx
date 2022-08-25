@@ -11,7 +11,7 @@ const { useRealm } = RealmContext;
 
 export const useBloodPressureMeasurement = () => {
   const realm = useRealm();
-  const { user } = useRealmAuth();
+  const { realmAuthUser } = useRealmAuth();
   const bloodPressureMeasurements = realm.objects<BloodPressureMeasurementType>(
     BloodPressureMeasurements.name,
   );
@@ -38,12 +38,14 @@ export const useBloodPressureMeasurement = () => {
           // create new document
           realm.create(
             BloodPressureMeasurements.name,
-            BloodPressureMeasurements.generate(user?.id ?? '', [record]),
+            BloodPressureMeasurements.generate(realmAuthUser?.id ?? '', [
+              record,
+            ]),
           );
         }
       });
     },
-    [bloodPressureMeasurements, realm, user],
+    [bloodPressureMeasurements, realm, realmAuthUser],
   );
 
   const getMeasurements = useCallback(

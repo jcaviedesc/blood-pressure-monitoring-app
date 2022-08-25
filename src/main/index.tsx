@@ -7,7 +7,7 @@ import { useAppSelector, useAppDispatch } from '../hooks';
 import { selectAppUserState, initAppSuccessful } from '../store/app/appSlice';
 import SplashScreen from '../screens/Splash';
 import OnboardingScreen from '../screens/Onboarding';
-import MainStackNavigator, { NavigationRef } from '../router';
+import MainStackNavigator, { NavigationRef, StackNavigationRef } from '../router';
 import { useInitialScreenApp } from './hooks';
 import { RealmAppWrapper } from '../hooks/realm/provider';
 import { useRealmAuth } from '../providers/RealmProvider';
@@ -91,20 +91,20 @@ const Main = () => {
 
   const handleAppStateChange = useCallback(
     (nextAppState: string) => {
-      console.log({ nextAppState });
-      if (nextAppState === 'background') {
+      const currentScreen = StackNavigationRef.getCurrentRoute()?.name;
+      console.log({ currentScreen });
+      if (
+        nextAppState === 'background' &&
+        currentScreen !== 'Singup/ProfilePicture'
+      ) {
         if (userAuthenticated?.data && !userAuthenticated.isRegistered) {
-          auth()
-            .signOut()
-            .then(() => {
-              crashlytics().setAttribute(
-                'phone',
-                userAuthenticated.data?.phoneNumber as string,
-              );
-              crashlytics().log(
-                `Info: User with phone ${userAuthenticated.data?.phoneNumber} abort the registration`,
-              );
-            });
+          crashlytics().setAttribute(
+            'phone',
+            userAuthenticated.data?.phoneNumber as string,
+          );
+          crashlytics().log(
+            `Info: User with phone ${userAuthenticated.data?.phoneNumber} abort the registration`,
+          );
         }
       }
     },
