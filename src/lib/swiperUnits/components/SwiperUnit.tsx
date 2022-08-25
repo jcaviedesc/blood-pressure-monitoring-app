@@ -6,6 +6,7 @@ type Props = {
   styleUnit: TextStyle;
   styleActiveUnit: TextStyle;
   active: boolean;
+  width: number;
 };
 
 const SwiperUnit: React.FC<Props> = ({
@@ -13,12 +14,13 @@ const SwiperUnit: React.FC<Props> = ({
   styleUnit,
   styleActiveUnit,
   active,
+  width,
 }) => {
   const unitStyles = active
     ? { ...styleUnit, ...styleActiveUnit, ...styles.activeUnit }
     : styleUnit;
   return (
-    <View style={styles.swiperContainer}>
+    <View style={[styles.swiperContainer, { width }]}>
       <View style={styles.unitContainer}>
         <Text style={unitStyles}>{unit}</Text>
       </View>
@@ -60,11 +62,11 @@ const styles = StyleSheet.create({
   swiperUnitContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
+    justifyContent: 'space-around',
   },
   line: {
     width: 2,
     height: 10,
-    marginRight: 5,
     backgroundColor: '#778596',
   },
   middleLine: {
