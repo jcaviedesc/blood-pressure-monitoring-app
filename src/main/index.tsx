@@ -7,7 +7,10 @@ import { useAppSelector, useAppDispatch } from '../hooks';
 import { selectAppUserState, initAppSuccessful } from '../store/app/appSlice';
 import SplashScreen from '../screens/Splash';
 import OnboardingScreen from '../screens/Onboarding';
-import MainStackNavigator, { NavigationRef, StackNavigationRef } from '../router';
+import MainStackNavigator, {
+  NavigationRef,
+  StackNavigationRef,
+} from '../router';
 import { useInitialScreenApp } from './hooks';
 import { RealmAppWrapper } from '../hooks/realm/provider';
 import { useRealmAuth } from '../providers/RealmProvider';
@@ -121,12 +124,6 @@ const Main = () => {
       appStateId.remove();
     };
   }, [handleAppStateChange]);
-
-  console.log('Main', {
-    loading,
-    nextScreen,
-    userAuthenticated,
-  });
 
   if (loading || initializing) {
     return <SplashScreen />;

@@ -1,5 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, AnyAction } from '@reduxjs/toolkit';
 import {
+  persistReducer,
   persistStore,
   FLUSH,
   REHYDRATE,
@@ -8,31 +9,34 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import rootReducer from './rootReducers';
-import { persistedReducer } from './configurePersistStore';
+import rootReducer, { RootReducer } from './rootReducers';
+import { persistConfig } from './configurePersistStore';
 import Api from '../services/api';
-import { setScreenLoading } from './app/appSlice';
+// import { setScreenLoading } from './app/appSlice';
 
 const clientApi = Api();
 
-const persistedReducerSetup = persistedReducer(rootReducer);
+const persistedReducer = persistReducer<RootReducer, AnyAction>(
+  persistConfig,
+  rootReducer,
+) as unknown as RootReducer;
 
-const customMiddleWare = store => next => action => {
-  if (action?.type) {
-    if (action.type.includes('pending')) {
-      store.dispatch(setScreenLoading(true));
-    } else if (
-      action.type.includes('rejected') ||
-      action.type.includes('fulfilled')
-    ) {
-      store.dispatch(setScreenLoading(false));
-    }
-  }
-  next(action);
-};
+// const customMiddleWare = store => next => action => {
+//   if (action?.type) {
+//     if (action.type.includes('pending')) {
+//       store.dispatch(setScreenLoading(true));
+//     } else if (
+//       action.type.includes('rejected') ||
+//       action.type.includes('fulfilled')
+//     ) {
+//       store.dispatch(setScreenLoading(false));
+//     }
+//   }
+//   next(action);
+// };
 
 const store = configureStore({
-  reducer: persistedReducerSetup,
+  reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== 'production',
   middleware: getDefaultMiddleware => {
     const middlewares = getDefaultMiddleware({

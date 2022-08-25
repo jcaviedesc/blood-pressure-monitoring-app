@@ -26,6 +26,7 @@ import { selectUser, updateUserField } from '../../store/signup/signupSlice';
 import { signUpUser } from '../../thunks/users-thunk';
 import { useMainApp } from '../../main/hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
+import { setScreenLoading } from '../../store/app/appSlice';
 
 type actionSheetRef = {
   setModalVisible: () => void;
@@ -127,7 +128,6 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
     actionSheetRef.current?.hide();
     try {
       const result = await launchImageLibrary(defaulPictureOptions);
-      console.log("onChooseImage", result);
       setUriPhoto(result);
     } catch (error) {
       crashlytics().recordError(error);
@@ -135,9 +135,14 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const onNext = async () => {
-    dispatch(signUpUser(navigation)).then(() => {
-      registerUser();
-    });
+    dispatch(setScreenLoading(true));
+    dispatch(signUpUser(navigation))
+      .then(() => {
+        registerUser();
+      })
+      .finally(() => {
+        dispatch(setScreenLoading(false));
+      });
   };
 
   return (
