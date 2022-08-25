@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { Text, StyleSheet, View, Platform, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import auth from '@react-native-firebase/auth';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles } from '../../styles';
 import { Input, Button } from '../../components';
@@ -9,6 +10,7 @@ import { selectUser, updateUserField } from '../../store/signup/signupSlice';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { signUpSchema, transformError } from './schemaValidators/signup';
 import { MainContainer } from '../../components/Layout';
+import { useBackHandler } from '../../hooks/back-handler';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Singup'>;
 
@@ -36,6 +38,34 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
       navigation.navigate('Singup/Birthdate');
     }
   }
+
+  const backHandler = useCallback(() => {
+    Alert.alert(
+      translate('singup.on_back_title'),
+      translate('singup.on_back_description'),
+      [
+        {
+          text: translate('singup.on_back_cancel'),
+          onPress: () => {
+            auth()
+              .signOut()
+              .then(() => {
+                // TODO clear data
+                navigation.navigate('Welcome');
+              });
+          },
+          style: 'cancel',
+        },
+        {
+          text: translate('singup.on_back_continue'),
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  }, [navigation, translate]);
+
+  useBackHandler(backHandler);
   console.log('porque hay cambio en SignUpScreen');
   return (
     <MainContainer isScrollView>
@@ -105,6 +135,7 @@ const styles = StyleSheet.create({
   ...AppStyles.screen,
   titleContainer: {
     flex: 20,
+    marginTop: Platform.OS === 'android' ? 60 : 70,
   },
   subtitleContainer: {
     marginTop: 9,

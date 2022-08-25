@@ -21,6 +21,7 @@ import { PhoneInputWrapper } from '../../wrappers';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale, setScreenLoading } from '../../store/app/appSlice';
+import { useBackHandlerExitApp } from '../../hooks/back-handler';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 // TODO refactor P1
@@ -34,6 +35,12 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   });
 
   const { setConfirm } = useConfirmPhone();
+  useBackHandlerExitApp({
+    alertTitle: translate('skip_app_alert.title'),
+    alertDescription: translate('skip_app_alert.subtitle'),
+    alertOkText: translate('skip_app_alert.ok'),
+    alertCancelText: translate('skip_app_alert.cancel'),
+  });
 
   async function navigate() {
     dispatch(setScreenLoading(true));
@@ -60,36 +67,6 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
       dispatch(setScreenLoading(false));
     }
   }
-
-  useFocusEffect(
-    React.useCallback(() => {
-      const backAction = () => {
-        // Espera! 'Hold on!
-        // Seguro quieres salir de la applicación? 'Are you sure you want to go back?
-        Alert.alert(
-          translate('skip_app_alert.title'),
-          translate('skip_app_alert.subtitle'),
-          [
-            {
-              text: translate('skip_app_alert.cancel'),
-              onPress: () => null,
-              style: 'cancel',
-            },
-            {
-              text: translate('skip_app_alert.ok'),
-              onPress: () => BackHandler.exitApp(),
-            },
-          ],
-        );
-        return true;
-      };
-
-      BackHandler.addEventListener('hardwareBackPress', backAction);
-
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', backAction);
-    }, [translate]),
-  );
 
   return (
     <MainContainer isScrollView>

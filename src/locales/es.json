@@ -18,7 +18,11 @@
     "name": "Nombres",
     "lastName": "Apellidos",
     "document_id": "Número de identificación",
-    "document_id_hint": "cédula de ciudadania, DNI, pasaporte"
+    "document_id_hint": "cédula de ciudadania, DNI, pasaporte",
+    "on_back_title": "¡Espera!",
+    "on_back_description": "Si regresas perderas tu progreso",
+    "on_back_cancel": "Regresar",
+    "on_back_continue": "Continuar"
   },
   "birthdate_screen": {
     "title": "¿Cuando es tu cumpleaños?",
