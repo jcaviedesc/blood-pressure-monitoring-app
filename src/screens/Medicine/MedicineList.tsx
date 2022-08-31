@@ -5,7 +5,6 @@ import type { RootStackParamList } from '../../router/types';
 import { AppStyles } from '../../styles';
 import { Button } from '../../components';
 import MedicineCard from '../../components/MedicineCard';
-import { MainContainer } from '../../components/Layout';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { findMonitors } from '../../thunks/blood-pressure/monitors-thunk';
 import { selectMonitors } from '../../store/blood-pressure';
@@ -57,7 +56,7 @@ const MedicineScreen: React.FC<Props> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const monitors = useAppSelector(selectMonitors);
 
-  useLayoutEffect(() => {
+  /* useLayoutEffect(() => {
     navigation.setOptions({
       headerSearchBarOptions: {
         cancelButtonText: translate('headerSearch.cancel'),
@@ -68,7 +67,7 @@ const MedicineScreen: React.FC<Props> = ({ navigation }) => {
         },
       },
     });
-  }, [navigation, translate]);
+  }, [navigation, translate]); */
 
 
   return (

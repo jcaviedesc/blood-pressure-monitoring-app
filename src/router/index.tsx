@@ -166,14 +166,14 @@ function MainStackNavigator({
           name="development"
           component={MedicineScreen}
           options={{
-            title: 'developing screen',
+            title: 'Medicamentos',
           }}
         />
         <Stack.Screen
           name="Medicine"
           component={MedicineFormScreen}
           options={{
-            title: 'Medicine screen',
+            title: 'Medicamento',
           }}
         />
         

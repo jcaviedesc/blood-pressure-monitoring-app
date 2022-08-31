@@ -6,6 +6,7 @@ import Card from './Card';
 import Steps from './Steps';
 import VerifyCode from './VerifyCode';
 import InputToggle from './InputToggle';
+import InputOption from './InputOption';
 import CustomSlider from './CustomSlider';
 import HeaderChart from './HeaderChart';
 import BloodPressureSlider from './BloodPressureSlider';
@@ -34,6 +35,7 @@ export {
   VerifyCode,
   Card,
   InputToggle,
+  InputOption,
   CustomSlider,
   HeaderChart,
   BloodPressureSlider,

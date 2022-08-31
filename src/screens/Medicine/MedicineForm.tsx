@@ -1,5 +1,11 @@
-import React, {useLayoutEffect, useState, useMemo} from 'react';
-import { ScrollView, StyleSheet, View, SafeAreaView, TouchableHighlight } from 'react-native';
+import React, { useLayoutEffect, useState, useMemo } from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  TouchableHighlight
+} from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Fonts, Colors, Metrics } from '../../styles';
@@ -9,17 +15,16 @@ import { selectMonitors } from '../../store/blood-pressure';
 import {
   selectUser,
   updateHealtQuestions,
-  updateUserField
+  updateUserField,
 } from '../../store/medicineup/medicineupSlice';
 import { HealtInfoAction } from '../../store/signup/types';
 import { useMeasuringForm } from '../../hooks/blood-pressure/useMeasuring';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { DatePicker, InputToggle, Button, Text, Input } from '../../components';
+import { DatePicker, InputToggle, Button, Text, Input, InputOption } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'development'>;
 
 const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
-
   const { translate } = useI18nLocate();
   const dispatch = useAppDispatch();
   const { name, lastName, docId, healtQuestions } = useAppSelector(selectUser);
@@ -51,7 +56,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const onNext = () => {
-    console.log("keep data")
+    console.log('keep data');
   };
 
   const showDatepicker = () => {
@@ -85,13 +90,13 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.inputText}>
               {translate('medicine_info_screen.type')}
             </Text>
-          </View>
-          <View style={styles.inputToggleContainer}>
-            <InputToggle
+            <InputOption
               selected={healtQuestions.smoke}
               options={[
-                { label: translate('yes'), value: 'yes' },
-                { label: translate('not'), value: 'not' },
+                { label: 'Pildora', value: 'yes' },
+                { label: 'MI', value: 'not' },
+                { label: 'Gotas', value: 'ok' },
+                { label: 'Inhaladores', value: 'nok' },
               ]}
               onPress={({ value }) => {
                 onSelectHealtOption('smoke', value as HealtInfoAction['value']);
@@ -119,43 +124,18 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
               {translate('medicine_info_screen.concurrence')}
             </Text>
           </View>
-          <View style={styles.inputToggleContainer}>
-            <InputToggle
-              selected={healtQuestions.thrombosis}
+          <InputOption
+              selected={healtQuestions.smoke}
               options={[
-                { label: translate('yes'), value: 'yes' },
-                { label: translate('not'), value: 'not' },
+                { label: 'Diario', value: 'yes' },
+                { label: 'Cada 8 horas', value: 'not' },
+                { label: 'Cada 10 horas', value: 'ok' },
+                { label: 'Cada 12 horas', value: 'nok' },
               ]}
               onPress={({ value }) => {
-                onSelectHealtOption(
-                  'thrombosis',
-                  value as HealtInfoAction['value'],
-                );
+                onSelectHealtOption('smoke', value as HealtInfoAction['value']);
               }}
             />
-          </View>
-        </View>
-        <View style={styles.toggleContainer}>
-          <View style={styles.inputTextContainer}>
-            <Text style={styles.inputText}>
-              {translate('medicine_info_screen.concurrence')}
-            </Text>
-          </View>
-          <View style={styles.inputToggleContainer}>
-            <InputToggle
-              selected={healtQuestions.thrombosis}
-              options={[
-                { label: translate('yes'), value: 'yes' },
-                { label: translate('not'), value: 'not' },
-              ]}
-              onPress={({ value }) => {
-                onSelectHealtOption(
-                  'thrombosis',
-                  value as HealtInfoAction['value'],
-                );
-              }}
-            />
-          </View>
         </View>
         <View style={styles.toggleContainer}>
           <View style={styles.inputTextContainer}>
@@ -192,7 +172,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
             maximumDate={limitDate}
           />
         ) */}
-        {/* showEnd && (
+          {/* showEnd && (
           <DatePicker
             testID="dateTimePicker"
             value={date}
@@ -230,9 +210,11 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   inputText: {
-    fontFamily: Fonts.type.light,
+    color: Colors.headline,
+    marginLeft: 3,
+    fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h5,
-    textAlign: 'left',
+    marginBottom: 9,
   },
   inputTextContainer: {
     marginBottom: 9,
