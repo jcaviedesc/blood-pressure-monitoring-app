@@ -1,16 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  MedicineUpState,
-  updateUserFieldType,
-  HealtInfoAction,
-  SexEnum,
-} from './types';
+import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../configureStore';
-import { signUpUser } from '../../thunks/users-thunk';
+import { MedicineUpState } from './types';
+import { fetchListMedicine } from '../../thunks/medicine/medicine-thunks';
 
 /* ------------- Initial State ------------- */
 const initialState: MedicineUpState = {
-  name: '',
+  listMedicine: [],
+  /* name: '',
   lastName: '',
   docId: '',
   phone: '',
@@ -28,16 +24,16 @@ const initialState: MedicineUpState = {
     thrombosis: '',
     nephropathy: '',
   },
-  picture: { uri: '', type: '' },
+  picture: { uri: '', type: '' }, */
 };
 
 export const medicineUpSlice = createSlice({
-  name: 'signUp',
+  name: 'medicineUp',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    updateUserField: (state, action: PayloadAction<updateUserFieldType>) => {
+    /* updateUserField: (state, action: PayloadAction<updateUserFieldType>) => {
       const { field, value } = action.payload;
       state[field] = value;
     },
@@ -46,20 +42,19 @@ export const medicineUpSlice = createSlice({
       const { field, value } = action.payload;
       healtInfoState[field] = value;
       state.healtQuestions = healtInfoState;
-    },
-    clear: () => initialState,
+    },*/
+    clear: () => initialState, 
   },
   extraReducers: builder => {
-    builder.addCase(signUpUser.fulfilled, () => {
-      return initialState;
+    builder.addCase(fetchListMedicine.fulfilled, (state, action: any) => {
+      state.listMedicine = action;
     });
   },
 });
 
-export const { updateUserField, updateHealtQuestions, clear } =
-medicineUpSlice.actions;
+export const { clear } = medicineUpSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectUser = (state: RootState) => state.signup;
+export const selectMedicineUp = (state: RootState) => state.medicineUp;
 
 export default medicineUpSlice.reducer;

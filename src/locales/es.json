@@ -54,7 +54,8 @@
     "period": "Periodo que debe tomar el medicamento",
     "dateStart": "Fecha Inicio",
     "dateEnd": "Fecha Fin",
-    "keep_medicine": "Guardar nuevo medicamento"
+    "keep_medicine": "Guardar",
+    "not_found_medicine": "No tiene medicamentos registrados"
   },
   "skip_app_alert": {
     "title": "¡Espera!",

@@ -1,14 +1,16 @@
-import React, {useLayoutEffect} from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles } from '../../styles';
-import { Button } from '../../components';
+import Entypo from 'react-native-vector-icons/Entypo';
 import MedicineCard from '../../components/MedicineCard';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { findMonitors } from '../../thunks/blood-pressure/monitors-thunk';
 import { selectMonitors } from '../../store/blood-pressure';
 import { useAppSelector, useAppDispatch } from '../../hooks';
+import { Colors } from '../../styles';
+import { fetchListMedicine } from '../../thunks/medicine/medicine-thunks';
+import { selectMedicineUp } from '../../store/medicineup/medicineupSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'development'>;
 const DATA = [
@@ -16,74 +18,71 @@ const DATA = [
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'Aspirina 1',
     hour:"6:00 pm",
-    brand: "hello",
-    model: "helloModel",
-    use:"helloValue",
-    measurementSite:"helloMeasure",
-    measurementMethod: "hellomeasurementMethod",
-    validationStudy:"hellovalidationStudy",
-    dosis: "25mg"
+    dosis: "25mg",
+    apparience: "pildora"
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'Aspirina 2',
     hour:"6:00 pm",
-    brand: "hello",
-    model: "helloModel",
-    use:"helloValue",
-    measurementSite:"helloMeasure",
-    measurementMethod: "hellomeasurementMethod",
-    validationStudy:"hellovalidationStudy",
-    dosis: "50mg"
+    dosis: "50mg",
+    apparience: "mi"
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
     title: 'Aspirina 3',
     hour:"6:00 pm",
-    brand: "hello",
-    model: "helloModel",
-    use:"helloValue",
-    measurementSite:"helloMeasure",
-    measurementMethod: "hellomeasurementMethod",
-    validationStudy:"hellovalidationStudy",
-    dosis: "75mg"
+    dosis: "75mg",
+    apparience: "gotas"
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d47',
+    title: 'Aspirina 4',
+    hour:"6:00 pm",
+    dosis: "75mg",
+    apparience: "inhaladores"
   },
 ];
 
 const MedicineScreen: React.FC<Props> = ({ navigation }) => {
 
   const { translate } = useI18nLocate();
-  const dispatch = useAppDispatch();
-  const monitors = useAppSelector(selectMonitors);
 
-  /* useLayoutEffect(() => {
-    navigation.setOptions({
-      headerSearchBarOptions: {
-        cancelButtonText: translate('headerSearch.cancel'),
-        placeholder: translate('headerSearch.placeholder'),
-        autoFocus: true,
-        onChangeText: text => {
-          dispatch(findMonitors(text));
-        },
-      },
-    });
-  }, [navigation, translate]); */
+  const dispatch = useAppDispatch();
+  const {listMedicine} = useAppSelector(selectMedicineUp);
+
+   useEffect(() => {
+    dispatch(fetchListMedicine());
+   }, []) 
+   
+
+  const EmptyListMessage = () => {
+    return (
+      // Flat List Item
+      <Text style={styles.emptyListStyle}>
+         {translate('medicine_info_screen.not_found_medicine')}
+      </Text>
+    );
+  };
 
 
   return (
     <View style={[styles.mainContainer, styles.content]}>
       <View style={{ flex: 1, justifyContent: 'center' }}>
       <FlatList
-        data={DATA}
+        data={listMedicine}
         renderItem={({ item }) => <MedicineCard {...item} />}
         keyExtractor={item => item.id}
+        ListEmptyComponent={EmptyListMessage}
       />
         <View style={styles.footer}>
-          <Button 
-            title="Agregar Medicina" 
-            onPress={() => {
-              navigation.navigate('Medicine');
-            }}
+            <Entypo
+              name="circle-with-plus"
+              size={80}
+              color={Colors.tertiary}
+              onPress={() => {
+                navigation.navigate('Medicine');
+              }}
             />
         </View>
       </View>
@@ -126,7 +125,14 @@ const styles = StyleSheet.create({
   footer: {
     marginTop: 18,
     marginBottom: 12,
-    padding:4
+    padding:8,
+    flexDirection: "row-reverse"
+  },
+  emptyListStyle: {
+    padding: 10,
+    fontSize: 18,
+    textAlign: 'center',
+    backgroundColor: Colors.tertiaryTranslucent
   },
 });
 

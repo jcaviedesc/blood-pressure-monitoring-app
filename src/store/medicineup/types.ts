@@ -1,45 +1,22 @@
-export enum SexEnum {
-  male = 'male',
-  female = 'female',
-}
-
-type ResponseOptions = 'yes' | 'not' | 'not know' | '';
-type HealtQuestions = {
-  medicine: ResponseOptions;
-  smoke: ResponseOptions;
-  heartAttack: ResponseOptions;
-  thrombosis: ResponseOptions;
-  nephropathy: ResponseOptions;
-};
-
-type Picture = {
-  uri: string;
-  type: string;
+export interface MedicineUp {
+  name: string,
+  apparience: string,
+  dose: {
+    u: string,
+    v: number
+  },
+  via: string,
+  frecuency: string,
+  times_per_day: number,
+  days:Array<string>,
+  every: number,
+  times: Array<string>,
+  ctd_at: string,
+  utd_at: string,
+  _id: string,
+  user_id: string
 };
 
 export interface MedicineUpState {
-  id?: string | number;
-  name: string;
-  lastName: string;
-  docId: string; // cedula, DNI, pasaporte
-  phone: string;
-  address: string;
-  location: number[];
-  sex: SexEnum;
-  weight: string;
-  height: string;
-  birthdate: string;
-  userType: 'health professional' | 'patient' | '';
-  healtQuestions: HealtQuestions;
-  picture: Picture;
-}
-
-export type updateUserFieldType = {
-  field: keyof MedicineUpState;
-  value: number[] | '' | string | Date | Picture;
-};
-
-export type HealtInfoAction = {
-  field: keyof HealtQuestions;
-  value: 'yes' | 'not' | 'not know' | '';
+  listMedicine: Array<MedicineUp>,
 };

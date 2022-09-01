@@ -1,17 +1,21 @@
-import React, { useLayoutEffect, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import {
   ScrollView,
   StyleSheet,
   View,
   SafeAreaView,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
+import dayjsUtil from '../../services/DatatimeUtil';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Fonts, Colors, Metrics } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { findMonitors } from '../../thunks/blood-pressure/monitors-thunk';
-import { selectMonitors } from '../../store/blood-pressure';
+import ActionSheet from 'react-native-actions-sheet';
+import {
+  selectReminders,
+} from '../../store/blood-pressure';
 import {
   selectUser,
   updateHealtQuestions,
@@ -20,18 +24,23 @@ import {
 import { HealtInfoAction } from '../../store/signup/types';
 import { useMeasuringForm } from '../../hooks/blood-pressure/useMeasuring';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { DatePicker, InputToggle, Button, Text, Input, InputOption } from '../../components';
+import { DatePicker, Button, Text, Input, InputOption } from '../../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'development'>;
 
+type actionSheetRef = {
+  setModalVisible: () => void;
+  hide: () => void;
+};
+
 const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
+  const { reminders, selectedReminder: reminderActive } =
+    useAppSelector(selectReminders);
   const { translate } = useI18nLocate();
   const dispatch = useAppDispatch();
-  const { name, lastName, docId, healtQuestions } = useAppSelector(selectUser);
-  const [inputErrors, setInputErrors] = useState({});
-  const { state, isButtonEnabled, onChange, onEnableAddNote, selectRecord } =
-    useMeasuringForm();
-  const monitors = useAppSelector(selectMonitors);
+  const { name, healtQuestions, startdate, enddate } =
+    useAppSelector(selectUser);
+  const actionSheetRef = useRef<actionSheetRef>();
   const [date, setDate] = useState(new Date(327207177000));
   const [showStart, setShowStart] = useState(false);
   const [showEnd, setShowEnd] = useState(false);
@@ -59,9 +68,29 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
     console.log('keep data');
   };
 
-  const showDatepicker = () => {
-    setShowEnd(true);
+  const showDatepicker = option => {
+    option === 'start' ? setShowStart(true) : setShowEnd(true);
   };
+
+  const onChangeStart = (selectedDate: Date): void => {
+    setShowStart(false);
+    setDate(selectedDate);
+    dispatchAction('startdate', dayjsUtil(selectedDate).format('YYYY-MM-DD'));
+  };
+
+  const onChangeEnd = (selectedDate: Date): void => {
+    setShowEnd(false);
+    setDate(selectedDate);
+    dispatchAction('enddate', dayjsUtil(selectedDate).format('YYYY-MM-DD'));
+  };
+
+
+  const optionsType = [
+    { label: 'Diario', value: 'yes', icon: 'clock' },
+    { label: 'Cada 8 horas', value: 'not', icon: 'clock' },
+    { label: 'Cada 10 horas', value: 'ok', icon: 'clock' },
+    { label: 'Cada 12 horas', value: 'nok', icon: 'clock' },
+  ];
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -90,18 +119,14 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.inputText}>
               {translate('medicine_info_screen.type')}
             </Text>
-            <InputOption
-              selected={healtQuestions.smoke}
-              options={[
-                { label: 'Pildora', value: 'yes' },
-                { label: 'MI', value: 'not' },
-                { label: 'Gotas', value: 'ok' },
-                { label: 'Inhaladores', value: 'nok' },
-              ]}
-              onPress={({ value }) => {
-                onSelectHealtOption('smoke', value as HealtInfoAction['value']);
-              }}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                actionSheetRef.current?.setModalVisible();
+              }}>
+              <Text style={styles.inputText}>
+                {translate('medicine_info_screen.type')}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.toggleContainer}>
@@ -125,67 +150,122 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
             </Text>
           </View>
           <InputOption
-              selected={healtQuestions.smoke}
-              options={[
-                { label: 'Diario', value: 'yes' },
-                { label: 'Cada 8 horas', value: 'not' },
-                { label: 'Cada 10 horas', value: 'ok' },
-                { label: 'Cada 12 horas', value: 'nok' },
-              ]}
-              onPress={({ value }) => {
-                onSelectHealtOption('smoke', value as HealtInfoAction['value']);
-              }}
-            />
+            selected={healtQuestions.smoke}
+            options={[
+              { label: 'Diario', value: 'yes', icon: 'clock' },
+              { label: 'Cada 8 horas', value: 'not', icon: 'clock' },
+              { label: 'Cada 10 horas', value: 'ok', icon: 'clock' },
+              { label: 'Cada 12 horas', value: 'nok', icon: 'clock' },
+            ]}
+            onPress={({ value }) => {
+              onSelectHealtOption('smoke', value as HealtInfoAction['value']);
+            }}
+          />
         </View>
         <View style={styles.toggleContainer}>
           <View style={styles.inputTextContainer}>
             <Text style={styles.inputText}>
               {translate('medicine_info_screen.period')}
             </Text>
+          </View>
+          <View></View>
+          {showStart && (
+            <DatePicker
+              testID="dateTimePicker"
+              value={enddate}
+              mode="date"
+              is24Hour={true}
+              display="spinner"
+              onChange={onChangeStart}
+              maximumDate={limitDate}
+            />
+          )}
+          {showEnd && (
+            <DatePicker
+              testID="dateTimePicker"
+              value={startdate}
+              mode="date"
+              is24Hour={true}
+              display="spinner"
+              onChange={onChangeEnd}
+              maximumDate={limitDate}
+            />
+          )}
+        </View>
+        <View style={styles.toggleContainer}>
+          <View style={styles.inputTextContainer}>
             <Text style={styles.inputText}>
               {translate('medicine_info_screen.dateStart')}
             </Text>
-            <Text style={styles.inputText}>
-              {translate('medicine_info_screen.dateEnd')}
-            </Text>
-          </View>
-          <View>
             <TouchableHighlight
               underlayColor={Colors.background}
               style={[styles.touchableBirthdate]}
-              onPress={showDatepicker}>
+              onPress={() => showDatepicker('start')}>
               <Text style={styles.touchableText}>
-                {/* {birthdate
+                {startdate
                   ? dayjsUtil(date).format('DD - MMMM -  YYYY')
-                  : '_ _ - _ _ - _ _'} */}
+                  : '_ _ - _ _ - _ _'}
+              </Text>
+            </TouchableHighlight>
+            <Text style={styles.inputText}>
+              {translate('medicine_info_screen.dateEnd')}
+            </Text>
+            <TouchableHighlight
+              underlayColor={Colors.background}
+              style={[styles.touchableBirthdate]}
+              onPress={() => showDatepicker('end')}>
+              <Text style={styles.touchableText}>
+                {enddate
+                  ? dayjsUtil(date).format('DD - MMMM -  YYYY')
+                  : '_ _ - _ _ - _ _'}
               </Text>
             </TouchableHighlight>
           </View>
-          {/* showStart && (
-          <DatePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            is24Hour={true}
-            display="spinner"
-            onChange={onChange}
-            maximumDate={limitDate}
-          />
-        ) */}
-          {/* showEnd && (
-          <DatePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            is24Hour={true}
-            display="spinner"
-            onChange={onChange}
-            maximumDate={limitDate}
-          />
-        ) */}
+          <View></View>
+          {showStart && (
+            <DatePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="spinner"
+              onChange={onChangeStart}
+              maximumDate={limitDate}
+            />
+          )}
+          {showEnd && (
+            <DatePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="spinner"
+              onChange={onChangeEnd}
+              maximumDate={limitDate}
+            />
+          )}
         </View>
+        <ActionSheet ref={actionSheetRef} bounceOnOpen>
+          <View style={styles.actionSheet}>
+            <InputOption
+              selected={healtQuestions.smoke}
+              options={[
+                { label: 'Diario', value: 'yes', icon: 'clock' },
+                { label: 'Cada 8 horas', value: 'not', icon: 'clock' },
+                { label: 'Cada 10 horas', value: 'ok', icon: 'clock' },
+                { label: 'Cada 12 horas', value: 'nok', icon: 'clock' },
+              ]}
+              onPress={({ value }) => {
+                onSelectHealtOption('smoke', value as HealtInfoAction['value']);
+              }}
+            />
+          </View>
+        </ActionSheet>
         <View style={styles.footer}>
-          <Button title={translate('button.next')} onPress={onNext} />
+          <Button
+            title={translate('medicine_info_screen.keep_medicine')}
+            onPress={onNext}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -194,6 +274,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   ...AppStyles.screen,
+  ...AppStyles.withActionsheet,
   title: {
     ...Fonts.style.h3,
     textAlign: 'center',
@@ -245,6 +326,18 @@ const styles = StyleSheet.create({
     color: Colors.headline,
     fontFamily: Fonts.type.bold,
     fontSize: 18,
+  },
+  touchableHighlight: {
+    //alignItems: 'center',
+    borderColor: Colors.tertiary,
+    borderWidth: 1,
+    //justifyContent: 'center',
+    height: 100,
+    paddingHorizontal: 2,
+  },
+  touchableHighlightSelected: {
+    backgroundColor: Colors.tertiary,
+    borderWidth: 0,
   },
 });
 export default MedicineFormScreen;

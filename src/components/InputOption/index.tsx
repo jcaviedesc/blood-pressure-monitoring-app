@@ -7,10 +7,32 @@ import {
   Platform,
 } from 'react-native';
 import { Colors, Fonts } from '../../styles';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+ {/*  */}
+  export enum SelectModes {
+    UNICA = 1,
+    MULTIPLE = 2,
+  }
+
+  export enum OptionMode {
+    INDIVIDUAL = 1,
+    GROUPED = 2,
+  }
+
+type ActionSheetOptionProps = {
+  actionSheetRef: typeof React.useRef;
+  onPressOption: (componentId: string, option: string[]) => void;
+  componentId: string;
+  selected: string[]; // TODO buscar como restringir un array con valores especificos y que no se repitan
+  selectMode: SelectModes;
+  optionMode: OptionMode;
+};
 
 type option = {
   label: string;
   value: string;
+  icon: string
 };
 
 type Props = {
@@ -26,28 +48,36 @@ const InputOption: React.FC<Props> = ({
   onPress,
   size = 'full',
 }) => {
-  // TODO add dark modo
   const [selectOpt, setSelectOpt] = useState(selected);
   let touchableInput = {};
   if (size === 'full') {
     touchableInput = { flex: 1 };
   }
+  // TODO add dark modo
   return (
     <View style={styles.container}>
-      {options.map(({ label, value }, index) => (
-        <TouchableOpacity
-          key={value}
-          style={[
-            styles.touchableHighlight,
-            touchableInput,
-            value === selectOpt ? styles.touchableHighlightSelected : {},
-            index === 0 ? styles.firstTouchable : {},
-            index === options.length - 1 ? styles.lastTouchable : {},
-          ]}
-          onPress={() => {
-            setSelectOpt(value);
-            onPress({ label, value });
-          }}>
+    {options.map(({ label, value, icon }, index) => (
+      <TouchableOpacity
+        key={value}
+        style={[
+          styles.touchableHighlight,
+          value === selectOpt ? styles.touchableHighlightSelected : {},
+          index === 0 ? styles.firstTouchable : {},
+          index === options.length - 1 ? styles.lastTouchable : {},
+        ]}
+        onPress={() => {
+          setSelectOpt(value);
+          onPress({ label, value });
+        }}>
+        <View style={styles.labelInput}>
+          <View style={styles.box}>
+          <FontAwesome5
+            name={icon}
+            size={25}
+            color={value === selectOpt ? "#ffffff" : Colors.tertiary}
+          />
+          </View>
+          <View>
           <Text
             style={[
               styles.optionText,
@@ -55,9 +85,11 @@ const InputOption: React.FC<Props> = ({
             ]}>
             {label}
           </Text>
-        </TouchableOpacity>
-      ))}
-    </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    ))}
+  </View>
   );
 };
 
@@ -66,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.transparent,
     //flexDirection: 'column',
     justifyContent: 'flex-start',
-    height: Platform.OS === 'ios' ? 100 : 112,
+    height: Platform.OS === 'ios' ? 200 : 212,
     overflow: 'hidden',
     
   },
@@ -75,12 +107,19 @@ const styles = StyleSheet.create({
     borderColor: Colors.tertiary,
     borderWidth: 1,
     //justifyContent: 'center',
-    height: 100,
+    height: 40,
     paddingHorizontal: 2,
   },
   touchableHighlightSelected: {
     backgroundColor: Colors.tertiary,
     borderWidth: 0,
+  },
+  box: {
+    width: 50
+  },
+  labelInput:{
+    flex: 2,
+    flexDirection: "row",
   },
   firstTouchable: {
     borderBottomLeftRadius: 6,

@@ -1,21 +1,22 @@
-import { padEnd } from 'lodash';
+
 import React from 'react';
-import { View, Image, StyleSheet, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
+import { View, StyleSheet, Text } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import type { Medicine } from '../../store/blood-pressure/types';
 import { Fonts, Metrics, Colors } from '../../styles';
 
 
 type Props = {
-  title:string,
+  name:string,
   hour:string,
-  dosis:string
+  dose:{
+    u: string,
+    v:number
+  }
 };
 
 
-const MedicineCard: React.FC<Props> = (props) => {
+const MedicineCard: React.FC<any> = (props) => {
   const { translate } = useI18nLocate();
   return (
      <View style={styles.item}>
@@ -30,13 +31,13 @@ const MedicineCard: React.FC<Props> = (props) => {
           </View>
           <View style={styles.titleMedicine}>
             <Text style={styles.titleText}>{translate('medicineDose')}</Text>
-            <Text style={styles.value}>{props.title}</Text>
+            <Text style={styles.value}>{props.name}</Text>
           </View>
         </View>
         <View style={styles.bodyHead}>
           <View style={styles.descriptionBody}>
             <Text style={styles.titleText}>{translate('dose')}</Text>
-            <Text style={styles.normarValue}>{props.dosis}</Text>
+            <Text style={styles.normarValue}>{props.dose.v+" "+props.dose.u}</Text>
           </View>
           <View style={styles.descriptionBody}>
             <Text style={styles.titleText}>{translate('hourDose')}</Text>
@@ -44,13 +45,13 @@ const MedicineCard: React.FC<Props> = (props) => {
           </View>
         </View>
       </View>
-      <View style={styles.menudots}>
+      {/* <View style={styles.menudots}>
         <Icon
           name={true ? 'dots-three-vertical' : 'dots-three-vertical'}
           size={16}
           color={Colors.primary}
         />
-      </View>
+      </View> */}
     </View> 
   );
 };
