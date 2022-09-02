@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.tertiary,
     borderWidth: 1,
     //justifyContent: 'center',
-    height: 40,
+    height: 30,
     paddingHorizontal: 2,
   },
   touchableHighlightSelected: {

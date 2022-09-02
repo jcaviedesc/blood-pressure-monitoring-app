@@ -50,12 +50,19 @@
     "medicine": "Nombre del medicamento",
     "type": "Tipo de presentación del medicamento",
     "dose": "Dosis del medicamento",
-    "concurrence": "Concurrencia",
+    "frecuency": "Frecuencia",
     "period": "Periodo que debe tomar el medicamento",
     "dateStart": "Fecha Inicio",
     "dateEnd": "Fecha Fin",
     "keep_medicine": "Guardar",
-    "not_found_medicine": "No tiene medicamentos registrados"
+    "not_found_medicine": "No tiene medicamentos registrados",
+    "pill":"Pildoras", 
+    "solution":"Solución", 
+    "injection":"Inyeccion", 
+    "dust": "Polvo", 
+    "drops": "Gotas", 
+    "inhaler": "Inhalados", 
+    "other" : "Otra"
   },
   "skip_app_alert": {
     "title": "¡Espera!",
@@ -290,5 +297,12 @@
   "women": "mujer",
   "medicineDose": "Medicinas",
   "dose": "Dosis",
-  "hourDose": "Hora"
+  "hourDose": "Hora",
+  "pill":"Pildoras", 
+  "solution":"Solución", 
+  "injection":"Inyeccion", 
+  "dust": "Polvo", 
+  "drops": "Gotas", 
+  "inhaler": "Inhalados", 
+  "other" : "Otra"
 }

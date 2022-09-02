@@ -1,0 +1,74 @@
+import { useCallback, useEffect, useReducer } from 'react';
+import Dayjs from '../../services/DatatimeUtil';
+
+const initialState = {
+  sys: '',
+  dia: '',
+  bpm: '',
+  datetime: Dayjs(),
+  observations: '',
+  addNoteEnabled: false,
+};
+
+function MedicineFormReducer(
+  state: typeof initialState,
+  action: { type: any; payload?: any },
+) {
+  switch (action.type) {
+    case 'onChange':
+      const { field, value } = action.payload;
+      return { ...state, [field]: value };
+    case 'enableAddNote':
+      return { ...state, addNoteEnabled: true };
+    case 'initDatetime':
+      return { ...state, datetime: Dayjs() };
+    default:
+      throw new Error();
+  }
+}
+
+const SYS_RANGE = [60, 240];
+const DIA_RANGE = [30, 240];
+
+function isWithinRange(value: number, range: number[]) {
+  const [min, max] = range;
+  return value >= min && value <= max;
+}
+
+export const useMedicineForm = () => {
+  const [state, dispatch] = useReducer(MedicineFormReducer, initialState);
+
+  useEffect(() => {
+    dispatch({ type: 'initDatetime' });
+  }, []);
+
+  const onChange = useCallback(
+    (field: keyof typeof initialState, value: string) => {
+      dispatch({ type: 'onChange', payload: { field, value } });
+    },
+    [dispatch],
+  );
+
+  const onEnableAddNote = useCallback(() => {
+    dispatch({ type: 'enableAddNote' });
+  }, [dispatch]);
+
+  const selectRecord = () => {
+    const { sys, dia, bpm, datetime, observations } = state;
+    return {
+      sys: +sys,
+      dia: +dia,
+      bpm: +bpm,
+      datetime: datetime.local().format(),
+      observations,
+    };
+  };
+
+  const isButtonEnabled =
+    state.sys.length > 0 &&
+    state.dia.length > 0 &&
+    isWithinRange(+state.dia, DIA_RANGE) &&
+    isWithinRange(+state.sys, SYS_RANGE);
+
+  return { state, isButtonEnabled, onChange, onEnableAddNote, selectRecord };
+};

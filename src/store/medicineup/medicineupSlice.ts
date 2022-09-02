@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../configureStore';
-import { MedicineUpState } from './types';
+import { MedicineUp, MedicineUpState } from './types';
 import { fetchListMedicine } from '../../thunks/medicine/medicine-thunks';
 
 /* ------------- Initial State ------------- */
@@ -36,13 +36,13 @@ export const medicineUpSlice = createSlice({
     /* updateUserField: (state, action: PayloadAction<updateUserFieldType>) => {
       const { field, value } = action.payload;
       state[field] = value;
-    },
-    updateHealtQuestions: (state, action: PayloadAction<HealtInfoAction>) => {
+    },*/
+    updateMedicine: (state, action: PayloadAction<MedicineUp>) => {
       const healtInfoState = state.healtQuestions;
       const { field, value } = action.payload;
       healtInfoState[field] = value;
       state.healtQuestions = healtInfoState;
-    },*/
+    },
     clear: () => initialState, 
   },
   extraReducers: builder => {

@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableHighlight,
   TouchableOpacity,
+  
 } from 'react-native';
 import dayjsUtil from '../../services/DatatimeUtil';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -13,34 +14,30 @@ import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Fonts, Colors, Metrics } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import ActionSheet from 'react-native-actions-sheet';
-import {
-  selectReminders,
-} from '../../store/blood-pressure';
-import {
-  selectUser,
-  updateHealtQuestions,
-  updateUserField,
-} from '../../store/medicineup/medicineupSlice';
 import { HealtInfoAction } from '../../store/signup/types';
-import { useMeasuringForm } from '../../hooks/blood-pressure/useMeasuring';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { DatePicker, Button, Text, Input, InputOption } from '../../components';
+import { useMedicineForm } from '../../hooks/medicine/useMedicine';
+import { selectUser, updateHealtQuestions, updateUserField } from '../../store/signup/signupSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'development'>;
 
-type actionSheetRef = {
+type actionSheetRefType = {
+  setModalVisible: () => void;
+  hide: () => void;
+};
+type actionSheetRefFrecuency = {
   setModalVisible: () => void;
   hide: () => void;
 };
 
 const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
-  const { reminders, selectedReminder: reminderActive } =
-    useAppSelector(selectReminders);
   const { translate } = useI18nLocate();
   const dispatch = useAppDispatch();
   const { name, healtQuestions, startdate, enddate } =
     useAppSelector(selectUser);
-  const actionSheetRef = useRef<actionSheetRef>();
+  const actionSheetRefType = useRef<actionSheetRefType>();
+  const actionSheetRefFrecuency = useRef<actionSheetRefFrecuency>();
   const [date, setDate] = useState(new Date(327207177000));
   const [showStart, setShowStart] = useState(false);
   const [showEnd, setShowEnd] = useState(false);
@@ -51,6 +48,9 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
     const maxDate = new Date(year, 11, 31, 9, 1, 1, 1);
     return maxDate;
   }, []);
+
+  const { state, isButtonEnabled, onChange, onEnableAddNote, selectRecord } =
+    useMedicineForm(); 
 
   const dispatchAction = (userField: string, value: string) => {
     // name.trimStart().trimEnd()
@@ -84,14 +84,6 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
     dispatchAction('enddate', dayjsUtil(selectedDate).format('YYYY-MM-DD'));
   };
 
-
-  const optionsType = [
-    { label: 'Diario', value: 'yes', icon: 'clock' },
-    { label: 'Cada 8 horas', value: 'not', icon: 'clock' },
-    { label: 'Cada 10 horas', value: 'ok', icon: 'clock' },
-    { label: 'Cada 12 horas', value: 'nok', icon: 'clock' },
-  ];
-
   return (
     <SafeAreaView style={styles.mainContainer}>
       <ScrollView style={styles.content}>
@@ -116,16 +108,17 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={styles.toggleContainer}>
           <View style={styles.inputTextContainer}>
-            <Text style={styles.inputText}>
-              {translate('medicine_info_screen.type')}
-            </Text>
             <TouchableOpacity
               onPress={() => {
-                actionSheetRef.current?.setModalVisible();
+                actionSheetRefType.current?.setModalVisible();
               }}>
-              <Text style={styles.inputText}>
-                {translate('medicine_info_screen.type')}
-              </Text>
+              <Input
+                title={translate('medicine_info_screen.type')}
+                value={name}
+                editable={false}
+                autoFocus
+              />
+
             </TouchableOpacity>
           </View>
         </View>
@@ -145,22 +138,19 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={styles.toggleContainer}>
           <View style={styles.inputTextContainer}>
-            <Text style={styles.inputText}>
-              {translate('medicine_info_screen.concurrence')}
-            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                actionSheetRefType.current?.setModalVisible();
+              }}>
+              <Input
+                title={translate('medicine_info_screen.frecuency')}
+                value={name}
+                editable={false}
+                autoFocus
+              />
+
+            </TouchableOpacity>
           </View>
-          <InputOption
-            selected={healtQuestions.smoke}
-            options={[
-              { label: 'Diario', value: 'yes', icon: 'clock' },
-              { label: 'Cada 8 horas', value: 'not', icon: 'clock' },
-              { label: 'Cada 10 horas', value: 'ok', icon: 'clock' },
-              { label: 'Cada 12 horas', value: 'nok', icon: 'clock' },
-            ]}
-            onPress={({ value }) => {
-              onSelectHealtOption('smoke', value as HealtInfoAction['value']);
-            }}
-          />
         </View>
         <View style={styles.toggleContainer}>
           <View style={styles.inputTextContainer}>
@@ -245,8 +235,33 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
             />
           )}
         </View>
-        <ActionSheet ref={actionSheetRef} bounceOnOpen>
+        <ActionSheet ref={actionSheetRefType} bounceOnOpen>
           <View style={styles.actionSheet}>
+            <Text style={styles.inputText}>
+              {translate('medicine_info_screen.type')}
+            </Text>
+            <InputOption
+              selected={healtQuestions.smoke}
+              options={[
+                { label: translate('medicine_info_screen.pill'), value: 'pill', icon: 'pills' },
+                { label: translate('medicine_info_screen.solution'), value: 'solution', icon: 'prescription-bottle-alt' },
+                { label: translate('medicine_info_screen.injection'), value: 'injection', icon: 'syringe' },
+                { label: translate('medicine_info_screen.dust'), value: 'dust', icon: 'prescription-bottle' },
+                { label: translate('medicine_info_screen.drops'), value: 'drops', icon: 'eye-dropper' },
+                { label: translate('medicine_info_screen.inhaler'), value: 'inhaler', icon: 'lungs' },
+                { label: translate('medicine_info_screen.other'), value: 'other', icon: 'question-circle' },
+              ]}
+              onPress={({ value }) => {
+                onSelectHealtOption('smoke', value as HealtInfoAction['value']);
+              }}
+            />
+          </View>
+        </ActionSheet>
+        <ActionSheet ref={actionSheetRefFrecuency} bounceOnOpen>
+          <View style={styles.actionSheet}>
+            <Text style={styles.inputText}>
+              {translate('medicine_info_screen.frecuency')}
+            </Text>
             <InputOption
               selected={healtQuestions.smoke}
               options={[
