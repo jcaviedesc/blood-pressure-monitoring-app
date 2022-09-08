@@ -2,34 +2,44 @@
   "welcome": {
     "title": "Bienvenido",
     "start_button": "Iniciar",
-    "continue_with_email": "continuar con email",
-    "not_account": "¿No tienes una cuenta?",
-    "singup": "Registrarme"
+    "continue_with_email": "Continuar con email"
   },
   "verify_phone": {
     "title": "Verficación",
     "subtitle": "Ingresa el código de 6 digitos que te enviamos al numero de celular %{phone}",
     "no_code": "¿No recibiste el código?",
-    "resend": "Reenviar en %{time}"
+    "resendTimer": "Reenviar en ",
+    "resendCode": "Reenviar código",
+    "try_other_method": "Probar otro metodo"
   },
-  "singup_screen": {
+  "singup": {
     "title": "Registro",
-    "subtitle": "Gracias por tomarte el tiempo de crear una cuenta con nosotros.",
-    "full_name": "Nombre completo",
+    "subtitle": "Vamos a necesitar algunos datos para completar tu registro.",
+    "name": "Nombres",
+    "lastName": "Apellidos",
     "document_id": "Número de identificación",
-    "document_id_hint": "cédula de ciudadania",
-    "phone_number": "Phone number",
-    "all_ready_account": "Already have an account?",
-    "log_in": "Log in"
+    "document_id_hint": "cédula de ciudadania, DNI, pasaporte",
+    "on_back_title": "¡Espera!",
+    "on_back_description": "Si regresas perderas tu progreso",
+    "on_back_cancel": "Regresar",
+    "on_back_continue": "Continuar"
   },
   "birthdate_screen": {
-    "title": "Cumpleaños",
-    "birthdate": "Fecha de nacimiento",
+    "title": "¿Cuando es tu cumpleaños?",
+    "birthdate": "Selecciona tu fecha de nacimiento.",
     "address": "Dirección de donde vives",
     "address_hint": "Ej. dirección, ciudad, departamento"
   },
   "select_user": {
-    "title": "Tipo de usuario"
+    "title": "Elige tu rol",
+    "description": "Selecciona el rol con el que quieres usar la aplicaión"
+  },
+  "selectAvatar": {
+    "title": "Seleciona una foto de perfil",
+    "modify": "Modificar",
+    "add": "Agregar",
+    "take_photo": "Tomar Fotografia",
+    "Seleccionar de mi galeria": "Seleccionar de mi galeria"
   },
   "healt_info_screen": {
     "title": "Información de Salud",
@@ -83,6 +93,21 @@
     "hypertension_2_description": "Todos los días después de levantarme, después de almuerzo y antes de dormir",
     "custom": "Personalizar",
     "custom_description": "Define la hora y la frecuencia"
+  },
+  "BloodPressure/Preparation": {
+    "title": "Preparación del paciente antes de medir la presión arterial",
+    "p1": "Tener la vejiga vacía.",
+    "p1HighligthText": [
+      "vejiga vacía."
+    ],
+    "p2": "Descansar en una silla, en un ambiente tranquilo durante 5 minutos.",
+    "p2HighligthText": [
+      "5 minutos."
+    ],
+    "p3": "No haber comido, ingerido bebidas con cafeína, fumado ni haber practicado ninguna actividad física en los 30 minutos anteriores a la toma de la presión arterial.",
+    "p3HighligthText": [
+      "30 minutos"
+    ]
   },
   "BloodPressure/Steps": {
     "steps": [
@@ -155,13 +180,13 @@
   "BloodPressure/Meassuring": {
     "title": "Registro de Presión Arterial",
     "header_title": "Presión arterial",
-    "date":"Fecha",
+    "date": "Fecha",
     "time": "Hora",
     "dia": "Diastólica",
     "sys": "Sistólica",
     "heart_rate": "Ritmo cardiaco",
-    "add_note": "Add a note",
-    "placeholder_add_note": "something you want to mention?"
+    "add_note": "Agregar una nota",
+    "placeholder_add_note": "¿tienes algo para contar?"
   },
   "notifications": {
     "blood_pressure": {
@@ -172,8 +197,8 @@
     }
   },
   "Tabs": {
-    "summary": "Summary",
-    "search": "Search"
+    "summary": "Resumen",
+    "search": "Buscar"
   },
   "TabsSearch": {
     "header": {
@@ -239,10 +264,20 @@
     "placeholder": "Buscar tensiometro",
     "cancel": "cancelar"
   },
+  "brand": "Marca",
+  "model": "Modelo",
+  "measurementSite": "Lugar de medición",
+  "use": "Uso",
+  "validationStudy": "Estudio de Validación",
+  "measurementMethod": "Método de medición",
+  "additional": "adicional",
   "appCrash": {
     "title": "!Oh no¡, Something Went Wrong",
     "bodyText": "The app ran into a problem and could not continue. We aplologise foy any inconvenience this has caused! Press the button below to restart the app. Please contact us if this issue persists",
     "buttonText": "Back to Home screen"
   },
-  "phone number": "phone number"
+  "phone number": "phone number",
+  "sex": "Sexo",
+  "men": "hombre",
+  "women": "mujer"
 }
