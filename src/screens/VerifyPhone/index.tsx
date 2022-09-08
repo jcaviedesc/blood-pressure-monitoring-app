@@ -32,6 +32,7 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
           user.getIdTokenResult(true).then(tokenResult => {
             const { claims } = tokenResult;
             if (!claims?.isRegistered) {
+              dispatch(updateUserField({ field: 'phone', value: phone }));
               navigation.navigate('Singup');
             }
           });
@@ -40,7 +41,7 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
 
       const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
       return subscriber;
-    }, [navigation]),
+    }, [dispatch, phone, navigation]),
   );
 
   const confirmCode = useCallback(
