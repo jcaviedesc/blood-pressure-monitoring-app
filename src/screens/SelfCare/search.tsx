@@ -12,8 +12,8 @@ import {
 } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { selectProfileUser } from '../../store/user/userSlice';
-import { userTypeEnum } from '../../store/user/types';
+import { selectUserData } from '../../store/user/userSlice';
+import { userRole } from '../../store/user/types';
 import { searchSelfcareTipThunk } from '../../thunks/selfcare/selfcare-thunk';
 import { selectSearchSelfcare, clear } from '../../store/selfcare';
 import { debounce } from 'lodash';
@@ -22,7 +22,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabs'>;
 
 const SearchAcademicBlogPosts: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
-  const user = useAppSelector(selectProfileUser);
+  const user = useAppSelector(selectUserData);
   const { data: searchResult, loading } = useAppSelector(selectSearchSelfcare);
   const dispatch = useAppDispatch();
   const searchRef = useRef();
@@ -49,8 +49,7 @@ const SearchAcademicBlogPosts: React.FC<Props> = ({ navigation }) => {
     };
 
     const headerRightComp =
-      user.userType === userTypeEnum.HEALT_PROFESSIONAL &&
-      Platform.OS === 'ios' ? (
+      user.role === userRole.HEALT_PROFESSIONAL && Platform.OS === 'ios' ? (
         <Button
           hierarchy="transparent"
           size="small"

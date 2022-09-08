@@ -29,11 +29,9 @@ const RealmAuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signIn = useCallback(
     async token => {
-      console.log('que pasa before', token);
       if (realmAuthUser !== null || token === '') {
         return;
       }
-      console.log('que pasa after', token);
       const jwt = token;
       try {
         const credentials = Realm.Credentials.jwt(jwt);

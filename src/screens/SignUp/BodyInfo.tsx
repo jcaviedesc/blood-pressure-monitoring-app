@@ -69,10 +69,11 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
               titleStyles={styles.titleWeight}
               range={[20, 129]} // TODO cambiar de acuerdo a escala
               unitStyles={styles.weightUnit}
+              initialUnitIndex={70}
               activeUnitStyles={styles.activeWeightUnit}
               magnitudeSyles={styles.magnitude}
-              onActiveItem={activeItem => {
-                onUpdateField('weight', activeItem);
+              onActiveItem={unit => {
+                onUpdateField('weight', unit);
               }}
             />
           </View>

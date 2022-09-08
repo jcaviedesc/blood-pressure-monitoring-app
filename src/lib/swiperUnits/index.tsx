@@ -23,9 +23,9 @@ type Props = {
   initialUnitIndex?: number;
 };
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const ITEM_WIDTH = 63;
-const DELTA = 3;
-const EMPTY_SPACE = SCREEN_WIDTH / 2 - ITEM_WIDTH / 2;
+const ITEM_WIDTH = SCREEN_WIDTH / 6;
+console.log('ITEM_WIDTH', ITEM_WIDTH);
+const EMPTY_SPACE = ITEM_WIDTH * 2.5;
 
 // TOODO revisar shouldComponentUpdate
 const SwiperUnits: React.FC<Props> = ({
@@ -49,15 +49,13 @@ const SwiperUnits: React.FC<Props> = ({
       unit={item}
       styleActiveUnit={activeUnitStyles}
       styleUnit={unitStyles}
+      width={ITEM_WIDTH}
       active={activeItem === index}
     />
   );
 
   const _getItemLayout = (data, index) => {
-    const offset =
-      index === 0
-        ? EMPTY_SPACE + DELTA
-        : EMPTY_SPACE + DELTA + ITEM_WIDTH * index;
+    const offset = index === 0 ? EMPTY_SPACE : EMPTY_SPACE + ITEM_WIDTH * index;
 
     return {
       length: ITEM_WIDTH,
@@ -79,11 +77,12 @@ const SwiperUnits: React.FC<Props> = ({
 
   const handlerInitialScrollIndex = useCallback(() => {
     if (initialUnitIndex) {
-      return initialUnitIndex;
+      console.log(initialUnitIndex - range[0]);
+      return initialUnitIndex - range[0] - 3;
     } else {
       return (units.length - 1) / 2;
     }
-  }, [units, initialUnitIndex]);
+  }, [initialUnitIndex, range, units.length]);
 
   return (
     <View style={styles.swiperContainer}>
@@ -91,8 +90,8 @@ const SwiperUnits: React.FC<Props> = ({
         <Text style={titleStyles}>{title}</Text>
       </View>
       <FlatList
-        ListHeaderComponent={<SideEmpty width={EMPTY_SPACE + 3} />}
-        ListFooterComponent={<SideEmpty width={EMPTY_SPACE - 4} />}
+        ListHeaderComponent={<SideEmpty width={EMPTY_SPACE} />}
+        ListFooterComponent={<SideEmpty width={EMPTY_SPACE} />}
         keyExtractor={item => `${item}`}
         data={units}
         renderItem={_renderItem}
@@ -131,16 +130,25 @@ const styles = StyleSheet.create({
   lineIndicatorContainer: {
     position: 'absolute',
     bottom: 0,
-    left: SCREEN_WIDTH / 2,
+    left: ITEM_WIDTH * 3 - 5,
     width: 60,
     height: '100%',
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
   },
   lineIndicator: {
-    width: 2,
-    height: 30,
-    backgroundColor: 'red',
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderTopWidth: 0,
+    borderRightWidth: 5,
+    borderBottomWidth: 30,
+    borderLeftWidth: 5,
+    borderTopColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: 'red',
+    borderLeftColor: 'transparent',
   },
   magnitudeContainer: {
     left: -8,

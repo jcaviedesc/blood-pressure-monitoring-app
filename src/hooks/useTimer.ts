@@ -34,6 +34,7 @@ export const useTimer = (repeatEvery: number, countDown: number) => {
 };
 
 const useCountdown = (targetDate: number) => {
+  const intervalRef = useRef<NodeJS.Timeout>();
   const countDownDate = new Date(targetDate).getTime();
 
   const [countDown, setCountDown] = useState(
@@ -41,12 +42,16 @@ const useCountdown = (targetDate: number) => {
   );
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       setCountDown(countDownDate - new Date().getTime());
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalRef.current as NodeJS.Timeout);
   }, [countDownDate]);
+
+  if (countDown <= 0) {
+    clearInterval(intervalRef.current as NodeJS.Timeout);
+  }
 
   return getReturnValues(countDown);
 };

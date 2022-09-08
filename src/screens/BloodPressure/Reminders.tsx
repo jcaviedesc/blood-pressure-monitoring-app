@@ -6,9 +6,12 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { AppStyles, Colors } from '../../styles';
+import { AppStyles } from '../../styles';
 import { Reminder, DatePicker } from '../../components';
-import ActionSheetWeekDays, { OptionMode, SelectModes } from '../../components/ActionSheet/weekdays';
+import ActionSheetWeekDays, {
+  OptionMode,
+  SelectModes,
+} from '../../components/ActionSheet/weekdays';
 import {
   setReminderTime,
   setReminderStage,
@@ -17,7 +20,6 @@ import {
   setRepeatReminder,
 } from '../../store/blood-pressure';
 import DateInstance from '../../services/DateService';
-
 
 dayjs.extend(utc);
 type Props = NativeStackScreenProps<
@@ -40,7 +42,6 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
   const [showReminderTime, setShowReminderTime] = useState(false);
   const actionSheetRef = useRef<actionSheetRef>();
   const reminderRef = useRef<string>('');
-  const weekdays = useMemo(() => translate('days'), [translate]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -74,7 +75,7 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
     dispatch(setRepeatReminder({ reminder: reminderActive, repeat: weekday }));
   };
 
-  const onPressFrecuencyHandler = (remiderId: string) => {
+  const onPressFrecuencyHandler = () => {
     actionSheetRef.current?.setModalVisible();
   };
 

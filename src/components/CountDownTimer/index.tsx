@@ -14,7 +14,9 @@ export const CountDownTimer = ({
   timerMilliseconds,
   expiredTimeComponent,
   prefix,
-  onFinish = () => { },
+  onFinish = () => {
+    /* noop */
+  },
   textStyles,
 }: Props): JSX.Element => {
   const NOW_IN_MS = useRef(new Date().getTime()).current;

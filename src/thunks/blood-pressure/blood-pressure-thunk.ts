@@ -92,6 +92,8 @@ export const createNotificaions = () => {
             reminderDate = currentDate.add(7, 'day').weekday(indexDay);
           }
 
+          console.log({ reminderDate });
+
           times.forEach((timeEvent, index) => {
             let dayjsNotification = dayjs(timeEvent);
             if (dayjs(dayjsNotification).isValid()) {
@@ -99,7 +101,6 @@ export const createNotificaions = () => {
               const min = dayjsNotification.minute();
               //TODO add 1 day
               const timestamp = reminderDate.hour(hour).minute(min);
-              console.log('timestamp', timestamp.format());
               const trigger: TimestampTrigger = {
                 type: TriggerType.TIMESTAMP,
                 timestamp: timestamp.valueOf(),

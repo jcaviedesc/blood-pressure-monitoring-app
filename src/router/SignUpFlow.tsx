@@ -21,8 +21,7 @@ const SingUpFlow: SingUpScreensConfig = {
   Singup: {
     component: SignUpScreen,
     options: {
-      headerTitle: '',
-      headerShadowVisible: false,
+      headerShown: false,
     },
   },
   'Singup/Birthdate': {

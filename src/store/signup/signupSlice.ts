@@ -18,8 +18,8 @@ const initialState: SignUpState = {
   location: [],
   birthdate: '',
   sex: SexEnum.female,
-  weight: '',
-  height: '',
+  weight: '70',
+  height: '120',
   userType: '',
   healtQuestions: {
     medicine: '',

@@ -29,8 +29,9 @@ const VerifyCode: React.FC<Props> = ({ onCompleteCode }) => {
           ? currentSlot
           : currentSlot + 1 * factor;
       inputRefs.current[nextFocus]?.focus();
-      let newCode = code;
+      let newCode = [...code];
       newCode[currentSlot] = digit;
+      console.log(newCode);
       setCode(newCode);
       if (newCode.join('').length === 6) {
         onCompleteCode(newCode.join(''));
