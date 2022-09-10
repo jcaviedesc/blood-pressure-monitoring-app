@@ -8,22 +8,16 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import dayjs, { getWeekRange } from '../../services/DatatimeUtil';
+import dayjs from '../../services/DatatimeUtil';
 import { Colors, Fonts } from '../../styles';
 
 type props = {
   onChangeDate?: (startDate: string, endDate: string) => void;
-  initialLoad: (startDate: string, endDate: string) => void;
 };
 
-const HeaderChart: React.FC<props> = ({ onChangeDate, initialLoad }) => {
+const HeaderChart: React.FC<props> = ({ onChangeDate }) => {
   const { locale } = useI18nLocate();
   const [date, setDate] = useState(dayjs().locale(locale).startOf('w'));
-
-  useEffect(() => {
-    const [initialDate, finalDate] = getWeekRange(date);
-    initialLoad(initialDate, finalDate);
-  }, []);
 
   const changeWeekDate = (weeks: number) => {
     const newDate = date.add(weeks, 'week');

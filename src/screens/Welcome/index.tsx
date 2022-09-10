@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Text,
-  StyleSheet,
-  View,
-  StatusBar,
-  BackHandler,
-  Alert,
-  Image,
-} from 'react-native';
+import { Text, StyleSheet, View, StatusBar, Image } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import crashlytics from '@react-native-firebase/crashlytics';
-import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts, Images, Metrics } from '../../styles';

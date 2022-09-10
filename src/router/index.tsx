@@ -31,11 +31,13 @@ export type NavigationRef = typeof StackNavigationRef;
 type MainStackNavigatorProps = {
   onReady: (navigator: NavigationRef) => void;
   isUserLogged: boolean;
+  isAuthenticated: boolean;
 };
 
 function MainStackNavigator({
   onReady,
   isUserLogged,
+  isAuthenticated, // cuando el usuario se authentica
 }: MainStackNavigatorProps) {
   const isDarkMode = useColorScheme() === 'dark';
   const routeNameRef = React.useRef('');
@@ -122,6 +124,7 @@ function MainStackNavigator({
             />
             <Stack.Screen
               name="VerifyPhone"
+              navigationKey={isAuthenticated ? 'user' : 'guest'}
               component={VerifyPhoneScreen}
               options={{
                 headerShown: false,

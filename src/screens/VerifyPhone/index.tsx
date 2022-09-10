@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { useFocusEffect } from '@react-navigation/native';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import type { RootStackParamList } from '../../router/types';
 import { VerifyCode, CountDownTimer, Button, Text } from '../../components';
@@ -12,7 +13,7 @@ import { updateUserProfie } from '../../store/user/userSlice';
 import { useConfirmPhone } from '../../providers/PhoneAuthProvider';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppDispatch } from '../../hooks';
-import { useFocusEffect } from '@react-navigation/native';
+import { setScreenLoading } from '../../store/app/appSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
 
@@ -23,8 +24,8 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   // If null, no SMS has been sent
   const { result, setConfirm } = useConfirmPhone();
   const [isDisableTimerButton, setIsDisableTimerButton] = useState(true);
-  const [isCodeResend, setIsCodeResend] = useState(false);
-
+  const [isCodeResend] = useState(false);
+  console.log('actualizado VerifyPhoneScreen');
   useFocusEffect(
     useCallback(() => {
       const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
@@ -46,7 +47,9 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
 
   const confirmCode = useCallback(
     async (code: string) => {
+      console.log("confirmCode", code)
       try {
+        dispatch(setScreenLoading(true));
         const userCredential = await result?.confirm(code);
         const isRegistered = await userCredential?.user
           .getIdTokenResult()
@@ -57,26 +60,20 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
         // isNewUser or register incomplete
         if (userCredential?.additionalUserInfo?.isNewUser || !isRegistered) {
           dispatch(updateUserField({ field: 'phone', value: phone }));
+          dispatch(setScreenLoading(false));
           navigation.navigate('Singup');
-          // navigate to signin flow
         } else {
           const authUser = userCredential?.user;
-          // TODO ver como typar un objeto que sus key esten dentro del userState
-          // pero que no oblique a implementar todo el objeto, solo que no se agregen
-          // keys diferentes a la del estado.
+          dispatch(setScreenLoading(false));
           dispatch(
             updateUserProfie({
               name: authUser?.displayName as string,
               avatar: authUser?.photoURL as string,
-            }));
-          /*
-           * get profile info
-           * - displayName = name + lastname
-           * - avatar = photo or defaul
-           * and redirecto to homeTabs
-           */
+            }),
+          );
         }
       } catch (error) {
+        console.log(error);
         crashlytics()
           .setAttribute('phone', phone)
           .then(() => {

@@ -21,7 +21,7 @@ const initialState: UserState = {
     unit: 'm',
   },
   birthdate: '',
-  userType: 2,
+  role: 2,
   profileUrl: '',
   age: '',
   imc: '',

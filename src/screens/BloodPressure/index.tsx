@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   ScrollView,
@@ -20,6 +20,7 @@ import type { RootStackParamList } from '../../router/types';
 import { Colors, Fonts, AppStyles, Metrics } from '../../styles';
 import { Button, HeaderChart, BloodPressureResumeCard } from '../../components';
 import { MainContainer } from '../../components/Layout';
+import dayjs, { getWeekRange } from '../../services/DatatimeUtil';
 import { BloodPressureCard } from '../../wrappers';
 import { BarChart } from '../../components/Charts';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
@@ -44,12 +45,15 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
     avgSYSPerWeek,
     getBloodPressureData,
   } = useResume();
+
   const dispatch = useAppDispatch();
   const actionSheetRef = useRef<actionSheetRef>();
 
   useFocusEffect(
     useCallback(() => {
+      getBloodPressureData('', '');
       dispatch(createNotificaions());
+      /* eslint-disable react-hooks/exhaustive-deps */
     }, [dispatch]),
   );
 

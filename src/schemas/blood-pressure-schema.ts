@@ -3,62 +3,71 @@ import { ObjectId } from 'bson';
 import customDayjs from '../services/DatatimeUtil';
 import { getAverage } from '../services/utils';
 
-export interface BloodPressureMeasurementType {
+export interface BloodPressureMeasurement {
+  sys: any;
+  dia: any;
+  bpm: any;
+  t: any;
+  note?: string;
+}
+export interface BloodPressureMeasurementsType {
   _id: ObjectId;
-  owner_id: string;
-  date: string;
-  records: {
-    sys: number;
-    dia: number;
-    bpm: number;
-    datetime: string;
-  }[];
-  sys_avg: number;
-  dia_avg: number;
+  owner_id?: string;
+  start_date?: string;
+  measurements: BloodPressureMeasurement[];
+  sys_avg?: number;
+  dia_avg?: number;
+  bpm_avg?: number;
 }
 class BloodPressureMeasurements extends Realm.Object {
   _id!: ObjectId;
   owner_id!: string;
-  date!: string;
-  records: {
+  start_date!: string;
+  measurements: {
     sys: any;
     dia: any;
     bpm: any;
-    datetime: any;
+    t: any;
+    note?: string;
   }[] = [];
   sys_avg!: number;
   dia_avg!: number;
+  bpm_avg!: number;
 
   static generate(
     userId: string,
-    records: {
+    measurements: {
       sys: any;
       dia: any;
       bpm: any;
-      datetime: any;
+      t: any;
+      note?: string;
     }[],
     sysAvg?: number,
     diaAvg?: number,
+    bpmAvg?: number,
   ) {
-    const { sys, dia } = getAverage(records, ['sys', 'dia']);
+    const { sys, dia, bpm } = getAverage(measurements, ['sys', 'dia', 'bpm']);
     return {
       _id: new ObjectId(),
       owner_id: userId,
-      records: records,
+      measurements: measurements,
       sys_avg: sysAvg || sys,
       dia_avg: diaAvg || dia,
-      date: customDayjs(records[0].datetime).format('YYYY-MM-DD'),
+      bpm_avg: bpmAvg || bpm,
+      start_date: customDayjs(measurements[0].t).format('YYYY-MM-DD'),
     };
   }
 
-  static bloodPressureRecordSchema = {
-    name: 'BloodPressureRecord',
+  static bloodPressureMeasurementSchema = {
+    name: 'BloodPressureMeasurement',
     embedded: true,
     properties: {
       sys: 'int',
       dia: 'int',
       bpm: 'int',
-      datetime: 'date',
+      t: 'date',
+      note: 'string',
     },
   };
 
@@ -68,10 +77,11 @@ class BloodPressureMeasurements extends Realm.Object {
     properties: {
       _id: 'objectId',
       owner_id: 'string',
-      date: 'date',
-      records: { type: 'list', objectType: 'BloodPressureRecord' },
+      start_date: 'date',
+      measurements: { type: 'list', objectType: 'BloodPressureMeasurement' },
       sys_avg: 'int',
       dia_avg: 'int',
+      bpm_avg: 'int',
     },
   };
 }

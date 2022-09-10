@@ -94,7 +94,7 @@ const Main = () => {
 
   const handleAppStateChange = useCallback(
     (nextAppState: string) => {
-      const currentScreen = StackNavigationRef.getCurrentRoute()?.name;
+      const currentScreen = StackNavigationRef?.getCurrentRoute()?.name;
       console.log({ currentScreen });
       if (
         nextAppState === 'background' &&
@@ -141,6 +141,7 @@ const Main = () => {
             onNavigateTo(navigation);
           }}
           isUserLogged={userAuthenticated.isRegistered}
+          isAuthenticated={userAuthenticated.data !== null}
         />
       </MainAppContext.Provider>
     </RealmAppWrapper>

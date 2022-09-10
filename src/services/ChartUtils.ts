@@ -1,4 +1,4 @@
-import { BloodPressureMeasurementType } from '../schemas/blood-pressure-schema';
+import { BloodPressureMeasurementsType } from '../schemas/blood-pressure-schema';
 import Dayjs from './DatatimeUtil';
 import { getAverage } from './utils';
 
@@ -42,7 +42,7 @@ export const getMaxOrMinValue = (
 };
 
 export const transformBloodPressureData = (
-  data: BloodPressureMeasurementType[],
+  data: BloodPressureMeasurementsType[],
   initialDate: string,
   finalDate: string,
 ) => {
@@ -62,12 +62,12 @@ export const transformBloodPressureData = (
   let mergeData = defaultData;
 
   data.forEach(measurentment => {
-    const measurentmentDate = Dayjs(measurentment.date).utc();
+    const measurentmentDate = Dayjs(measurentment.start_date).utc();
     const weekDayData = {
       x: measurentmentDate.format('DD[\n]MMM'),
       y: measurentment.sys_avg,
       y0: measurentment.dia_avg,
-      records: measurentment.records,
+      measurements: measurentment.measurements,
     };
     const dayOfWeekIndex = measurentmentDate.weekday();
     mergeData[dayOfWeekIndex] = weekDayData;

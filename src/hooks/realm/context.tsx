@@ -4,7 +4,7 @@ import { BloodPressureMeasurements } from '../../schemas/blood-pressure-schema';
 const config = {
   schema: [
     BloodPressureMeasurements.schema,
-    BloodPressureMeasurements.bloodPressureRecordSchema,
+    BloodPressureMeasurements.bloodPressureMeasurementSchema,
   ],
 };
 export default createRealmContext(config);

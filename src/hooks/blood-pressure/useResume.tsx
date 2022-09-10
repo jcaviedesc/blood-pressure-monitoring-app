@@ -1,7 +1,8 @@
-import { useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { useBloodPressureMeasurement } from '../realm/useBloodPressure';
 import { transformBloodPressureData } from '../../services/ChartUtils';
-import Dayjs from '../../services/DatatimeUtil';
+import Dayjs, { getWeekRange } from '../../services/DatatimeUtil';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 const initialState = {
   dateRange: ['', ''],
@@ -41,42 +42,56 @@ type useResumeReturn = {
 } & InitialState;
 
 export const useResume = (): useResumeReturn => {
+  const { locale } = useI18nLocate();
   const { getMeasurements } = useBloodPressureMeasurement();
   const [state, dispatch] = useReducer(
     BloodPressureResumeReducer,
     initialState,
   );
 
-  if (__DEV__) {
-    console.log(state);
-  }
-
-  const getBloodPressureData = (initialDate: string, finalDate: string) => {
-    const queryResult = getMeasurements(initialDate, finalDate);
-    const { data, sysWeek, diaWeek } = transformBloodPressureData(
-      queryResult,
-      initialDate,
-      finalDate,
-    );
-    dispatch({
-      type: 'updateWeekData',
-      payload: {
-        dateRange: [initialDate, finalDate],
-        data,
-        avgSys: sysWeek,
-        avgDia: diaWeek,
-      },
-    });
-    const todayDate = Dayjs();
-    if (Dayjs().isBetween(initialDate, finalDate)) {
-      const dayOfWeekIndex = todayDate.weekday();
+  const getBloodPressureData = useCallback(
+    (startDate: string = '', endDate: string) => {
+      let initialDate = startDate;
+      let finalDate = endDate;
+      if (!startDate || !endDate) {
+        const currentDate = Dayjs().locale(locale).startOf('w');
+        const [dateMin, dateMax] = getWeekRange(currentDate);
+        initialDate = dateMin;
+        finalDate = dateMax;
+      }
+      const queryResult = getMeasurements(initialDate, finalDate);
+      const { data, sysWeek, diaWeek } = transformBloodPressureData(
+        queryResult,
+        initialDate,
+        finalDate,
+      );
       dispatch({
-        type: 'setTodayRecords',
-        payload: data[dayOfWeekIndex]?.records ?? [],
+        type: 'updateWeekData',
+        payload: {
+          dateRange: [initialDate, finalDate],
+          data,
+          avgSys: sysWeek,
+          avgDia: diaWeek,
+        },
       });
-      console.log('isBetween', data[dayOfWeekIndex]);
-    }
-  };
+      const todayDate = Dayjs();
+      if (Dayjs().isBetween(initialDate, finalDate)) {
+        const dayOfWeekIndex = todayDate.weekday();
+        dispatch({
+          type: 'setTodayRecords',
+          payload: data[dayOfWeekIndex]?.measurements ?? [],
+        });
+      }
+    },
+    [getMeasurements],
+  );
+
+  // useEffect(() => {
+  //   const currentDate = Dayjs().locale(locale).startOf('w');
+  //   const [initialDate, finalDate] = getWeekRange(currentDate);
+  //   getBloodPressureData(initialDate, finalDate);
+  //   console.log('me ejecuto');
+  // }, []);
 
   return { ...state, getBloodPressureData };
 };

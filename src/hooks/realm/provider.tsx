@@ -21,6 +21,7 @@ function RealmAppWrapper({
       },
     };
   }
+
   return (
     <RealmProvider {...syncProps} fallback={fallback}>
       {children}

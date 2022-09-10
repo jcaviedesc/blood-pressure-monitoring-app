@@ -31,7 +31,7 @@ export interface UserState {
   weight: UserBodyMeasures;
   height: UserBodyMeasures;
   birthdate: string;
-  userType: userRole;
+  role: userRole;
   profileUrl: string;
   age: string;
   imc: string;
@@ -40,5 +40,5 @@ export interface UserState {
 }
 
 export type UpdateUserProfieAction = {
-  [index in keyof UserState]: any;
+  [index in keyof UserState]?: any;
 };

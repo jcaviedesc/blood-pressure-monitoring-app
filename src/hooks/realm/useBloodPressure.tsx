@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import {
   BloodPressureMeasurements,
-  BloodPressureMeasurementType,
+  BloodPressureMeasurementsType,
+  BloodPressureMeasurement,
 } from '../../schemas/blood-pressure-schema';
 import { useRealmAuth } from '../../providers/RealmProvider';
 import { getAverage } from '../../services/utils';
@@ -12,34 +13,36 @@ const { useRealm } = RealmContext;
 export const useBloodPressureMeasurement = () => {
   const realm = useRealm();
   const { realmAuthUser } = useRealmAuth();
-  const bloodPressureMeasurements = realm.objects<BloodPressureMeasurementType>(
-    BloodPressureMeasurements.name,
-  );
+  const bloodPressureMeasurements =
+    realm.objects<BloodPressureMeasurementsType>(
+      BloodPressureMeasurements.name,
+    );
 
   const saveMeasurement = useCallback(
-    (record: { sys: number; dia: number; bpm: number; datetime: string }) => {
+    (measurement: BloodPressureMeasurement) => {
       const todayMeasuremnt = bloodPressureMeasurements.filtered(
-        'date >= $0',
-        new Date(record.datetime.split('T')[0]),
+        'start_date >= $0',
+        new Date(measurement.t.split('T')[0]),
       );
       realm.write(() => {
         if (todayMeasuremnt.length > 0) {
           // update document
-          todayMeasuremnt[0].records.push(record);
+          todayMeasuremnt[0].measurements.push(measurement);
 
-          const { sys, dia } = getAverage(todayMeasuremnt[0].records, [
-            'sys',
-            'dia',
-          ]);
+          const { sys, dia, bpm } = getAverage(
+            todayMeasuremnt[0].measurements,
+            ['sys', 'dia', 'bpm'],
+          );
 
           todayMeasuremnt[0].sys_avg = sys;
           todayMeasuremnt[0].dia_avg = dia;
+          todayMeasuremnt[0].bpm_avg = bpm;
         } else {
           // create new document
           realm.create(
             BloodPressureMeasurements.name,
             BloodPressureMeasurements.generate(realmAuthUser?.id ?? '', [
-              record,
+              measurement,
             ]),
           );
         }
@@ -49,13 +52,13 @@ export const useBloodPressureMeasurement = () => {
   );
 
   const getMeasurements = useCallback(
-    (startDate: string, endDate: string): BloodPressureMeasurementType[] => {
+    (startDate: string, endDate: string): BloodPressureMeasurementsType[] => {
       if (`${startDate}`.concat(endDate).length === 0) {
         return [];
       }
       const bloodPressureMeasurementsFiltered =
         bloodPressureMeasurements.filtered(
-          'date >= $0 && date <= $1',
+          'start_date >= $0 && start_date <= $1',
           new Date(startDate),
           new Date(endDate),
         );

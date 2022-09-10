@@ -1,8 +1,9 @@
 import React, { useCallback, useLayoutEffect, useRef } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, TouchableHighlight, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import IconEntypo from 'react-native-vector-icons/Entypo';
 import type { RootStackParamList } from '../../router/types';
-import { AppStyles, Colors, Fonts } from '../../styles';
+import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { MainContainer } from '../../components/Layout';
 import {
   Button,
@@ -85,6 +86,10 @@ const SearchAcademicBlogPosts: React.FC<Props> = ({ navigation }) => {
     };
   }, [navigation, user]);
 
+  const addNewSelfcareTip = () => {
+    navigation.navigate('AddSelfCareTip');
+  };
+
   return (
     <MainContainer
       isScrollView
@@ -96,9 +101,19 @@ const SearchAcademicBlogPosts: React.FC<Props> = ({ navigation }) => {
         {loading === 'pending' && (
           <DotsLoading loadingText={translate('TabsSearch.loading')} />
         )}
-        {Array.isArray(searchResult) && searchResult.map(result => (
-          <SearchSelfcareCard key={result.key} {...result} />
-        ))}
+        {Array.isArray(searchResult) &&
+          searchResult.map(result => (
+            <SearchSelfcareCard key={result.key} {...result} />
+          ))}
+        {/* TODO add animation */}
+        {user.role === userRole.HEALT_PROFESSIONAL &&
+          Platform.OS === 'android' && (
+            <TouchableHighlight
+              style={styles.floatButton}
+              onPress={addNewSelfcareTip}>
+              <IconEntypo name="plus" size={28} color={Colors.white} />
+            </TouchableHighlight>
+          )}
       </View>
     </MainContainer>
   );
@@ -113,9 +128,24 @@ const styles = StyleSheet.create({
     lineHeight: Fonts.size.paragraph + 2,
   },
   body: {
+    position: 'relative',
     paddingTop: 46,
     flex: 1,
+    minHeight: Metrics.screenHeight - 50,
+    minWidth: Metrics.screenWidth,
     paddingBottom: 20,
+  },
+  floatButton: {
+    position: 'absolute',
+    bottom: 50,
+    right: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 100,
+    backgroundColor: Colors.tertiary,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
   },
 });
 
