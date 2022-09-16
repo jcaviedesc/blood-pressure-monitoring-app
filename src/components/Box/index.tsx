@@ -1,97 +1,168 @@
 import React from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Colors, Fonts, Metrics } from '../../styles';
+// import LinearGradient from 'react-native-linear-gradient';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  Platform,
+} from 'react-native';
+import { Colors, Fonts } from '../../styles';
+import Card from '../Card';
+import { Text } from '../CustomText';
+import LocalDayjs from '../../services/DatatimeUtil';
 
 type boxPros = {
   title: string;
   status: string;
   value: string;
-  colors: Array<string>;
-  onPress?: Function;
+  unit: string;
+  iconColor: string;
+  lastMeasurement: string;
+  onPress?: TouchableOpacityProps['onPress'];
   iconName: 'heartbeat' | 'tint' | 'eyedropper' | 'balance-scale';
 };
 const Box: React.FC<boxPros> = ({
   title,
   status,
   value,
-  colors,
+  unit,
+  iconColor,
   iconName,
+  lastMeasurement,
   onPress,
 }) => {
+  const lastMeasurementTime = LocalDayjs(lastMeasurement);
+  const timeFormat = LocalDayjs().isSame(lastMeasurement, 'day')
+    ? 'h m'
+    : 'D MMM';
   return (
-    <LinearGradient
-      colors={colors}
-      start={{
-        x: 0,
-        y: 0,
-      }}
-      end={{
-        x: 1,
-        y: 1,
-      }}
-      style={styles.box}>
-      <TouchableOpacity onPress={onPress} style={styles.boxContent}>
-        <View style={styles.iconContainer}>
-          <Icon name={iconName} size={22} color={Colors.white} />
-        </View>
-        <View style={styles.boxTitleContainer}>
-          <Text style={styles.boxTextTitle}>{title}</Text>
+    <TouchableOpacity onPress={onPress} style={styles.box}>
+      <Card>
+        <View style={styles.boxHead}>
+          <View style={styles.boxHeadTitle}>
+            <FontAwesomeIcon
+              name={iconName}
+              size={22}
+              color={iconColor}
+              style={styles.icon}
+            />
+            <Text style={styles.boxTextTitle} ellipsizeMode="tail">{title}</Text>
+          </View>
+          <View style={styles.boxHeadTime}>
+            {lastMeasurementTime.isValid() && (
+              <Text style={styles.lastMeasurement}>
+                {lastMeasurementTime.format(timeFormat)}
+              </Text>
+            )}
+            <EntypoIcon
+              name={
+                Platform.OS === 'android'
+                  ? 'chevron-right'
+                  : 'chevron-small-right'
+              }
+              size={22}
+              color={Colors.paragraph}
+            />
+          </View>
         </View>
         <View style={styles.boxBody}>
-          <Text style={styles.boxText}>{status}</Text>
-          <Text style={styles.boxText}>{value}</Text>
+          {status === 'no data' && <Text style={styles.noDataText}>{status}</Text>}
+          {/* <Text style={styles.boxText}>{status}</Text> */}
+          {status !== 'no data' && (
+            <View style={styles.valueContainer}>
+              <View>
+                <Text style={styles.valueText}>{value}</Text>
+              </View>
+              <Text style={styles.unitText}>{unit}</Text>
+            </View>
+          )}
         </View>
-      </TouchableOpacity>
-    </LinearGradient>
+      </Card>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   box: {
-    width: (Metrics.screenWidth - 60) / 2,
-    height: 200,
+    width: '100%',
     borderRadius: 5,
-    paddingHorizontal: 12,
-    paddingVertical: 18,
+    paddingHorizontal: 1,
+    paddingVertical: 1,
     justifyContent: 'flex-end',
-    marginBottom: 20,
+    marginBottom: 9,
     position: 'relative',
   },
-  iconContainer: {
-    flex: 1,
+  boxHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  boxHeadTitle: {
+    flexDirection: 'row',
+  },
+  boxHeadTime: {
+    flexDirection: 'row',
+  },
+  icon: {
+    marginRight: 6,
   },
   boxContent: {
     flex: 1,
   },
-  boxTitleContainer: {
-    width: '80%',
-    position: 'relative',
-  },
+  boxTitleContainer: {},
   boxTextTitle: {
     marginRight: 10,
     fontFamily: Fonts.type.bold,
-    color: Colors.white,
-    fontSize: 22,
+    color: Colors.headline,
+    fontSize: Fonts.size.paragraph,
     textAlign: 'left',
   },
   boxText: {
     fontFamily: Fonts.type.regular,
-    color: Colors.white,
     fontSize: Fonts.size.h6,
     textAlign: 'left',
     textAlignVertical: 'bottom',
     lineHeight: 30,
-    textShadowColor: Colors.paragraph,
-    textShadowOffset: {
-      width: 0.5,
-      height: 0.5,
-    },
-    textShadowRadius: 0.5,
+  },
+  valueText: {
+    fontFamily: Fonts.type.bold,
+    fontSize: Fonts.size.h3,
+    // lineHeight: 20,
+    height: 33,
+    // textAlignVertical: 'bottom',
+    textAlignVertical: 'center',
+    marginRight: 6,
+    color: Colors.headline,
+    includeFontPadding: false,
+    // alignItems: 'flex-end',
+    // justifyContent: 'flex-end',
+    // alignSelf: 'flex-end',
+  },
+  unitText: {
+    fontFamily: Fonts.type.bold,
+    fontSize: Fonts.size.paragraph,
+    color: Colors.paragraph,
+  },
+  valueContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  lastMeasurement: {
+    fontFamily: Fonts.type.light,
+    fontSize: Fonts.size.paragraph,
+    color: Colors.paragraph,
   },
   boxBody: {
-    height: 50,
+    marginTop: 9,
+    marginLeft: 6,
+  },
+  noDataText: {
+    fontFamily: Fonts.type.bold,
+    fontSize: Fonts.size.h4,
+    color: Colors.headline,
   },
 });
 

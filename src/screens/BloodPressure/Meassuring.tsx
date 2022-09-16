@@ -38,7 +38,7 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
     const record = selectRecord();
     console.log(record);
     saveMeasurement(record);
-    navigation.navigate('Home/BloodPressure');
+    navigation.navigate('BloodPressure');
   };
 
   return (
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     color: Colors.paragraph,
   },
   containerInput: {
-    width: '47%',
+    flex: 1,
   },
   rightInput: {
     fontSize: Fonts.size.hint,

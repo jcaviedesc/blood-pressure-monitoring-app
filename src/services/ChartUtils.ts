@@ -1,4 +1,4 @@
-import { BloodPressureMeasurementsType } from '../schemas/blood-pressure-schema';
+import { BloodPressureMeasurementsType } from '../schemas/blood-pressure';
 import Dayjs from './DatatimeUtil';
 import { getAverage } from './utils';
 

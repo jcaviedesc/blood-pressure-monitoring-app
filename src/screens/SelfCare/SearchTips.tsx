@@ -19,9 +19,9 @@ import { searchSelfcareTipThunk } from '../../thunks/selfcare/selfcare-thunk';
 import { selectSearchSelfcare, clear } from '../../store/selfcare';
 import { debounce } from 'lodash';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabs'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'SearchSelfcare'>;
 
-const SearchAcademicBlogPosts: React.FC<Props> = ({ navigation }) => {
+const SearchSelfcareTips: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const user = useAppSelector(selectUserData);
   const { data: searchResult, loading } = useAppSelector(selectSearchSelfcare);
@@ -149,4 +149,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchAcademicBlogPosts;
+export default SearchSelfcareTips;

@@ -15,23 +15,22 @@ import { useInitialScreenApp } from './hooks';
 import { RealmAppWrapper } from '../hooks/realm/provider';
 import { useRealmAuth } from '../providers/RealmProvider';
 import { MainAppContext } from './context';
+import { getUserDetailsThunk } from '../thunks/users-thunk';
 
 const Main = () => {
+  const dispatch = useAppDispatch();
   const { isFirstTime } = useAppSelector(selectAppUserState);
   const { signIn: signInRealm } = useRealmAuth();
+  const { loading, nextScreen } = useInitialScreenApp();
   // TODO change to useReducer
   const [userAuthenticated, setUserAuthenticated] = useState<{
     data: FirebaseAuthTypes.User | null;
     isRegistered: boolean;
     userToken: string;
   }>({ data: null, isRegistered: false, userToken: '' });
-  const dispatch = useAppDispatch();
-
-  const { loading, nextScreen } = useInitialScreenApp();
-
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-
+  console.log('FAT', userAuthenticated.userToken);
   const registerUser = useCallback(async () => {
     const authUser = auth().currentUser;
     const token = await authUser?.getIdToken();
@@ -52,8 +51,6 @@ const Main = () => {
       if (user) {
         user.getIdTokenResult(true).then(tokenResult => {
           const { claims } = tokenResult;
-          console.log({ claims });
-          console.log(tokenResult.token);
           setUserAuthenticated({
             data: user,
             isRegistered: !!claims?.isRegistered,
@@ -61,6 +58,8 @@ const Main = () => {
           });
           if (claims?.isRegistered) {
             signInRealm(tokenResult.token);
+            // get user info
+            dispatch(getUserDetailsThunk());
           }
         });
       } else {
@@ -76,7 +75,7 @@ const Main = () => {
   );
 
   const onNavigateTo = (navigation: NavigationRef) => {
-    if (nextScreen !== 'HomeTabs') {
+    if (nextScreen !== 'Summary') {
       navigation.navigate(nextScreen);
     }
     // navigation.navigate('Singup');

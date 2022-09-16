@@ -29,7 +29,6 @@ const backgroundColorPick = (mode: ColorSchemeName) => {
   return Colors.cardBackground;
 };
 
-// TODO implemente darkMode.
 const Card: React.FC<props> = ({ children, selected = false, style }) => {
   const colorMode = useColorScheme();
   const cardStyles = {

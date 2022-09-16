@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useFocusEffect } from '@react-navigation/native';
@@ -9,11 +9,12 @@ import { VerifyCode, CountDownTimer, Button, Text } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { AppStyles, Fonts } from '../../styles';
 import { updateUserField } from '../../store/signup/signupSlice';
-import { updateUserProfie } from '../../store/user/userSlice';
+import { updateUserDetail } from '../../store/user/userSlice';
 import { useConfirmPhone } from '../../providers/PhoneAuthProvider';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppDispatch } from '../../hooks';
 import { setScreenLoading } from '../../store/app/appSlice';
+import { parseError } from '../../services/ErrorUtils';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VerifyPhone'>;
 
@@ -25,14 +26,22 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   const { result, setConfirm } = useConfirmPhone();
   const [isDisableTimerButton, setIsDisableTimerButton] = useState(true);
   const [isCodeResend] = useState(false);
-  console.log('actualizado VerifyPhoneScreen');
   useFocusEffect(
     useCallback(() => {
       const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
         if (user) {
           user.getIdTokenResult(true).then(tokenResult => {
             const { claims } = tokenResult;
-            if (!claims?.isRegistered) {
+            if (claims?.isRegistered) {
+              // El usuario esta registrado
+              dispatch(
+                updateUserDetail({
+                  name: user.displayName,
+                  avatar: user.photoURL,
+                }),
+              );
+            } else {
+              // El usuario No esta registrado
               dispatch(updateUserField({ field: 'phone', value: phone }));
               navigation.navigate('Singup');
             }
@@ -47,7 +56,6 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
 
   const confirmCode = useCallback(
     async (code: string) => {
-      console.log("confirmCode", code)
       try {
         dispatch(setScreenLoading(true));
         const userCredential = await result?.confirm(code);
@@ -66,18 +74,17 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
           const authUser = userCredential?.user;
           dispatch(setScreenLoading(false));
           dispatch(
-            updateUserProfie({
+            updateUserDetail({
               name: authUser?.displayName as string,
               avatar: authUser?.photoURL as string,
             }),
           );
         }
       } catch (error) {
-        console.log(error);
         crashlytics()
           .setAttribute('phone', phone)
           .then(() => {
-            crashlytics().recordError(error);
+            crashlytics().recordError(parseError(error));
           });
       }
     },
@@ -93,56 +100,60 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
       crashlytics()
         .setAttributes({ phone, screen: 'verifyPhone' })
         .then(() => {
-          crashlytics().recordError(error);
+          crashlytics().recordError(parseError(error));
         });
     }
   };
 
   return (
-    <MainContainer>
-      <View style={styles.content}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleScreen}>
-            {translate('verify_phone.title')}
-          </Text>
-        </View>
-        <View style={styles.subTitleContainer}>
-          <Text style={styles.subTitleScreen}>
-            {translate('verify_phone.subtitle', { phone })}
-          </Text>
-        </View>
-        <VerifyCode onCompleteCode={confirmCode} />
-        <View style={styles.noCodeContainer}>
-          <Text style={styles.noCode}>{translate('verify_phone.no_code')}</Text>
-        </View>
-        {isCodeResend ? (
-          <Button hierarchy="quiet">
-            <Text style={styles.noCode}>
-              {translate('verify_phone.try_other_method')}
+    <SafeAreaView style={styles.full}>
+      <MainContainer>
+        <View style={styles.content}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.titleScreen}>
+              {translate('verify_phone.title')}
             </Text>
-          </Button>
-        ) : (
-          <Button
-            disabled={isDisableTimerButton}
-            hierarchy="quiet"
-            onPress={onResendConde}>
-            <CountDownTimer
-              textStyles={styles.noCode}
-              timerMilliseconds={60000}
-              prefix={translate('verify_phone.resendTimer')}
-              expiredTimeComponent={
-                <Text style={styles.noCode}>
-                  {translate('verify_phone.resendCode')}
-                </Text>
-              }
-              onFinish={() => {
-                setIsDisableTimerButton(false);
-              }}
-            />
-          </Button>
-        )}
-      </View>
-    </MainContainer>
+          </View>
+          <View style={styles.subTitleContainer}>
+            <Text style={styles.subTitleScreen}>
+              {translate('verify_phone.subtitle', { phone })}
+            </Text>
+          </View>
+          <VerifyCode onCompleteCode={confirmCode} />
+          <View style={styles.noCodeContainer}>
+            <Text style={styles.noCode}>
+              {translate('verify_phone.no_code')}
+            </Text>
+          </View>
+          {isCodeResend ? (
+            <Button hierarchy="quiet">
+              <Text style={styles.noCode}>
+                {translate('verify_phone.try_other_method')}
+              </Text>
+            </Button>
+          ) : (
+            <Button
+              disabled={isDisableTimerButton}
+              hierarchy="quiet"
+              onPress={onResendConde}>
+              <CountDownTimer
+                textStyles={styles.noCode}
+                timerMilliseconds={60000}
+                prefix={translate('verify_phone.resendTimer')}
+                expiredTimeComponent={
+                  <Text style={styles.noCode}>
+                    {translate('verify_phone.resendCode')}
+                  </Text>
+                }
+                onFinish={() => {
+                  setIsDisableTimerButton(false);
+                }}
+              />
+            </Button>
+          )}
+        </View>
+      </MainContainer>
+    </SafeAreaView>
   );
 };
 
@@ -167,6 +178,9 @@ const styles = StyleSheet.create({
   },
   noCodeContainer: {
     marginBottom: 18,
+  },
+  full: {
+    flex: 1,
   },
 });
 

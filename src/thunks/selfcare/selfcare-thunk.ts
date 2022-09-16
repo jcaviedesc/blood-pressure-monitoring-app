@@ -14,14 +14,12 @@ export const createSelfcareTipThunk = createAsyncThunk<
   async (selfcareTip, { extra: clientApi, rejectWithValue }) => {
     // TODO select language
     const buildRequestData = buildSelfcareRequest(selfcareTip);
-    const response = await clientApi.createSelfcareTip(buildRequestData);
-
-    if (response.status >= 300) {
-      return rejectWithValue(response.data);
-      // TODO handle error message
+    try {
+      const response = await clientApi.createSelfcareTip(buildRequestData);
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return rejectWithValue(error);
     }
-
-    return Promise.resolve(response.data);
   },
 );
 
@@ -43,17 +41,16 @@ export const searchSelfcareTipThunk = createAsyncThunk<
     if (loading !== 'pending' || requestId !== currentRequestId) {
       return;
     }
-    const response = await clientApi.searchSelfcareTip('patient', {
-      q: searchWords,
-      limit: 9,
-      page: 1,
-    });
 
-    if (response.status >= 300) {
-      return rejectWithValue(response.data);
-      // TODO handle error message
+    try {
+      const response = await clientApi.searchSelfcareTip('patient', {
+        q: searchWords,
+        limit: 9,
+        page: 1,
+      });
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return rejectWithValue(error);
     }
-
-    return Promise.resolve(response.data);
   },
 );

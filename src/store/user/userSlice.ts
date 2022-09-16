@@ -1,49 +1,33 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { UserState, UpdateUserProfieAction } from './types';
+import type { UserState, UpdateUserProfieAction, IUserDetail } from './types';
 import type { RootState } from '../configureStore';
-import { signUpUser } from '../../thunks/users-thunk';
+import { signUpUser, getUserDetailsThunk } from '../../thunks/users-thunk';
 
 /* ------------- Initial State ------------- */
 // TODO deprecar homeStatus
 const initialState: UserState = {
-  id: '',
-  name: '',
-  lastName: '',
-  phone: '',
-  address: '',
-  sex: '',
-  weight: {
-    val: 0,
-    unit: 'Kg',
+  detail: {
+    id: '',
+    name: '',
+    docId: '',
+    lastName: '',
+    phone: '',
+    address: '',
+    sex: '',
+    birthdate: '',
+    role: 2,
+    avatar: '',
+    age: '',
+    bmi: '',
+    measurements: [],
+    createdAt: '',
+    updatedAt: '',
   },
-  height: {
-    val: 0,
-    unit: 'm',
-  },
-  birthdate: '',
-  role: 2,
-  profileUrl: '',
-  age: '',
-  imc: '',
-  avatar: '',
-  // homeStatus: {
-  //   bloodPressure: {
-  //     status: 'no data',
-  //     value: '--',
-  //   },
-  //   nutritional: {
-  //     status: 'no data',
-  //     value: '--',
-  //   },
-  //   heartRate: {
-  //     status: 'no data',
-  //     value: '--',
-  //   },
-  //   bloodGlucose: {
-  //     status: 'no data',
-  //     value: '--',
-  //   },
-  // },
+  lastSyncDatetime: '',
+  deviceToken: undefined,
+  loading: 'idle',
+  currentRequestId: undefined,
+  error: undefined,
 };
 
 export const userSlice = createSlice({
@@ -52,27 +36,59 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    updateUserProfie: (
+    updateUserDetail: (
       state,
       action: PayloadAction<UpdateUserProfieAction>,
     ) => {
-      return { ...state, ...action.payload };
+      state.detail = { ...state.detail, ...action.payload };
     },
     signOut: () => {
       return initialState;
     },
   },
   extraReducers: builder => {
-    builder.addCase(signUpUser.fulfilled, (state, action) => {
-      console.log({ userSlice: action.payload });
-      return action.payload;
-    });
+    builder
+      .addCase(signUpUser.fulfilled, (state, action) => {
+        state.detail = action.payload;
+      })
+      .addCase(getUserDetailsThunk.pending, (state, action) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+          state.currentRequestId = action.meta.requestId;
+        }
+      })
+      .addCase(getUserDetailsThunk.fulfilled, (state, action) => {
+        const { requestId } = action.meta;
+        if (
+          state.loading === 'pending' &&
+          state.currentRequestId === requestId
+        ) {
+          state.loading = 'idle';
+          state.detail = action.payload;
+          state.error = undefined;
+          state.currentRequestId = undefined;
+        }
+      })
+      .addCase(getUserDetailsThunk.rejected, (state, action) => {
+        const { requestId } = action.meta;
+        if (
+          state.loading === 'pending' &&
+          state.currentRequestId === requestId
+        ) {
+          state.loading = 'idle';
+          state.error = action.error.message;
+          state.currentRequestId = undefined;
+        }
+      });
   },
 });
 
-export const { updateUserProfie, signOut } = userSlice.actions;
+export const { updateUserDetail, signOut } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectUserData = (state: RootState) => state.user;
+export const selectUserData = (state: RootState): IUserDetail =>
+  state.user.detail;
+export const selectUserDeviceToken = (state: RootState) =>
+  state.user.deviceToken;
 
 export default userSlice.reducer;

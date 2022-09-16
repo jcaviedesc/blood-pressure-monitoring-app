@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   ScrollView,
@@ -6,52 +6,47 @@ import {
   View,
   StyleSheet,
   Image,
-  BackHandler,
-  Alert,
   TouchableHighlight,
   StatusBar,
 } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import type { RootStackParamList } from '../../router/types';
 import { Colors, Fonts, AppStyles, Images, Metrics } from '../../styles';
 import { Box, Button } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectUserData } from '../../store/user/userSlice';
+import { useForegroundNotification } from '../../hooks/useNotifications';
+import { startUserSessionThunk } from '../../thunks/users-thunk';
+import { useBackHandlerExitApp } from '../../hooks/back-handler';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabs'>;
+const ICONS = {
+  BloodPressure: ['heart', '#fe5b5b'],
+  Weight: ['child', '#fff159'],
+  Height: ['child', '#fff159'],
+};
 
-const HomeScreen: React.FC<Props> = ({ navigation }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Summary'>;
+
+const SummaryScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
-  const bloodPressure = { status: 'x', value: 'v' }
-  const nutritional = { status: 'x', value: 'v' }
-  const heartRate = { status: 'x', value: 'v' }
-  const bloodGlucose = { status: 'x', value: 'v' }
-  const { name, lastName, avatar, sex } = useAppSelector(selectUserData);
+  useForegroundNotification();
+  const { name, lastName, avatar, sex, id, measurements } =
+    useAppSelector(selectUserData);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (id) {
+      dispatch(startUserSessionThunk(id));
+    }
+  }, [dispatch, id]);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      const backAction = () => {
-        // Espera! 'Hold on!
-        // Seguro quieres salir de la applicación? 'Are you sure you want to go back?
-        Alert.alert('¡Espera!', '¿Seguro quieres salir de la applicación?', [
-          {
-            text: 'Cancelar',
-            onPress: () => null,
-            style: 'cancel',
-          },
-          { text: 'SI', onPress: () => BackHandler.exitApp() },
-        ]);
-        return true;
-      };
-
-      BackHandler.addEventListener('hardwareBackPress', backAction);
-
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', backAction);
-    }, []),
-  );
+  // TODO add analytics
+  useBackHandlerExitApp({
+    alertTitle: translate('skip_app_alert.title'),
+    alertDescription: translate('skip_app_alert.subtitle'),
+    alertOkText: translate('skip_app_alert.ok'),
+    alertCancelText: translate('skip_app_alert.cancel'),
+  });
 
   const navigate = (screen: keyof RootStackParamList) => {
     navigation.navigate(screen);
@@ -120,18 +115,28 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             {translate('home.mystatus')}
           </Text>
         </View>
-        <View style={styles.boxContainer}>
-          <Box
-            title={translate('blood_pressure')}
-            status={bloodPressure.status}
-            value={bloodPressure.value} //
-            colors={['#fe5b5b', '#ef6463']}
-            iconName="tint"
-            onPress={() => {
-              navigate('Home/BloodPressure');
-            }}
-          />
-          <Box
+        <View style={styles.measurementsContainer}>
+          {measurements.map(measurement => {
+            const [iconName, iconColor] = ICONS[measurement.name];
+            return (
+              <Box
+                key={measurement.name}
+                title={translate(`measurements.${measurement.name}`)}
+                status={measurement.status}
+                value={measurement.value.toString()}
+                unit={measurement.unit}
+                iconColor={iconColor}
+                iconName={iconName}
+                lastMeasurement={measurement.lastMeasurement}
+                onPress={() => {
+                  navigate(measurement.name);
+                }}
+              />
+            );
+          })}
+          {/* TODO add fallback error component si no se pueden cargar measurements */}
+
+          {/* <Box
             title="Peso Corporal"
             status={nutritional.status}
             value={nutritional.value}
@@ -160,7 +165,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             onPress={() => {
               navigate('development');
             }}
-          />
+          /> */}
         </View>
       </ScrollView>
     </MainContainer>
@@ -194,8 +199,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h4,
   },
-  boxContainer: {
-    flexDirection: 'row',
+  measurementsContainer: {
     justifyContent: 'space-between',
     flexWrap: 'wrap',
   },
@@ -215,4 +219,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default SummaryScreen;

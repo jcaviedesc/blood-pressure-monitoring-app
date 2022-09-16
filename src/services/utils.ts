@@ -1,4 +1,5 @@
-import { mapKeys, camelCase, snakeCase } from 'lodash';
+import camelcaseKeysDeep from 'camelcase-keys-deep';
+import snakecaseKeys from 'snakecase-keys';
 
 export function cleanObject(obj: object) {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== ''));
@@ -6,34 +7,21 @@ export function cleanObject(obj: object) {
 
 export function snakeCaseToCamelCase<T>(data: any) {
   if (Array.isArray(data)) {
-    return data.map(item => mapKeys(item, (value, key) => camelCase(key)));
+    return data.map(item => camelcaseKeysDeep(item));
   }
 
-  return mapKeys(data, (value, key) => camelCase(key));
+  return camelcaseKeysDeep(data);
 }
 
-export function camelCaseKeysToUnderscore(obj: object) {
-  if (typeof obj !== 'object') return obj;
-
-  const data = obj;
-  for (var oldName in data) {
-    // Camel to underscore
-    const newName = snakeCase(oldName);
-
-    // Only process if names are different
-    if (newName !== oldName) {
-      // Check for the old property name to avoid a ReferenceError in strict mode.
-      data[newName] = data[oldName];
-      delete data[oldName];
-    }
-
-    // Recursion
-    if (typeof data[newName] === 'object') {
-      data[newName] = camelCaseKeysToUnderscore(data[newName]);
-    }
+export function camelCaseKeysToUnderscore(data: object) {
+  if (typeof data !== 'object') {
+    return data;
   }
-  return data;
+  return snakecaseKeys(data);
 }
+
+export const camelToSnakeCase = (str: string) =>
+  str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
 
 export function getAverage<T>(
   data: T[],

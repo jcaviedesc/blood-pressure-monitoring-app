@@ -1,10 +1,10 @@
 import { createRealmContext } from '@realm/react';
-import { BloodPressureMeasurements } from '../../schemas/blood-pressure-schema';
+import {
+  BloodPressureMeasurements,
+  BloodPressureMeasurement,
+} from '../../schemas/blood-pressure';
 
 const config = {
-  schema: [
-    BloodPressureMeasurements.schema,
-    BloodPressureMeasurements.bloodPressureMeasurementSchema,
-  ],
+  schema: [BloodPressureMeasurement.schema, BloodPressureMeasurements.schema],
 };
 export default createRealmContext(config);

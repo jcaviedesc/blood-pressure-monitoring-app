@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Text, TextStyle } from 'react-native';
 import { useCountdown } from '../../hooks/useTimer';
 
@@ -19,10 +19,8 @@ export const CountDownTimer = ({
   },
   textStyles,
 }: Props): JSX.Element => {
-  const NOW_IN_MS = useRef(new Date().getTime()).current;
-  const [days, hours, minutes, seconds] = useCountdown(
-    NOW_IN_MS + timerMilliseconds,
-  );
+  // const NOW_IN_MS = useRef(new Date().getTime()).current;
+  const { days, hours, minutes, seconds } = useCountdown(timerMilliseconds);
   if (days + hours + minutes + seconds <= 0) {
     onFinish();
     return <Text>{expiredTimeComponent}</Text>;

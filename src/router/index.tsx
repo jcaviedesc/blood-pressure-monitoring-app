@@ -80,7 +80,7 @@ function MainStackNavigator({
         {isUserLogged ? (
           <>
             <Stack.Screen
-              name="HomeTabs"
+              name="Summary"
               component={MainTabsHome}
               options={{
                 headerShown: false,

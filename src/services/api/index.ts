@@ -1,24 +1,45 @@
 import axios, { AxiosPromise, AxiosRequestConfig, AxiosError } from 'axios';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { API_URL } from 'react-native-dotenv';
 import auth from '@react-native-firebase/auth';
-import type { RegisterUser, BPbody, RegisterCompleteUser } from './types';
+import type { RegisterUser, BPbody } from './types';
 import { camelCaseKeysToUnderscore, snakeCaseToCamelCase } from '../utils';
 
 const handleError = (error: AxiosError) => {
+  crashlytics().log(JSON.stringify(error));
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
-    return error.response;
+    const responseError = {
+      data: error.response.data,
+      status: error.response.status,
+      header: error.response.headers,
+    };
+    crashlytics().recordError(
+      new Error(JSON.stringify(responseError)),
+      'RESPONSE_API',
+    );
+    throw {
+      message: error.response.data,
+      response: error.response,
+    };
   } else if (error.request) {
     // The request was made but no response was received
     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
     // http.ClientRequest in node.js
-    console.error('Request', error.request);
-  } else {
-    // Something happened in setting up the request that triggered an Error
-    console.error('Error', error.message);
+    // TODO add crashlytics
+    crashlytics().recordError(
+      new Error(JSON.stringify(error.request)),
+      'REQUEST',
+    );
+    throw {
+      message: error.message,
+      request: error.request,
+    };
   }
-  return { status: 0, ...error };
+  // Something happened in setting up the request that triggered an Error
+  crashlytics().recordError(new Error(JSON.stringify(error)), 'REQUEST_SOME');
+  throw error;
 };
 
 // our "constructor"
@@ -82,10 +103,12 @@ const create = (baseURL = API_URL) => {
   const registerUser = (data: RegisterUser): AxiosPromise =>
     api.post('/users', data);
 
-  const finishRegistration = (
+  const getUserDetails = () => api.get('/users/me');
+
+  const registerUserDeviceToken = (
     userId: string,
-    data: RegisterCompleteUser,
-  ): AxiosPromise => api.put(`/users/${userId}`, data);
+    token: string,
+  ): AxiosPromise => api.put(`/users/${userId}/device-token`, token);
 
   const registerBloodPressureRecord = (data: BPbody): AxiosPromise =>
     api.post('/blood-pressure/', data);
@@ -113,11 +136,12 @@ const create = (baseURL = API_URL) => {
   //
   return {
     registerUser,
+    registerUserDeviceToken,
     registerBloodPressureRecord,
-    finishRegistration,
     findBloodPressureMonitor,
     createSelfcareTip,
     searchSelfcareTip,
+    getUserDetails,
   };
 };
 

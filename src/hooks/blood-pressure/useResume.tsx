@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 import { useBloodPressureMeasurement } from '../realm/useBloodPressure';
 import { transformBloodPressureData } from '../../services/ChartUtils';
 import Dayjs, { getWeekRange } from '../../services/DatatimeUtil';

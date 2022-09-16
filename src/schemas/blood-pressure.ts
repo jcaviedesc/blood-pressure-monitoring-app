@@ -3,12 +3,24 @@ import { ObjectId } from 'bson';
 import customDayjs from '../services/DatatimeUtil';
 import { getAverage } from '../services/utils';
 
-export interface BloodPressureMeasurement {
-  sys: any;
-  dia: any;
-  bpm: any;
-  t: any;
-  note?: string;
+class BloodPressureMeasurement extends Realm.Object {
+  sys!: number;
+  dia!: number;
+  bpm!: number;
+  t!: string;
+  note!: string;
+
+  static schema = {
+    name: 'BloodPressureMeasurement',
+    embedded: true,
+    properties: {
+      sys: 'int',
+      dia: 'int',
+      bpm: 'int',
+      t: 'date',
+      note: 'string',
+    },
+  };
 }
 export interface BloodPressureMeasurementsType {
   _id: ObjectId;
@@ -59,18 +71,6 @@ class BloodPressureMeasurements extends Realm.Object {
     };
   }
 
-  static bloodPressureMeasurementSchema = {
-    name: 'BloodPressureMeasurement',
-    embedded: true,
-    properties: {
-      sys: 'int',
-      dia: 'int',
-      bpm: 'int',
-      t: 'date',
-      note: 'string',
-    },
-  };
-
   static schema = {
     name: 'BloodPressureMeasurements',
     primaryKey: '_id',
@@ -86,4 +86,4 @@ class BloodPressureMeasurements extends Realm.Object {
   };
 }
 
-export { BloodPressureMeasurements };
+export { BloodPressureMeasurements, BloodPressureMeasurement };

@@ -3,7 +3,7 @@ import {
   BloodPressureMeasurements,
   BloodPressureMeasurementsType,
   BloodPressureMeasurement,
-} from '../../schemas/blood-pressure-schema';
+} from '../../schemas/blood-pressure';
 import { useRealmAuth } from '../../providers/RealmProvider';
 import { getAverage } from '../../services/utils';
 import RealmContext from './context';
@@ -13,6 +13,7 @@ const { useRealm } = RealmContext;
 export const useBloodPressureMeasurement = () => {
   const realm = useRealm();
   const { realmAuthUser } = useRealmAuth();
+  // change to bucket pattern and upsert documents
   const bloodPressureMeasurements =
     realm.objects<BloodPressureMeasurementsType>(
       BloodPressureMeasurements.name,

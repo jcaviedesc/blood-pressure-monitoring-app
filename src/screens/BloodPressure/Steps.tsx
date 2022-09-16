@@ -26,7 +26,7 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
   }, [translate]);
   const stepsRef = React.useRef<stepRef>();
   const [activeStep, setActiveStep] = React.useState(1);
-  const { timer, resetTimer } = useTimer(1000, 5);
+  const { timer, resetTimer } = useTimer(1000, 3);
 
   useEffect(() => {
     navigation.setOptions({ activeStep });

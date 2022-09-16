@@ -8,12 +8,11 @@ type SingUpStackParamList = {
 };
 
 type BloodPressureStackParam = {
-  'Home/BloodPressure': undefined;
+  BloodPressure: undefined;
   'BloodPressure/Preparation': undefined;
   'BloodPressure/Steps': undefined;
   'BloodPressure/Meassuring': undefined;
   'BloodPressure/Wait1minute': undefined;
-  'BloodPressure/MeasuringFinish': undefined;
   'BloodPressure/Reminders': undefined;
   'BloodPressure/ValidateMonitor': undefined;
 };
@@ -21,9 +20,10 @@ type BloodPressureStackParam = {
 export type RootStackParamList = {
   Welcome: undefined;
   VerifyPhone: { verificationType: string; phone: string };
-  HomeTabs: undefined;
+  Summary: undefined;
   Profile: undefined;
   development: undefined;
+  SearchSelfcare: undefined;
   AddSelfCareTip: undefined;
 } & SingUpStackParamList &
   BloodPressureStackParam;

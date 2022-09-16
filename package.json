@@ -45,6 +45,7 @@
     "@reduxjs/toolkit": "^1.7.1",
     "@sanar/react-native-highlight-text": "^1.0.2",
     "axios": "^0.26.0",
+    "camelcase-keys-deep": "^0.1.0",
     "dayjs": "^1.10.7",
     "fast-text-encoding": "^1.0.3",
     "i18n-js": "^3.8.0",
@@ -80,6 +81,7 @@
     "realm": "^10.19.5",
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
+    "snakecase-keys": "^5.4.4",
     "victory-native": "^36.2.1"
   },
   "devDependencies": {

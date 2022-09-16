@@ -200,6 +200,11 @@
     "summary": "Resumen",
     "search": "Buscar"
   },
+  "measurements":{
+    "BloodPressure": "Presión Arterial",
+    "Weight": "Peso Corporal",
+    "Height": "Estatura"
+  },
   "TabsSearch": {
     "header": {
       "title": "Autocuidado",
@@ -234,8 +239,6 @@
   "do_not_know": "NO SÉ",
   "date": "Fecha",
   "measuring": "Medición",
-  "blood_pressure": "Presión Arterial",
-  "heart_rate": "Ritmo cardiaco ",
   "weight": "Peso",
   "height": "Altura",
   "validation": {
