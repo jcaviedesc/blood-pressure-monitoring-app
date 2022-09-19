@@ -1,3 +1,4 @@
 import ActionSheetWeekDays from './weekdays';
+import ActionSheetInputOption from './inputOption';
 
-export default { ActionSheetWeekDays };
+export default { ActionSheetWeekDays, ActionSheetInputOption };
