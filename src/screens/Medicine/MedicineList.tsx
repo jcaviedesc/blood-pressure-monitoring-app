@@ -6,57 +6,27 @@ import { AppStyles } from '../../styles';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MedicineCard from '../../components/MedicineCard';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { selectMonitors } from '../../store/blood-pressure';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { Colors } from '../../styles';
 import { fetchListMedicine } from '../../thunks/medicine/medicine-thunks';
 import { selectMedicineUp } from '../../store/medicineup/medicineupSlice';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'development'>;
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Aspirina 1',
-    hour:"6:00 pm",
-    dosis: "25mg",
-    apparience: "pildora"
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Aspirina 2',
-    hour:"6:00 pm",
-    dosis: "50mg",
-    apparience: "mi"
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Aspirina 3',
-    hour:"6:00 pm",
-    dosis: "75mg",
-    apparience: "gotas"
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d47',
-    title: 'Aspirina 4',
-    hour:"6:00 pm",
-    dosis: "75mg",
-    apparience: "inhaladores"
-  },
-];
+
+type Props = NativeStackScreenProps<RootStackParamList, 'MedicineList'>;
 
 const MedicineScreen: React.FC<Props> = ({ navigation }) => {
 
   const { translate } = useI18nLocate();
 
   const dispatch = useAppDispatch();
-  const {listMedicine} = useAppSelector(selectMedicineUp);
+  const listMedicine = useAppSelector(selectMedicineUp);
 
    useEffect(() => {
     dispatch(fetchListMedicine());
    }, []) 
    
 
-  const EmptyListMessage = () => {
+   const EmptyListMessage = () => {
     return (
       // Flat List Item
       <Text style={styles.emptyListStyle}>
@@ -65,15 +35,14 @@ const MedicineScreen: React.FC<Props> = ({ navigation }) => {
     );
   };
 
-
   return (
     <View style={[styles.mainContainer, styles.content]}>
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center',zIndex:1 }}>
       <FlatList
-        data={listMedicine}
+        data={listMedicine.medicineUpSlice}
         renderItem={({ item }) => <MedicineCard {...item} />}
-        keyExtractor={item => item.id}
-        ListEmptyComponent={EmptyListMessage}
+        //keyExtractor={item => item?.id}
+        ListEmptyComponent={<EmptyListMessage/>}
       />
         <View style={styles.footer}>
             <Entypo
@@ -123,10 +92,13 @@ const styles = StyleSheet.create({
     padding:2
   },
   footer: {
-    marginTop: 18,
-    marginBottom: 12,
-    padding:8,
-    flexDirection: "row-reverse"
+    position: 'absolute', 
+    width: 80, 
+    height: 80, 
+    right: 10, 
+    bottom: 4, 
+    borderRadius: 80, 
+    elevation: 8
   },
   emptyListStyle: {
     padding: 10,
