@@ -5,18 +5,20 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Fonts, Metrics, Colors } from '../../styles';
 
-
-type Props = {
-  name:string,
-  hour:string,
-  dose:{
-    u: string,
-    v:number
+const ICON_CHIP = {
+  'pill':'pills',
+  'solution':'prescription-bottle-alt',
+  'injection': 'syringe',
+  'dust': 'prescription-bottle',
+  'drops': 'eye-dropper',
+  'inhaler': 'lungs',
+  'other': 'question-circle'
   }
-};
 
+const ICON_CHIP_DEFAULT = 'question-circle'
 
 const MedicineCard: React.FC<any> = (props) => {
+  //console.log('THIS IS DATA',props)
   const { translate } = useI18nLocate();
   return (
      <View style={styles.item}>
@@ -24,8 +26,8 @@ const MedicineCard: React.FC<any> = (props) => {
         <View style={styles.description}>
           <View style={styles.icon}>
             <FontAwesome5
-              name={true ? 'capsules' : 'capsules'}
-              size={60}
+              name={ICON_CHIP[props.apparience] || ICON_CHIP_DEFAULT}
+              size={25}
               color={Colors.primary}
             />
           </View>
@@ -33,17 +35,32 @@ const MedicineCard: React.FC<any> = (props) => {
             <Text style={styles.titleText}>{translate('medicineDose')}</Text>
             <Text style={styles.value}>{props.name}</Text>
           </View>
+          <View style={styles.titleMedicine}>
+          <Text style={styles.titleText}>{translate('dose')}</Text>
+            <Text style={styles.normarValue}>{props.dose.value+" "+props.dose.unit}</Text>
+          </View>
         </View>
         <View style={styles.bodyHead}>
           <View style={styles.descriptionBody}>
-            <Text style={styles.titleText}>{translate('dose')}</Text>
-            <Text style={styles.normarValue}>{props.dose.v+" "+props.dose.u}</Text>
+            <Text style={styles.titleText}>{translate('frecuency')}</Text>
+            <Text style={styles.normarValue}>{translate(props.frecuency)}</Text>
           </View>
           <View style={styles.descriptionBody}>
-            <Text style={styles.titleText}>{translate('hourDose')}</Text>
-            <Text style={styles.normarValue}>{props.hour}</Text>
+            <Text style={styles.normarValue}>{props.timesPerDay+" "}{props.timesPerDay === 1 ? translate('only') : translate('twice')}</Text>
           </View>
         </View>
+        {props.frecuency !== 'every day' && 
+          <View style={styles.descriptionBody}>
+            <Text style={styles.titleText}>{translate('days medicine')}</Text>
+            <Text style={styles.normarValue}>{props.days+' '}</Text>
+          </View>}
+        <View style={styles.bodyHead}>
+          <View style={styles.descriptionBody}>
+            <Text style={styles.titleText}>{translate('hourDose')}</Text>
+            <Text style={styles.normarValue}>{props.times+'  '}</Text>
+          </View>
+        </View>
+        
       </View>
       {/* <View style={styles.menudots}>
         <Icon
@@ -66,7 +83,7 @@ const styles = StyleSheet.create({
     height: Metrics.screenWidth / 2,
   },
   content: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   menudots:{
     alignContent:'center',
@@ -95,7 +112,7 @@ const styles = StyleSheet.create({
   },
   normarValue: {
     fontFamily: Fonts.type.regular,
-    fontSize: Fonts.size.h5,
+    fontSize: Fonts.size.paragraph,
     color: Colors.headline,
   },
   bodyHead: {
