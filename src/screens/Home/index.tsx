@@ -110,10 +110,19 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
               hierarchy="quiet"
               title={translate('button.add')}
               onPress={() => {
-                navigate('development');
+                navigation.navigate('Medicine');
               }}
             />
           </View>
+          
+        </View>
+        <View style={styles.linkMedicine}>
+          <Text style={styles.linkSectonText}
+            onPress={() => {
+              navigate('MedicineList');
+            }}>
+            {translate('home.show_medicines')}
+          </Text>
         </View>
         <View style={styles.titleSection}>
           <Text style={styles.titleSectonText}>
@@ -213,6 +222,18 @@ const styles = StyleSheet.create({
     fontSize: Fonts.size.h4,
     color: Colors.headline,
   },
+  linkMedicine:{
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center'
+  },
+  linkSectonText: {
+    fontFamily: Fonts.type.regular,
+    fontSize: Fonts.size.h6,
+    color: Colors.primary,
+    textDecorationLine: 'underline'
+  },
+
 });
 
 export default HomeScreen;

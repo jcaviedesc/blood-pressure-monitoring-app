@@ -25,6 +25,7 @@ export type RootStackParamList = {
   Profile: undefined;
   development: undefined;
   Medicine: undefined;
+  MedicineList:undefined;
   AddSelfCareTip: undefined;
 } & SingUpStackParamList &
   BloodPressureStackParam;

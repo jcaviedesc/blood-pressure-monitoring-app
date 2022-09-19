@@ -155,15 +155,15 @@ function MainStackNavigator({
             title: 'developing screen',
           }}
         /> */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="development"
           component={DevelopmentScreen}
           options={{
             title: 'developing screen',
           }}
-        /> */}
+        />
         <Stack.Screen
-          name="development"
+          name="MedicineList"
           component={MedicineScreen}
           options={{
             title: 'Medicamentos',
