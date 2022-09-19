@@ -22,7 +22,7 @@ const handleError = (error: AxiosError) => {
 };
 
 // our "constructor"
-const create = (baseURL = API_URL) => {
+const create = (baseURL = API_URL || "https://blood-pressure-api-88qa2.ondigitalocean.app/api") => {
   // ------
   // STEP 1
   // ------
@@ -82,9 +82,6 @@ const create = (baseURL = API_URL) => {
   const registerUser = (data: RegisterUser): AxiosPromise =>
     api.post('/users', data);
 
-  const addMedicine = (data: Medicine): AxiosPromise =>
-  api.post('/medicines', data);
-
   const finishRegistration = (
     userId: string,
     data: RegisterCompleteUser,
@@ -102,8 +99,11 @@ const create = (baseURL = API_URL) => {
   const searchSelfcareTip = (type: string, params: any): AxiosPromise =>
     api.get(`/selfcare/${type}/search`, { params });
 
-  const consultListMedicine = (): AxiosPromise =>
-  api.get('/medicines');
+    const addMedicine = (data: Medicine): AxiosPromise =>
+    api.post('/medicines', data);
+
+    const consultListMedicine = (): AxiosPromise =>
+    api.get('/medicines');
 
   // ------
   // STEP 3
@@ -119,12 +119,12 @@ const create = (baseURL = API_URL) => {
   //
   return {
     registerUser,
-    addMedicine,
     registerBloodPressureRecord,
     finishRegistration,
     findBloodPressureMonitor,
     createSelfcareTip,
     searchSelfcareTip,
+    addMedicine,
     consultListMedicine
   };
 };

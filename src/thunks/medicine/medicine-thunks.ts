@@ -13,18 +13,35 @@ export const fetchListMedicine = createAsyncThunk<
   'consult-medicine-up/',
   async (_: void, { extra: clientApi, rejectWithValue }) => {
     const response = await clientApi.consultListMedicine();
-
-    console.log('test');
     
     if (response.status >= 300) {
-      console.log('test - 1');
-      console.log('test - 1 - 1', response);
       crashlytics().recordError(response.error);
       return rejectWithValue(response.data);
       // TODO handle error message
     }
 
-    console.log('test - 2');
+    return Promise.resolve(response.data);
+  },
+);
+
+export const fetchAddMedicine = createAsyncThunk<
+  object,
+  object,
+  {
+    extra: ClientApi;
+    state: RootState;
+  }
+>(
+  'medicine-create',
+  async (Medicine, { extra: clientApi, rejectWithValue }) => {
+    // TODO select language
+    const buildRequestData = Medicine;
+    const response = await clientApi.addMedicine(buildRequestData);
+
+    if (response.status >= 300) {
+      return rejectWithValue(response.data);
+      // TODO handle error message
+    }
 
     return Promise.resolve(response.data);
   },

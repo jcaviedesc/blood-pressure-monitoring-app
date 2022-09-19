@@ -2,29 +2,22 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../configureStore';
 import { MedicineUp, MedicineUpState } from './types';
 import { fetchListMedicine } from '../../thunks/medicine/medicine-thunks';
-
+import { medicineFieldType } from "./types"
 /* ------------- Initial State ------------- */
 const initialState: MedicineUpState = {
-  listMedicine: [],
-  /* name: '',
-  lastName: '',
-  docId: '',
-  phone: '',
-  address: 'NaN',
-  location: [],
-  birthdate: '',
-  sex: SexEnum.female,
-  weight: '',
-  height: '',
-  userType: '',
-  healtQuestions: {
-    medicine: '',
-    smoke: '',
-    heartAttack: '',
-    thrombosis: '',
-    nephropathy: '',
+  medicineQuestion: {
+    name: '',
+    apparience: '',
+    dose: {
+      unit: '',
+      value: 0,
+    },
+    via: '',
+    frecuency: '',
+    days: [],
+    times_per_day: 0,
+    times: [],
   },
-  picture: { uri: '', type: '' }, */
 };
 
 export const medicineUpSlice = createSlice({
@@ -37,22 +30,23 @@ export const medicineUpSlice = createSlice({
       const { field, value } = action.payload;
       state[field] = value;
     },*/
-    updateMedicine: (state, action: PayloadAction<MedicineUp>) => {
-      const healtInfoState = state.healtQuestions;
+    updateMedicine: (state, action: PayloadAction<medicineFieldType>) => {
+      const medicineInfoState = state.medicineQuestion;
       const { field, value } = action.payload;
-      healtInfoState[field] = value;
-      state.healtQuestions = healtInfoState;
+      medicineInfoState[field] = value;
+      state.medicineQuestion = medicineInfoState;
     },
-    clear: () => initialState, 
+    clear: () => initialState,
   },
   extraReducers: builder => {
-    builder.addCase(fetchListMedicine.fulfilled, (state, action: any) => {
-      state.listMedicine = action;
-    });
+    builder.addCase(fetchListMedicine.fulfilled, (state, action: any) => ({
+      ...state,
+      medicineUpSlice: action.payload,
+    }));
   },
 });
 
-export const { clear } = medicineUpSlice.actions;
+export const {updateMedicine, clear } = medicineUpSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectMedicineUp = (state: RootState) => state.medicineUp;

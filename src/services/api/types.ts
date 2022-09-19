@@ -16,15 +16,23 @@ export type RegisterUser = {
 };
 
 export type Medicine = {
-  address: string;
-  location?: number[];
-  sex: string;
-  birthdate: string;
-  height: Meassure;
-  weight: Meassure;
-  user_type: number;
-  healt_questions?: object;
-  profile_url?: string;
+    id: string
+    name: string,
+    apparience: string,
+    dose: {
+      u: string,
+      v: number
+    },
+    via: string,
+    frecuency: string,
+    times_per_day: number,
+    days:Array<string>,
+    every: number,
+    times: Array<string>,
+    ctd_at: string,
+    utd_at: string,
+    _id: string,
+    user_id: string
 };
 
 export type BPRecord = {
