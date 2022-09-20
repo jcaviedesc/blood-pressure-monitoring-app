@@ -35,7 +35,7 @@ const MedicineCard: React.FC<any> = (props) => {
             <Text style={styles.titleText}>{translate('medicineDose')}</Text>
             <Text style={styles.value}>{props.name}</Text>
           </View>
-          <View style={styles.titleMedicine}>
+          <View style={styles.titleMedicine2}>
           <Text style={styles.titleText}>{translate('dose')}</Text>
             <Text style={styles.normarValue}>{props.dose.value+" "+props.dose.unit}</Text>
           </View>
@@ -91,12 +91,23 @@ const styles = StyleSheet.create({
     backgroundColor:"fff000"
   },
   titleMedicine:{
+    width: 150,
     paddingHorizontal: 10,
     borderLeftColor: '#f0f0f0',
     borderLeftWidth: 3,
     paddingLeft: 8,
     marginLeft:6,
-    paddingTop:2
+    paddingTop:2,
+    
+  },
+  titleMedicine2:{
+    paddingHorizontal: 10,
+    borderLeftColor: '#f0f0f0',
+    borderLeftWidth: 3,
+    paddingLeft: 8,
+    marginLeft:6,
+    paddingTop:2,
+    
   },
   titleText: {
     fontFamily: Fonts.type.regular,
@@ -120,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   description: {
-    flexWrap: "wrap",
+    //flexWrap: "wrap",
     flexDirection: "row",
   },
   descriptionBody: {
@@ -154,6 +165,7 @@ const styles = StyleSheet.create({
     padding:2
   },
   icon:{
+    width:40,
     alignContent:'center',
     alignItems:'center',
     padding:2
