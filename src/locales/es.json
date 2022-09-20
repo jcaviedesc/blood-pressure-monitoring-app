@@ -56,6 +56,7 @@
     "dose": "Dosis del medicamento",
     "frecuency": "Frecuencia",
     "period": "Periodo que debe tomar el medicamento",
+    "via": "Via de Administración",
     "dateStart": "Fecha Inicio",
     "dateEnd": "Fecha Fin",
     "keep_medicine": "Guardar",
@@ -66,7 +67,10 @@
     "dust": "Polvo", 
     "drops": "Gotas", 
     "inhaler": "Inhalados", 
-    "other" : "Otra"
+    "other" : "Otra",
+    "times_per_day":"Veces por dia",
+    "days_interval": "Intervalo de dias",
+    "times_hours": "Hora de las tomas"
   },
   "skip_app_alert": {
     "title": "¡Espera!",
@@ -87,7 +91,8 @@
   "home": {
     "user_greetings": "Hola,",
     "mystatus": "Mi estado",
-    "medicines": "Medicamentos"
+    "medicines": "Medicamentos",
+    "show_medicines": "Ver mas"
   },
   "Home/BloodPressure": {
     "title": "Presión Arterial",
@@ -247,6 +252,7 @@
     "saturday": "Sábado",
     "sunday": "Domingo"
   },
+  
   "loading": "Esperando",
   "yes": "SI",
   "not": "NO",
@@ -301,6 +307,8 @@
   "women": "mujer",
   "medicineDose": "Medicinas",
   "dose": "Dosis",
+  "via": "Via de Administración",
+  "frecuency": "Frecuencia",
   "hourDose": "Hora",
   "pill":"Pildoras", 
   "solution":"Solución", 
@@ -308,5 +316,19 @@
   "dust": "Polvo", 
   "drops": "Gotas", 
   "inhaler": "Inhalados", 
-  "other" : "Otra"
+  "other" : "Otra",
+  "every day": "Diario",
+  "specific days": "Dias Especificos",
+  "days interval": "Intervalo de dias",
+  "days medicine": "Dias de toma",
+  "only":"vez",
+  "twice":"veces",
+  "medicine success": "Medicamento Agregado",
+  "mon": "Lun",
+  "tue": "Mar",
+  "wed": "Mié",
+  "thu": "Jue",
+  "fri": "Vie",
+  "sat": "Sáb",
+  "sun": "Dom"
 }
