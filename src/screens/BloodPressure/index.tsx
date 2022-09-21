@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   ScrollView,
@@ -20,15 +20,15 @@ import type { RootStackParamList } from '../../router/types';
 import { Colors, Fonts, AppStyles, Metrics } from '../../styles';
 import { Button, HeaderChart, BloodPressureResumeCard } from '../../components';
 import { MainContainer } from '../../components/Layout';
-import dayjs, { getWeekRange } from '../../services/DatatimeUtil';
+// import dayjs, { getWeekRange } from '../../services/DatatimeUtil';
 import { BloodPressureCard } from '../../wrappers';
 import { BarChart } from '../../components/Charts';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppDispatch } from '../../hooks';
 import { createNotificaions } from '../../thunks/blood-pressure/blood-pressure-thunk';
-import { useResume } from '../../hooks/blood-pressure/useResume';
+import { useBloodPressureDashboard } from '../../hooks/blood-pressure/useBloodPressureDashboard';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home/BloodPressure'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'BloodPressure'>;
 
 type actionSheetRef = {
   setModalVisible: () => void;
@@ -39,12 +39,12 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const { translate } = useI18nLocate();
   const {
-    weekRecords,
-    todayRecords,
+    weekMeasurements,
+    todayMeasurements,
     avgDIAPerWeek,
     avgSYSPerWeek,
     getBloodPressureData,
-  } = useResume();
+  } = useBloodPressureDashboard();
 
   const dispatch = useAppDispatch();
   const actionSheetRef = useRef<actionSheetRef>();
@@ -109,16 +109,13 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
             />
           </View>
           <View>
-            <HeaderChart
-              onChangeDate={getBloodPressureData}
-              initialLoad={getBloodPressureData}
-            />
-            <BarChart data={weekRecords} />
+            <HeaderChart onChangeDate={getBloodPressureData} />
+            <BarChart data={weekMeasurements} />
           </View>
           <View style={{ marginTop: 18 }}>
             <BloodPressureResumeCard
               title={translate('Home/BloodPressure.today_records_title')}
-              records={todayRecords}
+              measurements={todayMeasurements}
             />
           </View>
         </View>

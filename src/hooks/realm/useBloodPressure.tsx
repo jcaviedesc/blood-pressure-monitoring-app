@@ -1,43 +1,43 @@
 import { useCallback } from 'react';
 import {
   BloodPressureMeasurements,
-  BloodPressureMeasurementsType,
   BloodPressureMeasurement,
 } from '../../schemas/blood-pressure';
 import { useRealmAuth } from '../../providers/RealmProvider';
 import { getAverage } from '../../services/utils';
 import RealmContext from './context';
+import { useAppDispatch } from '../useRedux';
+import { setLastMeasurement } from '../../thunks/users-thunk';
 
-const { useRealm } = RealmContext;
+const { useRealm, useQuery } = RealmContext;
 
 export const useBloodPressureMeasurement = () => {
+  const dispatch = useAppDispatch();
   const realm = useRealm();
   const { realmAuthUser } = useRealmAuth();
   // change to bucket pattern and upsert documents
-  const bloodPressureMeasurements =
-    realm.objects<BloodPressureMeasurementsType>(
-      BloodPressureMeasurements.name,
-    );
+  const bloodPressureMeasurements = useQuery(BloodPressureMeasurements);
 
   const saveMeasurement = useCallback(
     (measurement: BloodPressureMeasurement) => {
-      const todayMeasuremnt = bloodPressureMeasurements.filtered(
+      // save como utc y show como localTime
+      const todayMeasurement = bloodPressureMeasurements.filtered(
         'start_date >= $0',
         new Date(measurement.t.split('T')[0]),
       );
       realm.write(() => {
-        if (todayMeasuremnt.length > 0) {
+        if (todayMeasurement.length > 0) {
           // update document
-          todayMeasuremnt[0].measurements.push(measurement);
+          todayMeasurement[0].measurements.push(measurement);
 
           const { sys, dia, bpm } = getAverage(
-            todayMeasuremnt[0].measurements,
+            todayMeasurement[0].measurements,
             ['sys', 'dia', 'bpm'],
           );
 
-          todayMeasuremnt[0].sys_avg = sys;
-          todayMeasuremnt[0].dia_avg = dia;
-          todayMeasuremnt[0].bpm_avg = bpm;
+          todayMeasurement[0].sys_avg = sys;
+          todayMeasurement[0].dia_avg = dia;
+          todayMeasurement[0].bpm_avg = bpm;
         } else {
           // create new document
           realm.create(
@@ -48,12 +48,23 @@ export const useBloodPressureMeasurement = () => {
           );
         }
       });
+      const transformedMeasurement = {
+        category: 'Heart',
+        lastMeasurement: measurement.t,
+        name: 'BloodPressure',
+        status: 'normal',
+        unit: 'mmHg',
+        value: `${measurement.sys}/${measurement.dia}`,
+      };
+
+      dispatch(setLastMeasurement(transformedMeasurement));
     },
+    /*eslint-disable react-hooks/exhaustive-deps */
     [bloodPressureMeasurements, realm, realmAuthUser],
   );
 
   const getMeasurements = useCallback(
-    (startDate: string, endDate: string): BloodPressureMeasurementsType[] => {
+    (startDate: string, endDate: string): BloodPressureMeasurements[] => {
       if (`${startDate}`.concat(endDate).length === 0) {
         return [];
       }

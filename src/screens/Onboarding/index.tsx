@@ -9,16 +9,21 @@ import {
   BackHandler,
   Alert,
 } from 'react-native';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../router/types';
 import { Images, Colors, AppStyles, Fonts } from '../../styles';
-import { openAppFirstTime } from '../../store/app/appSlice';
-import { useAppDispatch } from '../../hooks';
+import { OPEN_FIRST_TIME_KEY } from '../../store/storeKeys';
+import colors from '../../styles/Colors';
 
-const OnboardingScreen: React.FC = () => {
-  const dispatch = useAppDispatch();
+type Props = NativeStackScreenProps<RootStackParamList, 'Onboarding'>;
+
+const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
+  const { setItem } = useAsyncStorage(OPEN_FIRST_TIME_KEY);
 
   const navigateToSingupScreen = () => {
-    dispatch(openAppFirstTime());
-    // navigation.navigate('Singup');
+    setItem('opened');
+    navigation.navigate('Welcome');
   };
   useEffect(() => {
     const backAction = () => {
@@ -55,7 +60,7 @@ const OnboardingScreen: React.FC = () => {
         onSkip={navigateToSingupScreen}
         pages={[
           {
-            backgroundColor: '#fff',
+            backgroundColor: colors.background,
             image: (
               <Image
                 resizeMode="cover"
@@ -73,7 +78,7 @@ const OnboardingScreen: React.FC = () => {
             ),
           },
           {
-            backgroundColor: '#fff',
+            backgroundColor: colors.background,
             image: (
               <Image resizeMode="cover" source={Images.onboarding_nutrition} />
             ),
@@ -86,7 +91,7 @@ const OnboardingScreen: React.FC = () => {
             ),
           },
           {
-            backgroundColor: '#fff',
+            backgroundColor: colors.background,
             image: (
               <Image resizeMode="cover" source={Images.onboarding_medicines} />
             ),
@@ -103,7 +108,7 @@ const OnboardingScreen: React.FC = () => {
             ),
           },
           {
-            backgroundColor: '#fff',
+            backgroundColor: colors.background,
             image: (
               <Image resizeMode="cover" source={Images.onboarding_fitness} />
             ),

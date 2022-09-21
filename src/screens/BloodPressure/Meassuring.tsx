@@ -37,6 +37,7 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
   const onSubmit = () => {
     const record = selectRecord();
     console.log(record);
+    // TODO cambiar typo
     saveMeasurement(record);
     navigation.navigate('BloodPressure');
   };

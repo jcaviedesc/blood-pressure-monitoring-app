@@ -72,7 +72,7 @@
   },
   "Home/BloodPressure": {
     "title": "Presión Arterial",
-    "sub_title": "Estadística por %{time}",
+    "sub_title": "Resumen por %{time}",
     "action_sheet": {
       "take_bp": "Registrar presión arterial",
       "tensiometer": "Validar tensiómetro",
@@ -80,7 +80,7 @@
     },
     "sys": "Sistólica",
     "dia": "Diastólica",
-    "today_records_title": "Mis mediciones de hóy"
+    "today_records_title": "Mediciones de hóy"
   },
   "BloodPressure/Reminders": {
     "title": "Recordatorios",
@@ -277,7 +277,7 @@
   "appCrash": {
     "title": "¡Ooh no! Algo salió Mal.",
     "bodyText": "La aplicación tuvo un problema y no pudo continuar. ¡Nos disculpamos por cualquier inconveniente que esto haya causado!. Presiona el botón de abajo para reiniciar la aplicación. Contacta con nosotros si este problema persiste",
-    "buttonText": "Regresar a la pantalla de inicio"
+    "buttonText": "Recargar"
   },
   "phone number": "numero celular",
   "sex": "Sexo",

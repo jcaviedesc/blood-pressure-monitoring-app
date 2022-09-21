@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { UserState, UpdateUserProfieAction, IUserDetail } from './types';
+import type {
+  UserState,
+  UpdateUserProfieAction,
+  IUserDetail,
+  Measurement,
+} from './types';
 import type { RootState } from '../configureStore';
 import { signUpUser, getUserDetailsThunk } from '../../thunks/users-thunk';
 
@@ -42,6 +47,9 @@ export const userSlice = createSlice({
     ) => {
       state.detail = { ...state.detail, ...action.payload };
     },
+    updateMeasurements: (state, action: PayloadAction<Measurement[]>) => {
+      state.detail.measurements = action.payload;
+    },
     signOut: () => {
       return initialState;
     },
@@ -83,12 +91,17 @@ export const userSlice = createSlice({
   },
 });
 
-export const { updateUserDetail, signOut } = userSlice.actions;
+export const { updateUserDetail, signOut, updateMeasurements } =
+  userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUserData = (state: RootState): IUserDetail =>
   state.user.detail;
 export const selectUserDeviceToken = (state: RootState) =>
   state.user.deviceToken;
+
+export const selectUserMeasurements = (state: RootState): Measurement[] => {
+  return state.user.detail.measurements;
+};
 
 export default userSlice.reducer;

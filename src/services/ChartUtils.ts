@@ -1,4 +1,4 @@
-import { BloodPressureMeasurementsType } from '../schemas/blood-pressure';
+import { BloodPressureMeasurements } from '../schemas/blood-pressure';
 import Dayjs from './DatatimeUtil';
 import { getAverage } from './utils';
 
@@ -42,7 +42,7 @@ export const getMaxOrMinValue = (
 };
 
 export const transformBloodPressureData = (
-  data: BloodPressureMeasurementsType[],
+  data: BloodPressureMeasurements[],
   initialDate: string,
   finalDate: string,
 ) => {

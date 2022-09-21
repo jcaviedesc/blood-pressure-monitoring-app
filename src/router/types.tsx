@@ -18,6 +18,7 @@ type BloodPressureStackParam = {
 };
 
 export type RootStackParamList = {
+  Onboarding: undefined;
   Welcome: undefined;
   VerifyPhone: { verificationType: string; phone: string };
   Summary: undefined;
@@ -25,6 +26,8 @@ export type RootStackParamList = {
   development: undefined;
   SearchSelfcare: undefined;
   AddSelfCareTip: undefined;
+  Weight: undefined;
+  Height: undefined;
 } & SingUpStackParamList &
   BloodPressureStackParam;
 

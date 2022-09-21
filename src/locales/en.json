@@ -72,7 +72,7 @@
   },
   "Home/BloodPressure": {
     "title": "Presión Arterial",
-    "sub_title": "Estadística por %{time}",
+    "sub_title": "Resumen por %{time}",
     "action_sheet": {
       "take_bp": "Registrar presión arterial",
       "tensiometer": "Validar tensiómetro",

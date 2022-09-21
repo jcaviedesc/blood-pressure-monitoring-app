@@ -3,10 +3,10 @@ import { AppState } from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import RNBootSplash from 'react-native-bootsplash';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { useAppSelector, useAppDispatch } from '../hooks';
-import { selectAppUserState, initAppSuccessful } from '../store/app/appSlice';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { useAppDispatch } from '../hooks';
+import { initAppSuccessful } from '../store/app/appSlice';
 import SplashScreen from '../screens/Splash';
-import OnboardingScreen from '../screens/Onboarding';
 import MainStackNavigator, {
   NavigationRef,
   StackNavigationRef,
@@ -16,13 +16,17 @@ import { RealmAppWrapper } from '../hooks/realm/provider';
 import { useRealmAuth } from '../providers/RealmProvider';
 import { MainAppContext } from './context';
 import { getUserDetailsThunk } from '../thunks/users-thunk';
+import { OPEN_FIRST_TIME_KEY } from '../store/storeKeys';
 
 const Main = () => {
   const dispatch = useAppDispatch();
-  const { isFirstTime } = useAppSelector(selectAppUserState);
+  const { getItem } = useAsyncStorage(OPEN_FIRST_TIME_KEY);
   const { signIn: signInRealm } = useRealmAuth();
   const { loading, nextScreen } = useInitialScreenApp();
   // TODO change to useReducer
+  const [isAppOpenFirstTime, setAppOpenFirstTime] = useState<string | null>(
+    'loading',
+  );
   const [userAuthenticated, setUserAuthenticated] = useState<{
     data: FirebaseAuthTypes.User | null;
     isRegistered: boolean;
@@ -30,7 +34,7 @@ const Main = () => {
   }>({ data: null, isRegistered: false, userToken: '' });
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-  console.log('FAT', userAuthenticated.userToken);
+  console.log({ isAppOpenFirstTime, userToken: userAuthenticated.userToken });
   const registerUser = useCallback(async () => {
     const authUser = auth().currentUser;
     const token = await authUser?.getIdToken();
@@ -81,20 +85,25 @@ const Main = () => {
     // navigation.navigate('Singup');
   };
 
+  const readAppOpenFirstTimeFromStorage = useCallback(async () => {
+    const item = await getItem();
+    setAppOpenFirstTime(item);
+  }, [getItem]);
+
+  useEffect(() => {
+    readAppOpenFirstTimeFromStorage();
+    RNBootSplash.hide();
+    dispatch(initAppSuccessful());
+  }, [dispatch, readAppOpenFirstTimeFromStorage]);
+
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, [onAuthStateChanged]);
 
-  useEffect(() => {
-    RNBootSplash.hide();
-    dispatch(initAppSuccessful());
-  }, [dispatch]);
-
   const handleAppStateChange = useCallback(
     (nextAppState: string) => {
       const currentScreen = StackNavigationRef?.getCurrentRoute()?.name;
-      console.log({ currentScreen });
       if (
         nextAppState === 'background' &&
         currentScreen !== 'Singup/ProfilePicture'
@@ -124,12 +133,8 @@ const Main = () => {
     };
   }, [handleAppStateChange]);
 
-  if (loading || initializing) {
+  if (loading || initializing || isAppOpenFirstTime === 'loading') {
     return <SplashScreen />;
-  }
-
-  if (isFirstTime) {
-    return <OnboardingScreen />;
   }
 
   return (
@@ -141,6 +146,7 @@ const Main = () => {
           }}
           isUserLogged={userAuthenticated.isRegistered}
           isAuthenticated={userAuthenticated.data !== null}
+          showOnboardingScreen={isAppOpenFirstTime !== 'opened'}
         />
       </MainAppContext.Provider>
     </RealmAppWrapper>

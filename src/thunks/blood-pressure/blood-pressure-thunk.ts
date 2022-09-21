@@ -92,8 +92,6 @@ export const createNotificaions = () => {
             reminderDate = currentDate.add(7, 'day').weekday(indexDay);
           }
 
-          console.log({ reminderDate });
-
           times.forEach((timeEvent, index) => {
             let dayjsNotification = dayjs(timeEvent);
             if (dayjs(dayjsNotification).isValid()) {

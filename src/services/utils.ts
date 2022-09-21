@@ -40,7 +40,8 @@ export function getAverage<T>(
   }, initialObj);
 
   keyAvgs.forEach(key => {
-    sumKeyAvg[key] = Number((sumKeyAvg[key] / data.length).toFixed(2));
+    const average = Number(sumKeyAvg[key] / data.length);
+    sumKeyAvg[key] = Math.round((average + Number.EPSILON) * 100) / 100;
   });
 
   return sumKeyAvg;

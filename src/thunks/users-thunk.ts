@@ -3,9 +3,14 @@ import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 import { userToApi } from '../transformations/user.transform';
 import { selectUser } from '../store/signup/signupSlice';
-import { selectUserDeviceToken } from '../store/user/userSlice';
+import {
+  selectUserDeviceToken,
+  selectUserMeasurements,
+  updateMeasurements,
+} from '../store/user/userSlice';
 import firebaseStoreService from '../services/FirebaseStore';
 import type { RootState, ClientApi } from '../store/configureStore';
+import { Measurement } from '../store/user/types';
 
 export const signUpUser = createAsyncThunk<
   any,
@@ -104,5 +109,24 @@ export const getUserDetailsThunk = createAsyncThunk<
       rejectWithValue(error);
       return Promise.reject(error?.message);
     }
+  },
+);
+
+export const setLastMeasurement = createAsyncThunk<
+  any,
+  Measurement,
+  { state: RootState }
+>(
+  'user/measurements/update',
+  function updateUserMeasurements(measurement, { getState, dispatch }) {
+    const userMeasurements = selectUserMeasurements(getState());
+    const updatedMeasurements = userMeasurements.map(storeMeasurement => {
+      if (storeMeasurement.name === measurement.name) {
+        return measurement;
+      }
+      return storeMeasurement;
+    });
+
+    dispatch(updateMeasurements(updatedMeasurements));
   },
 );

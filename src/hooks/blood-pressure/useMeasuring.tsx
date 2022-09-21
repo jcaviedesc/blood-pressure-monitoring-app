@@ -59,7 +59,7 @@ export const useMeasuringForm = () => {
       sys: +sys,
       dia: +dia,
       bpm: +bpm,
-      t: datetime.local().format(),
+      t: datetime.utc().format(),
       note: observations,
     };
   };

@@ -18,30 +18,15 @@ class BloodPressureMeasurement extends Realm.Object {
       dia: 'int',
       bpm: 'int',
       t: 'date',
-      note: 'string',
+      note: 'string?',
     },
   };
-}
-export interface BloodPressureMeasurementsType {
-  _id: ObjectId;
-  owner_id?: string;
-  start_date?: string;
-  measurements: BloodPressureMeasurement[];
-  sys_avg?: number;
-  dia_avg?: number;
-  bpm_avg?: number;
 }
 class BloodPressureMeasurements extends Realm.Object {
   _id!: ObjectId;
   owner_id!: string;
   start_date!: string;
-  measurements: {
-    sys: any;
-    dia: any;
-    bpm: any;
-    t: any;
-    note?: string;
-  }[] = [];
+  measurements!: BloodPressureMeasurement[];
   sys_avg!: number;
   dia_avg!: number;
   bpm_avg!: number;
@@ -79,9 +64,9 @@ class BloodPressureMeasurements extends Realm.Object {
       owner_id: 'string',
       start_date: 'date',
       measurements: { type: 'list', objectType: 'BloodPressureMeasurement' },
-      sys_avg: 'int',
-      dia_avg: 'int',
-      bpm_avg: 'int',
+      sys_avg: 'float',
+      dia_avg: 'float',
+      bpm_avg: 'float',
     },
   };
 }

@@ -1,9 +1,10 @@
 export type Measurement = {
+  category: string;
   lastMeasurement: string;
   name: string;
   status: string;
   unit: string;
-  value: number;
+  value: number | string;
 };
 
 export enum userRole {

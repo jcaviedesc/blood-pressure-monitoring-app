@@ -34,9 +34,9 @@ const Box: React.FC<boxPros> = ({
   lastMeasurement,
   onPress,
 }) => {
-  const lastMeasurementTime = LocalDayjs(lastMeasurement);
-  const timeFormat = LocalDayjs().isSame(lastMeasurement, 'day')
-    ? 'h m'
+  const lastMeasurementTime = LocalDayjs(lastMeasurement).local();
+  const timeFormat = LocalDayjs().local().isSame(lastMeasurement, 'day')
+    ? 'h:m a'
     : 'D MMM';
   return (
     <TouchableOpacity onPress={onPress} style={styles.box}>
@@ -69,7 +69,9 @@ const Box: React.FC<boxPros> = ({
           </View>
         </View>
         <View style={styles.boxBody}>
-          {status === 'no data' && <Text style={styles.noDataText}>{status}</Text>}
+          {status === 'no data' && (
+            <Text style={styles.noDataText}>{status}</Text>
+          )}
           {/* <Text style={styles.boxText}>{status}</Text> */}
           {status !== 'no data' && (
             <View style={styles.valueContainer}>
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
   },
   noDataText: {
     fontFamily: Fonts.type.bold,
-    fontSize: Fonts.size.h4,
+    fontSize: Fonts.size.h5,
     color: Colors.headline,
   },
 });

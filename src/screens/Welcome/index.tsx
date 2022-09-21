@@ -100,7 +100,8 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
             navigate();
           }}
         />
-        <View style={styles.emailButtonContainer}>
+        {/* Implementar en verifyphone si falla el metedo de autenticacion por sms */}
+        {/* <View style={styles.emailButtonContainer}>
           <Button
             size="normal"
             hierarchy="transparent"
@@ -109,7 +110,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
               navigation.navigate('development');
             }}
           />
-        </View>
+        </View> */}
       </View>
     </MainContainer>
   );

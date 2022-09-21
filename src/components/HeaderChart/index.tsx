@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -28,6 +28,7 @@ const HeaderChart: React.FC<props> = ({ onChangeDate }) => {
         newDate.endOf('w').format('YYYY-MM-DD'),
       );
   };
+
   return (
     <View style={styles.container}>
       <TouchableHighlight

@@ -22,15 +22,15 @@ import { useBackHandlerExitApp } from '../../hooks/back-handler';
 
 const ICONS = {
   BloodPressure: ['heart', '#fe5b5b'],
-  Weight: ['child', '#fff159'],
-  Height: ['child', '#fff159'],
+  Weight: ['child', '#009000'],
+  Height: ['child', '#009000'],
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Summary'>;
 
 const SummaryScreen: React.FC<Props> = ({ navigation }) => {
-  const { translate } = useI18nLocate();
   useForegroundNotification();
+  const { translate } = useI18nLocate();
   const { name, lastName, avatar, sex, id, measurements } =
     useAppSelector(selectUserData);
   const dispatch = useAppDispatch();

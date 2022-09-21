@@ -5,6 +5,7 @@ import {
 } from '../../schemas/blood-pressure';
 
 const config = {
-  schema: [BloodPressureMeasurement.schema, BloodPressureMeasurements.schema],
+  schema: [BloodPressureMeasurement, BloodPressureMeasurements],
+  // deleteRealmIfMigrationNeeded: true,
 };
 export default createRealmContext(config);
