@@ -50,10 +50,10 @@
     "nephropathy": "¿Tienes problemas renales? (enfermedad renal cronica)"
   },
   "medicine_info_screen": {
-    "title": "Registrar Medicamento",
-    "medicine": "Nombre del medicamento",
-    "type": "Tipo de presentación del medicamento",
-    "dose": "Dosis del medicamento",
+    "title": "Agregar Medicamento",
+    "medicine": "Nombre",
+    "type": "Tipo de presentación",
+    "dose": "Dosis",
     "frecuency": "Frecuencia",
     "period": "Periodo que debe tomar el medicamento",
     "via": "Via de Administración",
@@ -61,14 +61,14 @@
     "dateEnd": "Fecha Fin",
     "keep_medicine": "Guardar",
     "not_found_medicine": "No tiene medicamentos registrados",
-    "pill":"Pildoras", 
-    "solution":"Solución", 
-    "injection":"Inyeccion", 
-    "dust": "Polvo", 
-    "drops": "Gotas", 
-    "inhaler": "Inhalados", 
-    "other" : "Otra",
-    "times_per_day":"Veces por dia",
+    "pill": "Pildoras",
+    "solution": "Solución",
+    "injection": "Inyeccion",
+    "dust": "Polvo",
+    "drops": "Gotas",
+    "inhaler": "Inhalados",
+    "other": "Otra",
+    "times_per_day": "¿Con que frecuencia al dia lo/la toma?",
     "days_interval": "Intervalo de dias",
     "times_hours": "Hora de las tomas"
   },
@@ -77,16 +77,6 @@
     "subtitle": "¿Seguro quieres salir de la applicación?",
     "cancel": "Cancelar",
     "ok": "Si"
-  },
-  "wait1minute": {
-    "title": "Espera minimo 1 minuto y realiza una segunda medición",
-    "description": "todo para que se realizan dos mediciones?",
-    "remaining": "Espera",
-    "seconds": "Segundos"
-  },
-  "blood_pressure_finish": {
-    "title": "Resumen",
-    "description": "Aqui puedes agregar informacion extra como sintomas o cualquier factor que pueda afectar la medición de la presión arterial"
   },
   "home": {
     "user_greetings": "Hola,",
@@ -224,7 +214,7 @@
     "summary": "Resumen",
     "search": "Buscar"
   },
-  "measurements":{
+  "measurements": {
     "BloodPressure": "Presión Arterial",
     "Weight": "Peso Corporal",
     "Height": "Estatura"
@@ -257,7 +247,6 @@
     "saturday": "Sábado",
     "sunday": "Domingo"
   },
-  
   "loading": "Esperando",
   "yes": "SI",
   "not": "NO",
@@ -313,19 +302,19 @@
   "via": "Via de Administración",
   "frecuency": "Frecuencia",
   "hourDose": "Hora",
-  "pill":"Pildoras", 
-  "solution":"Solución", 
-  "injection":"Inyeccion", 
-  "dust": "Polvo", 
-  "drops": "Gotas", 
-  "inhaler": "Inhalados", 
-  "other" : "Otra",
+  "pill": "Pildoras",
+  "solution": "Solución",
+  "injection": "Inyeccion",
+  "dust": "Polvo",
+  "drops": "Gotas",
+  "inhaler": "Inhalados",
+  "other": "Otra",
   "every day": "Diario",
   "specific days": "Dias Especificos",
   "days interval": "Intervalo de dias",
   "days medicine": "Dias de toma",
-  "only":"vez",
-  "twice":"veces",
+  "only": "vez",
+  "twice": "veces",
   "medicine success": "Medicamento Agregado",
   "mon": "Lun",
   "tue": "Mar",
@@ -333,5 +322,16 @@
   "thu": "Jue",
   "fri": "Vie",
   "sat": "Sáb",
-  "sun": "Dom"
+  "sun": "Dom",
+  "errors": {
+    "name": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar un nombre."
+      }
+    },
+    "times_per_day": {
+      "number.base": ""
+    }
+  }
 }

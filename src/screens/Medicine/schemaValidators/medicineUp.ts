@@ -1,11 +1,25 @@
 import 'fast-text-encoding';
-import Joi from 'joi';
+import Joi, { ValidationErrorItem } from 'joi';
 
 const transformError = (error: { details: any[] }) =>
   error.details.reduce((prev, curr) => {
     prev[curr.path[0]] = curr.message;
     return prev;
   }, {});
+
+export const buildUsefulErrorObject = (errors: ValidationErrorItem) => {
+  const usefulErrors = {};
+
+  errors.map((error) => {
+    if (!usefulErrors.hasOwnProperty(error.path.join('_'))) {
+      usefulErrors[error.path.join('_')] = {
+        type: error.type,
+        msg: `errors.${error.path.join('_')}.${error.type}`,
+      };
+    }
+  });
+  return usefulErrors;
+};
 
 const everySchema = Joi.object({
   name: Joi.string().required(),

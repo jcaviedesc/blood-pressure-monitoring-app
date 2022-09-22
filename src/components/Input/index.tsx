@@ -85,7 +85,7 @@ const Input: React.FC<InputProps> = ({
         />
         {rigthComponent}
       </View>
-      {hint && (
+      {Boolean(hint) && (
         <Text
           style={[
             styles.hint,

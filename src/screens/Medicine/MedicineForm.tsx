@@ -1,19 +1,20 @@
 import React, { useRef, useState } from 'react';
 import {
-  Platform,
   ScrollView,
   StyleSheet,
   View,
-  SafeAreaView,
   TouchableOpacity,
+  Animated,
 } from 'react-native';
+import dayjs from 'dayjs';
+import Toast from 'react-native-toast-message';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Fonts, Colors, Metrics } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import ActionSheetInputOption from '../../components/ActionSheet/inputOption';
 import { useAppDispatch } from '../../hooks';
-import Toast from 'react-native-toast-message';
+import { MainContainer } from '../../components/Layout';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { Button, Text, Input, DateList } from '../../components';
 import { fetchAddMedicine } from '../../thunks/medicine/medicine-thunks';
@@ -21,9 +22,9 @@ import {
   everySchema,
   specificSchema,
   intervalSchema,
-  transformError,
+  buildUsefulErrorObject,
 } from './schemaValidators/medicineUp';
-import dayjs from 'dayjs';
+import { useTitleScroll } from '../../hooks/useTitleScroll';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Medicine'>;
 
@@ -52,27 +53,30 @@ const USE_SCHEMA = {
 const USE_SCHEMA_DEFAULT = everySchema;
 
 const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
-  const [datosMedicine, setDatosMedicine] = useState({
-    name: null,
-    apparience: null,
-    unit: null,
-    value: null,
-    days: [],
-    via: null,
-    frecuency: null,
-    times_per_day: null,
-    every: null,
-    times: [1],
-  });
-
   const { translate } = useI18nLocate();
   const dispatch = useAppDispatch();
+  const { setHeaderTitleShow, fadeAnim } = useTitleScroll(
+    navigation,
+    translate('medicine_info_screen.title'),
+  );
+  const [datosMedicine, setDatosMedicine] = useState({
+    name: '',
+    apparience: '',
+    unit: '',
+    value: '',
+    days: [],
+    via: '',
+    frecuency: '',
+    times_per_day: '',
+    every: '',
+    times: [1],
+  });
   const actionSheetRefType = useRef<actionSheetRefType>();
   const actionSheetRefFrecuency = useRef<actionSheetRefFrecuency>();
   const actionSheetRefUnit = useRef<actionSheetRefUnit>();
   const actionSheetRefDays = useRef<actionSheetRefDays>();
 
-  const [inputErrors, setInputErrors] = useState('');
+  const [inputErrors, setInputErrors] = useState({});
 
   const dispatchAction = (field: any, value: any) => {
     setDatosMedicine({
@@ -81,10 +85,20 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
     });
   };
 
+  console.log({ inputErrors })
+
+  const isInvalidField = (key: string) => {
+    return !!inputErrors.hasOwnProperty(key);
+  };
+
+  const getErrorLabelKey = (key: string) => {
+    return inputErrors[key] ? inputErrors[key].msg : '';
+  };
+
   const onHoursIterator = (field: any, value: any) => {
     const maxDate = Date.now();
     let newHours = Array.from({ length: value }, () =>
-    Math.floor(Math.random() * (maxDate - 100000) + 100000)
+      Math.floor(Math.random() * (maxDate - 100000) + 100000),
     );
     let times = "times"
     setDatosMedicine({
@@ -94,7 +108,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
     });
   };
 
-  const dispatchActionTimes = ( value:any, selectedDate:any) => {
+  const dispatchActionTimes = (value: any, selectedDate: any) => {
     let newDateSelect = dayjs(selectedDate).format();
     let arrayTimes = datosMedicine.times
     const index = arrayTimes.indexOf(value);
@@ -127,10 +141,10 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
 
   async function nextValidateFields() {
     const newTimes = datosMedicine.times.map((element, index) => {
-      return new Date(element).toString().slice(16,24)
+      return new Date(element).toString().slice(16, 24);
     });
     let value =
-      datosMedicine.frecuency !== null ? datosMedicine.frecuency : 'value';
+      datosMedicine.frecuency !== '' ? datosMedicine.frecuency : 'value';
     let schemaForm = USE_SCHEMA[value] || USE_SCHEMA_DEFAULT;
     const { error } = schemaForm.validate(
       {
@@ -139,33 +153,32 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
         via: datosMedicine.via,
         frecuency: datosMedicine.frecuency,
         times_per_day: datosMedicine.times_per_day,
-        value:datosMedicine.value,
-        unit:datosMedicine.unit,
+        value: datosMedicine.value,
+        unit: datosMedicine.unit,
         days: datosMedicine.days,
         times: newTimes,
-        every:datosMedicine.every
+        every: datosMedicine.every,
       },
       { abortEarly: false },
     );
     if (error) {
-      console.log(error)
-      const errorTransform = transformError(error);
-      setInputErrors(errorTransform);
+      setInputErrors(buildUsefulErrorObject(error.details));
     } else {
       onNext(newTimes);
     }
   }
 
-  const onNext = (newTimes:any) => {
-    let datosTotal = {...datosMedicine, 
-      times: newTimes, 
-      dose:{
-        value:datosMedicine.value,
-        unit:datosMedicine.unit
+  const onNext = (newTimes: any) => {
+    let datosTotal = {
+      ...datosMedicine,
+      times: newTimes,
+      dose: {
+        value: datosMedicine.value,
+        unit: datosMedicine.unit
       },
       days: datosMedicine.days,
       every: datosMedicine.every,
-    }
+    };
     dispatch(fetchAddMedicine(datosTotal))
       .unwrap()
       .then(() => {
@@ -192,13 +205,27 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <ScrollView style={styles.content}>
-        <View>
-          <Text style={styles.title}>
+    <MainContainer>
+      <ScrollView
+        style={styles.content}
+        onScroll={({ nativeEvent }) => {
+          const scrolling = nativeEvent.contentOffset.y;
+          if (scrolling > 25) {
+            setHeaderTitleShow(true);
+          } else {
+            setHeaderTitleShow(false);
+          }
+        }}>
+        <Animated.View
+          style={[
+            styles.titleContainer,
+            { opacity: fadeAnim },
+            // { transform: [{ scaleY: fadeAnim }] },
+          ]}>
+          <Text style={styles.titleScreen}>
             {translate('medicine_info_screen.title')}
           </Text>
-        </View>
+        </Animated.View>
         <View style={styles.toggleContainer}>
           <View style={styles.inputSection}>
             <Input
@@ -208,8 +235,12 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
               }}
               value={datosMedicine.name}
               autoFocus
-              hasError={inputErrors?.name}
-              hint={inputErrors?.name?? translate('singup.document_id_hint')}
+              hasError={isInvalidField('name')}
+              hint={
+                isInvalidField('name')
+                  ? translate(getErrorLabelKey('name'))
+                  : ''
+              }
             />
           </View>
         </View>
@@ -222,14 +253,17 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
               <Input
                 title={translate('medicine_info_screen.type')}
                 value={
-                  datosMedicine.apparience !== null
+                  datosMedicine.apparience !== ''
                     ? translate(datosMedicine.apparience)
                     : ''
                 }
                 editable={false}
-                autoFocus
-                hasError={inputErrors?.apparience}
-                hint={inputErrors?.apparience ?? translate('singup.document_id_hint')}
+                hasError={isInvalidField('apparience')}
+                hint={
+                  isInvalidField('apparience')
+                    ? translate(getErrorLabelKey('apparience'))
+                    : ''
+                }
               />
             </TouchableOpacity>
           </View>
@@ -242,9 +276,12 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
                 dispatchAction('value', text);
               }}
               keyboardType="number-pad"
-              autoFocus
-              hasError={inputErrors?.value}
-              hint={inputErrors?.value ?? translate('singup.document_id_hint')}
+              hasError={isInvalidField('value')}
+              hint={
+                isInvalidField('value')
+                  ? translate(getErrorLabelKey('value'))
+                  : ''
+              }
             />
             <TouchableOpacity
               onPress={() => {
@@ -252,15 +289,15 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
               }}>
               <Input
                 title="Unidad"
-                value={
-                  datosMedicine.unit !== null
-                    ? datosMedicine.unit
-                    : ''
-                }
+                value={datosMedicine.unit !== '' ? datosMedicine.unit : ''}
                 editable={false}
                 autoFocus
-                hasError={inputErrors?.unit}
-                hint={inputErrors?.unit ?? translate('singup.document_id_hint')}
+                hasError={isInvalidField('unit')}
+                hint={
+                  isInvalidField('unit')
+                    ? translate(getErrorLabelKey('unit'))
+                    : ''
+                }
               />
             </TouchableOpacity>
           </View>
@@ -272,9 +309,10 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
               onChangeText={text => {
                 dispatchAction('via', text);
               }}
-              autoFocus
-              hasError={inputErrors?.via}
-              hint={inputErrors?.via}
+              hasError={isInvalidField('via')}
+              hint={
+                isInvalidField('via') ? translate(getErrorLabelKey('via')) : ''
+              }
             />
           </View>
         </View>
@@ -287,14 +325,17 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
               <Input
                 title={translate('medicine_info_screen.frecuency')}
                 value={
-                  datosMedicine.frecuency !== null
+                  datosMedicine.frecuency !== ''
                     ? translate(datosMedicine.frecuency)
                     : ' '
                 }
                 editable={false}
-                autoFocus
-                hasError={inputErrors?.frecuency}
-                hint={inputErrors?.frecuency ?? translate('singup.document_id_hint')}
+                hasError={isInvalidField('frecuency')}
+                hint={
+                  isInvalidField('frecuency')
+                    ? translate(getErrorLabelKey('frecuency'))
+                    : ''
+                }
               />
             </TouchableOpacity>
           </View>
@@ -307,13 +348,16 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
                 onHoursIterator('times_per_day', text);
               }}
               keyboardType="number-pad"
-              autoFocus
-              hasError={inputErrors?.times_per_day}
-              hint={inputErrors?.times_per_day ?? translate('singup.document_id_hint')}
+              hasError={isInvalidField('times_per_day')}
+              hint={
+                isInvalidField('times_per_day')
+                  ? translate(getErrorLabelKey('times_per_day'))
+                  : ''
+              }
             />
           </View>
         </View>
-        {datosMedicine.frecuency !== null &&
+        {datosMedicine.frecuency !== '' &&
           datosMedicine.frecuency === 'specific days' && (
             <View style={styles.toggleContainer}>
               <View style={styles.inputTextContainer}>
@@ -329,15 +373,18 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
                         : ''
                     }
                     editable={false}
-                    autoFocus
-                    hasError={inputErrors?.days}
-                    hint={inputErrors?.days}
+                    hasError={isInvalidField('days')}
+                    hint={
+                      isInvalidField('days')
+                        ? translate(getErrorLabelKey('days'))
+                        : ''
+                    }
                   />
                 </TouchableOpacity>
               </View>
             </View>
           )}
-        {datosMedicine.frecuency !== null &&
+        {datosMedicine.frecuency !== '' &&
           datosMedicine.frecuency === 'days interval' && (
             <View style={styles.toggleContainer}>
               <View style={styles.inputTextContainer}>
@@ -347,9 +394,12 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
                     dispatchAction('every', text);
                   }}
                   keyboardType="number-pad"
-                  autoFocus
-                  hasError={inputErrors?.every}
-                  hint={inputErrors?.every ?? translate('singup.document_id_hint')}
+                  hasError={isInvalidField('every')}
+                  hint={
+                    isInvalidField('every')
+                      ? translate(getErrorLabelKey('every'))
+                      : ''
+                  }
                 />
               </View>
             </View>
@@ -365,7 +415,6 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
                   onChangeDate={dispatchActionTimes}
                   key={index}
                   value={item}
-                  autoFocus
                   editable={false}
                 />
               </View>
@@ -494,7 +543,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </MainContainer>
   );
 };
 

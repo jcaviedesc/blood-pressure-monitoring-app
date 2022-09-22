@@ -202,10 +202,9 @@ function MainStackNavigator({
           name="Medicine"
           component={MedicineFormScreen}
           options={{
-            title: 'Medicamento',
+            title: '',
           }}
         />
-        
         {/* <Stack.Screen
           name={'BloodPressure/HeartRate'}
           component={BloodPressureHeartRateModalScreen}

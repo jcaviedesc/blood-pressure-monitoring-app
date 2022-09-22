@@ -50,5 +50,5 @@ export {
   ActionSheets,
   MonitorCard,
   BloodPressureResumeCard,
-  DateList
+  DateList,
 };

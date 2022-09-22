@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TextInput,
@@ -23,7 +23,7 @@ export type InputProps = {
   showSoftInputOnFocus?: boolean;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
-  onChangeDate?:any;
+  onChangeDate?: any;
   hint?: string;
   rigthComponent?: Element;
   autoFocus?: boolean;
@@ -55,7 +55,6 @@ const DateList: React.FC<InputProps> = ({
     onFocus && onFocus();
   };
 
-  
   const [showReminderTime, setShowReminderTime] = useState(false);
 
   let inputContainerStyles = {
@@ -71,53 +70,52 @@ const DateList: React.FC<InputProps> = ({
   }
 
   const onChangeReminderTime = (selectedDate: Date): void => {
-    onChangeDate(value,selectedDate)
-    setShowReminderTime(false)
+    onChangeDate(value, selectedDate);
+    setShowReminderTime(false);
   };
 
   return (
     <View style={styles.mainInputContainer}>
       <TouchableOpacity
         onPress={() => {
-          setShowReminderTime(true)
-        }}
-        >
-      {title && <Text style={styles.inputTitle}>{title}</Text>}
-      <View style={inputContainerStyles}>
-        {leftComponent}
-        <TextInput
-          {...props}
-          ref={textInputRef}
-          style={[
-            styles.input,
-            { color: isDarkMode ? Colors.textNormal : Colors.headline },
-          ]}
-          onFocus={onFocuesHandler}
-          editable={editable}
-          showSoftInputOnFocus={showSoftInputOnFocus}
-          //value={dayjs(value).format().toString().slice(11,16)}
-          value={new Date(value).toString().slice(15,21)}
-          placeholder={placeholder}
-          keyboardType={keyboardType}
-          //onChangeText={onChangeText}
-          autoFocus={autoFocus}
-        />
-        {rigthComponent}
-      </View>
-      {hint && (
-        <Text
-          style={[
-            styles.hint,
-            { color: hasError ? Colors.error : Colors.paragraph },
-          ]}>
-          {hint}
-        </Text>
-      )}
+          setShowReminderTime(true);
+        }}>
+        {title && <Text style={styles.inputTitle}>{title}</Text>}
+        <View style={inputContainerStyles}>
+          {leftComponent}
+          <TextInput
+            {...props}
+            ref={textInputRef}
+            style={[
+              styles.input,
+              { color: isDarkMode ? Colors.textNormal : Colors.headline },
+            ]}
+            onFocus={onFocuesHandler}
+            editable={editable}
+            showSoftInputOnFocus={showSoftInputOnFocus}
+            //value={dayjs(value).format().toString().slice(11,16)}
+            value={new Date(value).toString().slice(15, 21)}
+            placeholder={placeholder}
+            keyboardType={keyboardType}
+            //onChangeText={onChangeText}
+            autoFocus={autoFocus}
+          />
+          {rigthComponent}
+        </View>
+        {hint && (
+          <Text
+            style={[
+              styles.hint,
+              { color: hasError ? Colors.error : Colors.paragraph },
+            ]}>
+            {hint}
+          </Text>
+        )}
       </TouchableOpacity>
       {showReminderTime && (
         <DatePicker
           testID="dateTimePicker"
-          value={new Date(value)} 
+          value={new Date(value)}
           mode="time"
           is24Hour={false}
           display={Platform.OS === 'android' ? 'clock' : 'spinner'}
