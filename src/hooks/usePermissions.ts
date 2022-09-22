@@ -1,7 +1,12 @@
 import messaging from '@react-native-firebase/messaging';
-import Notifee, { AndroidNotificationSetting } from '@notifee/react-native';
+import Notifee, {
+  AndroidNotificationSetting,
+  AndroidImportance,
+  EventType,
+} from '@notifee/react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useEffect } from 'react';
+import { Colors } from '../styles';
 
 async function requestUserPermission() {
   // notifications permissions
@@ -11,7 +16,24 @@ async function requestUserPermission() {
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
   if (enabled) {
-    console.log('Authorization status:', authStatus);
+    const messageChannel = await Notifee.getChannel('messages');
+    if (!messageChannel) {
+      // Create messages channel if not exits (required for Android)
+      await Notifee.createChannel({
+        id: 'messages',
+        name: 'messages',
+        importance: AndroidImportance.HIGH,
+        lightColor: Colors.tertiary,
+      });
+      // TODO log
+    }
+
+    Notifee.onForegroundEvent(({ type, detail }) => {
+      if (type === EventType.ACTION_PRESS && detail?.pressAction?.id) {
+        console.log('detail', detail);
+        console.log('User pressed an action with the id: ', detail.pressAction);
+      }
+    });
   } else {
     crashlytics().log(`Notification permissions rejected ${authStatus}`);
   }

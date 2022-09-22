@@ -1,3 +1,5 @@
+
+
 export type Navigation = {
   navigate: (route: string) => void;
 };

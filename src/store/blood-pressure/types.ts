@@ -1,10 +1,3 @@
-export type BloodPressureRecord = {
-  sys: number;
-  dia: number;
-  bpm: number;
-  datetime: string;
-};
-
 export type RemindersTime = {
   reschedule: boolean;
   repeat: string[];

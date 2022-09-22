@@ -5,31 +5,31 @@ import { Colors, Fonts } from '../../styles';
 import Card from '../Card';
 import { Text } from '../CustomText';
 import Tag from '../Tag';
-import { BloodPressureRecord } from '../../store/blood-pressure/types';
+import { BloodPressureMeasurement } from '../../schemas/blood-pressure';
 import Dayjs from '../../services/DatatimeUtil';
 
 type props = {
   title: string;
-  records: BloodPressureRecord[];
+  measurements: BloodPressureMeasurement[];
 };
 
-const BloodPressureResumeCard: React.FC<props> = ({ title, records }) => {
-  const LastIndexRecord = records.length - 1;
+const BloodPressureResumeCard: React.FC<props> = ({ title, measurements }) => {
+  const LastIndexRecord = measurements.length - 1;
   return (
     <Card>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{title}</Text>
       </View>
-      {records.map((record, index) => (
+      {measurements.map((measurement, index) => (
         <View
           style={styles.resumeRow}
-          key={`${Dayjs(record.datetime).format('hh:mm a')}${index}`}>
+          key={`${Dayjs(measurement.t).format('hh:mm a')}${index}`}>
           <View style={styles.resumeRowTime}>
             {index !== 0 && (
               <View style={[styles.timeLine, styles.upperTimeLine]} />
             )}
             <View style={styles.tagContainer}>
-              <Tag value={Dayjs(record.datetime).format('hh:mm a')} />
+              <Tag value={Dayjs(measurement.t).format('hh:mm a')} />
             </View>
             {index !== LastIndexRecord && (
               <View style={{ flex: 1 }}>
@@ -43,7 +43,7 @@ const BloodPressureResumeCard: React.FC<props> = ({ title, records }) => {
               <View>
                 <View>
                   <Text style={styles.value}>
-                    {record.sys}
+                    {measurement.sys}
                     <Text style={[styles.value, styles.magnitude]}>
                       {' mmHg'}
                     </Text>
@@ -57,7 +57,7 @@ const BloodPressureResumeCard: React.FC<props> = ({ title, records }) => {
               <View>
                 <View>
                   <Text style={styles.value}>
-                    {record.dia}
+                    {measurement.dia}
                     <Text style={[styles.value, styles.magnitude]}>
                       {' mmHg'}
                     </Text>
@@ -70,10 +70,10 @@ const BloodPressureResumeCard: React.FC<props> = ({ title, records }) => {
             </View>
 
             <View>
-              {record.bpm !== 0 && (
+              {measurement.bpm !== 0 && (
                 <View style={styles.heartRateContainer}>
                   <Text style={[styles.text, styles.bpmText]}>
-                    {`${record.bpm} bpm`}
+                    {`${measurement.bpm} bpm`}
                   </Text>
                   <Icon
                     name={true ? 'heart' : 'heart-o'}

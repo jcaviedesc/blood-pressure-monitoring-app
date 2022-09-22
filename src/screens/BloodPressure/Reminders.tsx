@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
@@ -36,8 +36,8 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const { reminders, selectedReminder: reminderActive } =
     useAppSelector(selectReminders);
-  const { normal, hta1, hta2, custom } = reminders;
   const dispatch = useAppDispatch();
+  const { normal, hta1, hta2, custom } = reminders;
 
   const [showReminderTime, setShowReminderTime] = useState(false);
   const actionSheetRef = useRef<actionSheetRef>();
@@ -53,7 +53,11 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
     type === state ? 'active' : 'inactive';
 
   const setReminderActive = (name: any) => {
-    dispatch(setReminderStage(name));
+    try {
+      dispatch(setReminderStage(name));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onChangeReminderTime = (selectedDate: Date): void => {

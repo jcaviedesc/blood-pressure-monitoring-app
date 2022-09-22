@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useColorScheme } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesomIcon from 'react-native-vector-icons/FontAwesome';
-import HomeScreen from '../screens/Home';
+import SummaryScreen from '../screens/Summary';
 import SelfCareScreens from './SelfCareScreens';
 import { Colors, Fonts } from '../styles';
 import { useI18nLocate } from '../providers/LocalizationProvider';
@@ -26,9 +26,9 @@ export default function MainTabsHome() {
           fontFamily: Fonts.type.regular,
         },
         tabBarIcon: ({ color, size }) => {
-          let iconName;
+          let iconName = 'question';
 
-          if (route.name === 'Summary') {
+          if (route.name === 'SummaryTab') {
             iconName = 'child';
           } else if (route.name === 'Search') {
             iconName = 'search';
@@ -39,12 +39,12 @@ export default function MainTabsHome() {
         },
       })}>
       <Tab.Screen
-        name="Summary"
+        name="SummaryTab"
         options={{
           headerShown: false,
           tabBarLabel: translate('Tabs.summary'),
         }}
-        component={HomeScreen}
+        component={SummaryScreen}
       />
       <Tab.Screen
         name="Search"

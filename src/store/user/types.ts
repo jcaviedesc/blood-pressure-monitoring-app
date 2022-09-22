@@ -1,18 +1,10 @@
-type HealtcareStruc = {
+export type Measurement = {
+  category: string;
+  lastMeasurement: string;
+  name: string;
   status: string;
-  value: string;
-};
-
-type HomeStatus = {
-  bloodPressure: HealtcareStruc;
-  nutritional: HealtcareStruc;
-  heartRate: HealtcareStruc;
-  bloodGlucose: HealtcareStruc;
-};
-
-type UserBodyMeasures = {
-  val: number;
   unit: string;
+  value: number | string;
 };
 
 export enum userRole {
@@ -20,25 +12,34 @@ export enum userRole {
   PATIENT = 2,
 }
 
-export interface UserState {
+export interface IUserDetail {
   id: string;
   name: string;
+  docId: string;
   lastName: string;
   phone: string;
   address: string;
   location?: number[];
   sex: string;
-  weight: UserBodyMeasures;
-  height: UserBodyMeasures;
   birthdate: string;
-  userType: userRole;
-  profileUrl: string;
-  age: string;
-  imc: string;
+  role: userRole;
   avatar: string;
+  age: string;
+  bmi: string;
+  measurements: Measurement[];
+  createdAt: string;
+  updatedAt: string;
+}
+export interface UserState {
+  detail: IUserDetail;
+  lastSyncDatetime: string;
+  deviceToken?: string;
+  loading: string;
+  currentRequestId?: string;
+  error?: string;
   // homeStatus: HomeStatus;
 }
 
 export type UpdateUserProfieAction = {
-  [index in keyof UserState]: any;
+  [index in keyof IUserDetail]?: any;
 };

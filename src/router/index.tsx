@@ -12,6 +12,7 @@ import styles from './styles';
 import Welcome from '../screens/Welcome';
 import VerifyPhoneScreen from '../screens/VerifyPhone';
 import SignUpFlow from './SignUpFlow';
+import OnboardingScreen from '../screens/Onboarding';
 
 import MainTabsHome from './MainTabs';
 import BloodPressureScreens from './BloodPressureScreens';
@@ -33,11 +34,15 @@ export type NavigationRef = typeof StackNavigationRef;
 type MainStackNavigatorProps = {
   onReady: (navigator: NavigationRef) => void;
   isUserLogged: boolean;
+  isAuthenticated: boolean;
+  showOnboardingScreen: boolean;
 };
 
 function MainStackNavigator({
   onReady,
   isUserLogged,
+  isAuthenticated, // cuando el usuario se authentica
+  showOnboardingScreen,
 }: MainStackNavigatorProps) {
   const isDarkMode = useColorScheme() === 'dark';
   const routeNameRef = React.useRef('');
@@ -77,10 +82,19 @@ function MainStackNavigator({
           headerBackTitleVisible: false,
           headerShadowVisible: false,
         }}>
+        {showOnboardingScreen && (
+          <Stack.Screen
+            name="Onboarding"
+            component={OnboardingScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+        )}
         {isUserLogged ? (
           <>
             <Stack.Screen
-              name="HomeTabs"
+              name="Summary"
               component={MainTabsHome}
               options={{
                 headerShown: false,
@@ -100,6 +114,20 @@ function MainStackNavigator({
               component={ProfileScreen}
               options={{
                 title: '',
+              }}
+            />
+            <Stack.Screen
+              name="Weight"
+              component={DevelopmentScreen}
+              options={{
+                title: 'developing screen',
+              }}
+            />
+            <Stack.Screen
+              name="Height"
+              component={DevelopmentScreen}
+              options={{
+                title: 'developing screen',
               }}
             />
             {Object.entries({
@@ -124,6 +152,7 @@ function MainStackNavigator({
             />
             <Stack.Screen
               name="VerifyPhone"
+              navigationKey={isAuthenticated ? 'user' : 'guest'}
               component={VerifyPhoneScreen}
               options={{
                 headerShown: false,

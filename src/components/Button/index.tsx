@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: Fonts.type.semiBold,
-    fontSize: Fonts.size.h4,
+    fontSize: Fonts.size.h6,
   },
 });
 

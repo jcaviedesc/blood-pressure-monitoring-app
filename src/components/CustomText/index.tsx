@@ -22,7 +22,9 @@ export const Text: React.FC<TextProps> = ({
   const isDarkMode = useColorScheme() === 'dark';
   let localStyles = {};
   if (isDarkMode) {
-    localStyles.color = darkColor || Colors.textNormal;
+    localStyles = {
+      color: darkColor || Colors.textNormal,
+    };
   }
 
   return (

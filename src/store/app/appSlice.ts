@@ -7,7 +7,6 @@ import type { RootState } from '../configureStore';
 /* ------------- Initial State ------------- */
 const initialState: AppState = {
   appIsLoaded: false,
-  isOpenAppFirstTime: true,
   lenguage: '',
   countryCode: '',
   screenLoading: false,
@@ -25,10 +24,6 @@ export const appSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    // Use the PayloadAction type to declare the contents of `action.payload`
-    openAppFirstTime: state => {
-      state.isOpenAppFirstTime = false;
-    },
     initAppSuccessful: state => {
       state.appIsLoaded = true;
       state.screenLoading = false;
@@ -45,19 +40,10 @@ export const appSlice = createSlice({
   },
 });
 
-export const {
-  openAppFirstTime,
-  initAppSuccessful,
-  setLenguage,
-  setCountry,
-  setScreenLoading,
-} = appSlice.actions;
+export const { initAppSuccessful, setLenguage, setCountry, setScreenLoading } =
+  appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectAppUserState = (state: RootState) => ({
-  isFirstTime: state.app.isOpenAppFirstTime,
-});
-
 export const selectAppLocale = (state: RootState) => ({
   lenguage: state.app.lenguage,
   countryCode: state.app.countryCode,

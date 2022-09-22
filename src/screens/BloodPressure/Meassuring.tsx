@@ -37,8 +37,9 @@ const BloodPressureMeassuring: React.FC<Props> = ({ navigation }) => {
   const onSubmit = () => {
     const record = selectRecord();
     console.log(record);
+    // TODO cambiar typo
     saveMeasurement(record);
-    navigation.navigate('Home/BloodPressure');
+    navigation.navigate('BloodPressure');
   };
 
   return (
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
     color: Colors.paragraph,
   },
   containerInput: {
-    width: '47%',
+    flex: 1,
   },
   rightInput: {
     fontSize: Fonts.size.hint,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, useColorScheme } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SearchAcademicBlogPosts from '../screens/SelfCare/search';
+import SearchSelfcareTips from '../screens/SelfCare/SearchTips';
 import { Colors } from '../styles';
 
 const Stack = createNativeStackNavigator();
@@ -23,7 +23,7 @@ export default function SelfCareScreens() {
       }}>
       <Stack.Screen
         name="SearchSelfCareTip"
-        component={SearchAcademicBlogPosts}
+        component={SearchSelfcareTips}
         options={{
           headerTransparent: true,
           headerTitleAlign: 'left',

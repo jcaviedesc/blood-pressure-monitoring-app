@@ -1,6 +1,6 @@
 {
   "name": "bettion",
-  "version": "0.4.1",
+  "version": "0.4.6",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -45,6 +45,7 @@
     "@reduxjs/toolkit": "^1.7.1",
     "@sanar/react-native-highlight-text": "^1.0.2",
     "axios": "^0.26.0",
+    "camelcase-keys-deep": "^0.1.0",
     "dayjs": "^1.10.7",
     "fast-text-encoding": "^1.0.3",
     "i18n-js": "^3.8.0",
@@ -77,9 +78,10 @@
     "react-native-vector-icons": "^9.0.0",
     "react-native-webview": "^11.22.7",
     "react-redux": "^7.2.6",
-    "realm": "^10.19.5",
+    "realm": "^10.21.1",
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
+    "snakecase-keys": "^5.4.4",
     "victory-native": "^36.2.1"
   },
   "devDependencies": {

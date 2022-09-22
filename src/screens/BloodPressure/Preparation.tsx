@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import HighlightText from '@sanar/react-native-highlight-text';
@@ -7,7 +7,7 @@ import { Colors, AppStyles, Fonts, Images } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { Button } from '../../components';
 import { MainContainer } from '../../components/Layout';
-import { useTimer } from '../../hooks/useTimer';
+import { useCountdown } from '../../hooks/useTimer';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
@@ -18,7 +18,7 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
   navigation,
 }) => {
   const { translate } = useI18nLocate();
-  const { timer } = useTimer(1000, 10);
+  const { seconds } = useCountdown(5000);
 
   return (
     <MainContainer isScrollView>
@@ -75,11 +75,11 @@ const PreparationBloodPressureMeasureScreen: React.FC<Props> = ({
         </View>
         <View style={styles.footer}>
           <Button
-            title={timer > 0 ? `Empezar en (${timer})` : 'Empezar'}
+            title={seconds > 0 ? `Empezar en (${seconds})` : 'Empezar'}
             onPress={() => {
               navigation.navigate('BloodPressure/Steps');
             }}
-            disabled={timer > 0}
+            disabled={seconds > 0}
           />
         </View>
       </View>

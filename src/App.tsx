@@ -6,11 +6,9 @@
  * @flow strict-local
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import type { Node } from 'react';
-import { Alert } from 'react-native';
 import { Provider } from 'react-redux';
-import messaging from '@react-native-firebase/messaging';
 import Toast from 'react-native-toast-message';
 import { PersistGate } from 'redux-persist/integration/react';
 import { REALM_APPID } from 'react-native-dotenv';
@@ -31,15 +29,6 @@ import { RealmAuthProvider } from './providers/RealmProvider';
 const App: () => Node = () => {
   useNotificationPermission();
   useGetNotificationSettingsPermission();
-
-  useEffect(() => {
-    console.log(REALM_APPID)
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
-
-    return unsubscribe;
-  }, []);
 
   return (
     <AppErrorBoundary>

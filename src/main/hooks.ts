@@ -13,7 +13,7 @@ type InitialScreenApp = {
 export const useInitialScreenApp = () => {
   const [mainScreenState, setMainScreenState] = useState<InitialScreenApp>({
     loading: true,
-    nextScreen: 'HomeTabs',
+    nextScreen: 'Summary',
   });
 
   // Bootstrap sequence function
@@ -22,7 +22,7 @@ export const useInitialScreenApp = () => {
 
     if (initialNotification) {
       const { data = {} } = initialNotification.notification;
-      // TODO impplement google analitycs
+      // TODO implement google analitycs
       console.log(
         'Notification caused application to open',
         initialNotification.notification,
@@ -32,11 +32,11 @@ export const useInitialScreenApp = () => {
         initialNotification.pressAction,
       );
       // todo change resolve
-      const mergeData = { navigateTo: 'HomeTabs', ...data };
+      const mergeData = { navigateTo: 'Summary', ...data };
       return Promise.resolve(mergeData);
     }
 
-    return Promise.resolve({ navigateTo: 'HomeTabs' });
+    return Promise.resolve({ navigateTo: 'Summary' });
   }
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export const useInitialScreenApp = () => {
       .then(onNextScreen)
       .catch(error => {
         crashlytics().recordError(error);
-        onNextScreen({ navigateTo: 'HomeTabs' });
+        onNextScreen({ navigateTo: 'Summary' });
       });
   }, []);
 

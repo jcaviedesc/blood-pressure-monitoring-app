@@ -13,7 +13,7 @@ import { Colors, Images, Metrics } from '../../styles';
 const SplashScreen: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   useEffect(() => {
-    changeNavigationBarColor(Colors.tertiary, false, false);
+    changeNavigationBarColor(Colors.background, false, false);
     return () => {
       if (Platform.OS === 'android') {
         StatusBar.setBackgroundColor(
@@ -46,7 +46,7 @@ const SplashScreen: React.FC = () => {
 const styles = StyleSheet.create({
   splash: {
     flex: 1,
-    backgroundColor: Colors.tertiary,
+    backgroundColor: Colors.background,
   },
   splashImage: {
     width: Metrics.screenWidth,

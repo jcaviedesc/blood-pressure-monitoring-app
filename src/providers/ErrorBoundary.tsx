@@ -5,6 +5,7 @@ import RNRestart from 'react-native-restart';
 import { Colors, Fonts, Images, Metrics } from '../styles';
 import { translate } from './LocalizationProvider';
 import { Button } from '../components';
+import { parseError } from '../services/ErrorUtils';
 
 const styles = StyleSheet.create({
   appErrorContainer: {
@@ -42,21 +43,21 @@ const styles = StyleSheet.create({
 });
 
 export class AppErrorBoundary extends React.Component {
-  constructor(props) {
+  constructor(props: {} | Readonly<{}>) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
-    crashlytics().log(`Error: ${error}`);
+  static getDerivedStateFromError(error: any) {
+    crashlytics().log(error);
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: any) {
     // You can also log the error to an error reporting service
-    crashlytics().recordError(error);
-    crashlytics().log(`AppError: ${errorInfo}`);
+    crashlytics().log(`Crash: ${JSON.stringify(errorInfo)}`);
+    crashlytics().recordError(parseError(error));
   }
 
   render() {

@@ -22,9 +22,10 @@ type Props = {
   onActiveItem?: (item: number) => void;
   initialUnitIndex?: number;
 };
+const MEDIUM_SREEN = 388;
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const ITEM_WIDTH = SCREEN_WIDTH / 6;
-console.log('ITEM_WIDTH', ITEM_WIDTH);
+const ITEM_WIDTH =
+  SCREEN_WIDTH >= MEDIUM_SREEN ? SCREEN_WIDTH / 6 : SCREEN_WIDTH / 5;
 const EMPTY_SPACE = ITEM_WIDTH * 2.5;
 
 // TOODO revisar shouldComponentUpdate

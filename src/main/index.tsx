@@ -3,10 +3,10 @@ import { AppState } from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import RNBootSplash from 'react-native-bootsplash';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { useAppSelector, useAppDispatch } from '../hooks';
-import { selectAppUserState, initAppSuccessful } from '../store/app/appSlice';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { useAppDispatch } from '../hooks';
+import { initAppSuccessful } from '../store/app/appSlice';
 import SplashScreen from '../screens/Splash';
-import OnboardingScreen from '../screens/Onboarding';
 import MainStackNavigator, {
   NavigationRef,
   StackNavigationRef,
@@ -15,23 +15,26 @@ import { useInitialScreenApp } from './hooks';
 import { RealmAppWrapper } from '../hooks/realm/provider';
 import { useRealmAuth } from '../providers/RealmProvider';
 import { MainAppContext } from './context';
+import { getUserDetailsThunk } from '../thunks/users-thunk';
+import { OPEN_FIRST_TIME_KEY } from '../store/storeKeys';
 
 const Main = () => {
-  const { isFirstTime } = useAppSelector(selectAppUserState);
+  const dispatch = useAppDispatch();
+  const { getItem } = useAsyncStorage(OPEN_FIRST_TIME_KEY);
   const { signIn: signInRealm } = useRealmAuth();
+  const { loading, nextScreen } = useInitialScreenApp();
   // TODO change to useReducer
+  const [isAppOpenFirstTime, setAppOpenFirstTime] = useState<string | null>(
+    'loading',
+  );
   const [userAuthenticated, setUserAuthenticated] = useState<{
     data: FirebaseAuthTypes.User | null;
     isRegistered: boolean;
     userToken: string;
   }>({ data: null, isRegistered: false, userToken: '' });
-  const dispatch = useAppDispatch();
-
-  const { loading, nextScreen } = useInitialScreenApp();
-
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-
+  console.log({ isAppOpenFirstTime, userToken: userAuthenticated.userToken });
   const registerUser = useCallback(async () => {
     const authUser = auth().currentUser;
     const token = await authUser?.getIdToken();
@@ -52,8 +55,6 @@ const Main = () => {
       if (user) {
         user.getIdTokenResult(true).then(tokenResult => {
           const { claims } = tokenResult;
-          console.log({ claims });
-          console.log(tokenResult.token);
           setUserAuthenticated({
             data: user,
             isRegistered: !!claims?.isRegistered,
@@ -61,6 +62,8 @@ const Main = () => {
           });
           if (claims?.isRegistered) {
             signInRealm(tokenResult.token);
+            // get user info
+            dispatch(getUserDetailsThunk());
           }
         });
       } else {
@@ -76,26 +79,31 @@ const Main = () => {
   );
 
   const onNavigateTo = (navigation: NavigationRef) => {
-    if (nextScreen !== 'HomeTabs') {
+    if (nextScreen !== 'Summary') {
       navigation.navigate(nextScreen);
     }
     // navigation.navigate('Singup');
   };
+
+  const readAppOpenFirstTimeFromStorage = useCallback(async () => {
+    const item = await getItem();
+    setAppOpenFirstTime(item);
+  }, [getItem]);
+
+  useEffect(() => {
+    readAppOpenFirstTimeFromStorage();
+    RNBootSplash.hide();
+    dispatch(initAppSuccessful());
+  }, [dispatch, readAppOpenFirstTimeFromStorage]);
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, [onAuthStateChanged]);
 
-  useEffect(() => {
-    RNBootSplash.hide();
-    dispatch(initAppSuccessful());
-  }, [dispatch]);
-
   const handleAppStateChange = useCallback(
     (nextAppState: string) => {
-      const currentScreen = StackNavigationRef.getCurrentRoute()?.name;
-      console.log({ currentScreen });
+      const currentScreen = StackNavigationRef?.getCurrentRoute()?.name;
       if (
         nextAppState === 'background' &&
         currentScreen !== 'Singup/ProfilePicture'
@@ -125,12 +133,8 @@ const Main = () => {
     };
   }, [handleAppStateChange]);
 
-  if (loading || initializing) {
+  if (loading || initializing || isAppOpenFirstTime === 'loading') {
     return <SplashScreen />;
-  }
-
-  if (isFirstTime) {
-    return <OnboardingScreen />;
   }
 
   return (
@@ -141,6 +145,8 @@ const Main = () => {
             onNavigateTo(navigation);
           }}
           isUserLogged={userAuthenticated.isRegistered}
+          isAuthenticated={userAuthenticated.data !== null}
+          showOnboardingScreen={isAppOpenFirstTime !== 'opened'}
         />
       </MainAppContext.Provider>
     </RealmAppWrapper>
