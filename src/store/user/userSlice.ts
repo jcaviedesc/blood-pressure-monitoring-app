@@ -96,7 +96,7 @@ export const { updateUserDetail, signOut, updateMeasurements } =
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUserData = (state: RootState): IUserDetail =>
-  state.user.detail;
+  Object.assign({},initialState.detail, state.user.detail);
 export const selectUserDeviceToken = (state: RootState) =>
   state.user.deviceToken;
 

@@ -69,3 +69,4 @@ google-services.json
 
 # env
 .env
+.env.production

@@ -35,14 +35,16 @@ export const fetchAddMedicine = createAsyncThunk<
   'medicine-create',
   async (Medicine, { extra: clientApi, rejectWithValue }) => {
     // TODO select language
-    const buildRequestData = Medicine;
-    const response = await clientApi.addMedicine(buildRequestData);
+   
 
-    if (response.status >= 300) {
-      return rejectWithValue(response.data);
-      // TODO handle error message
+    try {
+      const buildRequestData = Medicine;
+      const response = await clientApi.addMedicine(buildRequestData);
+      console.log('response',response)
+      return Promise.resolve(response.data);
+    } catch (error) {
+      console.log('errror',error.message.detail)
+      return rejectWithValue(error);
     }
-
-    return Promise.resolve(response.data);
   },
 );

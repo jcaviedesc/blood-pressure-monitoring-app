@@ -25,6 +25,7 @@ import {
   buildUsefulErrorObject,
 } from './schemaValidators/medicineUp';
 import { useTitleScroll } from '../../hooks/useTitleScroll';
+import Dayjs from '../../services/DatatimeUtil';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Medicine'>;
 
@@ -50,7 +51,7 @@ const USE_SCHEMA = {
   'specific days': specificSchema,
   'days interval': intervalSchema,
 };
-const USE_SCHEMA_DEFAULT = everySchema;
+const USE_SCHEMA_DEFAULT = specificSchema;
 
 const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
@@ -109,12 +110,11 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const dispatchActionTimes = (value: any, selectedDate: any) => {
-    let newDateSelect = dayjs(selectedDate).format();
     let arrayTimes = datosMedicine.times
     const index = arrayTimes.indexOf(value);
 
     if (index !== -1) {
-      arrayTimes[index] = Date.parse(newDateSelect);
+      arrayTimes[index] = selectedDate;
     }
     setDatosMedicine({
       ...datosMedicine,
@@ -141,11 +141,12 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
 
   async function nextValidateFields() {
     const newTimes = datosMedicine.times.map((element) => {
-      return new Date(element).toString().slice(16, 24);
+      return Dayjs(element).format('hh:mm');
     });
     let value =
       datosMedicine.frecuency !== '' ? datosMedicine.frecuency : 'value';
     let schemaForm = USE_SCHEMA[value] || USE_SCHEMA_DEFAULT;
+    console.log(datosMedicine.days)
     const { error } = schemaForm.validate(
       {
         name: datosMedicine.name,
