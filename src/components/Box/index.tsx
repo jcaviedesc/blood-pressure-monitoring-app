@@ -22,7 +22,7 @@ type boxPros = {
   iconColor: string;
   lastMeasurement: string;
   onPress?: TouchableOpacityProps['onPress'];
-  iconName: 'heartbeat' | 'tint' | 'eyedropper' | 'balance-scale';
+  iconName: string;
 };
 const Box: React.FC<boxPros> = ({
   title,

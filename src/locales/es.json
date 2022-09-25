@@ -282,5 +282,15 @@
   "phone number": "numero celular",
   "sex": "Sexo",
   "men": "hombre",
-  "women": "mujer"
+  "women": "mujer",
+  "profile": {
+    "title": "Perfil",
+    "name": "Nombres",
+    "lastname": "Apellidos",
+    "sex": "Sexo",
+    "date of birth": "Fecha de nacimiento",
+    "logout": "Cerrar sesión",
+    "F": "Femenino",
+    "M": "Masculino"
+  }
 }

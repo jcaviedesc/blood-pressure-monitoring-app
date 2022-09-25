@@ -43,7 +43,6 @@ const Card: React.FC<props> = ({ children, selected = false, style }) => {
 
 const styles = StyleSheet.create({
   card: {
-    flex: 1,
     borderRadius: 10,
     paddingHorizontal: 9,
     paddingVertical: 15,
