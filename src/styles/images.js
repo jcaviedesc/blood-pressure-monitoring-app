@@ -1,9 +1,7 @@
 // leave off @2x/@3x
 const images = {
-  onboarding_blood_presure: require('../images/onboarding_bloodpresure.png'),
-  onboarding_nutrition: require('../images/onboarding_nutrition.png'),
-  onboarding_fitness: require('../images/onboarding_fitness.png'),
-  onboarding_medicines: require('../images/onboarding_medicine.png'),
+  onboarding_selfcare: require('../images/onbording-self-care.png'),
+  onboarding_tracking: require('../images/onbording-tracking.png'),
   userPlaceholder: require('../images/user-icon-placeholder.png'),
   noTalkStep1: require('../images/no-talk-step-1.png'),
   femaleIcon: require('../images/icons/female-symbol-icon.png'),
@@ -22,6 +20,7 @@ const images = {
   notSmoking: require('../images/figures/no-smoking.png'),
   notRunning: require('../images/figures/no-running.png'),
   welcome1: require('../images/welcome-1.gif'),
+  'woman-checking-blood-pressure': require('../images/woman-checking-blood-pressure.png'),
 };
 
 export default images;

@@ -80,7 +80,7 @@
     },
     "sys": "Sistólica",
     "dia": "Diastólica",
-    "today_records_title": "Mis mediciones de hóy"
+    "today_records_title": "Mediciones de hóy"
   },
   "BloodPressure/Reminders": {
     "title": "Recordatorios",
@@ -200,6 +200,11 @@
     "summary": "Resumen",
     "search": "Buscar"
   },
+  "measurements":{
+    "BloodPressure": "Presión Arterial",
+    "Weight": "Peso Corporal",
+    "Height": "Estatura"
+  },
   "TabsSearch": {
     "header": {
       "title": "Autocuidado",
@@ -234,8 +239,6 @@
   "do_not_know": "NO SÉ",
   "date": "Fecha",
   "measuring": "Medición",
-  "blood_pressure": "Presión Arterial",
-  "heart_rate": "Ritmo cardiaco ",
   "weight": "Peso",
   "height": "Altura",
   "validation": {
@@ -250,12 +253,12 @@
   "reminder_to": "Recordatorio(%{time})  a las ",
   "repeat": "Repetir",
   "button": {
-    "next": "next",
-    "save": "save",
-    "confirm": "confirm",
-    "finish": "finish",
-    "add": "add",
-    "cancel": "cancel",
+    "next": "siguiente",
+    "save": "guardar",
+    "confirm": "confirmar",
+    "finish": "finalizar",
+    "add": "agregar",
+    "cancel": "cancelar",
     "nextin": "siguiente en (%{countDown})",
     "start": "Empezar"
   },
@@ -272,12 +275,32 @@
   "measurementMethod": "Método de medición",
   "additional": "adicional",
   "appCrash": {
-    "title": "!Oh no¡, Something Went Wrong",
-    "bodyText": "The app ran into a problem and could not continue. We aplologise foy any inconvenience this has caused! Press the button below to restart the app. Please contact us if this issue persists",
-    "buttonText": "Back to Home screen"
+    "title": "¡Ooh no! Algo salió Mal.",
+    "bodyText": "La aplicación tuvo un problema y no pudo continuar. ¡Nos disculpamos por cualquier inconveniente que esto haya causado!. Presiona el botón de abajo para reiniciar la aplicación. Contacta con nosotros si este problema persiste",
+    "buttonText": "Recargar"
   },
-  "phone number": "phone number",
+  "phone number": "numero celular",
   "sex": "Sexo",
   "men": "hombre",
-  "women": "mujer"
+  "women": "mujer",
+  "profile": {
+    "title": "Perfil",
+    "name": "Nombres",
+    "lastname": "Apellidos",
+    "sex": "Sexo",
+    "date of birth": "Fecha de nacimiento",
+    "logout": "Cerrar sesión",
+    "F": "Femenino",
+    "M": "Masculino"
+  },
+  "onboarding":{
+    "title_one": "Medición de la presión arterial",
+    "subtitle_one": "Lleva el seguimiento de tu presión arterial y reduce el riesgo de tener complicaciones.",
+    "title_2": "Autocuidado",
+    "subtitle_2": "Acceso a material educativo proveido por profesionales de la salud para aplicar en tus estilos de vida y habitos saludables",
+    "title_3": "Seguimiento en salud",
+    "subtitle_3": "Tu medico de confianza puede llevar seguimiento de tu estado de salud.",
+    "next": "siguiente",
+    "skip": "omitir"
+  }
 }
