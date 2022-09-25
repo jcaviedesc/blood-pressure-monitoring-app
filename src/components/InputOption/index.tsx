@@ -9,25 +9,6 @@ import {
 import { Colors, Fonts } from '../../styles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
- {/*  */}
-  export enum SelectModes {
-    UNICA = 1,
-    MULTIPLE = 2,
-  }
-
-  export enum OptionMode {
-    INDIVIDUAL = 1,
-    GROUPED = 2,
-  }
-
-type ActionSheetOptionProps = {
-  actionSheetRef: typeof React.useRef;
-  onPressOption: (componentId: string, option: string[]) => void;
-  componentId: string;
-  selected: string[]; // TODO buscar como restringir un array con valores especificos y que no se repitan
-  selectMode: SelectModes;
-  optionMode: OptionMode;
-};
 
 type option = {
   label: string;
@@ -38,17 +19,22 @@ type option = {
 type Props = {
   options: Array<option>;
   onPress: (option: option) => void;
-  selected?: string;
+  selected?: any;
   size?: 'full' | 'small';
+  type: 'only'| 'multiple';
+  withIcon: boolean
 };
 
 const InputOption: React.FC<Props> = ({
   options,
   selected,
   onPress,
+  type,
   size = 'full',
+  withIcon
 }) => {
   const [selectOpt, setSelectOpt] = useState(selected);
+  const [selectOptMultiple] = useState(selected);
   let touchableInput = {};
   if (size === 'full') {
     touchableInput = { flex: 1 };
@@ -60,28 +46,34 @@ const InputOption: React.FC<Props> = ({
       <TouchableOpacity
         key={value}
         style={[
-          styles.touchableHighlight,
-          value === selectOpt ? styles.touchableHighlightSelected : {},
+          type === "only" ? styles.touchableHighlight : styles.touchableHighlightMultiple,
+          type === "only"
+          && value === selectOpt ? styles.touchableHighlightSelected : {},
+          index === 0 ? styles.firstTouchable : {},
+          index === options.length - 1 ? styles.lastTouchable : {},
+          type === "multiple"
+          && selectOptMultiple.includes(value) ? styles.touchableHighlightSelectedMultiple : {},
           index === 0 ? styles.firstTouchable : {},
           index === options.length - 1 ? styles.lastTouchable : {},
         ]}
         onPress={() => {
-          setSelectOpt(value);
-          onPress({ label, value });
+          type === "only" && setSelectOpt(value);
+          onPress({ label, value })
         }}>
         <View style={styles.labelInput}>
           <View style={styles.box}>
           <FontAwesome5
             name={icon}
             size={25}
-            color={value === selectOpt ? "#ffffff" : Colors.tertiary}
+            color={type === "only" ? value === selectOpt ? "#ffffff" : Colors.tertiary: Colors.tertiary}
           />
           </View>
           <View>
           <Text
             style={[
               styles.optionText,
-              value === selectOpt ? styles.optionSelectedText : {},
+              type === "only" && value === selectOpt ? styles.optionSelectedText : {},
+              type === "multiple" && value === selectOptMultiple.includes(value) ? styles.optionSelectedText : {},
             ]}>
             {label}
           </Text>
@@ -100,13 +92,22 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     height: Platform.OS === 'ios' ? 200 : 212,
     overflow: 'hidden',
+    padding: 8
     
   },
   touchableHighlight: {
     //alignItems: 'center',
     borderColor: Colors.tertiary,
     borderWidth: 1,
-    //justifyContent: 'center',
+    justifyContent: 'space-between',
+    height: 30,
+    paddingHorizontal: 2,
+  },
+  touchableHighlightMultiple: {
+    //alignItems: 'center',
+    borderColor: Colors.primary,
+    borderWidth: 1,
+    justifyContent: 'space-between',
     height: 30,
     paddingHorizontal: 2,
   },
@@ -114,8 +115,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.tertiary,
     borderWidth: 0,
   },
+  touchableHighlightSelectedMultiple: {
+    backgroundColor: Colors.primary,
+    borderWidth: 0,
+  },
   box: {
-    width: 50
+    width: '40%',
+    alignItems:'flex-end',
+    paddingHorizontal:8
   },
   labelInput:{
     flex: 2,

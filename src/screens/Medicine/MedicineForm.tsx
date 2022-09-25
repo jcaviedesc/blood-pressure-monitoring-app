@@ -140,7 +140,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   async function nextValidateFields() {
-    const newTimes = datosMedicine.times.map((element, index) => {
+    const newTimes = datosMedicine.times.map((element) => {
       return new Date(element).toString().slice(16, 24);
     });
     let value =
@@ -413,7 +413,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
               <View style={styles.inputTextContainer}>
                 <DateList
                   onChangeDate={dispatchActionTimes}
-                  key={index}
+                  key={item+index}
                   value={item}
                   editable={false}
                 />
@@ -421,7 +421,6 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
             </View>
           );
         })}
-
         <ActionSheetInputOption
           actionSheetRef={actionSheetRefType}
           titleAction="medicine_info_screen.type"
@@ -536,6 +535,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
             onChangeState('days', value);
           }}
         />
+        
         <View style={styles.footer}>
           <Button
             title={translate('medicine_info_screen.keep_medicine')}

@@ -1,12 +1,6 @@
 import 'fast-text-encoding';
 import Joi, { ValidationErrorItem } from 'joi';
 
-const transformError = (error: { details: any[] }) =>
-  error.details.reduce((prev, curr) => {
-    prev[curr.path[0]] = curr.message;
-    return prev;
-  }, {});
-
 export const buildUsefulErrorObject = (errors: ValidationErrorItem) => {
   const usefulErrors = {};
 
@@ -56,4 +50,4 @@ const intervalSchema = Joi.object({
   times: Joi.array().items(Joi.string().min(1).required()),
 });
 
-export { everySchema, specificSchema, intervalSchema, transformError };
+export { everySchema, specificSchema, intervalSchema };

@@ -26,10 +26,6 @@ export const medicineUpSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    /* updateUserField: (state, action: PayloadAction<updateUserFieldType>) => {
-      const { field, value } = action.payload;
-      state[field] = value;
-    },*/
     updateMedicine: (state, action: PayloadAction<medicineFieldType>) => {
       const medicineInfoState = state.medicineQuestion;
       const { field, value } = action.payload;
