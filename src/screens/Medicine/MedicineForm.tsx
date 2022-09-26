@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Animated,
 } from 'react-native';
-import dayjs from 'dayjs';
 import Toast from 'react-native-toast-message';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
@@ -16,7 +15,7 @@ import ActionSheetInputOption from '../../components/ActionSheet/inputOption';
 import { useAppDispatch } from '../../hooks';
 import { MainContainer } from '../../components/Layout';
 import crashlytics from '@react-native-firebase/crashlytics';
-import { Button, Text, Input, DateList } from '../../components';
+import { Button, Text, Input, DateList, CustomSlider } from '../../components';
 import { fetchAddMedicine } from '../../thunks/medicine/medicine-thunks';
 import {
   everySchema,
@@ -68,7 +67,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
     days: [],
     via: '',
     frecuency: '',
-    times_per_day: '',
+    times_per_day: 1,
     every: '',
     times: [1],
   });
@@ -98,14 +97,15 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
 
   const onHoursIterator = (field: any, value: any) => {
     const maxDate = Date.now();
-    let newHours = Array.from({ length: value }, () =>
+    let valueTimesPeer = value[0];
+    let newHours = Array.from({ length: valueTimesPeer}, () =>
       Math.floor(Math.random() * (maxDate - 100000) + 100000),
     );
     let times = "times"
     setDatosMedicine({
       ...datosMedicine,
       [times]: newHours,
-      [field]: value,
+      [field]: valueTimesPeer,
     });
   };
 
@@ -146,7 +146,6 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
     let value =
       datosMedicine.frecuency !== '' ? datosMedicine.frecuency : 'value';
     let schemaForm = USE_SCHEMA[value] || USE_SCHEMA_DEFAULT;
-    console.log(datosMedicine.days)
     const { error } = schemaForm.validate(
       {
         name: datosMedicine.name,
@@ -271,36 +270,42 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={styles.toggleContainer}>
           <View style={styles.inputTextDose}>
-            <Input
-              title={translate('medicine_info_screen.dose')}
-              onChangeText={text => {
-                dispatchAction('value', text);
-              }}
-              keyboardType="number-pad"
-              hasError={isInvalidField('value')}
-              hint={
-                isInvalidField('value')
-                  ? translate(getErrorLabelKey('value'))
-                  : ''
-              }
-            />
-            <TouchableOpacity
-              onPress={() => {
-                actionSheetRefUnit.current?.setModalVisible();
-              }}>
+            <View style={styles.inputTextDoseValue}  >
               <Input
-                title="Unidad"
-                value={datosMedicine.unit !== '' ? datosMedicine.unit : ''}
-                editable={false}
-                autoFocus
-                hasError={isInvalidField('unit')}
+                title={translate('medicine_info_screen.dose')}
+                onChangeText={text => {
+                  dispatchAction('value', text);
+                }}
+                keyboardType="number-pad"
+                hasError={isInvalidField('value')}
                 hint={
-                  isInvalidField('unit')
-                    ? translate(getErrorLabelKey('unit'))
+                  isInvalidField('value')
+                    ? translate(getErrorLabelKey('value'))
                     : ''
                 }
               />
-            </TouchableOpacity>
+            </View>
+            <View style={styles.inputTextDoseUnit} >
+              <TouchableOpacity
+                onPress={() => {
+                  actionSheetRefUnit.current?.setModalVisible();
+                }}>
+                <Input
+                  title="Unidad"
+                  value={datosMedicine.unit !== '' ? datosMedicine.unit : ''}
+                  editable={false}
+                  autoFocus
+                  hasError={isInvalidField('unit')}
+                  hint={
+                    isInvalidField('unit')
+                      ? translate(getErrorLabelKey('unit'))
+                      : ''
+                  }
+                />
+              </TouchableOpacity>
+            </View>
+            
+            
           </View>
         </View>
         <View style={styles.toggleContainer}>
@@ -343,18 +348,17 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={styles.toggleContainer}>
           <View style={styles.inputTextContainer}>
-            <Input
-              title={translate('medicine_info_screen.times_per_day')}
-              onChangeText={text => {
-                onHoursIterator('times_per_day', text);
-              }}
-              keyboardType="number-pad"
-              hasError={isInvalidField('times_per_day')}
-              hint={
-                isInvalidField('times_per_day')
-                  ? translate(getErrorLabelKey('times_per_day'))
-                  : ''
-              }
+            <CustomSlider
+             min={1}
+             max={8}
+             magnitude={datosMedicine.times_per_day===1 ?
+              translate('medicine_info_screen.once')
+              : translate('medicine_info_screen.twice')
+            }
+             onChangeText={text => {
+              onHoursIterator('times_per_day', text);
+            }}
+            valueSelected={datosMedicine.times_per_day}
             />
           </View>
         </View>
@@ -586,7 +590,14 @@ const styles = StyleSheet.create({
   },
   inputTextDose: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+  },
+  inputTextDoseUnit: {
+    width: "40%", 
+    paddingHorizontal:4
+  },
+  inputTextDoseValue: {
+    width: "60%", 
+    paddingHorizontal:4
   },
   inputToggleContainer: {
     flexDirection: 'row',
