@@ -70,7 +70,9 @@
     "other": "Otra",
     "times_per_day": "¿Con que frecuencia al dia lo/la toma?",
     "days_interval": "Intervalo de dias",
-    "times_hours": "Hora de las tomas"
+    "times_hours": "Hora de las tomas",
+    "once": "Vez",
+    "twice": "Veces"
   },
   "skip_app_alert": {
     "title": "¡Espera!",
@@ -332,6 +334,49 @@
     },
     "times_per_day": {
       "number.base": ""
+    },
+    "frecuency": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una frecuencia."
+      }
+    },
+    "apparience": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una apariencia."
+      }
+    },
+    "value": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar un valor de dosis."
+      }
+    },
+    "unit": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una unidad de dosis."
+      }
+    },
+    "via": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una via de suministro."
+      }
+    },
+    "days": {
+      "array": {
+        "base": "paso algo",
+        "includesRequiredUnknowns": "Debes agregar dias de toma."
+      }
+    },
+    "every": {
+      "number": {
+        "base": "Debes agregar una intervalo de dias.",
+        "empty": "Debes agregar una intervalo de dias."
+      }
     }
+
   }
 }

@@ -279,5 +279,69 @@
   "phone number": "phone number",
   "sex": "Sexo",
   "men": "hombre",
-  "women": "mujer"
+  "women": "mujer",
+  "only": "vez",
+  "twice": "veces",
+  "medicine success": "Medicamento Agregado",
+  "mon": "Lun",
+  "tue": "Mar",
+  "wed": "Mié",
+  "thu": "Jue",
+  "fri": "Vie",
+  "sat": "Sáb",
+  "sun": "Dom",
+  "errors": {
+    "name": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar un nombre."
+      }
+    },
+    "times_per_day": {
+      "number.base": ""
+    },
+    "frecuency": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una frecuencia."
+      }
+    },
+    "apparience": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una apariencia."
+      }
+    },
+    "value": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar un valor de dosis."
+      }
+    },
+    "unit": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una unidad de dosis."
+      }
+    },
+    "via": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una via de suministro."
+      }
+    },
+    "days": {
+      "array": {
+        "base": "paso algo",
+        "includesRequiredUnknowns": "Debes agregar dias de toma."
+      }
+    },
+    "every": {
+      "number": {
+        "base": "Debes agregar una intervalo de dias.",
+        "empty": "Debes agregar una intervalo de dias."
+      }
+    }
+
+  }
 }
