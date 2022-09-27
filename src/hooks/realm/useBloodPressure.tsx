@@ -106,11 +106,7 @@ export const useBloodPressureMeasurement = () => {
           }
           return parseMeasurement;
         });
-
-      console.log({
-        bloodPressureMeasurementsFiltered,
-        todayBloodPressureMeasurements,
-      });
+ 
       // TODO fix type
       return {
         results: bloodPressureMeasurementsFiltered,

@@ -5,24 +5,26 @@ import notifee, {
 } from '@notifee/react-native';
 import { Colors } from '../styles';
 
-export async function createTriggerNotificationService(
-  notificationId: string,
-  notification: Notification,
-  trigger: TimestampTrigger,
-  channel: AndroidChannel,
-) {
-  const { title, body, data } = notification;
+type Params = {
+  notification: Notification;
+  triggerConfig: TimestampTrigger;
+  channelId: AndroidChannel['id'];
+};
 
-  // Create a channel
-  const channelId = await notifee.createChannel(channel);
-
+export async function createTriggerNotificationService({
+  notification,
+  triggerConfig,
+  channelId,
+}: Params) {
+  const { id, title, data, body, ios, android } = notification;
   return notifee.createTriggerNotification(
     {
-      id: notificationId,
+      id,
       title,
       body,
       data,
       android: {
+        ...android,
         channelId,
         smallIcon: 'ic_small_icon',
         color: Colors.tertiary,
@@ -30,7 +32,8 @@ export async function createTriggerNotificationService(
           id: 'default',
         },
       },
+      ios: { ...ios },
     },
-    trigger,
+    triggerConfig,
   );
 }
