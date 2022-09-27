@@ -200,7 +200,7 @@
     "summary": "Resumen",
     "search": "Buscar"
   },
-  "measurements":{
+  "measurements": {
     "BloodPressure": "Presión Arterial",
     "Weight": "Peso Corporal",
     "Height": "Estatura"
@@ -283,24 +283,86 @@
   "sex": "Sexo",
   "men": "hombre",
   "women": "mujer",
-  "profile": {
-    "title": "Perfil",
-    "name": "Nombres",
-    "lastname": "Apellidos",
-    "sex": "Sexo",
-    "date of birth": "Fecha de nacimiento",
-    "logout": "Cerrar sesión",
-    "F": "Femenino",
-    "M": "Masculino"
-  },
-  "onboarding":{
-    "title_one": "Medición de la presión arterial",
-    "subtitle_one": "Lleva el seguimiento de tu presión arterial y reduce el riesgo de tener complicaciones.",
-    "title_2": "Autocuidado",
-    "subtitle_2": "Acceso a material educativo proveido por profesionales de la salud para aplicar en tus estilos de vida y habitos saludables",
-    "title_3": "Seguimiento en salud",
-    "subtitle_3": "Tu medico de confianza puede llevar seguimiento de tu estado de salud.",
-    "next": "siguiente",
-    "skip": "omitir"
+  "only": "vez",
+  "twice": "veces",
+  "medicine success": "Medicamento Agregado",
+  "mon": "Lun",
+  "tue": "Mar",
+  "wed": "Mié",
+  "thu": "Jue",
+  "fri": "Vie",
+  "sat": "Sáb",
+  "sun": "Dom",
+  "errors": {
+    "name": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar un nombre."
+      }
+    },
+    "times_per_day": {
+      "number.base": ""
+    },
+    "frecuency": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una frecuencia."
+      }
+    },
+    "apparience": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una apariencia."
+      }
+    },
+    "value": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar un valor de dosis."
+      }
+    },
+    "unit": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una unidad de dosis."
+      }
+    },
+    "via": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una via de suministro."
+      }
+    },
+    "days": {
+      "array": {
+        "base": "paso algo",
+        "includesRequiredUnknowns": "Debes agregar dias de toma."
+      }
+    },
+    "every": {
+      "number": {
+        "base": "Debes agregar una intervalo de dias.",
+        "empty": "Debes agregar una intervalo de dias."
+      }
+    },
+    "profile": {
+      "title": "Perfil",
+      "name": "Nombres",
+      "lastname": "Apellidos",
+      "sex": "Sexo",
+      "date of birth": "Fecha de nacimiento",
+      "logout": "Cerrar sesión",
+      "F": "Femenino",
+      "M": "Masculino"
+    },
+    "onboarding": {
+      "title_one": "Medición de la presión arterial",
+      "subtitle_one": "Lleva el seguimiento de tu presión arterial y reduce el riesgo de tener complicaciones.",
+      "title_2": "Autocuidado",
+      "subtitle_2": "Acceso a material educativo proveido por profesionales de la salud para aplicar en tus estilos de vida y habitos saludables",
+      "title_3": "Seguimiento en salud",
+      "subtitle_3": "Tu medico de confianza puede llevar seguimiento de tu estado de salud.",
+      "next": "siguiente",
+      "skip": "omitir"
+    }
   }
-}

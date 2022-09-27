@@ -20,8 +20,10 @@ import BloodPressureScreens from './BloodPressureScreens';
 // import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate'; // v2
 import ProfileScreen from '../screens/Profile';
 import DevelopmentScreen from '../screens/Development';
+import MedicineScreen from '../screens/Medicine/MedicineList';
 import { Colors } from '../styles';
 import AddSelfCareTipScreen from '../screens/SelfCare/CreateSelfCareTip';
+import MedicineFormScreen from '../screens/Medicine/MedicineForm';
 import { useI18nLocate } from '../providers/LocalizationProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -177,11 +179,32 @@ function MainStackNavigator({
             title: 'Presión Arterial',
           }}
         /> */}
+        {/* <Stack.Screen
+          name="development"
+          component={DevelopmentScreen}
+          options={{
+            title: 'developing screen',
+          }}
+        /> */}
         <Stack.Screen
           name="development"
           component={DevelopmentScreen}
           options={{
             title: 'developing screen',
+          }}
+        />
+        <Stack.Screen
+          name="MedicineList"
+          component={MedicineScreen}
+          options={{
+            title: 'Medicamentos',
+          }}
+        />
+        <Stack.Screen
+          name="Medicine"
+          component={MedicineFormScreen}
+          options={{
+            title: '',
           }}
         />
         {/* <Stack.Screen

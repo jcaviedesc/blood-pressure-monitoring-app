@@ -2,7 +2,7 @@ import axios, { AxiosPromise, AxiosRequestConfig, AxiosError } from 'axios';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { API_URL } from 'react-native-dotenv';
 import auth from '@react-native-firebase/auth';
-import type { RegisterUser, BPbody } from './types';
+import type { RegisterUser, BPbody, Medicine } from './types';
 import { camelCaseKeysToUnderscore, snakeCaseToCamelCase } from '../utils';
 
 const handleError = (error: AxiosError) => {
@@ -122,6 +122,11 @@ const create = (baseURL = API_URL) => {
   const searchSelfcareTip = (type: string, params: any): AxiosPromise =>
     api.get(`/selfcare/${type}/search`, { params });
 
+  const addMedicine = (data: Medicine): AxiosPromise =>
+    api.post('/medicines', data);
+
+  const consultListMedicine = (): AxiosPromise => api.get('/medicines');
+
   // ------
   // STEP 3
   // ------
@@ -141,6 +146,8 @@ const create = (baseURL = API_URL) => {
     findBloodPressureMonitor,
     createSelfcareTip,
     searchSelfcareTip,
+    addMedicine,
+    consultListMedicine,
     getUserDetails,
   };
 };
