@@ -20,18 +20,29 @@ import BloodPressureScreens from './BloodPressureScreens';
 // import BloodPressureHeartRateModalScreen from '../screens/BloodPressure/HeartRate'; // v2
 import ProfileScreen from '../screens/Profile';
 import DevelopmentScreen from '../screens/Development';
+import MedicineScreen from '../screens/Medicine/MedicineList';
 import { Colors } from '../styles';
 import AddSelfCareTipScreen from '../screens/SelfCare/CreateSelfCareTip';
+import MedicineFormScreen from '../screens/Medicine/MedicineForm';
 import { useI18nLocate } from '../providers/LocalizationProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-export const StackNavigationRef =
-  createNavigationContainerRef<RootStackParamList>();
 
-export type NavigationRef = typeof StackNavigationRef;
+export const navigationRef = createNavigationContainerRef<RootStackParamList>();
+
+export function getNavigator() {
+  if (navigationRef.isReady()) {
+    // Perform navigation if the react navigation is ready to handle actions
+    return navigationRef;
+  } else {
+    return undefined;
+    // You can decide what to do if react navigation is not ready
+    // You can ignore this, or add these actions to a queue you can call later
+  }
+}
 
 type MainStackNavigatorProps = {
-  onReady: (navigator: NavigationRef) => void;
+  onReady: () => void;
   isUserLogged: boolean;
   isAuthenticated: boolean;
   showOnboardingScreen: boolean;
@@ -48,18 +59,18 @@ function MainStackNavigator({
   const routeNameRef = React.useRef('');
 
   const onReadyHandler = () => {
-    routeNameRef.current = StackNavigationRef.getCurrentRoute()?.name || '';
-    onReady(StackNavigationRef);
+    routeNameRef.current = navigationRef.getCurrentRoute()?.name || '';
+    onReady();
   };
 
+  console.log({ isUserLogged });
   return (
     <NavigationContainer
-      ref={StackNavigationRef}
+      ref={navigationRef}
       onReady={onReadyHandler}
       onStateChange={async () => {
         const previousRouteName = routeNameRef.current;
-        const currentRouteName =
-          StackNavigationRef.getCurrentRoute()?.name ?? '';
+        const currentRouteName = navigationRef.getCurrentRoute()?.name ?? '';
 
         if (previousRouteName !== currentRouteName) {
           await analytics().logScreenView({
@@ -177,11 +188,32 @@ function MainStackNavigator({
             title: 'Presión Arterial',
           }}
         /> */}
+        {/* <Stack.Screen
+          name="development"
+          component={DevelopmentScreen}
+          options={{
+            title: 'developing screen',
+          }}
+        /> */}
         <Stack.Screen
           name="development"
           component={DevelopmentScreen}
           options={{
             title: 'developing screen',
+          }}
+        />
+        <Stack.Screen
+          name="MedicineList"
+          component={MedicineScreen}
+          options={{
+            title: 'Medicamentos',
+          }}
+        />
+        <Stack.Screen
+          name="Medicine"
+          component={MedicineFormScreen}
+          options={{
+            title: '',
           }}
         />
         {/* <Stack.Screen

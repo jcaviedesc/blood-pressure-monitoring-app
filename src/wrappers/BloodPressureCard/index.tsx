@@ -6,7 +6,7 @@ import { Card } from '../../components';
 
 type props = {
   title: string;
-  value: string | number | undefined;
+  value: number;
   magnitude: string;
   altText: string;
   type: 'sys' | 'dia';
@@ -19,6 +19,7 @@ const BloodPressureCard: React.FC<props> = ({
   altText,
   type,
 }) => {
+  // TODO parse value ej 110.0 -> 110
   return (
     <View style={styles.cardContainer}>
       <Card style={styles.overrideCard}>
@@ -32,7 +33,7 @@ const BloodPressureCard: React.FC<props> = ({
           />
         </View>
         <View style={styles.cardBody}>
-          <Text style={styles.valueText}>{value || altText}</Text>
+          <Text style={styles.valueText}>{value?.toFixed(1) || altText}</Text>
           <Text style={styles.magnitudeText}>{magnitude}</Text>
         </View>
         <View />

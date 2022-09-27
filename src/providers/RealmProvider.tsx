@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import Realm from 'realm';
 import { useApp } from '@realm/react';
 
@@ -26,6 +26,8 @@ export const RealmAuthContext = React.createContext<RealmAuthContextType>({
 const RealmAuthProvider = ({ children }: { children: React.ReactNode }) => {
   const app = useApp();
   const [realmAuthUser, setRealmAuthUser] = useState(app?.currentUser);
+  // Realm.App.Sync.setLogLevel(app, "all");
+  // Realm.App.Sync.setLogger(app, (level, message) => console.log(`[${level}] ${message}`));
 
   const signIn = useCallback(
     async token => {

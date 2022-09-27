@@ -3,6 +3,7 @@ import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useFocusEffect } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import type { RootStackParamList } from '../../router/types';
 import { VerifyCode, CountDownTimer, Button, Text } from '../../components';
@@ -81,6 +82,14 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
           );
         }
       } catch (error) {
+        // TODO show error del codigo
+        console.log(error);
+        dispatch(setScreenLoading(false));
+        Toast.show({
+          type: 'error',
+          text1: error, // TODO traducir
+          position: 'bottom',
+        });
         crashlytics()
           .setAttribute('phone', phone)
           .then(() => {

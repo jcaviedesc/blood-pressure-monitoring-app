@@ -9,7 +9,8 @@ import { selectAppScreenLoading } from '../../store/app/appSlice';
 type wrappedComponentProp = {
   children: Element | Element[];
 };
-
+// TODO revisar
+// unknown:ReactModalHost Creating new dialog from context: com.rambit.bettion.MainActivity@20ee94d@34531661
 const LoadingWrapper: React.FC<wrappedComponentProp> = ({ children }) => {
   const { translate } = useI18nLocate();
   const isScreenLoading = useAppSelector(selectAppScreenLoading);

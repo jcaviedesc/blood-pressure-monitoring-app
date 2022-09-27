@@ -3,8 +3,12 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import { Realm, useApp } from '@realm/react';
 import RealmContext from './context';
 import { useRealmAuth } from '../../providers/RealmProvider';
+import { parseError } from '../../services/ErrorUtils';
 
-const { RealmProvider } = RealmContext;
+const openRealmBehaviorConfig = {
+  type: 'openImmediately',
+  timeOut: 30000,
+};
 
 function RealmAppWrapper({
   children,
@@ -13,6 +17,7 @@ function RealmAppWrapper({
   children: React.ReactNode;
   fallback: any;
 }) {
+  const { RealmProvider } = RealmContext;
   const realmRef = useRef<Realm | null>(null);
   const app = useApp();
   const { realmAuthUser } = useRealmAuth();
@@ -37,6 +42,7 @@ function RealmAppWrapper({
       crashlytics().log(syncError);
       // ...handle other error types
     }
+    crashlytics().recordError(parseError(syncError));
   }
 
   if (realmAuthUser) {
@@ -56,10 +62,14 @@ function RealmAppWrapper({
             console.log('New realm path', afterRealm.path);
           },
         },
+        newRealmFileBehavior: openRealmBehaviorConfig,
+        existingRealmFileBehavior: openRealmBehaviorConfig,
         error: handleSyncError,
       },
     };
   }
+
+  console.log({ syncProps });
   return (
     <RealmProvider {...syncProps} fallback={fallback}>
       {children}

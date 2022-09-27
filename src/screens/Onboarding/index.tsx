@@ -116,7 +116,9 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
         nextLabel={
           <Text style={styles.description}>{translate('onboarding.next')}</Text>
         }
-        skipLabel={<Text style={styles.description}>{translate('onboarding.skip')}</Text>}
+        skipLabel={
+          <Text style={styles.description}>{translate('onboarding.skip')}</Text>
+        }
         bottomBarColor={Colors.background}
       />
     </View>

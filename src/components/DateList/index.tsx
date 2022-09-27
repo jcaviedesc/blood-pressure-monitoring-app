@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TextInput,
@@ -6,20 +6,24 @@ import {
   KeyboardTypeOptions,
   useColorScheme,
   Platform,
+  TouchableOpacity
 } from 'react-native';
+import DatePicker from "../DataTimePickerWrapper"
 import { Colors, Fonts } from '../../styles';
 import { Text } from '../CustomText';
+import dayjs from 'dayjs';
 
 export type InputProps = {
   textInputRef?: React.LegacyRef<TextInput>;
   title?: string;
+  key: any;
   onFocus?: Function;
   editable?: boolean;
   value?: string;
   showSoftInputOnFocus?: boolean;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
-  onChangeText?: ((text: string) => void) | undefined;
+  onChangeDate?: any;
   hint?: string;
   rigthComponent?: Element;
   autoFocus?: boolean;
@@ -28,7 +32,7 @@ export type InputProps = {
   hierarchy?: 'loud' | 'quiet' | 'transparent';
 };
 
-const Input: React.FC<InputProps> = ({
+const DateList: React.FC<InputProps> = ({
   textInputRef,
   title,
   onFocus,
@@ -37,7 +41,7 @@ const Input: React.FC<InputProps> = ({
   showSoftInputOnFocus,
   placeholder,
   keyboardType,
-  onChangeText,
+  onChangeDate,
   hint,
   rigthComponent,
   autoFocus,
@@ -50,6 +54,9 @@ const Input: React.FC<InputProps> = ({
   const onFocuesHandler = () => {
     onFocus && onFocus();
   };
+
+  const [showReminderTime, setShowReminderTime] = useState(false);
+
   let inputContainerStyles = {
     ...styles.inputContainer,
     backgroundColor: isDarkMode ? Colors.darkGrayMode : Colors.lightGray,
@@ -62,37 +69,59 @@ const Input: React.FC<InputProps> = ({
     };
   }
 
+  const onChangeReminderTime = (selectedDate: Date): void => {
+    onChangeDate(value, selectedDate);
+    setShowReminderTime(false);
+  };
+
   return (
     <View style={styles.mainInputContainer}>
-      {title && <Text style={styles.inputTitle}>{title}</Text>}
-      <View style={inputContainerStyles}>
-        {leftComponent}
-        <TextInput
-          {...props}
-          ref={textInputRef}
-          style={[
-            styles.input,
-            { color: isDarkMode ? Colors.textNormal : Colors.headline },
-          ]}
-          onFocus={onFocuesHandler}
-          editable={editable}
-          showSoftInputOnFocus={showSoftInputOnFocus}
-          value={value}
-          placeholder={placeholder}
-          keyboardType={keyboardType}
-          onChangeText={onChangeText}
-          autoFocus={autoFocus}
+      <TouchableOpacity
+        onPress={() => {
+          setShowReminderTime(true);
+        }}>
+        {title && <Text style={styles.inputTitle}>{title}</Text>}
+        <View style={inputContainerStyles}>
+          {leftComponent}
+          <TextInput
+            {...props}
+            ref={textInputRef}
+            style={[
+              styles.input,
+              { color: isDarkMode ? Colors.textNormal : Colors.headline },
+            ]}
+            onFocus={onFocuesHandler}
+            editable={editable}
+            showSoftInputOnFocus={showSoftInputOnFocus}
+            //value={dayjs(value).format().toString().slice(11,16)}
+            value={new Date(value).toString().slice(15, 21)}
+            placeholder={placeholder}
+            keyboardType={keyboardType}
+            //onChangeText={onChangeText}
+            autoFocus={autoFocus}
+          />
+          {rigthComponent}
+        </View>
+        {hint && (
+          <Text
+            style={[
+              styles.hint,
+              { color: hasError ? Colors.error : Colors.paragraph },
+            ]}>
+            {hint}
+          </Text>
+        )}
+      </TouchableOpacity>
+      {showReminderTime && (
+        <DatePicker
+          testID="dateTimePicker"
+          value={new Date(value)}
+          mode="time"
+          is24Hour={false}
+          display={Platform.OS === 'android' ? 'clock' : 'spinner'}
+          onChange={onChangeReminderTime}
+          minuteInterval={1}
         />
-        {rigthComponent}
-      </View>
-      {Boolean(hint) && (
-        <Text
-          style={[
-            styles.hint,
-            { color: hasError ? Colors.error : Colors.paragraph },
-          ]}>
-          {hint}
-        </Text>
       )}
     </View>
   );
@@ -127,4 +156,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Input;
+export default DateList;

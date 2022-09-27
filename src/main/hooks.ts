@@ -1,9 +1,12 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import notifee from '@notifee/react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
+import Realm from 'realm';
+import { useApp, useUser } from '@realm/react';
 
 import type { RootStackParamList } from '../router/types';
 import { MainAppContext } from './context';
+import { parseError } from '../services/ErrorUtils';
 
 type InitialScreenApp = {
   loading: boolean;
@@ -63,4 +66,28 @@ export const useMainApp = () => {
     throw new Error('useMainApp() called outside of a MainAppContext?');
   }
   return mainContext;
+};
+// TODO explorar
+export const useRealmAuth = () => {
+  const app = useApp();
+  const loggedUser = useUser();
+
+  const signIn = useCallback(
+    async token => {
+      if (token === '' || loggedUser === null) {
+        return;
+      }
+      const jwt = token;
+      try {
+        const credentials = Realm.Credentials.jwt(jwt);
+        const userLogged = await app.logIn(credentials);
+        console.log('Successfully logged in!', userLogged.id);
+      } catch (err) {
+        crashlytics().recordError(parseError(err), 'realmLogIn');
+      }
+    },
+    [app, loggedUser],
+  );
+
+  return { signInRealm: signIn };
 };

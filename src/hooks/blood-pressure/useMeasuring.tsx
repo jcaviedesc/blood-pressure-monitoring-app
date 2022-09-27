@@ -64,11 +64,13 @@ export const useMeasuringForm = () => {
     };
   };
 
+  // TODO dia < sys
   const isButtonEnabled =
     state.sys.length > 0 &&
     state.dia.length > 0 &&
     isWithinRange(+state.dia, DIA_RANGE) &&
-    isWithinRange(+state.sys, SYS_RANGE);
+    isWithinRange(+state.sys, SYS_RANGE) &&
+    Number(state.dia) < Number(state.sys);
 
   return { state, isButtonEnabled, onChange, onEnableAddNote, selectRecord };
 };

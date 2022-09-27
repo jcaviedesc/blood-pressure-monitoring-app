@@ -5,13 +5,16 @@ import { Colors, Metrics, Fonts } from '../../styles';
 import CustomLabel from './CustomLabel';
 
 type Pros = {
+  min:number
   max: number;
-  title: string;
+  title?: string;
   magnitude: string;
+  valueSelected:number;
+  onChangeText?: ((text: number) => void) | undefined;
 };
 
-const CustomSlider: React.FC<Pros> = ({ title, min = 0, max = 100, magnitude }) => {
-  const [value, setValue] = useState([0]);
+const CustomSlider: React.FC<Pros> = ({ title, min = 0, max = 100, magnitude, valueSelected,onChangeText }) => {
+  const [value, setValue] = useState([valueSelected]);
   const [enableLabel, setEnableLabel] = useState(false);
   return (
     <View>
@@ -33,6 +36,7 @@ const CustomSlider: React.FC<Pros> = ({ title, min = 0, max = 100, magnitude }) 
           }}
           onValuesChangeFinish={values => {
             setEnableLabel(false);
+            onChangeText(values);
             setValue(values);
           }}
           touchDimensions={{

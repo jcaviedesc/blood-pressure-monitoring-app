@@ -1,7 +1,7 @@
 PODS:
   - boost (1.76.0)
-  - BVLinearGradient (2.5.6):
-    - React
+  - BVLinearGradient (2.6.2):
+    - React-Core
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.66.4)
@@ -408,13 +408,13 @@ PODS:
     - React-Core
   - react-native-get-random-values (1.8.0):
     - React-Core
-  - react-native-image-picker (4.7.1):
+  - react-native-image-picker (4.10.0):
     - React-Core
   - react-native-restart (0.0.24):
     - React-Core
-  - react-native-safe-area-context (3.3.2):
+  - react-native-safe-area-context (3.4.1):
     - React-Core
-  - react-native-webview (11.22.7):
+  - react-native-webview (11.23.1):
     - React-Core
   - React-perflogger (0.66.4)
   - React-RCTActionSheet (0.66.4):
@@ -481,55 +481,55 @@ PODS:
     - React-jsi (= 0.66.4)
     - React-logger (= 0.66.4)
     - React-perflogger (= 0.66.4)
-  - RealmJS (10.19.5):
+  - RealmJS (10.15.0):
     - GCDWebServer
     - React
-  - RNBootSplash (4.1.0):
+  - RNBootSplash (4.3.2):
     - React-Core
-  - RNCAsyncStorage (1.15.17):
+  - RNCAsyncStorage (1.17.10):
     - React-Core
-  - RNCPicker (2.2.1):
+  - RNCPicker (2.4.4):
     - React-Core
   - RNDateTimePicker (5.1.0):
     - React-Core
-  - RNFBAnalytics (14.9.3):
+  - RNFBAnalytics (14.12.0):
     - Firebase/Analytics (= 8.13.0)
     - React-Core
     - RNFBApp
-  - RNFBApp (14.9.3):
+  - RNFBApp (14.12.0):
     - Firebase/CoreOnly (= 8.13.0)
     - React-Core
-  - RNFBAuth (14.9.3):
+  - RNFBAuth (14.12.0):
     - Firebase/Auth (= 8.13.0)
     - React-Core
     - RNFBApp
-  - RNFBCrashlytics (14.9.4):
+  - RNFBCrashlytics (14.12.0):
     - Firebase/Crashlytics (= 8.13.0)
     - React-Core
     - RNFBApp
-  - RNFBMessaging (14.9.3):
+  - RNFBMessaging (14.12.0):
     - Firebase/Messaging (= 8.13.0)
     - React-Core
     - RNFBApp
-  - RNFBStorage (14.9.3):
+  - RNFBStorage (14.12.0):
     - Firebase/Storage (= 8.13.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.2.0):
+  - RNGestureHandler (2.6.2):
     - React-Core
-  - RNLocalize (2.1.5):
+  - RNLocalize (2.2.3):
     - React-Core
-  - RNNotifee (5.2.2):
+  - RNNotifee (5.7.0):
     - React-Core
-    - RNNotifee/NotifeeCore (= 5.2.2)
-  - RNNotifee/NotifeeCore (5.2.2):
+    - RNNotifee/NotifeeCore (= 5.7.0)
+  - RNNotifee/NotifeeCore (5.7.0):
     - React-Core
-  - RNScreens (3.10.2):
+  - RNScreens (3.17.0):
     - React-Core
     - React-RCTImage
   - RNSVG (12.1.1):
     - React
-  - RNVectorIcons (9.0.0):
+  - RNVectorIcons (9.2.0):
     - React-Core
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -762,7 +762,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
-  BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
+  BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
   FBLazyVector: e5569e42a1c79ca00521846c223173a57aca1fe1
@@ -811,10 +811,10 @@ SPEC CHECKSUMS:
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-flipper: 88dd2735e76e6fb79f8714124bf9315f1e05a7e6
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
-  react-native-image-picker: 5fe0a96bef4935bbdfb02f59b910bf40d5526109
+  react-native-image-picker: 4bc9ed38c8be255b515d8c88babbaf74973f91a8
   react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
-  react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
-  react-native-webview: 227ba9205abb8579116b69ea5774d9744267c65a
+  react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
+  react-native-webview: d33e2db8925d090871ffeb232dfa50cb3a727581
   React-perflogger: 93075d8931c32cd1fce8a98c15d2d5ccc4d891bd
   React-RCTActionSheet: 7d3041e6761b4f3044a37079ddcb156575fb6d89
   React-RCTAnimation: 743e88b55ac62511ae5c2e22803d4f503f2a3a13
@@ -827,23 +827,23 @@ SPEC CHECKSUMS:
   React-RCTVibration: e3ffca672dd3772536cb844274094b0e2c31b187
   React-runtimeexecutor: dec32ee6f2e2a26e13e58152271535fadff5455a
   ReactCommon: 57b69f6383eafcbd7da625bfa6003810332313c4
-  RealmJS: 400aac2267a47b25fcc2b6321e8a419282719d16
-  RNBootSplash: 605c94f76180e3f8e5832bcafbe52ff5194a51d0
-  RNCAsyncStorage: 6bd5a7ba3dde1c3facba418aa273f449bdc5437a
-  RNCPicker: cb57c823d5ce8d2d0b5dfb45ad97b737260dc59e
+  RealmJS: 1a6d1d8d1729f7d1164ccb9939b06df38b955d9a
+  RNBootSplash: 5f346163977573d6b2aeba1b25df9d2245c0d73c
+  RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
+  RNCPicker: 0b65be85fe7954fbb2062ef079e3d1cde252d888
   RNDateTimePicker: 1dd15d7ed1ab7d999056bc77879a42920d139c12
-  RNFBAnalytics: 13df9ea2a5dee1837d50dd5f7f6ebc1fe4b57e35
-  RNFBApp: 4463fb05fe28efa54e478356783ce79111deb75a
-  RNFBAuth: ed8758cae09da01be2013bfd00e9ba713cc552fb
-  RNFBCrashlytics: 065c164af2a60b87d30cf5563daf299d3e176e93
-  RNFBMessaging: 6b8c02b987e194adf496c59fdf5b8ab7317f06ee
-  RNFBStorage: 84861f5a619b6b1517c4caa34c286311f0b91f9c
-  RNGestureHandler: bf572f552ea324acd5b5464b8d30755b2d8c1de6
-  RNLocalize: 74b82db20cc3895ccc25af992c644879bcec2815
-  RNNotifee: d90cdc08df61ace410b4f98aeff97a5ac12e2ce6
-  RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
+  RNFBAnalytics: ec0729fe8605ad3b80a14596a845166b967da678
+  RNFBApp: 6e9ba28b4cdbb35aecaa3ccb2fdbc339a9740b52
+  RNFBAuth: d73e606c4c87a37cb1000e43f364be39505e0732
+  RNFBCrashlytics: b60042fb07a83a3f1d2422b47c7442ae2b3a9ef7
+  RNFBMessaging: 0eb37129362245343dea5ee0e5b2da5bcb470739
+  RNFBStorage: 2d24a64101dd3154454deed7b218fdb04b3a7ffd
+  RNGestureHandler: 4defbd70b2faf3d6761b82fa7880285241762cb0
+  RNLocalize: a64514b46a01375fdfae9349036b4dc7130333b5
+  RNNotifee: 5155e0a5e0a97d0c839030d8192783cd63053999
+  RNScreens: 0df01424e9e0ed7827200d6ed1087ddd06c493f9
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
-  RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
+  RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

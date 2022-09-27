@@ -37,7 +37,7 @@ const App: () => Node = () => {
           <LocalizationProvider>
             <ConfirmPhoneProvider>
               <LoadingWrapper>
-                <AppProvider id={REALM_APPID}>
+                <AppProvider id={REALM_APPID || "key"}>
                   <RealmAuthProvider>
                     <Main />
                   </RealmAuthProvider>

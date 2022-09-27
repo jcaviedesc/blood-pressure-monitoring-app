@@ -49,26 +49,42 @@
     "thrombosis": "¿Has tenido trombosis cerebral? (enfermedad cerebrovascular)",
     "nephropathy": "¿Tienes problemas renales? (enfermedad renal cronica)"
   },
+  "medicine_info_screen": {
+    "title": "Agregar Medicamento",
+    "medicine": "Nombre",
+    "type": "Tipo de presentación",
+    "dose": "Dosis",
+    "frecuency": "Frecuencia",
+    "period": "Periodo que debe tomar el medicamento",
+    "via": "Via de Administración",
+    "dateStart": "Fecha Inicio",
+    "dateEnd": "Fecha Fin",
+    "keep_medicine": "Guardar",
+    "not_found_medicine": "No tiene medicamentos registrados",
+    "pill": "Pildoras",
+    "solution": "Solución",
+    "injection": "Inyeccion",
+    "dust": "Polvo",
+    "drops": "Gotas",
+    "inhaler": "Inhalados",
+    "other": "Otra",
+    "times_per_day": "¿Con que frecuencia al dia lo/la toma?",
+    "days_interval": "Intervalo de dias",
+    "times_hours": "Hora de las tomas",
+    "once": "Vez",
+    "twice": "Veces"
+  },
   "skip_app_alert": {
     "title": "¡Espera!",
     "subtitle": "¿Seguro quieres salir de la applicación?",
     "cancel": "Cancelar",
     "ok": "Si"
   },
-  "wait1minute": {
-    "title": "Espera minimo 1 minuto y realiza una segunda medición",
-    "description": "todo para que se realizan dos mediciones?",
-    "remaining": "Espera",
-    "seconds": "Segundos"
-  },
-  "blood_pressure_finish": {
-    "title": "Resumen",
-    "description": "Aqui puedes agregar informacion extra como sintomas o cualquier factor que pueda afectar la medición de la presión arterial"
-  },
   "home": {
     "user_greetings": "Hola,",
     "mystatus": "Mi estado",
-    "medicines": "Medicamentos"
+    "medicines": "Medicamentos",
+    "show_medicines": "Ver mas"
   },
   "Home/BloodPressure": {
     "title": "Presión Arterial",
@@ -200,7 +216,7 @@
     "summary": "Resumen",
     "search": "Buscar"
   },
-  "measurements":{
+  "measurements": {
     "BloodPressure": "Presión Arterial",
     "Weight": "Peso Corporal",
     "Height": "Estatura"
@@ -283,6 +299,85 @@
   "sex": "Sexo",
   "men": "hombre",
   "women": "mujer",
+  "medicineDose": "Medicinas",
+  "dose": "Dosis",
+  "via": "Via de Administración",
+  "frecuency": "Frecuencia",
+  "hourDose": "Hora",
+  "pill": "Pildoras",
+  "solution": "Solución",
+  "injection": "Inyeccion",
+  "dust": "Polvo",
+  "drops": "Gotas",
+  "inhaler": "Inhalados",
+  "other": "Otra",
+  "every day": "Diario",
+  "specific days": "Dias Especificos",
+  "days interval": "Intervalo de dias",
+  "days medicine": "Dias de toma",
+  "only": "vez",
+  "twice": "veces",
+  "medicine success": "Medicamento Agregado",
+  "mon": "Lun",
+  "tue": "Mar",
+  "wed": "Mié",
+  "thu": "Jue",
+  "fri": "Vie",
+  "sat": "Sáb",
+  "sun": "Dom",
+  "errors": {
+    "name": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar un nombre."
+      }
+    },
+    "times_per_day": {
+      "number.base": ""
+    },
+    "frecuency": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una frecuencia."
+      }
+    },
+    "apparience": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una apariencia."
+      }
+    },
+    "value": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar un valor de dosis."
+      }
+    },
+    "unit": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una unidad de dosis."
+      }
+    },
+    "via": {
+      "string": {
+        "base": "paso algo",
+        "empty": "Debes agregar una via de suministro."
+      }
+    },
+    "days": {
+      "array": {
+        "base": "paso algo",
+        "includesRequiredUnknowns": "Debes agregar dias de toma."
+      }
+    },
+    "every": {
+      "number": {
+        "base": "Debes agregar una intervalo de dias.",
+        "empty": "Debes agregar una intervalo de dias."
+      }
+    }
+  },
   "profile": {
     "title": "Perfil",
     "name": "Nombres",
@@ -293,7 +388,7 @@
     "F": "Femenino",
     "M": "Masculino"
   },
-  "onboarding":{
+  "onboarding": {
     "title_one": "Medición de la presión arterial",
     "subtitle_one": "Lleva el seguimiento de tu presión arterial y reduce el riesgo de tener complicaciones.",
     "title_2": "Autocuidado",

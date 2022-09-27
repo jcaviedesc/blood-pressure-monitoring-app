@@ -1,16 +1,16 @@
 import { Realm } from '@realm/react';
-import { ObjectId } from 'bson';
+import { ObjectSchema } from 'realm';
 import customDayjs from '../services/DatatimeUtil';
 import { getAverage } from '../services/utils';
 
-class BloodPressureMeasurement extends Realm.Object {
+class BloodPressureMeasurement {
   sys!: number;
   dia!: number;
   bpm!: number;
   t!: string;
   note!: string;
 
-  static schema = {
+  public static schema: ObjectSchema = {
     name: 'BloodPressureMeasurement',
     embedded: true,
     properties: {
@@ -23,7 +23,7 @@ class BloodPressureMeasurement extends Realm.Object {
   };
 }
 class BloodPressureMeasurements extends Realm.Object {
-  _id!: ObjectId;
+  _id!: Realm.BSON.ObjectId;
   owner_id!: string;
   start_date!: string;
   measurements!: BloodPressureMeasurement[];
@@ -46,8 +46,8 @@ class BloodPressureMeasurements extends Realm.Object {
   ) {
     const { sys, dia, bpm } = getAverage(measurements, ['sys', 'dia', 'bpm']);
     return {
-      _id: new ObjectId(),
-      owner_id: userId,
+      _id: new Realm.BSON.ObjectId(),
+      owner_id: userId || '_SYNC_DISABLED_',
       measurements: measurements,
       sys_avg: sysAvg || sys,
       dia_avg: diaAvg || dia,
@@ -56,14 +56,14 @@ class BloodPressureMeasurements extends Realm.Object {
     };
   }
 
-  static schema = {
+  public static schema: ObjectSchema = {
     name: 'BloodPressureMeasurements',
     primaryKey: '_id',
     properties: {
       _id: 'objectId',
       owner_id: 'string',
       start_date: 'date',
-      measurements: { type: 'list', objectType: 'BloodPressureMeasurement' },
+      measurements: 'BloodPressureMeasurement[]',
       sys_avg: 'float',
       dia_avg: 'float',
       bpm_avg: 'float',
@@ -71,4 +71,4 @@ class BloodPressureMeasurements extends Realm.Object {
   };
 }
 
-export { BloodPressureMeasurements, BloodPressureMeasurement };
+export { BloodPressureMeasurement, BloodPressureMeasurements };

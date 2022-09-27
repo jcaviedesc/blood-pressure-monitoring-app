@@ -21,11 +21,11 @@ export const useBloodPressureMeasurement = () => {
   const saveMeasurement = useCallback(
     (measurement: BloodPressureMeasurement) => {
       // save como utc y show como localTime
-      const todayMeasurement = bloodPressureMeasurements.filtered(
-        'start_date >= $0',
-        new Date(measurement.t.split('T')[0]),
-      );
       realm.write(() => {
+        const todayMeasurement = bloodPressureMeasurements.filtered(
+          'start_date >= $0',
+          new Date(measurement.t.split('T')[0]),
+        );
         if (todayMeasurement.length > 0) {
           // update document
           todayMeasurement[0].measurements.push(measurement);
@@ -40,14 +40,14 @@ export const useBloodPressureMeasurement = () => {
           todayMeasurement[0].bpm_avg = bpm;
         } else {
           // create new document
-          realm.create(
-            BloodPressureMeasurements.name,
-            BloodPressureMeasurements.generate(realmAuthUser?.id ?? '', [
-              measurement,
-            ]),
+          const newMeasurement = BloodPressureMeasurements.generate(
+            realmAuthUser?.id ?? '',
+            [measurement],
           );
+          realm.create('BloodPressureMeasurements', newMeasurement);
         }
       });
+
       const transformedMeasurement = {
         category: 'Heart',
         lastMeasurement: measurement.t,
@@ -68,13 +68,29 @@ export const useBloodPressureMeasurement = () => {
       if (`${startDate}`.concat(endDate).length === 0) {
         return [];
       }
-      const bloodPressureMeasurementsFiltered =
-        bloodPressureMeasurements.filtered(
+      const bloodPressureMeasurementsFiltered = bloodPressureMeasurements
+        .filtered(
           'start_date >= $0 && start_date <= $1',
           new Date(startDate),
           new Date(endDate),
-        );
-      return bloodPressureMeasurementsFiltered.toJSON();
+        )
+        .map(measurement => ({
+          _id: measurement._objectId(),
+          owner_id: measurement.owner_id,
+          start_date: measurement.start_date,
+          measurements: measurement.measurements.map(record => ({
+            sys: record.sys,
+            dia: record.dia,
+            bpm: record.bpm,
+            t: record.t,
+            note: record.note,
+          })),
+          sys_avg: measurement.sys_avg,
+          dia_avg: measurement.dia_avg,
+          bpm_avg: measurement.bpm_avg,
+        }));
+      // TODO fix type
+      return bloodPressureMeasurementsFiltered;
     },
     [bloodPressureMeasurements],
   );

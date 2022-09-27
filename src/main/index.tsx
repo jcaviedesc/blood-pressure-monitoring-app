@@ -7,10 +7,7 @@ import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { useAppDispatch } from '../hooks';
 import { initAppSuccessful } from '../store/app/appSlice';
 import SplashScreen from '../screens/Splash';
-import MainStackNavigator, {
-  NavigationRef,
-  StackNavigationRef,
-} from '../router';
+import MainStackNavigator, { getNavigator } from '../router';
 import { useInitialScreenApp } from './hooks';
 import { RealmAppWrapper } from '../hooks/realm/provider';
 import { useRealmAuth } from '../providers/RealmProvider';
@@ -31,9 +28,9 @@ const Main = () => {
     data: FirebaseAuthTypes.User | null;
     isRegistered: boolean;
     userToken: string;
-  }>({ data: null, isRegistered: false, userToken: '' });
-  // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
+    // Set an initializing state whilst Firebase connects
+    initializing: boolean;
+  }>({ data: null, isRegistered: false, userToken: '', initializing: true });
   console.log({ isAppOpenFirstTime, userToken: userAuthenticated.userToken });
   const registerUser = useCallback(async () => {
     const authUser = auth().currentUser;
@@ -49,9 +46,6 @@ const Main = () => {
   // Handle user state changes
   const onAuthStateChanged = useCallback(
     (user: FirebaseAuthTypes.User | null) => {
-      if (initializing) {
-        setInitializing(false);
-      }
       if (user) {
         user.getIdTokenResult(true).then(tokenResult => {
           const { claims } = tokenResult;
@@ -59,6 +53,7 @@ const Main = () => {
             data: user,
             isRegistered: !!claims?.isRegistered,
             userToken: tokenResult.token,
+            initializing: false,
           });
           if (claims?.isRegistered) {
             signInRealm(tokenResult.token);
@@ -71,6 +66,7 @@ const Main = () => {
           data: null,
           isRegistered: false,
           userToken: '',
+          initializing: false,
         });
       }
     },
@@ -78,9 +74,9 @@ const Main = () => {
     [],
   );
 
-  const onNavigateTo = (navigation: NavigationRef) => {
+  const onNavigateTo = () => {
     if (nextScreen !== 'Summary') {
-      navigation.navigate(nextScreen);
+      getNavigator()?.navigate(nextScreen);
     }
     // navigation.navigate('Singup');
   };
@@ -103,12 +99,13 @@ const Main = () => {
 
   const handleAppStateChange = useCallback(
     (nextAppState: string) => {
-      const currentScreen = StackNavigationRef?.getCurrentRoute()?.name;
+      const currentScreen = getNavigator()?.getCurrentRoute()?.name;
       if (
         nextAppState === 'background' &&
         currentScreen !== 'Singup/ProfilePicture'
       ) {
         if (userAuthenticated?.data && !userAuthenticated.isRegistered) {
+          // TODO creo que esto no se muestra si no se lanza un error. Probar
           crashlytics().setAttribute(
             'phone',
             userAuthenticated.data?.phoneNumber as string,
@@ -133,7 +130,11 @@ const Main = () => {
     };
   }, [handleAppStateChange]);
 
-  if (loading || initializing || isAppOpenFirstTime === 'loading') {
+  if (
+    loading ||
+    userAuthenticated.initializing ||
+    isAppOpenFirstTime === 'loading'
+  ) {
     return <SplashScreen />;
   }
 
@@ -141,8 +142,8 @@ const Main = () => {
     <RealmAppWrapper fallback={() => <SplashScreen />}>
       <MainAppContext.Provider value={{ registerUser }}>
         <MainStackNavigator
-          onReady={navigation => {
-            onNavigateTo(navigation);
+          onReady={() => {
+            onNavigateTo();
           }}
           isUserLogged={userAuthenticated.isRegistered}
           isAuthenticated={userAuthenticated.data !== null}

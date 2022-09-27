@@ -17,7 +17,7 @@ import LocalDayjs from '../../services/DatatimeUtil';
 type boxPros = {
   title: string;
   status: string;
-  value: string;
+  value: number;
   unit: string;
   iconColor: string;
   lastMeasurement: string;
@@ -34,6 +34,7 @@ const Box: React.FC<boxPros> = ({
   lastMeasurement,
   onPress,
 }) => {
+  console.log(typeof value);
   const lastMeasurementTime = LocalDayjs(lastMeasurement).local();
   const timeFormat = LocalDayjs().local().isSame(lastMeasurement, 'day')
     ? 'h:m a'

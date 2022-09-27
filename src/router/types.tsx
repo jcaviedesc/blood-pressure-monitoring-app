@@ -24,6 +24,8 @@ export type RootStackParamList = {
   Summary: undefined;
   Profile: undefined;
   development: undefined;
+  Medicine: undefined;
+  MedicineList: undefined;
   SearchSelfcare: undefined;
   AddSelfCareTip: undefined;
   Weight: undefined;

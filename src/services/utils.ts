@@ -2,7 +2,14 @@ import camelcaseKeysDeep from 'camelcase-keys-deep';
 import snakecaseKeys from 'snakecase-keys';
 
 export function cleanObject(obj: object) {
-  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== ''));
+  return Object.fromEntries(
+    Object.entries(obj).filter(([_, v]) => {
+      if (Array.isArray(v) && v.length < 1) {
+        return false;
+      }
+      return v !== '';
+    }),
+  );
 }
 
 export function snakeCaseToCamelCase<T>(data: any) {
