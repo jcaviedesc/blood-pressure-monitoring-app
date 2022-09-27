@@ -8,6 +8,7 @@ import { getAverage } from '../../services/utils';
 import RealmContext from './context';
 import { useAppDispatch } from '../useRedux';
 import { setLastMeasurement } from '../../thunks/users-thunk';
+import Dayjs from '../../services/DatatimeUtil';
 
 const { useRealm, useQuery } = RealmContext;
 
@@ -22,9 +23,10 @@ export const useBloodPressureMeasurement = () => {
     (measurement: BloodPressureMeasurement) => {
       // save como utc y show como localTime
       realm.write(() => {
+        const timestamp = new Date(measurement.t);
         const todayMeasurement = bloodPressureMeasurements.filtered(
-          'start_date >= $0',
-          new Date(measurement.t.split('T')[0]),
+          '$0 >= start_date && $0 <= end_date',
+          timestamp,
         );
         if (todayMeasurement.length > 0) {
           // update document
@@ -64,33 +66,56 @@ export const useBloodPressureMeasurement = () => {
   );
 
   const getMeasurements = useCallback(
-    (startDate: string, endDate: string): BloodPressureMeasurements[] => {
+    (
+      startDate: string,
+      endDate: string,
+    ): {
+      results: BloodPressureMeasurements[];
+      todayResult: BloodPressureMeasurement;
+    } => {
       if (`${startDate}`.concat(endDate).length === 0) {
-        return [];
+        return { results: [], todayResult: [] };
       }
+      let todayBloodPressureMeasurements = [];
+
       const bloodPressureMeasurementsFiltered = bloodPressureMeasurements
         .filtered(
-          'start_date >= $0 && start_date <= $1',
+          'start_date >= $0 && end_date <= $1',
           new Date(startDate),
           new Date(endDate),
         )
-        .map(measurement => ({
-          _id: measurement._objectId(),
-          owner_id: measurement.owner_id,
-          start_date: measurement.start_date,
-          measurements: measurement.measurements.map(record => ({
-            sys: record.sys,
-            dia: record.dia,
-            bpm: record.bpm,
-            t: record.t,
-            note: record.note,
-          })),
-          sys_avg: measurement.sys_avg,
-          dia_avg: measurement.dia_avg,
-          bpm_avg: measurement.bpm_avg,
-        }));
+        .map(measurement => {
+          const parseMeasurement = {
+            _id: measurement._objectId(),
+            owner_id: measurement.owner_id,
+            start_date: measurement.start_date,
+            end_date: measurement.end_date,
+            measurements: measurement.measurements.map(record => ({
+              sys: record.sys,
+              dia: record.dia,
+              bpm: record.bpm,
+              t: record.t,
+              note: record.note,
+            })),
+            sys_avg: measurement.sys_avg,
+            dia_avg: measurement.dia_avg,
+            bpm_avg: measurement.bpm_avg,
+          };
+          if (Dayjs().isBetween(measurement.start_date, measurement.end_date)) {
+            todayBloodPressureMeasurements = parseMeasurement.measurements;
+          }
+          return parseMeasurement;
+        });
+
+      console.log({
+        bloodPressureMeasurementsFiltered,
+        todayBloodPressureMeasurements,
+      });
       // TODO fix type
-      return bloodPressureMeasurementsFiltered;
+      return {
+        results: bloodPressureMeasurementsFiltered,
+        todayResult: todayBloodPressureMeasurements,
+      };
     },
     [bloodPressureMeasurements],
   );

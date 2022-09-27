@@ -32,7 +32,7 @@ export const weekdays = [
 ];
 
 export const getWeekRange = (date: dayjs.Dayjs) => {
-  return [date.format('YYYY-MM-DD'), date.endOf('w').format('YYYY-MM-DD')];
+  return [date.startOf('w').format(), date.endOf('w').format()];
 };
 
 // puede que esto se vea raro pero funciona
