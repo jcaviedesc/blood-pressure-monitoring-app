@@ -3,23 +3,25 @@ import Onboarding from 'react-native-onboarding-swiper';
 import {
   Image,
   StyleSheet,
-  Text,
   View,
   StatusBar,
   BackHandler,
   Alert,
 } from 'react-native';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { Text } from '../../components';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { Images, Colors, AppStyles, Fonts } from '../../styles';
+import { Images, Colors, AppStyles, Fonts, Metrics } from '../../styles';
 import { OPEN_FIRST_TIME_KEY } from '../../store/storeKeys';
 import colors from '../../styles/Colors';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Onboarding'>;
 
 const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
   const { setItem } = useAsyncStorage(OPEN_FIRST_TIME_KEY);
+  const { translate } = useI18nLocate();
 
   const navigateToSingupScreen = () => {
     setItem('opened');
@@ -63,65 +65,58 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
             backgroundColor: colors.background,
             image: (
               <Image
-                resizeMode="cover"
-                source={Images.onboarding_blood_presure}
+                style={styles.image}
+                source={Images['woman-checking-blood-pressure']}
               />
             ),
             title: (
-              <Text style={styles.title}>Medición de la presión arterial</Text>
+              <Text style={styles.title}>
+                {translate('onboarding.title_one')}
+              </Text>
             ),
             subtitle: (
               <Text style={styles.description}>
-                Lleva el seguimiento de tu presión arterial y reduce el riesgo
-                de tener complicaciones.
+                {translate('onboarding.subtitle_one')}
               </Text>
             ),
           },
           {
             backgroundColor: colors.background,
             image: (
-              <Image resizeMode="cover" source={Images.onboarding_nutrition} />
-            ),
-            title: <Text style={styles.title}>Nutrición</Text>,
-            subtitle: (
-              <Text style={styles.description}>
-                Un control integral de la hipertensión requiere de alimentación
-                saludable.
-              </Text>
-            ),
-          },
-          {
-            backgroundColor: colors.background,
-            image: (
-              <Image resizeMode="cover" source={Images.onboarding_medicines} />
+              <Image style={styles.image} source={Images.onboarding_selfcare} />
             ),
             title: (
               <Text style={styles.title}>
-                Recordatorio toma de medicamentos
+                {translate('onboarding.title_2')}
               </Text>
             ),
             subtitle: (
               <Text style={styles.description}>
-                Recibe alertas para que no olvides tomar tus medicamentos y
-                sigas el tratamiento adecuadamente.
+                {translate('onboarding.subtitle_2')}
               </Text>
             ),
           },
           {
             backgroundColor: colors.background,
             image: (
-              <Image resizeMode="cover" source={Images.onboarding_fitness} />
+              <Image resizeMode="cover" source={Images.onboarding_tracking} />
             ),
-            title: <Text style={styles.title}>Actividad física</Text>,
+            title: (
+              <Text style={styles.title}>
+                {translate('onboarding.title_3')}
+              </Text>
+            ),
             subtitle: (
               <Text style={styles.description}>
-                Manten un peso ideal y controla tu estado físico.
+                {translate('onboarding.subtitle_3')}
               </Text>
             ),
           },
         ]}
-        nextLabel={<Text style={styles.description}>Siguiente</Text>}
-        skipLabel={<Text style={styles.description}>Omitir</Text>}
+        nextLabel={
+          <Text style={styles.description}>{translate('onboarding.next')}</Text>
+        }
+        skipLabel={<Text style={styles.description}>{translate('onboarding.skip')}</Text>}
         bottomBarColor={Colors.background}
       />
     </View>
@@ -139,6 +134,11 @@ const styles = StyleSheet.create({
     fontSize: Fonts.size.paragraph,
     textAlign: 'center',
     marginTop: 15,
+    marginHorizontal: 21,
+  },
+  image: {
+    width: Metrics.screenWidth,
+    resizeMode: 'contain',
   },
 });
 

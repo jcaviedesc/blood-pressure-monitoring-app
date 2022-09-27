@@ -376,7 +376,25 @@
         "base": "Debes agregar una intervalo de dias.",
         "empty": "Debes agregar una intervalo de dias."
       }
+    },
+    "profile": {
+      "title": "Perfil",
+      "name": "Nombres",
+      "lastname": "Apellidos",
+      "sex": "Sexo",
+      "date of birth": "Fecha de nacimiento",
+      "logout": "Cerrar sesión",
+      "F": "Femenino",
+      "M": "Masculino"
+    },
+    "onboarding": {
+      "title_one": "Medición de la presión arterial",
+      "subtitle_one": "Lleva el seguimiento de tu presión arterial y reduce el riesgo de tener complicaciones.",
+      "title_2": "Autocuidado",
+      "subtitle_2": "Acceso a material educativo proveido por profesionales de la salud para aplicar en tus estilos de vida y habitos saludables",
+      "title_3": "Seguimiento en salud",
+      "subtitle_3": "Tu medico de confianza puede llevar seguimiento de tu estado de salud.",
+      "next": "siguiente",
+      "skip": "omitir"
     }
-
   }
-}

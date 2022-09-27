@@ -24,6 +24,7 @@ import MedicineScreen from '../screens/Medicine/MedicineList';
 import { Colors } from '../styles';
 import AddSelfCareTipScreen from '../screens/SelfCare/CreateSelfCareTip';
 import MedicineFormScreen from '../screens/Medicine/MedicineForm';
+import { useI18nLocate } from '../providers/LocalizationProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export const StackNavigationRef =
@@ -44,6 +45,7 @@ function MainStackNavigator({
   isAuthenticated, // cuando el usuario se authentica
   showOnboardingScreen,
 }: MainStackNavigatorProps) {
+  const { translate } = useI18nLocate();
   const isDarkMode = useColorScheme() === 'dark';
   const routeNameRef = React.useRef('');
 
@@ -113,7 +115,7 @@ function MainStackNavigator({
               name="Profile"
               component={ProfileScreen}
               options={{
-                title: '',
+                title: translate('profile.title'),
               }}
             />
             <Stack.Screen

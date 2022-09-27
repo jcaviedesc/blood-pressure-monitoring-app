@@ -5,12 +5,11 @@ import {
   Text,
   View,
   StyleSheet,
-  Image,
   TouchableHighlight,
   StatusBar,
 } from 'react-native';
 import type { RootStackParamList } from '../../router/types';
-import { Colors, Fonts, AppStyles, Images, Metrics } from '../../styles';
+import { Colors, Fonts, AppStyles, Metrics } from '../../styles';
 import { Box, Button } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
@@ -19,6 +18,7 @@ import { selectUserData } from '../../store/user/userSlice';
 import { useForegroundNotification } from '../../hooks/useNotifications';
 import { startUserSessionThunk } from '../../thunks/users-thunk';
 import { useBackHandlerExitApp } from '../../hooks/back-handler';
+import Avatar from '../../components/Avatar';
 
 const ICONS = {
   BloodPressure: ['heart', '#fe5b5b'],
@@ -80,19 +80,7 @@ const SummaryScreen: React.FC<Props> = ({ navigation }) => {
             onPress={() => {
               navigation.navigate('Profile');
             }}>
-            <Image
-              source={
-                avatar
-                  ? {
-                    uri: avatar,
-                  }
-                  : sex === 'M'
-                    ? Images.menGenderAvatar
-                    : Images.womenGenderAvatar
-              }
-              defaultSource={Images.userPlaceholder}
-              style={styles.avatar}
-            />
+            <Avatar avatarUri={avatar} sex={sex} />
           </TouchableHighlight>
         </View>
         <View style={styles.titleSection}>
@@ -126,7 +114,8 @@ const SummaryScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={styles.measurementsContainer}>
           {measurements.map(measurement => {
-            const [iconName, iconColor] = ICONS[measurement.name];
+            const [iconName, iconColor] =
+              ICONS[measurement.name as keyof typeof ICONS];
             return (
               <Box
                 key={measurement.name}
@@ -138,6 +127,7 @@ const SummaryScreen: React.FC<Props> = ({ navigation }) => {
                 iconName={iconName}
                 lastMeasurement={measurement.lastMeasurement}
                 onPress={() => {
+                  // TODO validate screen name
                   navigate(measurement.name);
                 }}
               />
@@ -187,13 +177,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     marginBottom: 21,
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    resizeMode: 'cover',
-    backgroundColor: Colors.white,
   },
   userTitleContainer: {
     flex: 1,
