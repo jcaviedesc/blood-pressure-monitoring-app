@@ -34,7 +34,6 @@ const Box: React.FC<boxPros> = ({
   lastMeasurement,
   onPress,
 }) => {
-  console.log(typeof value);
   const lastMeasurementTime = LocalDayjs(lastMeasurement).local();
   const timeFormat = LocalDayjs().local().isSame(lastMeasurement, 'day')
     ? 'h:m a'

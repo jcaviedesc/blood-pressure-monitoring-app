@@ -22,16 +22,16 @@ function BloodPressureResumeReducer(
 ) {
   switch (action.type) {
     case 'updateWeekData':
-      const { dateRange, data, avgSys, avgDia } = action.payload;
+      const { dateRange, data, avgSys, avgDia, todayMeasurements } =
+        action.payload;
       return {
         ...state,
         dateRange,
         weekMeasurements: data,
         avgSYSPerWeek: avgSys,
         avgDIAPerWeek: avgDia,
+        todayMeasurements,
       };
-    case 'setTodayMeasurements':
-      return { ...state, todayMeasurements: action.payload };
     default:
       throw new Error(
         'action.type is not allowed in BloodPressureResumeReducer',
@@ -56,14 +56,16 @@ export const useBloodPressureDashboard = (): useResumeReturn => {
       let initialDate = startDate;
       let finalDate = endDate;
       if (!startDate || !endDate) {
-        const currentDate = Dayjs().locale(locale).startOf('w');
+        const currentDate = Dayjs().locale(locale);
         const [dateMin, dateMax] = getWeekRange(currentDate);
         initialDate = dateMin;
         finalDate = dateMax;
       }
-
       try {
-        const queryResult = getMeasurements(initialDate, finalDate);
+        const { results: queryResult, todayResult } = getMeasurements(
+          initialDate,
+          finalDate,
+        );
         const { data, sysWeek, diaWeek } = transformBloodPressureData(
           queryResult,
           initialDate,
@@ -76,18 +78,9 @@ export const useBloodPressureDashboard = (): useResumeReturn => {
             data,
             avgSys: sysWeek,
             avgDia: diaWeek,
+            todayMeasurements: todayResult,
           },
         });
-        if (queryResult.length) {
-          const todayDate = Dayjs();
-          if (Dayjs().isBetween(initialDate, finalDate)) {
-            const dayOfWeekIndex = todayDate.weekday();
-            dispatch({
-              type: 'setTodayMeasurements',
-              payload: data[dayOfWeekIndex]?.measurements ?? [],
-            });
-          }
-        }
       } catch (error) {
         crashlytics().log(JSON.stringify(error));
         crashlytics().recordError(parseError(error));

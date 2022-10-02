@@ -22,7 +22,7 @@ export const selectCurrentReminder = (state: RootState) => {
   const activeReminder = state.bloodPressure?.reminderStage;
   const reminderData = state.bloodPressure?.reminders[activeReminder];
   //TODO revisar si esta bien hacer esto
-  const userName = state.user?.name ?? '';
+  const userName = state.user?.detail.name ?? '';
   return { activeReminder, reminderData, userName };
 };
 
