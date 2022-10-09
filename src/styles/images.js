@@ -21,6 +21,8 @@ const images = {
   notRunning: require('../images/figures/no-running.png'),
   welcome1: require('../images/welcome-1.gif'),
   'woman-checking-blood-pressure': require('../images/woman-checking-blood-pressure.png'),
+  indeveloping: require('../images/transistor-page-under-construction.gif'),
+  steps_take_bp: require('../images/pasos-toma-pa.jpeg'),
 };
 
 export default images;

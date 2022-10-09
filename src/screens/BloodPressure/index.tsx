@@ -136,7 +136,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
               </Text>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight
+          {/* <TouchableHighlight
             underlayColor={Colors.background}
             style={styles.actionSheetTouch}
             onPress={() => {
@@ -149,7 +149,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
                 {translate('Home/BloodPressure.action_sheet.tensiometer')}
               </Text>
             </View>
-          </TouchableHighlight>
+          </TouchableHighlight> */}
           <TouchableHighlight
             underlayColor={Colors.background}
             style={styles.actionSheetTouch}

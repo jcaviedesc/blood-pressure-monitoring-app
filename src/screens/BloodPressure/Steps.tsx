@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Image } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
-import { Colors, Metrics } from '../../styles';
-import { BloodPressureStepTemplate } from '../../components/Templates';
+import { Colors, Metrics, Images } from '../../styles';
+// import { BloodPressureStepTemplate } from '../../components/Templates';
 import type { BloodPressureStepProps } from '../../components/Templates/BloodPressureStep';
 import { Button } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
@@ -33,21 +33,22 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
   }, [navigation, activeStep]);
 
   const onNext = () => {
-    const nextStep = activeStep;
-    if (nextStep > totalStepsIndex) {
-      navigation.navigate('BloodPressure/Meassuring');
-    } else {
-      stepsRef?.current?.scrollToIndex({
-        animated: true,
-        index: nextStep,
-      });
-      setActiveStep(prevStep => prevStep + 1);
-      resetTimer();
-    }
+    // const nextStep = activeStep;
+    // if (nextStep > totalStepsIndex) {
+    //   navigation.navigate('BloodPressure/Meassuring');
+    // } else {
+    //   stepsRef?.current?.scrollToIndex({
+    //     animated: true,
+    //     index: nextStep,
+    //   });
+    //   setActiveStep(prevStep => prevStep + 1);
+    //   resetTimer();
+    // }
+    navigation.navigate('BloodPressure/Meassuring');
   };
   return (
     <View style={styles.overrideMainContainer}>
-      <FlatList
+      {/* <FlatList
         ref={stepsRef}
         data={stepsData}
         renderItem={({ item }) => {
@@ -70,15 +71,29 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
           index,
         })}
         scrollEnabled={false}
-      />
+      /> */}
+      <View>
+        <Image style={styles.stepsImage} source={Images.steps_take_bp} />
+      </View>
       <View style={styles.footer}>
-        <Button
+        {/* <Button
           title={
             timer > 0
               ? translate('button.nextin', { countDown: timer })
               : activeStep >= totalStepsIndex
                 ? translate('button.start')
                 : translate('button.next')
+          }
+          onPress={() => {
+            onNext();
+          }}
+          disabled={timer > 0}
+        /> */}
+        <Button
+          title={
+            timer > 0
+              ? translate('button.nextin', { countDown: timer })
+              : translate('button.start')
           }
           onPress={() => {
             onNext();
@@ -95,6 +110,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background,
     paddingBottom: 9,
+    justifyContent: 'center',
   },
   stepContainer: {
     flexDirection: 'row',
@@ -107,7 +123,13 @@ const styles = StyleSheet.create({
   footer: {
     justifyContent: 'flex-end',
     marginBottom: 9,
+    flex: 1,
     paddingHorizontal: Metrics.marginHorizontal,
+  },
+  stepsImage: {
+    resizeMode: 'contain',
+    width: Metrics.screenWidth,
+    height: '100%',
   },
 });
 

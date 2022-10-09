@@ -69,7 +69,7 @@ const ApplicationStyles: IApplicationStyles = {
     },
     actionSheetText: {
       marginLeft: 12,
-      fontFamily: Fonts.type.regular,
+      fontFamily: Fonts.type.semiBold,
       fontSize: Fonts.size.paragraph,
       color: Colors.headline,
     },

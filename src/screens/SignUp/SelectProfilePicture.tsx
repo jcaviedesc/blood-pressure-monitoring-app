@@ -203,7 +203,8 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
               </Text>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight
+          {/* revisar porque no funciona */}
+          {/* <TouchableHighlight
             underlayColor={Colors.background}
             style={styles.actionSheetTouch}
             onPress={onChooseImage}>
@@ -213,7 +214,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
                 {translate('selectAvatar.Seleccionar de mi galeria')}
               </Text>
             </View>
-          </TouchableHighlight>
+          </TouchableHighlight> */}
         </View>
       </ActionSheet>
     </MainContainer>

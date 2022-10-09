@@ -53,7 +53,7 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
           onPress={() => {
             onSelectGender('health professional');
           }}>
-          <Card selected={userType === 'health professional'}>
+          <Card style={{ flex: 1 }} selected={userType === 'health professional'}>
             <View style={styles.userTypeContent}>
               <Image
                 source={Images.healtcareProfessionals}
@@ -71,7 +71,7 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
           onPress={() => {
             onSelectGender('patient');
           }}>
-          <Card selected={userType === 'patient'}>
+          <Card style={{ flex: 1 }} selected={userType === 'patient'}>
             <View style={styles.userTypeContent}>
               <Image source={Images.normalPerson} style={styles.image} />
               <Text style={styles.userTypeText}>

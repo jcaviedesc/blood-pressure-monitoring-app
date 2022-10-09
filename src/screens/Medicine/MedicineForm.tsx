@@ -25,6 +25,7 @@ import {
 } from './schemaValidators/medicineUp';
 import { useTitleScroll } from '../../hooks/useTitleScroll';
 import Dayjs from '../../services/DatatimeUtil';
+import { setScreenLoading } from '../../store/app/appSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Medicine'>;
 
@@ -51,6 +52,18 @@ const USE_SCHEMA = {
   'days interval': intervalSchema,
 };
 const USE_SCHEMA_DEFAULT = specificSchema;
+const INITIAL_STATE = {
+  name: '',
+  apparience: '',
+  unit: '',
+  value: '',
+  days: [],
+  via: '',
+  frecuency: '',
+  times_per_day: 1,
+  every: '',
+  times: [1],
+};
 
 const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
@@ -59,18 +72,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
     navigation,
     translate('medicine_info_screen.title'),
   );
-  const [datosMedicine, setDatosMedicine] = useState({
-    name: '',
-    apparience: '',
-    unit: '',
-    value: '',
-    days: [],
-    via: '',
-    frecuency: '',
-    times_per_day: 1,
-    every: '',
-    times: [1],
-  });
+  const [datosMedicine, setDatosMedicine] = useState(INITIAL_STATE);
   const actionSheetRefType = useRef<actionSheetRefType>();
   const actionSheetRefFrecuency = useRef<actionSheetRefFrecuency>();
   const actionSheetRefUnit = useRef<actionSheetRefUnit>();
@@ -85,8 +87,6 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
     });
   };
 
-  console.log({ inputErrors })
-
   const isInvalidField = (key: string) => {
     return !!inputErrors.hasOwnProperty(key);
   };
@@ -98,7 +98,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
   const onHoursIterator = (field: any, value: any) => {
     const maxDate = Date.now();
     let valueTimesPeer = value[0];
-    let newHours = Array.from({ length: valueTimesPeer}, () =>
+    let newHours = Array.from({ length: valueTimesPeer }, () =>
       Math.floor(Math.random() * (maxDate - 100000) + 100000),
     );
     let times = "times"
@@ -140,6 +140,8 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   async function nextValidateFields() {
+    // dispatch loading
+    dispatch(setScreenLoading(true));
     const newTimes = datosMedicine.times.map((element) => {
       return Dayjs(element).format('hh:mm');
     });
@@ -162,6 +164,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
       { abortEarly: false },
     );
     if (error) {
+      dispatch(setScreenLoading(false));
       setInputErrors(buildUsefulErrorObject(error.details));
     } else {
       onNext(newTimes);
@@ -174,7 +177,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
       times: newTimes,
       dose: {
         value: datosMedicine.value,
-        unit: datosMedicine.unit
+        unit: datosMedicine.unit,
       },
       days: datosMedicine.days,
       every: datosMedicine.every,
@@ -182,16 +185,15 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(fetchAddMedicine(datosTotal))
       .unwrap()
       .then(() => {
-        console.log('realizado con exito');
         Toast.show({
           type: 'success',
           text1: translate('medicine success'),
           position: 'bottom',
         });
+        setDatosMedicine(INITIAL_STATE)
         navigation.navigate('MedicineList');
       })
       .catch(error => {
-        console.log(error)
         const errorInstance = new Error(error?.message);
         errorInstance.name = error.name;
         errorInstance.stack = error.stack;
@@ -201,6 +203,9 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
           text1: err.msg, // TODO traducir
           position: 'bottom',
         });
+      })
+      .finally(() => {
+        dispatch(setScreenLoading(false));
       });
   };
 
@@ -304,8 +309,8 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
                 />
               </TouchableOpacity>
             </View>
-            
-            
+
+
           </View>
         </View>
         <View style={styles.toggleContainer}>
@@ -349,16 +354,16 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.toggleContainer}>
           <View style={styles.inputTextContainer}>
             <CustomSlider
-             min={1}
-             max={8}
-             magnitude={datosMedicine.times_per_day===1 ?
-              translate('medicine_info_screen.once')
-              : translate('medicine_info_screen.twice')
-            }
-             onChangeText={text => {
-              onHoursIterator('times_per_day', text);
-            }}
-            valueSelected={datosMedicine.times_per_day}
+              min={1}
+              max={8}
+              magnitude={datosMedicine.times_per_day === 1 ?
+                translate('medicine_info_screen.once')
+                : translate('medicine_info_screen.twice')
+              }
+              onChangeText={text => {
+                onHoursIterator('times_per_day', text);
+              }}
+              valueSelected={datosMedicine.times_per_day}
             />
           </View>
         </View>
@@ -414,11 +419,11 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
         </Text>
         {datosMedicine.times.map((item, index) => {
           return (
-            <View style={styles.toggleContainer}>
+            <View style={styles.toggleContainer} key={item + index}>
               <View style={styles.inputTextContainer}>
                 <DateList
                   onChangeDate={dispatchActionTimes}
-                  key={item+index}
+                  key={item + index}
                   value={item}
                   editable={false}
                 />
@@ -540,7 +545,7 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
             onChangeState('days', value);
           }}
         />
-        
+
         <View style={styles.footer}>
           <Button
             title={translate('medicine_info_screen.keep_medicine')}
@@ -592,12 +597,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   inputTextDoseUnit: {
-    width: "40%", 
-    paddingHorizontal:4
+    width: "40%",
+    paddingHorizontal: 4
   },
   inputTextDoseValue: {
-    width: "60%", 
-    paddingHorizontal:4
+    width: "60%",
+    paddingHorizontal: 4
   },
   inputToggleContainer: {
     flexDirection: 'row',
