@@ -545,7 +545,6 @@ const MedicineFormScreen: React.FC<Props> = ({ navigation }) => {
             onChangeState('days', value);
           }}
         />
-
         <View style={styles.footer}>
           <Button
             title={translate('medicine_info_screen.keep_medicine')}

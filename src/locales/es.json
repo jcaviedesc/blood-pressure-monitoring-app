@@ -399,7 +399,7 @@
     "skip": "omitir"
   },
   "detail_self_care": {
-    "title": "Detalle Autocuidado",
+    "title": "Self care detail",
     "owner": "Autor"
   }
 }
