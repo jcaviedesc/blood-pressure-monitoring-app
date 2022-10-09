@@ -1,17 +1,20 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Animated,
   StyleSheet,
   View,
-  ScrollView,
+  useColorScheme,
   TextInput,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
 import { Input, Card, Text, Button, TextAreaInput } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { MainContainer } from '../../components/Layout';
+import { MainScrollView } from '../../components/Layout';
 // import { useAppDispatch } from '../../hooks';
 import { useMeasuringForm } from '../../hooks/blood-pressure/useMeasuring';
 import { useTitleScroll } from '../../hooks/useTitleScroll';
@@ -23,8 +26,10 @@ type Props = NativeStackScreenProps<
 >;
 
 const BloodPressureMeasuring: React.FC<Props> = ({ navigation }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const { translate } = useI18nLocate();
   const { saveMeasurement } = useBloodPressureMeasurement();
+  const [keyboardVerticalOffset, setKeyboardVerticalOffset] = useState(0);
   // const dispatch = useAppDispatch();
   const { state, isButtonEnabled, onChange, onEnableAddNote, selectRecord } =
     useMeasuringForm();
@@ -34,173 +39,201 @@ const BloodPressureMeasuring: React.FC<Props> = ({ navigation }) => {
   );
   const [diaRef, bpmRef] = [useRef<TextInput>(), useRef<TextInput>()];
 
-  const onSubmit = () => {
+  const onSubmit = useCallback(() => {
     const record = selectRecord();
-    console.log(record);
-    // TODO cambiar typo
     saveMeasurement(record);
     navigation.navigate('BloodPressure');
-  };
+  }, [navigation, saveMeasurement, selectRecord]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return Platform.OS === 'ios' ? (
+          <Button
+            hierarchy="transparent"
+            title={translate('button.save')}
+            size="small"
+            onPress={onSubmit}
+            disabled={!isButtonEnabled}
+          />
+        ) : null;
+      },
+    });
+  }, [isButtonEnabled, navigation, onSubmit, translate]);
 
   return (
-    <MainContainer>
-      <ScrollView
-        style={styles.content}
-        onScroll={({ nativeEvent }) => {
-          const scrolling = nativeEvent.contentOffset.y;
-          if (scrolling > 25) {
-            setHeaderTitleShow(true);
-          } else {
-            setHeaderTitleShow(false);
-          }
-        }}>
-        <Animated.View
-          style={[
-            styles.titleContainer,
-            { opacity: fadeAnim },
-            // { transform: [{ scaleY: fadeAnim }] },
-          ]}>
-          <Text style={styles.titleScreen}>
-            {translate('BloodPressure/Measuring.title')}
-          </Text>
-        </Animated.View>
-        <Card>
-          <View style={styles.rowContainer}>
-            <View>
-              <Text style={styles.inputTitle}>
-                {translate('BloodPressure/Measuring.date')}
-              </Text>
+    <SafeAreaView style={[styles.view, isDarkMode && styles.darkBackground]}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoidingView}
+        enabled
+        keyboardVerticalOffset={keyboardVerticalOffset}>
+        <MainScrollView
+          onScroll={({ nativeEvent }) => {
+            const scrolling = nativeEvent.contentOffset.y;
+            if (scrolling > 70) {
+              setHeaderTitleShow(true);
+            } else {
+              setHeaderTitleShow(false);
+            }
+          }}
+          scrollEventThrottle={20}>
+          <Animated.View
+            style={[
+              styles.titleContainer,
+              { opacity: fadeAnim },
+              // { transform: [{ scaleY: fadeAnim }] },
+            ]}>
+            <Text style={styles.titleScreen}>
+              {translate('BloodPressure/Measuring.title')}
+            </Text>
+          </Animated.View>
+          <Card>
+            <View style={styles.rowContainer}>
+              <View>
+                <Text style={styles.inputTitle}>
+                  {translate('BloodPressure/Measuring.date')}
+                </Text>
+              </View>
+              <View style={styles.containerInput}>
+                <Input
+                  editable={false}
+                  hierarchy="transparent"
+                  textAlign="right"
+                  value={state.datetime.format('DD MMMM YYYY')}
+                />
+              </View>
             </View>
-            <View style={styles.containerInput}>
-              <Input
-                editable={false}
-                hierarchy="transparent"
-                textAlign="right"
-                value={state.datetime.format('DD MMMM YYYY')}
-              />
+            <View style={styles.rowContainer}>
+              <View>
+                <Text style={styles.inputTitle}>
+                  {translate('BloodPressure/Measuring.time')}
+                </Text>
+              </View>
+              <View style={styles.containerInput}>
+                <Input
+                  editable={false}
+                  hierarchy="transparent"
+                  textAlign="right"
+                  value={state.datetime.format('hh:mm A')}
+                />
+              </View>
             </View>
-          </View>
-          <View style={styles.rowContainer}>
-            <View>
-              <Text style={styles.inputTitle}>
-                {translate('BloodPressure/Measuring.time')}
-              </Text>
+            <View style={styles.rowContainer}>
+              <View>
+                <Text style={styles.inputTitle}>
+                  {translate('BloodPressure/Measuring.sys')}
+                </Text>
+              </View>
+              <View style={styles.containerInput}>
+                <Input
+                  hierarchy="transparent"
+                  keyboardType="numeric"
+                  textAlign="right"
+                  maxLength={3}
+                  autoFocus
+                  onChangeText={text => {
+                    onChange('sys', text);
+                  }}
+                  onSubmitEditing={() => {
+                    diaRef.current?.focus();
+                  }}
+                  rightComponent={
+                    <Text style={[styles.inputTitle, styles.rightInput]}>
+                      mmHg
+                    </Text>
+                  }
+                />
+              </View>
             </View>
-            <View style={styles.containerInput}>
-              <Input
-                editable={false}
-                hierarchy="transparent"
-                textAlign="right"
-                value={state.datetime.format('hh:mm A')}
-              />
+            <View style={styles.rowContainer}>
+              <View>
+                <Text style={styles.inputTitle}>
+                  {translate('BloodPressure/Measuring.dia')}
+                </Text>
+              </View>
+              <View style={styles.containerInput}>
+                <Input
+                  textInputRef={diaRef}
+                  hierarchy="transparent"
+                  keyboardType="numeric"
+                  textAlign="right"
+                  maxLength={3}
+                  onChangeText={text => {
+                    onChange('dia', text);
+                  }}
+                  onSubmitEditing={() => {
+                    bpmRef.current?.focus();
+                  }}
+                  rightComponent={
+                    <Text style={[styles.inputTitle, styles.rightInput]}>
+                      mmHg
+                    </Text>
+                  }
+                />
+              </View>
             </View>
-          </View>
-          <View style={styles.rowContainer}>
-            <View>
-              <Text style={styles.inputTitle}>
-                {translate('BloodPressure/Measuring.sys')}
-              </Text>
+            <View style={[styles.rowContainer, styles.lastRowContainer]}>
+              <View>
+                <Text style={styles.inputTitle}>
+                  {translate('BloodPressure/Measuring.heart_rate')}
+                </Text>
+              </View>
+              <View style={styles.containerInput}>
+                <Input
+                  textInputRef={bpmRef}
+                  hierarchy="transparent"
+                  keyboardType="numeric"
+                  textAlign="right"
+                  maxLength={3}
+                  onChangeText={text => {
+                    onChange('bpm', text);
+                  }}
+                  rightComponent={
+                    <Text style={[styles.inputTitle, styles.rightInput]}>
+                      {'    bpm'}
+                    </Text>
+                  }
+                />
+              </View>
             </View>
-            <View style={styles.containerInput}>
-              <Input
-                hierarchy="transparent"
-                keyboardType="numeric"
-                textAlign="right"
-                maxLength={3}
-                autoFocus
-                onChangeText={text => {
-                  onChange('sys', text);
+          </Card>
+          <View style={styles.addNoteContainer}>
+            {state.addNoteEnabled ? (
+              <TextAreaInput
+                onFocus={() => {
+                  setKeyboardVerticalOffset(110);
                 }}
-                onSubmitEditing={() => {
-                  diaRef.current?.focus();
+                onBlur={() => {
+                  setKeyboardVerticalOffset(0);
                 }}
-                rightComponent={
-                  <Text style={[styles.inputTitle, styles.rightInput]}>
-                    mmHg
-                  </Text>
-                }
+                placeholder={translate(
+                  'BloodPressure/Measuring.placeholder_add_note',
+                )}
               />
-            </View>
-          </View>
-          <View style={styles.rowContainer}>
-            <View>
-              <Text style={styles.inputTitle}>
-                {translate('BloodPressure/Measuring.dia')}
-              </Text>
-            </View>
-            <View style={styles.containerInput}>
-              <Input
-                textInputRef={diaRef}
+            ) : (
+              <Button
+                size="small"
                 hierarchy="transparent"
-                keyboardType="numeric"
-                textAlign="right"
-                maxLength={3}
-                onChangeText={text => {
-                  onChange('dia', text);
-                }}
-                onSubmitEditing={() => {
-                  bpmRef.current?.focus();
-                }}
-                rightComponent={
-                  <Text style={[styles.inputTitle, styles.rightInput]}>
-                    mmHg
-                  </Text>
-                }
-              />
-            </View>
+                onPress={onEnableAddNote}>
+                <Text style={[styles.inputTitle, styles.textLink]}>
+                  {translate('BloodPressure/Measuring.add_note')}
+                </Text>
+              </Button>
+            )}
           </View>
-          <View style={[styles.rowContainer, styles.lastRowContainer]}>
-            <View>
-              <Text style={styles.inputTitle}>
-                {translate('BloodPressure/Measuring.heart_rate')}
-              </Text>
-            </View>
-            <View style={styles.containerInput}>
-              <Input
-                textInputRef={bpmRef}
-                hierarchy="transparent"
-                keyboardType="numeric"
-                textAlign="right"
-                maxLength={3}
-                onChangeText={text => {
-                  onChange('bpm', text);
-                }}
-                rightComponent={
-                  <Text style={[styles.inputTitle, styles.rightInput]}>
-                    {'    bpm'}
-                  </Text>
-                }
-              />
-            </View>
-          </View>
-        </Card>
-        <View style={styles.addNoteContainer}>
-          {state.addNoteEnabled ? (
-            <TextAreaInput
-              placeholder={translate(
-                'BloodPressure/Measuring.placeholder_add_note',
-              )}
-            />
-          ) : (
-            <Button
-              size="small"
-              hierarchy="transparent"
-              onPress={onEnableAddNote}>
-              <Text style={[styles.inputTitle, styles.textLink]}>
-                {translate('BloodPressure/Measuring.add_note')}
-              </Text>
-            </Button>
-          )}
+        </MainScrollView>
+      </KeyboardAvoidingView>
+      {Platform.OS === 'android' && (
+        <View style={styles.section}>
+          <Button
+            title={translate('button.save')}
+            disabled={!isButtonEnabled}
+            onPress={onSubmit}
+          />
         </View>
-      </ScrollView>
-      <View style={styles.section}>
-        <Button
-          title={translate('button.save')}
-          disabled={!isButtonEnabled}
-          onPress={onSubmit}
-        />
-      </View>
-    </MainContainer>
+      )}
+    </SafeAreaView>
   );
 };
 
@@ -225,7 +258,8 @@ const styles = StyleSheet.create({
   rightInput: {
     fontSize: Fonts.size.hint,
     textAlignVertical: 'bottom',
-    marginBottom: 6,
+    marginBottom: Platform.OS === 'android' ? 6 : 0,
+    marginLeft: 3,
   },
   value: {
     color: Colors.headline,
@@ -238,7 +272,7 @@ const styles = StyleSheet.create({
   },
   addNoteContainer: {
     marginTop: 12,
-    marginBottom: 21,
+    marginBottom: 51,
   },
   textLink: {
     textAlign: 'left',

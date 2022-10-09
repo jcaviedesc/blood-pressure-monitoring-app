@@ -1,10 +1,16 @@
 import React, { useMemo } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  useColorScheme,
+} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from '../Button';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { AppStyles, Colors, Fonts } from '../../styles';
+import { Text } from '../CustomText';
 
 export enum SelectModes {
   UNICA = 1,
@@ -42,8 +48,9 @@ const ActionSheetWeekDays: React.FC<ActionSheetWeekDaysProps> = ({
   componentId,
   selected,
   selectMode = SelectModes.UNICA,
-  optionMode = OptionMode.INDIVIDUAL
+  optionMode = OptionMode.INDIVIDUAL,
 }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const { translate } = useI18nLocate();
   const weekdays = useMemo(() => translate('days'), [translate]);
 
@@ -90,7 +97,7 @@ const ActionSheetWeekDays: React.FC<ActionSheetWeekDaysProps> = ({
       onClose={() => {
         console.log('close');
       }}>
-      <View style={styles.actionSheet}>
+      <View style={[styles.actionSheet, isDarkMode && styles.darkBackground]}>
         <View>
           <Text style={styles.actionSheetTitle}>{translate('repeat')}</Text>
         </View>
@@ -139,7 +146,7 @@ const ActionSheetWeekDays: React.FC<ActionSheetWeekDaysProps> = ({
               onPress={() => {
                 actionSheetRef.current.hide();
               }}
-              // customBackground={Colors.tertiary}
+            // customBackground={Colors.tertiary}
             />
           </View>
         </View>
@@ -183,6 +190,9 @@ const styles = StyleSheet.create({
     color: Colors.headline,
     textAlign: 'center',
     marginBottom: 15,
+  },
+  darkBackground: {
+    backgroundColor: Colors.darkBackground,
   },
 });
 

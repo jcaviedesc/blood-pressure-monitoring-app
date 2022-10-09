@@ -9,24 +9,15 @@ import {
 } from 'react-native';
 import { Fonts, Colors } from '../../styles';
 
-type Props = {
+interface TextAreaInputProps extends TextInputProps {
   title?: string;
   refInput?: React.LegacyRef<TextInput>;
-  onSubmitEditing?: TextInputProps['onSubmitEditing'];
-  onEndEditing?: TextInputProps['onEndEditing'];
-  autoFocus?: TextInputProps['autoFocus'];
-  onChangeText?: TextInputProps['onChangeText'];
-  placeholder: string;
-};
+}
 
-const TextAreaInput: React.FC<Props> = ({
+const TextAreaInput: React.FC<TextAreaInputProps> = ({
   title,
   refInput,
-  onSubmitEditing,
-  onEndEditing,
-  autoFocus,
-  onChangeText,
-  placeholder,
+  ...options
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
@@ -47,16 +38,12 @@ const TextAreaInput: React.FC<Props> = ({
         ]}>
         <TextInput
           ref={refInput}
+          {...options}
           multiline
           style={[styles.textArea, isDarkMode && { color: Colors.textNormal }]}
           placeholderTextColor={
             isDarkMode ? Colors.textNormal : Colors.paragraph
           }
-          onSubmitEditing={onSubmitEditing}
-          onEndEditing={onEndEditing}
-          autoFocus={autoFocus}
-          onChangeText={onChangeText}
-          placeholder={placeholder}
         />
       </View>
     </View>

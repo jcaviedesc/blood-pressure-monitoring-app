@@ -69,6 +69,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
+          style={styles.headerRight}
           onPress={() => {
             actionSheetRef.current?.setModalVisible();
           }}>
@@ -98,7 +99,8 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
           } else {
             setHeaderTitleShow(false);
           }
-        }}>
+        }}
+        scrollEventThrottle={20}>
         <Animated.View
           style={[
             styles.pageTitleContainer,
@@ -249,6 +251,7 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingBottom: 36,
   },
+  headerRight: { width: 60, alignItems: 'flex-end' },
 });
 
 export default BloodPressureScreen;

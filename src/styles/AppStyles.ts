@@ -7,7 +7,9 @@ import Fonts from './Fonts';
 
 interface IApplicationStyles {
   screen: {
+    fullScreen: ViewStyle;
     mainContainer: ViewStyle;
+    keyboardAvoidingView: ViewStyle;
     view: ViewStyle;
     darkBackground: ViewStyle;
     content: ViewStyle;
@@ -28,10 +30,16 @@ interface IApplicationStyles {
 
 const ApplicationStyles: IApplicationStyles = {
   screen: {
+    fullScreen: { flex: 1 },
     mainContainer: {
       flex: 1,
       backgroundColor: Colors.background,
       paddingBottom: 12,
+    },
+    keyboardAvoidingView: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'center',
     },
     view: {
       flex: 1,

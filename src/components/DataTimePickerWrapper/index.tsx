@@ -3,13 +3,14 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Text,
   Platform,
+  useColorScheme,
 } from 'react-native';
 import DateTimePicker, {
   AndroidNativeProps,
 } from '@react-native-community/datetimepicker';
 import { Colors, Fonts } from '../../styles';
+import { Text } from '../CustomText';
 
 type Props = {
   testID: string;
@@ -22,7 +23,6 @@ type Props = {
   maximumDate?: Date;
   minuteInterval?: number;
 };
-const Header = ({ children }) => <View style={styles.header}>{children}</View>;
 
 const DatePicker: React.FC<Props> = ({
   testID,
@@ -35,6 +35,7 @@ const DatePicker: React.FC<Props> = ({
   maximumDate,
   minuteInterval = 5,
 }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const [dateValue, setDateValue] = useState(value);
 
   const closeHandler = () => {
@@ -42,14 +43,14 @@ const DatePicker: React.FC<Props> = ({
   };
 
   const headerIos = Platform.OS === 'ios' && (
-    <Header>
+    <View style={[styles.header, isDarkMode && styles.darkBackground]}>
       <TouchableOpacity onPress={closeHandler}>
         <Text style={styles.textDone}>Done</Text>
       </TouchableOpacity>
-    </Header>
+    </View>
   );
   return (
-    <TouchableOpacity onPress={closeHandler} style={styles.container}>
+    <TouchableOpacity onPress={closeHandler} style={[styles.container]}>
       {headerIos}
       <DateTimePicker
         testID={testID}
@@ -64,7 +65,7 @@ const DatePicker: React.FC<Props> = ({
             onChange(d ?? dateValue);
           }
         }}
-        style={styles.datePicker}
+        style={[styles.datePicker, isDarkMode && styles.darkBackground]}
         minimumDate={minimumDate}
         maximumDate={maximumDate}
         minuteInterval={minuteInterval}
@@ -106,6 +107,9 @@ const styles = StyleSheet.create({
   textDone: {
     fontFamily: Fonts.type.regular,
     fontSize: Fonts.size.h5,
+  },
+  darkBackground: {
+    backgroundColor: Colors.darkBackground,
   },
 });
 

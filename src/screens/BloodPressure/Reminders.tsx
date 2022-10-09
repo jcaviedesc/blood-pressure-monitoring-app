@@ -85,65 +85,81 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <MainScrollView>
-      <View style={styles.subtitleContainer}>
-        <Text style={styles.paragraph}>
-          {translate('BloodPressure/Reminders.subtitle')}
-        </Text>
-      </View>
-      <Reminder
-        title={translate('BloodPressure/Reminders.normal')}
-        description={translate('BloodPressure/Reminders.normal_description')}
-        state={getRemiderActive(reminderActive, 'normal')}
-        onSelected={setReminderActive}
-        reminders={normal.times}
-        id="normal"
-        frequencyDays={reminders[reminderActive].repeat}
-        onPressFrequency={onPressFrequencyHandler}
-        disabled={reminderActive === 'normal'}
-        onSelectReminderTime={onSelectReminderTimeHandler}
-      />
-      <Reminder
-        title={translate('BloodPressure/Reminders.hypertension_1')}
-        description={translate(
-          'BloodPressure/Reminders.hypertension_1_description',
-        )}
-        state={getRemiderActive(reminderActive, 'hta1')}
-        onSelected={setReminderActive}
-        reminders={hta1.times}
-        id="hta1"
-        frequencyDays={reminders[reminderActive].repeat}
-        onPressFrequency={onPressFrequencyHandler}
-        disabled={reminderActive === 'hta1'}
-        onSelectReminderTime={onSelectReminderTimeHandler}
-      />
-      <Reminder
-        title={translate('BloodPressure/Reminders.hypertension_2')}
-        description={translate(
-          'BloodPressure/Reminders.hypertension_2_description',
-        )}
-        state={getRemiderActive(reminderActive, 'hta2')}
-        onSelected={setReminderActive}
-        reminders={hta2.times}
-        id="hta2"
-        disabled={reminderActive === 'hta2'}
-        frequencyDays={reminders[reminderActive].repeat}
-        onPressFrequency={onPressFrequencyHandler}
-        frequency="everyday"
-        onSelectReminderTime={onSelectReminderTimeHandler}
-      />
-      <Reminder
-        title={translate('BloodPressure/Reminders.custom')}
-        description={translate('BloodPressure/Reminders.custom_description')}
-        state={getRemiderActive(reminderActive, 'custom')}
-        onSelected={setReminderActive}
-        reminders={custom.times}
-        id="custom"
-        frequencyDays={reminders[reminderActive].repeat}
-        disabled={reminderActive === 'custom'}
-        onPressFrequency={onPressFrequencyHandler}
-        onSelectReminderTime={onSelectReminderTimeHandler}
-      />
+    <View style={styles.fullScreen}>
+      <MainScrollView>
+        <View style={styles.subtitleContainer}>
+          <Text style={styles.paragraph}>
+            {translate('BloodPressure/Reminders.subtitle')}
+          </Text>
+        </View>
+        <Reminder
+          title={translate('BloodPressure/Reminders.normal')}
+          description={translate('BloodPressure/Reminders.normal_description')}
+          state={getRemiderActive(reminderActive, 'normal')}
+          onSelected={setReminderActive}
+          reminders={normal.times}
+          id="normal"
+          frequencyDays={reminders[reminderActive].repeat}
+          onPressFrequency={onPressFrequencyHandler}
+          disabled={reminderActive === 'normal'}
+          onSelectReminderTime={onSelectReminderTimeHandler}
+        />
+        <Reminder
+          title={translate('BloodPressure/Reminders.hypertension_1')}
+          description={translate(
+            'BloodPressure/Reminders.hypertension_1_description',
+          )}
+          state={getRemiderActive(reminderActive, 'hta1')}
+          onSelected={setReminderActive}
+          reminders={hta1.times}
+          id="hta1"
+          frequencyDays={reminders[reminderActive].repeat}
+          onPressFrequency={onPressFrequencyHandler}
+          disabled={reminderActive === 'hta1'}
+          onSelectReminderTime={onSelectReminderTimeHandler}
+        />
+        <Reminder
+          title={translate('BloodPressure/Reminders.hypertension_2')}
+          description={translate(
+            'BloodPressure/Reminders.hypertension_2_description',
+          )}
+          state={getRemiderActive(reminderActive, 'hta2')}
+          onSelected={setReminderActive}
+          reminders={hta2.times}
+          id="hta2"
+          disabled={reminderActive === 'hta2'}
+          frequencyDays={reminders[reminderActive].repeat}
+          onPressFrequency={onPressFrequencyHandler}
+          frequency="everyday"
+          onSelectReminderTime={onSelectReminderTimeHandler}
+        />
+        <Reminder
+          title={translate('BloodPressure/Reminders.custom')}
+          description={translate('BloodPressure/Reminders.custom_description')}
+          state={getRemiderActive(reminderActive, 'custom')}
+          onSelected={setReminderActive}
+          reminders={custom.times}
+          id="custom"
+          frequencyDays={reminders[reminderActive].repeat}
+          disabled={reminderActive === 'custom'}
+          onPressFrequency={onPressFrequencyHandler}
+          onSelectReminderTime={onSelectReminderTimeHandler}
+        />
+        <ActionSheetWeekDays
+          actionSheetRef={actionSheetRef}
+          onPressOption={(id, opionSelected) => {
+            onSetRepeatReminder(opionSelected);
+          }}
+          selected={reminders[reminderActive].repeat}
+          componentId={reminderActive}
+          optionMode={
+            reminderActive === 'hta1' ? OptionMode.GROUPED : OptionMode.INDIVIDUAL
+          }
+          selectMode={
+            reminderActive === 'custom' ? SelectModes.MULTIPLE : SelectModes.UNICA
+          }
+        />
+      </MainScrollView>
       {showReminderTime && (
         <DatePicker
           testID="dateTimePicker"
@@ -157,21 +173,7 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           minuteInterval={1}
         />
       )}
-      <ActionSheetWeekDays
-        actionSheetRef={actionSheetRef}
-        onPressOption={(id, opionSelected) => {
-          onSetRepeatReminder(opionSelected);
-        }}
-        selected={reminders[reminderActive].repeat}
-        componentId={reminderActive}
-        optionMode={
-          reminderActive === 'hta1' ? OptionMode.GROUPED : OptionMode.INDIVIDUAL
-        }
-        selectMode={
-          reminderActive === 'custom' ? SelectModes.MULTIPLE : SelectModes.UNICA
-        }
-      />
-    </MainScrollView>
+    </View>
   );
 };
 

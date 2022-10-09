@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     height: Platform.OS === 'android' ? 48 : 40,
     flexDirection: 'row',
+    alignItems: 'flex-end',
     borderRadius: 5,
     flex: 1,
     paddingHorizontal: 6,
