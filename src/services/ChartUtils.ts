@@ -1,5 +1,5 @@
 import { BloodPressureMeasurements } from '../schemas/blood-pressure';
-import Dayjs from './DatatimeUtil';
+import Dayjs from './DatetimeUtil';
 import { getAverage } from './utils';
 
 type DataObject = {

@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import { Colors, Fonts } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
+import { Text } from '../CustomText';
 
 dayjs.extend(utc);
 
@@ -15,10 +16,10 @@ type props = {
   onSelected: (id: string) => void;
   reminders: string[];
   id: string;
-  frecuency?: 'everyday' | undefined;
-  frecuencyDays: string[];
+  frequency?: 'everyday' | undefined;
+  frequencyDays: string[];
   onSelectReminderTime: (reminderId: string, index: number) => void;
-  onPressFrecuency?: (reminderId: string) => void;
+  onPressFrequency?: (reminderId: string) => void;
   disabled: boolean;
 };
 
@@ -29,10 +30,10 @@ const Reminder: React.FC<props> = ({
   onSelected,
   reminders,
   id,
-  frecuency,
-  frecuencyDays,
+  frequency,
+  frequencyDays,
   onSelectReminderTime,
-  onPressFrecuency,
+  onPressFrequency,
   disabled,
 }) => {
   const { translate } = useI18nLocate();
@@ -42,11 +43,11 @@ const Reminder: React.FC<props> = ({
   const parseDays = (arrayDays: string[]) => {
     return Array.isArray(arrayDays) && arrayDays.join().length
       ? arrayDays
-          .map(day =>
-            day.split(',').map(dayNested => i18nDays[dayNested].slice(0, 3)),
-          )
-          .flat()
-          .join(', ')
+        .map(day =>
+          day.split(',').map(dayNested => i18nDays[dayNested].slice(0, 3)),
+        )
+        .flat()
+        .join(', ')
       : translate('select');
   };
 
@@ -80,7 +81,7 @@ const Reminder: React.FC<props> = ({
         </View>
         {state === 'active' && (
           <View style={styles.reminderBody}>
-            {frecuency !== 'everyday' && (
+            {frequency !== 'everyday' && (
               <View style={styles.row}>
                 <View style={{ flex: 3 }}>
                   <Text style={styles.title}>{translate('repeat')}</Text>
@@ -88,11 +89,11 @@ const Reminder: React.FC<props> = ({
                 <TouchableOpacity
                   style={styles.repeatContainer}
                   onPress={() => {
-                    onPressFrecuency && onPressFrecuency(id);
+                    onPressFrequency && onPressFrequency(id);
                   }}>
                   <View>
                     <Text style={styles.time} textBreakStrategy="balanced">
-                      {parseDays(frecuencyDays)}
+                      {parseDays(frequencyDays)}
                     </Text>
                   </View>
                   <IconEntypo name="chevron-small-right" size={18} />

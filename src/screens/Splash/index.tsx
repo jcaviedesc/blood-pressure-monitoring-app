@@ -37,6 +37,7 @@ const SplashScreen: React.FC = () => {
         showHideTransition="fade"
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         hidden={false}
+        translucent={true}
       />
       <Image source={Images.animateHeart} style={styles.splashImage} />
     </View>

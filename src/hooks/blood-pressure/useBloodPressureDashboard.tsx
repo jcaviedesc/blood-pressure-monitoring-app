@@ -1,7 +1,7 @@
 import { useCallback, useReducer } from 'react';
 import { useBloodPressureMeasurement } from '../realm/useBloodPressure';
 import { transformBloodPressureData } from '../../services/ChartUtils';
-import Dayjs, { getWeekRange } from '../../services/DatatimeUtil';
+import Dayjs, { getWeekRange } from '../../services/DatetimeUtil';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { parseError } from '../../services/ErrorUtils';

@@ -1,4 +1,5 @@
 import { CardStyleInterpolators } from '@react-navigation/stack';
+import { SwipeDirectionTypes } from 'react-native-screens';
 import { Colors, Fonts } from '../styles';
 
 const ConfigAnimation = {
@@ -15,7 +16,7 @@ const ConfigAnimation = {
 
 const defaultOptions = {
   animationEnabled: true,
-  gestureDirection: 'horizontal',
+  gestureDirection: 'horizontal' as SwipeDirectionTypes,
   transitionSpec: {
     open: ConfigAnimation,
     close: ConfigAnimation,

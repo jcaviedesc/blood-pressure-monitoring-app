@@ -115,54 +115,50 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.full}>
-      <MainContainer>
-        <View style={styles.content}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.titleScreen}>
-              {translate('verify_phone.title')}
-            </Text>
-          </View>
-          <View style={styles.subTitleContainer}>
-            <Text style={styles.subTitleScreen}>
-              {translate('verify_phone.subtitle', { phone })}
-            </Text>
-          </View>
-          <VerifyCode onCompleteCode={confirmCode} />
-          <View style={styles.noCodeContainer}>
-            <Text style={styles.noCode}>
-              {translate('verify_phone.no_code')}
-            </Text>
-          </View>
-          {isCodeResend ? (
-            <Button hierarchy="quiet">
-              <Text style={styles.noCode}>
-                {translate('verify_phone.try_other_method')}
-              </Text>
-            </Button>
-          ) : (
-            <Button
-              disabled={isDisableTimerButton}
-              hierarchy="quiet"
-              onPress={onResendConde}>
-              <CountDownTimer
-                textStyles={styles.noCode}
-                timerMilliseconds={60000}
-                prefix={translate('verify_phone.resendTimer')}
-                expiredTimeComponent={
-                  <Text style={styles.noCode}>
-                    {translate('verify_phone.resendCode')}
-                  </Text>
-                }
-                onFinish={() => {
-                  setIsDisableTimerButton(false);
-                }}
-              />
-            </Button>
-          )}
+    <MainContainer>
+      <View style={styles.content}>
+        <View style={[styles.titleContainer, styles.overrideTitleContainer]}>
+          <Text style={styles.titleScreen}>
+            {translate('verify_phone.title')}
+          </Text>
         </View>
-      </MainContainer>
-    </SafeAreaView>
+        <View style={styles.subTitleContainer}>
+          <Text style={styles.subTitleScreen}>
+            {translate('verify_phone.subtitle', { phone })}
+          </Text>
+        </View>
+        <VerifyCode onCompleteCode={confirmCode} />
+        <View style={styles.noCodeContainer}>
+          <Text style={styles.noCode}>{translate('verify_phone.no_code')}</Text>
+        </View>
+        {isCodeResend ? (
+          <Button hierarchy="quiet">
+            <Text style={styles.noCode}>
+              {translate('verify_phone.try_other_method')}
+            </Text>
+          </Button>
+        ) : (
+          <Button
+            disabled={isDisableTimerButton}
+            hierarchy="quiet"
+            onPress={onResendConde}>
+            <CountDownTimer
+              textStyles={styles.noCode}
+              timerMilliseconds={60000}
+              prefix={translate('verify_phone.resendTimer')}
+              expiredTimeComponent={
+                <Text style={styles.noCode}>
+                  {translate('verify_phone.resendCode')}
+                </Text>
+              }
+              onFinish={() => {
+                setIsDisableTimerButton(false);
+              }}
+            />
+          </Button>
+        )}
+      </View>
+    </MainContainer>
   );
 };
 
@@ -188,8 +184,8 @@ const styles = StyleSheet.create({
   noCodeContainer: {
     marginBottom: 18,
   },
-  full: {
-    flex: 1,
+  overrideTitleContainer: {
+    marginTop: 31,
   },
 });
 

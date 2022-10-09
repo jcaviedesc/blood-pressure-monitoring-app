@@ -13,6 +13,31 @@ type props = {
   scrollViewProps?: ScrollViewProps;
 };
 
+interface MainScrollViewProps extends ScrollViewProps {
+  children?: React.ReactNode;
+  // ref?: React.LegacyRef<ScrollView>;
+}
+
+export const MainScrollView = React.forwardRef<ScrollView, MainScrollViewProps>(
+  (props, ref) => {
+    const isDarkMode = useColorScheme() === 'dark';
+    return (
+      <ScrollView
+        ref={ref}
+        {...props}
+        style={{
+          ...AppStyles.screen.content,
+          ...props.style,
+          backgroundColor: isDarkMode
+            ? Colors.darkBackground
+            : Colors.background,
+        }}>
+        {props.children}
+      </ScrollView>
+    );
+  },
+);
+
 const MainContainer: React.FC<props> = ({
   children,
   isScrollView,

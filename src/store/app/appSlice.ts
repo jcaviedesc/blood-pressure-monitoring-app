@@ -7,7 +7,7 @@ import type { RootState } from '../configureStore';
 /* ------------- Initial State ------------- */
 const initialState: AppState = {
   appIsLoaded: false,
-  lenguage: '',
+  language: '',
   countryCode: '',
   screenLoading: false,
 };
@@ -28,8 +28,8 @@ export const appSlice = createSlice({
       state.appIsLoaded = true;
       state.screenLoading = false;
     },
-    setLenguage: (state, action: PayloadAction<'es' | 'en'>) => {
-      state.lenguage = action.payload;
+    setLanguage: (state, action: PayloadAction<'es' | 'en'>) => {
+      state.language = action.payload;
     },
     setCountry: (state, action: PayloadAction<string>) => {
       state.countryCode = action.payload;
@@ -40,12 +40,12 @@ export const appSlice = createSlice({
   },
 });
 
-export const { initAppSuccessful, setLenguage, setCountry, setScreenLoading } =
+export const { initAppSuccessful, setLanguage, setCountry, setScreenLoading } =
   appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectAppLocale = (state: RootState) => ({
-  lenguage: state.app.lenguage,
+  language: state.app.language,
   countryCode: state.app.countryCode,
 });
 

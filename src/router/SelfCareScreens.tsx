@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, useColorScheme } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SearchSelfcareTips from '../screens/SelfCare/SearchTips';
+import SearchSelfCareTips from '../screens/SelfCare/SearchTips';
 import { Colors } from '../styles';
 
 const Stack = createNativeStackNavigator();
@@ -23,7 +23,7 @@ export default function SelfCareScreens() {
       }}>
       <Stack.Screen
         name="SearchSelfCareTip"
-        component={SearchSelfcareTips}
+        component={SearchSelfCareTips}
         options={{
           headerTransparent: true,
           headerTitleAlign: 'left',
@@ -32,7 +32,7 @@ export default function SelfCareScreens() {
             backgroundColor:
               Platform.OS === 'ios' ? Colors.transparent : Colors.background,
           },
-          headerIconColor: Colors.tertiary,
+          // headerIconColor: Colors.tertiary,
           headerSearchBarOptions: {
             textColor: Colors.headline,
             headerIconColor: Colors.tertiary,

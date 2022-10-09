@@ -1,5 +1,11 @@
 import React, { useCallback, useLayoutEffect, useRef } from 'react';
-import { Platform, StyleSheet, TouchableHighlight, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  TouchableHighlight,
+  View,
+  useColorScheme,
+} from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import type { RootStackParamList } from '../../router/types';
@@ -17,16 +23,17 @@ import { selectUserData } from '../../store/user/userSlice';
 import { userRole } from '../../store/user/types';
 import { searchSelfcareTipThunk } from '../../thunks/selfcare/selfcare-thunk';
 import { selectSearchSelfcare, clear } from '../../store/selfcare';
-import { debounce } from 'lodash';
+import { debounce, DebouncedFunc } from 'lodash';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SearchSelfcare'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'SearchSelfCare'>;
 
-const SearchSelfcareTips: React.FC<Props> = ({ navigation }) => {
+const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
+  const isDarkMode = useColorScheme() === 'dark';
   const user = useAppSelector(selectUserData);
   const { data: searchResult, loading } = useAppSelector(selectSearchSelfcare);
   const dispatch = useAppDispatch();
-  const searchRef = useRef();
+  const searchRef = useRef<DebouncedFunc<(text: string) => void>>();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onSearchText = useCallback(
@@ -39,14 +46,15 @@ const SearchSelfcareTips: React.FC<Props> = ({ navigation }) => {
     [dispatch],
   );
 
-  const onCancelSearch = () => {
+  const onCancelSearch = useCallback(() => {
     dispatch(clear());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useLayoutEffect(() => {
     searchRef.current = debounce(onSearchText, 500);
     const onSearch = event => {
-      searchRef.current(event?.nativeEvent.text);
+      searchRef?.current(event?.nativeEvent.text);
     };
 
     const headerRightComp =
@@ -66,6 +74,9 @@ const SearchSelfcareTips: React.FC<Props> = ({ navigation }) => {
       headerRight: () => headerRightComp,
       headerShown: true,
       title: translate('TabsSearch.header.title'),
+      headerStyle: {
+        backgroundColor: isDarkMode ? Colors.darkBackground : Colors.background,
+      },
       headerSearchBarOptions: {
         placeholder: translate('TabsSearch.header.placeholder'),
         onChangeText: onSearch,
@@ -84,7 +95,7 @@ const SearchSelfcareTips: React.FC<Props> = ({ navigation }) => {
         .getParent()
         ?.setOptions({ headerSearchBarOptions: null, headerShown: false });
     };
-  }, [navigation, user]);
+  }, [navigation, user, isDarkMode, onSearchText, translate, onCancelSearch]);
 
   const addNewSelfcareTip = () => {
     navigation.navigate('AddSelfCareTip');
@@ -149,4 +160,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchSelfcareTips;
+export default SearchSelfCareTips;

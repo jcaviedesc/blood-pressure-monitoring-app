@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 // TODO import according to i18n
-import dayjsUtil from '../../services/DatatimeUtil';
+import dayjsUtil from '../../services/DatetimeUtil';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { useI18nLocate } from '../../providers/LocalizationProvider';

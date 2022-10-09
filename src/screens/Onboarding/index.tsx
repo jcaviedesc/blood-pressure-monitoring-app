@@ -1,13 +1,6 @@
 import React, { useEffect } from 'react';
 import Onboarding from 'react-native-onboarding-swiper';
-import {
-  Image,
-  StyleSheet,
-  View,
-  StatusBar,
-  BackHandler,
-  Alert,
-} from 'react-native';
+import { Image, StyleSheet, View, BackHandler, Alert } from 'react-native';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { Text } from '../../components';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -50,13 +43,6 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={AppStyles.screen.mainContainer}>
-      <StatusBar
-        animated={true}
-        backgroundColor={Colors.background}
-        showHideTransition="fade"
-        hidden={false}
-        barStyle="dark-content"
-      />
       <Onboarding
         onDone={navigateToSingupScreen}
         onSkip={navigateToSingupScreen}

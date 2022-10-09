@@ -13,14 +13,14 @@ import {
   rescheduledReminderSuccess,
 } from '../../store/blood-pressure';
 import type { AppDispatch, AppGetState } from '../../store/configureStore';
-import dayjs, { weekdays } from '../../services/DatatimeUtil';
+import dayjs, { weekdays } from '../../services/DatetimeUtil';
 import { createTriggerNotificationService } from '../../services/NotificationService';
 import { translate } from '../../providers/LocalizationProvider';
 
 const BloodPressurePrefix = '$bp';
 const BLOOD_PRESSURE_CHANNEL_ID = 'bloodpressure';
 
-export const createNotificaions = () => {
+export const createNotifications = () => {
   return async (dispatch: AppDispatch, getState: AppGetState) => {
     const {
       reminderData: { times, reschedule, repeat },

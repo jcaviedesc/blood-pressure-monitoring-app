@@ -17,7 +17,7 @@ type NormalHeaderProps = {
 const NormalHeader: React.FC<NormalHeaderProps> = ({ leftButton, style }) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={[style, styles.header, isDarkMode && styles.darkContainer]}>
+    <View style={[style, styles.header, isDarkMode && styles.darkBackground]}>
       <View style={styles.leftButton}>{leftButton}</View>
     </View>
   );

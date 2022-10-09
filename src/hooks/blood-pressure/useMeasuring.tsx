@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import Dayjs from '../../services/DatatimeUtil';
+import Dayjs from '../../services/DatetimeUtil';
 
 const initialState = {
   sys: '',

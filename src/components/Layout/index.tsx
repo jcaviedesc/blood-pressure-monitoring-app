@@ -2,7 +2,7 @@ import StepsHeader from './StepsHeader';
 import NormalHeader from './NormalHeader';
 import HOCKeyboardView from './HOCKeyboardView';
 import HeaderTitle from './HeaderTitle';
-import MainContainer from './MainContainer';
+import MainContainer, { MainScrollView } from './MainContainer';
 import { HeaderSearch } from './HeaderSearch';
 
 export {
@@ -12,4 +12,5 @@ export {
   HeaderTitle,
   MainContainer,
   HeaderSearch,
+  MainScrollView,
 };

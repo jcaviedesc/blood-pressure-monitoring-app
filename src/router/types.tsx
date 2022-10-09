@@ -11,7 +11,7 @@ type BloodPressureStackParam = {
   BloodPressure: undefined;
   'BloodPressure/Preparation': undefined;
   'BloodPressure/Steps': undefined;
-  'BloodPressure/Meassuring': undefined;
+  'BloodPressure/Measuring': undefined;
   'BloodPressure/Wait1minute': undefined;
   'BloodPressure/Reminders': undefined;
   'BloodPressure/ValidateMonitor': undefined;
@@ -26,7 +26,7 @@ export type RootStackParamList = {
   development: undefined;
   Medicine: undefined;
   MedicineList: undefined;
-  SearchSelfcare: undefined;
+  SearchSelfCare: undefined;
   AddSelfCareTip: undefined;
   Weight: undefined;
   Height: undefined;

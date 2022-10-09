@@ -24,7 +24,7 @@ import {
   buildUsefulErrorObject,
 } from './schemaValidators/medicineUp';
 import { useTitleScroll } from '../../hooks/useTitleScroll';
-import Dayjs from '../../services/DatatimeUtil';
+import Dayjs from '../../services/DatetimeUtil';
 import { setScreenLoading } from '../../store/app/appSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Medicine'>;

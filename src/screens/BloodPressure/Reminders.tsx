@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -7,7 +7,7 @@ import type { RootStackParamList } from '../../router/types';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { AppStyles } from '../../styles';
-import { Reminder, DatePicker } from '../../components';
+import { Reminder, DatePicker, Text } from '../../components';
 import ActionSheetWeekDays, {
   OptionMode,
   SelectModes,
@@ -20,6 +20,7 @@ import {
   setRepeatReminder,
 } from '../../store/blood-pressure';
 import DateInstance from '../../services/DateService';
+import { MainScrollView } from '../../components/Layout';
 
 dayjs.extend(utc);
 type Props = NativeStackScreenProps<
@@ -79,72 +80,70 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
     dispatch(setRepeatReminder({ reminder: reminderActive, repeat: weekday }));
   };
 
-  const onPressFrecuencyHandler = () => {
+  const onPressFrequencyHandler = () => {
     actionSheetRef.current?.setModalVisible();
   };
 
   return (
-    <ScrollView style={styles.mainContainer}>
-      <View style={styles.content}>
-        <View style={styles.subtitleContainer}>
-          <Text style={styles.paragraph}>
-            {translate('BloodPressure/Reminders.subtitle')}
-          </Text>
-        </View>
-        <Reminder
-          title={translate('BloodPressure/Reminders.normal')}
-          description={translate('BloodPressure/Reminders.normal_description')}
-          state={getRemiderActive(reminderActive, 'normal')}
-          onSelected={setReminderActive}
-          reminders={normal.times}
-          id="normal"
-          frecuencyDays={reminders[reminderActive].repeat}
-          onPressFrecuency={onPressFrecuencyHandler}
-          disabled={reminderActive === 'normal'}
-          onSelectReminderTime={onSelectReminderTimeHandler}
-        />
-        <Reminder
-          title={translate('BloodPressure/Reminders.hypertension_1')}
-          description={translate(
-            'BloodPressure/Reminders.hypertension_1_description',
-          )}
-          state={getRemiderActive(reminderActive, 'hta1')}
-          onSelected={setReminderActive}
-          reminders={hta1.times}
-          id="hta1"
-          frecuencyDays={reminders[reminderActive].repeat}
-          onPressFrecuency={onPressFrecuencyHandler}
-          disabled={reminderActive === 'hta1'}
-          onSelectReminderTime={onSelectReminderTimeHandler}
-        />
-        <Reminder
-          title={translate('BloodPressure/Reminders.hypertension_2')}
-          description={translate(
-            'BloodPressure/Reminders.hypertension_2_description',
-          )}
-          state={getRemiderActive(reminderActive, 'hta2')}
-          onSelected={setReminderActive}
-          reminders={hta2.times}
-          id="hta2"
-          disabled={reminderActive === 'hta2'}
-          frecuencyDays={reminders[reminderActive].repeat}
-          onPressFrecuency={onPressFrecuencyHandler}
-          frecuency="everyday"
-          onSelectReminderTime={onSelectReminderTimeHandler}
-        />
-        <Reminder
-          title={translate('BloodPressure/Reminders.custom')}
-          description={translate('BloodPressure/Reminders.custom_description')}
-          state={getRemiderActive(reminderActive, 'custom')}
-          onSelected={setReminderActive}
-          reminders={custom.times}
-          id="custom"
-          frecuencyDays={reminders[reminderActive].repeat}
-          disabled={reminderActive === 'custom'}
-          onPressFrecuency={onPressFrecuencyHandler}
-          onSelectReminderTime={onSelectReminderTimeHandler}
-        />
+    <MainScrollView>
+      <View style={styles.subtitleContainer}>
+        <Text style={styles.paragraph}>
+          {translate('BloodPressure/Reminders.subtitle')}
+        </Text>
       </View>
+      <Reminder
+        title={translate('BloodPressure/Reminders.normal')}
+        description={translate('BloodPressure/Reminders.normal_description')}
+        state={getRemiderActive(reminderActive, 'normal')}
+        onSelected={setReminderActive}
+        reminders={normal.times}
+        id="normal"
+        frequencyDays={reminders[reminderActive].repeat}
+        onPressFrequency={onPressFrequencyHandler}
+        disabled={reminderActive === 'normal'}
+        onSelectReminderTime={onSelectReminderTimeHandler}
+      />
+      <Reminder
+        title={translate('BloodPressure/Reminders.hypertension_1')}
+        description={translate(
+          'BloodPressure/Reminders.hypertension_1_description',
+        )}
+        state={getRemiderActive(reminderActive, 'hta1')}
+        onSelected={setReminderActive}
+        reminders={hta1.times}
+        id="hta1"
+        frequencyDays={reminders[reminderActive].repeat}
+        onPressFrequency={onPressFrequencyHandler}
+        disabled={reminderActive === 'hta1'}
+        onSelectReminderTime={onSelectReminderTimeHandler}
+      />
+      <Reminder
+        title={translate('BloodPressure/Reminders.hypertension_2')}
+        description={translate(
+          'BloodPressure/Reminders.hypertension_2_description',
+        )}
+        state={getRemiderActive(reminderActive, 'hta2')}
+        onSelected={setReminderActive}
+        reminders={hta2.times}
+        id="hta2"
+        disabled={reminderActive === 'hta2'}
+        frequencyDays={reminders[reminderActive].repeat}
+        onPressFrequency={onPressFrequencyHandler}
+        frequency="everyday"
+        onSelectReminderTime={onSelectReminderTimeHandler}
+      />
+      <Reminder
+        title={translate('BloodPressure/Reminders.custom')}
+        description={translate('BloodPressure/Reminders.custom_description')}
+        state={getRemiderActive(reminderActive, 'custom')}
+        onSelected={setReminderActive}
+        reminders={custom.times}
+        id="custom"
+        frequencyDays={reminders[reminderActive].repeat}
+        disabled={reminderActive === 'custom'}
+        onPressFrequency={onPressFrequencyHandler}
+        onSelectReminderTime={onSelectReminderTimeHandler}
+      />
       {showReminderTime && (
         <DatePicker
           testID="dateTimePicker"
@@ -172,7 +171,7 @@ const BloodPressureReminders: React.FC<Props> = ({ navigation }) => {
           reminderActive === 'custom' ? SelectModes.MULTIPLE : SelectModes.UNICA
         }
       />
-    </ScrollView>
+    </MainScrollView>
   );
 };
 

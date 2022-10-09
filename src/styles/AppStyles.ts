@@ -1,4 +1,4 @@
-import { Platform, TextStyle, ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import Metrics from './Metrics';
 import Colors from './Colors';
 import Fonts from './Fonts';
@@ -8,9 +8,11 @@ import Fonts from './Fonts';
 interface IApplicationStyles {
   screen: {
     mainContainer: ViewStyle;
-    darkContainer: ViewStyle;
+    view: ViewStyle;
+    darkBackground: ViewStyle;
     content: ViewStyle;
     section: ViewStyle;
+    pageTitleContainer: ViewStyle;
     titleContainer: ViewStyle;
     titleScreen: TextStyle;
     subTitleScreen: TextStyle;
@@ -31,7 +33,14 @@ const ApplicationStyles: IApplicationStyles = {
       backgroundColor: Colors.background,
       paddingBottom: 12,
     },
-    darkContainer: { backgroundColor: Colors.darkBackground },
+    view: {
+      flex: 1,
+      backgroundColor: Colors.background,
+    },
+    pageTitleContainer: {
+      paddingTop: 21,
+    },
+    darkBackground: { backgroundColor: Colors.darkBackground },
     content: {
       flex: 1,
       paddingHorizontal: Metrics.marginHorizontal,
@@ -41,8 +50,8 @@ const ApplicationStyles: IApplicationStyles = {
       marginHorizontal: Metrics.marginHorizontal,
     },
     titleContainer: {
-      marginBottom: 31,
-      marginTop: 21,
+      marginVertical: 31,
+      paddingTop: 21,
     },
     titleScreen: {
       fontFamily: Fonts.type.bold,

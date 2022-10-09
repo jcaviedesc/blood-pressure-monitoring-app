@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, StatusBar, Image } from 'react-native';
+import { Text, StyleSheet, View, Image } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -61,13 +61,6 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <MainContainer isScrollView>
-      <StatusBar
-        animated={true}
-        backgroundColor={Colors.background}
-        showHideTransition="fade"
-        hidden={false}
-        barStyle="dark-content"
-      />
       <View style={styles.titleContainer}>
         <Text style={[styles.titleScreen, styles.titleOverride]}>
           {translate('welcome.title')}

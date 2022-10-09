@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
-  ScrollView,
-  Text,
+  Animated,
   View,
   StyleSheet,
-  TouchableHighlight,
   TouchableOpacity,
   Platform,
   useColorScheme,
+  SafeAreaView,
 } from 'react-native';
 // TODO implemented
 // import { BlurView } from '@react-native-community/blur';
@@ -18,15 +17,20 @@ import { useFocusEffect } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
 import type { RootStackParamList } from '../../router/types';
 import { Colors, Fonts, AppStyles, Metrics } from '../../styles';
-import { Button, HeaderChart, BloodPressureResumeCard } from '../../components';
-import { MainContainer } from '../../components/Layout';
-// import dayjs, { getWeekRange } from '../../services/DatatimeUtil';
+import {
+  Button,
+  HeaderChart,
+  BloodPressureResumeCard,
+  Text,
+} from '../../components';
+import { MainScrollView } from '../../components/Layout';
 import { BloodPressureCard } from '../../wrappers';
 import { BarChart } from '../../components/Charts';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppDispatch } from '../../hooks';
-import { createNotificaions } from '../../thunks/blood-pressure/blood-pressure-thunk';
+import { createNotifications } from '../../thunks/blood-pressure/blood-pressure-thunk';
 import { useBloodPressureDashboard } from '../../hooks/blood-pressure/useBloodPressureDashboard';
+import { useTitleScroll } from '../../hooks/useTitleScroll';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'BloodPressure'>;
 
@@ -38,6 +42,10 @@ type actionSheetRef = {
 const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const { translate } = useI18nLocate();
+  const { setHeaderTitleShow, fadeAnim } = useTitleScroll(
+    navigation,
+    translate('Home/BloodPressure.title'),
+  );
   const {
     weekMeasurements,
     todayMeasurements,
@@ -52,14 +60,13 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       getBloodPressureData('', '');
-      dispatch(createNotificaions());
+      dispatch(createNotifications());
       /* eslint-disable react-hooks/exhaustive-deps */
     }, [dispatch]),
   );
 
   useEffect(() => {
     navigation.setOptions({
-      title: translate('Home/BloodPressure.title'),
       headerRight: () => (
         <TouchableOpacity
           onPress={() => {
@@ -80,49 +87,65 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <MainContainer>
-      <ScrollView
+    <SafeAreaView style={[styles.view, isDarkMode && styles.darkBackground]}>
+      <MainScrollView
         style={styles.scrollView}
-        contentContainerStyle={{ paddingBottom: 80 }}>
-        <View style={styles.content}>
-          <View style={styles.contenHeder}>
-            <Text style={styles.statics}>
-              {translate('Home/BloodPressure.sub_title', {
-                time: translate('week'),
-              })}
-            </Text>
-          </View>
-          <View style={styles.cardContainer}>
-            <BloodPressureCard
-              title={translate('Home/BloodPressure.sys')}
-              value={avgSYSPerWeek}
-              magnitude="mmHg"
-              altText="--"
-              type="sys"
-            />
-            <BloodPressureCard
-              title={translate('Home/BloodPressure.dia')}
-              value={avgDIAPerWeek}
-              magnitude="mmHg"
-              altText="--"
-              type="dia"
-            />
-          </View>
-          <View>
-            <HeaderChart onChangeDate={getBloodPressureData} />
-            <BarChart data={weekMeasurements} />
-          </View>
-          <View style={{ marginTop: 18 }}>
-            <BloodPressureResumeCard
-              title={translate('Home/BloodPressure.today_records_title')}
-              measurements={todayMeasurements}
-            />
-          </View>
+        contentContainerStyle={{ paddingBottom: 80 }}
+        onScroll={({ nativeEvent }) => {
+          const scrolling = nativeEvent.contentOffset.y;
+          if (scrolling > 50) {
+            setHeaderTitleShow(true);
+          } else {
+            setHeaderTitleShow(false);
+          }
+        }}>
+        <Animated.View
+          style={[
+            styles.pageTitleContainer,
+            { opacity: fadeAnim },
+            // { transform: [{ scaleY: fadeAnim }] },
+          ]}>
+          <Text style={styles.titleScreen}>
+            {translate('Home/BloodPressure.title')}
+          </Text>
+        </Animated.View>
+        <View style={styles.contenHeder}>
+          <Text style={styles.statics}>
+            {translate('Home/BloodPressure.sub_title', {
+              time: translate('week'),
+            })}
+          </Text>
         </View>
-      </ScrollView>
+        <View style={styles.cardContainer}>
+          <BloodPressureCard
+            title={translate('Home/BloodPressure.sys')}
+            value={avgSYSPerWeek}
+            magnitude="mmHg"
+            altText="--"
+            type="sys"
+          />
+          <BloodPressureCard
+            title={translate('Home/BloodPressure.dia')}
+            value={avgDIAPerWeek}
+            magnitude="mmHg"
+            altText="--"
+            type="dia"
+          />
+        </View>
+        <View>
+          <HeaderChart onChangeDate={getBloodPressureData} />
+          <BarChart data={weekMeasurements} />
+        </View>
+        <View style={{ marginTop: 18 }}>
+          <BloodPressureResumeCard
+            title={translate('Home/BloodPressure.today_records_title')}
+            measurements={todayMeasurements}
+          />
+        </View>
+      </MainScrollView>
       <ActionSheet ref={actionSheetRef} bounceOnOpen>
-        <View style={styles.actionSheet}>
-          <TouchableHighlight
+        <View style={[styles.actionSheet, isDarkMode && styles.darkBackground]}>
+          <TouchableOpacity
             underlayColor={Colors.background}
             style={styles.actionSheetTouch}
             onPress={() => {
@@ -135,8 +158,8 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
                 {translate('Home/BloodPressure.action_sheet.take_bp')}
               </Text>
             </View>
-          </TouchableHighlight>
-          {/* <TouchableHighlight
+          </TouchableOpacity>
+          {/* <TouchableOpacity
             underlayColor={Colors.background}
             style={styles.actionSheetTouch}
             onPress={() => {
@@ -149,8 +172,8 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
                 {translate('Home/BloodPressure.action_sheet.tensiometer')}
               </Text>
             </View>
-          </TouchableHighlight> */}
-          <TouchableHighlight
+          </TouchableOpacity> */}
+          <TouchableOpacity
             underlayColor={Colors.background}
             style={styles.actionSheetTouch}
             onPress={() => {
@@ -161,33 +184,35 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
               <IconEntypo
                 name="back-in-time"
                 size={18}
-                color={Colors.darkBackground}
+                color={Colors.tertiary}
               />
               <Text style={styles.actionSheetText}>
                 {translate('Home/BloodPressure.action_sheet.reminders')}
               </Text>
             </View>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </ActionSheet>
       {/* TODO add al final de la pantalla y agregar animacion */}
-      <View
-        style={[
-          styles.footer,
-          {
-            backgroundColor: isDarkMode
-              ? Colors.darkBackground
-              : Colors.background,
-          },
-        ]}>
-        <Button
-          title="Iniciar Medición"
-          onPress={() => {
-            navigate('BloodPressure/Preparation');
-          }}
-        />
-      </View>
-    </MainContainer>
+      {Platform.OS === 'android' && (
+        <View
+          style={[
+            styles.footer,
+            {
+              backgroundColor: isDarkMode
+                ? Colors.darkBackground
+                : Colors.background,
+            },
+          ]}>
+          <Button
+            title="Iniciar Medición"
+            onPress={() => {
+              navigate('BloodPressure/Preparation');
+            }}
+          />
+        </View>
+      )}
+    </SafeAreaView>
   );
 };
 

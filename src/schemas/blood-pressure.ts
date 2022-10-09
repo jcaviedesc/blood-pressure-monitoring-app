@@ -1,6 +1,6 @@
 import { Realm } from '@realm/react';
 import { ObjectSchema } from 'realm';
-import customDayjs from '../services/DatatimeUtil';
+import customDayjs from '../services/DatetimeUtil';
 import { getAverage } from '../services/utils';
 
 class BloodPressureMeasurement {

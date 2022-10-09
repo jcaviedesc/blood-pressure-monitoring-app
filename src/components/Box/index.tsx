@@ -8,16 +8,17 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
   Platform,
+  useColorScheme,
 } from 'react-native';
 import { Colors, Fonts } from '../../styles';
 import Card from '../Card';
 import { Text } from '../CustomText';
-import LocalDayjs from '../../services/DatatimeUtil';
+import LocalDayjs from '../../services/DatetimeUtil';
 
 type boxPros = {
   title: string;
   status: string;
-  value: number;
+  value: number | string;
   unit: string;
   iconColor: string;
   lastMeasurement: string;
@@ -34,6 +35,7 @@ const Box: React.FC<boxPros> = ({
   lastMeasurement,
   onPress,
 }) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const lastMeasurementTime = LocalDayjs(lastMeasurement).local();
   const timeFormat = LocalDayjs().local().isSame(lastMeasurement, 'day')
     ? 'h:m a'
@@ -49,7 +51,9 @@ const Box: React.FC<boxPros> = ({
               color={iconColor}
               style={styles.icon}
             />
-            <Text style={styles.boxTextTitle} ellipsizeMode="tail">{title}</Text>
+            <Text style={styles.boxTextTitle} ellipsizeMode="tail">
+              {title}
+            </Text>
           </View>
           <View style={styles.boxHeadTime}>
             {lastMeasurementTime.isValid() && (
@@ -64,7 +68,7 @@ const Box: React.FC<boxPros> = ({
                   : 'chevron-small-right'
               }
               size={22}
-              color={Colors.paragraph}
+              color={isDarkMode ? Colors.textNormal : Colors.paragraph}
             />
           </View>
         </View>

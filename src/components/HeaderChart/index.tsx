@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import dayjs from '../../services/DatatimeUtil';
+import dayjs from '../../services/DatetimeUtil';
 import { Colors, Fonts } from '../../styles';
 
 type props = {

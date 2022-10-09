@@ -48,7 +48,10 @@ const TextAreaInput: React.FC<Props> = ({
         <TextInput
           ref={refInput}
           multiline
-          style={styles.textArea}
+          style={[styles.textArea, isDarkMode && { color: Colors.textNormal }]}
+          placeholderTextColor={
+            isDarkMode ? Colors.textNormal : Colors.paragraph
+          }
           onSubmitEditing={onSubmitEditing}
           onEndEditing={onEndEditing}
           autoFocus={autoFocus}

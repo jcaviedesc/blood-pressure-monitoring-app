@@ -6,7 +6,7 @@ import Card from '../Card';
 import { Text } from '../CustomText';
 import Tag from '../Tag';
 import { BloodPressureMeasurement } from '../../schemas/blood-pressure';
-import Dayjs from '../../services/DatatimeUtil';
+import Dayjs from '../../services/DatetimeUtil';
 
 type props = {
   title: string;

@@ -8,7 +8,7 @@ import { getAverage } from '../../services/utils';
 import RealmContext from './context';
 import { useAppDispatch } from '../useRedux';
 import { setLastMeasurement } from '../../thunks/users-thunk';
-import Dayjs from '../../services/DatatimeUtil';
+import Dayjs from '../../services/DatetimeUtil';
 
 const { useRealm, useQuery } = RealmContext;
 

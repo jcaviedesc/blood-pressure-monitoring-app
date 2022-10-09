@@ -21,7 +21,7 @@ export type InputProps = {
   keyboardType?: KeyboardTypeOptions;
   onChangeText?: ((text: string) => void) | undefined;
   hint?: string;
-  rigthComponent?: Element;
+  rightComponent?: Element;
   autoFocus?: boolean;
   hasError?: boolean;
   leftComponent?: Element;
@@ -39,7 +39,7 @@ const Input: React.FC<InputProps> = ({
   keyboardType,
   onChangeText,
   hint,
-  rigthComponent,
+  rightComponent,
   autoFocus,
   hasError = false,
   leftComponent,
@@ -83,7 +83,7 @@ const Input: React.FC<InputProps> = ({
           onChangeText={onChangeText}
           autoFocus={autoFocus}
         />
-        {rigthComponent}
+        {rightComponent}
       </View>
       {Boolean(hint) && (
         <Text

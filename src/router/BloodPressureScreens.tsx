@@ -5,7 +5,7 @@ import defaultOptions from './ScreenConfig';
 import BloodPressureScreen from '../screens/BloodPressure';
 import BloodPressurePreparation from '../screens/BloodPressure/Preparation';
 import BloodPressureStepsScreen from '../screens/BloodPressure/Steps';
-import BloodPressureMeassuring from '../screens/BloodPressure/Meassuring';
+import BloodPressureMeasuring from '../screens/BloodPressure/Measuring';
 import Wait1MinuteScreen from '../screens/BloodPressure/Wait1minute';
 import BloodPressureReminders from '../screens/BloodPressure/Reminders';
 import ValidateMonitor from '../screens/BloodPressure/ValidateMonitor';
@@ -14,7 +14,7 @@ import { HeaderTitle, HeaderSearch, StepsHeader } from '../components/Layout';
 type BloodPressureScreensConfig = {
   [K in BloodPressureScreenNames]: {
     component: React.ComponentType<any>;
-    options: NativeStackNavigationOptions;
+    options: Partial<NativeStackNavigationOptions>;
   };
 };
 
@@ -24,7 +24,7 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
     options: {
       headerTitle: HeaderTitle,
       headerBackTitleVisible: false,
-      title: 'Presión Arterial',
+      title: '',
     },
   },
   'BloodPressure/Preparation': {
@@ -50,8 +50,8 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
       ),
     },
   },
-  'BloodPressure/Meassuring': {
-    component: BloodPressureMeassuring,
+  'BloodPressure/Measuring': {
+    component: BloodPressureMeasuring,
     options: {
       ...defaultOptions,
       title: '',

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import HighlightText from '@sanar/react-native-highlight-text';
 import type { RootStackParamList } from '../../router/types';
 import { Colors, AppStyles, Fonts, Images } from '../../styles';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { Button } from '../../components';
+import { Button, Text } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { useCountdown } from '../../hooks/useTimer';
 

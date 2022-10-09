@@ -5,10 +5,10 @@ import memoize from 'lodash.memoize';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import {
   selectAppLocale,
-  setLenguage,
+  setLanguage,
   setCountry,
 } from '../store/app/appSlice';
-import { changeLocaleDayjs } from '../services/DatatimeUtil';
+import { changeLocaleDayjs } from '../services/DatetimeUtil';
 interface ILocalizationProvider {
   children: Element[] | Element;
 }
@@ -22,16 +22,18 @@ export const translate = memoize(
 interface ILocalizationContext {
   translate: typeof translate;
   locale: string;
-  changeLenguage: (languageTag: 'es' | 'en') => void | (() => void);
+  changeLanguage: (languageTag: 'es' | 'en') => void | (() => void);
 }
 const LocalizationContext = React.createContext({
   translate,
   locale: 'es',
-  changeLenguage: () => { },
+  changeLanguage: () => {
+    // default
+  },
 } as ILocalizationContext);
 
 export const LocalizationProvider = ({ children }: ILocalizationProvider) => {
-  const { lenguage, countryCode } = useAppSelector(selectAppLocale);
+  const { language, countryCode } = useAppSelector(selectAppLocale);
   const dispatch = useAppDispatch();
   const translationGetters = React.useMemo(() => {
     return {
@@ -44,19 +46,19 @@ export const LocalizationProvider = ({ children }: ILocalizationProvider) => {
     const fallback = { languageTag: 'en', isRTL: false };
     translate?.cache?.clear();
     // TODO validar que carge antes persitStore
-    if (lenguage === '') {
+    if (language === '') {
       const { languageTag } =
         RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
         fallback;
-      dispatch(setLenguage(languageTag));
+      dispatch(setLanguage(languageTag));
       i18n.translations = { [languageTag]: translationGetters[languageTag]() };
       i18n.locale = languageTag;
     } else {
-      i18n.translations = { [lenguage]: translationGetters[lenguage]() };
-      i18n.locale = lenguage;
+      i18n.translations = { [language]: translationGetters[language]() };
+      i18n.locale = language;
     }
     changeLocaleDayjs(i18n.locale);
-  }, [translationGetters, dispatch, lenguage]);
+  }, [translationGetters, dispatch, language]);
 
   useEffect(() => {
     setI18nConfig();
@@ -66,9 +68,9 @@ export const LocalizationProvider = ({ children }: ILocalizationProvider) => {
     }
   }, [setI18nConfig, dispatch, countryCode]);
 
-  const changeLenguage = (languageTag: 'es' | 'en') => {
+  const changeLanguage = (languageTag: 'es' | 'en') => {
     translate.cache?.clear();
-    dispatch(setLenguage(languageTag));
+    dispatch(setLanguage(languageTag));
     i18n.translations = { [languageTag]: translationGetters[languageTag]() };
     console.log(i18n.translations);
     i18n.locale = languageTag;
@@ -80,7 +82,7 @@ export const LocalizationProvider = ({ children }: ILocalizationProvider) => {
       value={{
         translate,
         locale: i18n.locale,
-        changeLenguage,
+        changeLanguage,
       }}>
       {children}
     </LocalizationContext.Provider>

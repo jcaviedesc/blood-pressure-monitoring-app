@@ -1,19 +1,12 @@
 import React from 'react';
-import {
-  Text as RNText,
-  TextStyle,
-  StyleProp,
-  useColorScheme,
-} from 'react-native';
+import { Text as RNText, TextProps, useColorScheme } from 'react-native';
 import { Colors } from '../../styles';
 
-type TextProps = {
-  style: StyleProp<TextStyle>;
+interface TextWrapperProps extends TextProps {
   darkColor?: string;
-  children: React.ReactNode;
-};
+}
 
-export const Text: React.FC<TextProps> = ({
+export const Text: React.FC<TextWrapperProps> = ({
   style,
   darkColor,
   children,

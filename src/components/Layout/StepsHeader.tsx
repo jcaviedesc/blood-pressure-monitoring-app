@@ -23,7 +23,7 @@ const StepsHeader: React.FC<StepsHeaderProps> = ({
       style={[
         options.headerStyle,
         styles.header,
-        isDarkMode && styles.darkContainer,
+        isDarkMode && styles.darkBackground,
         { height: headerHeight },
       ]}>
       {/* TODO cambiar nombre de los props */}

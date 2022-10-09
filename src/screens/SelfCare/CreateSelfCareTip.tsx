@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Platform,
   useColorScheme,
+  ScrollView,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -17,7 +18,7 @@ import {
 } from 'react-native-pell-rich-editor';
 import type { RootStackParamList } from '../../router/types';
 import { AppStyles, Colors, Fonts } from '../../styles';
-import { MainContainer } from '../../components/Layout';
+import { MainScrollView } from '../../components/Layout';
 import { Button, Input, InputToggle, Text } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useSelfCareForm } from './hooks/selfCareForm';
@@ -31,7 +32,7 @@ const AddSelfCareTipScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const isDarkMode = useColorScheme() === 'dark';
   const richText = useRef<RichEditor>();
-  const [showRichToolbar, setShowRichToolbar] = useState(false);
+  const scrollRef = useRef<ScrollView>();
   const {
     state,
     tabEditorContent,
@@ -99,10 +100,32 @@ const AddSelfCareTipScreen: React.FC<Props> = ({ navigation }) => {
     });
   }, [navigation, formIsComplete]);
 
+  let editorInitializedCallback = useCallback(() => {
+    richText?.current?.registerToolbar(function (items) {
+      // console.log('Toolbar click, selected items (insert end callback):', items);
+    });
+  }, []);
+
+  let handleCursorPosition = useCallback((scrollY) => {
+    // Positioning scroll bar
+    console.log("scrollRef?.current", scrollRef?.current !== undefined);
+    scrollRef?.current?.scrollTo({ y: scrollY - 30, animated: true });
+  }, []);
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <MainContainer isScrollView>
-        <View style={styles.content}>
+    <SafeAreaView
+      style={[styles.safeView, isDarkMode && styles.darkBackground]}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}
+        enabled
+        keyboardVerticalOffset={110}>
+        <MainScrollView
+          ref={scrollRef}
+          keyboardDismissMode={'none'}
+          nestedScrollEnabled={true}
+          style={{ paddingBottom: 80 }}
+          scrollEventThrottle={20}>
           <View style={styles.tabsContainer}>
             <Text style={[styles.inputTitle, styles.tabsTitle]}>
               {translate('AddSelfCareTip.aimed_at')}
@@ -124,36 +147,32 @@ const AddSelfCareTipScreen: React.FC<Props> = ({ navigation }) => {
               }}
             />
           </View>
-          <View style={styles.richEditorContainer}>
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              style={{ flex: 1, paddingBottom: 21, }}>
-              <Text style={styles.inputTitle}>
-                {translate('AddSelfCareTip.description')}
-              </Text>
-              <RichEditor
-                ref={richText}
-                initialContentHTML={tabEditorContent}
-                onChange={descriptionText => {
-                  updateEditorByUser(state.selectedTab, descriptionText);
-                }}
-                onFocus={() => {
-                  setShowRichToolbar(true);
-                }}
-                onBlur={() => {
-                  setShowRichToolbar(false);
-                }}
-                // eslint-disable-next-line react-native/no-inline-styles
-                initialHeight={280}
-                editorStyle={{
-                  backgroundColor: isDarkMode
-                    ? Colors.darkGrayMode
-                    : Colors.lightGray,
-                  color: isDarkMode ? Colors.textNormal : Colors.headline,
-                }}
-              />
-            </KeyboardAvoidingView>
-          </View>
+          <RichToolbar
+            style={[styles.richBar, isDarkMode && styles.richBarDark]}
+            flatContainerStyle={styles.flatStyle}
+            editor={richText}
+            // disabled={disabled}
+            selectedIconTint={'#2095F2'}
+            disabledIconTint={'#bfbfbf'}
+          />
+          <RichEditor
+            ref={richText}
+            initialContentHTML={tabEditorContent}
+            enterKeyHint={'done'}
+            onChange={descriptionText => {
+              updateEditorByUser(state.selectedTab, descriptionText);
+            }}
+            initialHeight={400}
+            editorInitializedCallback={editorInitializedCallback}
+            style={styles.rich}
+            onCursorPosition={handleCursorPosition}
+            editorStyle={{
+              backgroundColor: isDarkMode
+                ? Colors.darkGrayMode
+                : Colors.lightGray,
+              color: isDarkMode ? Colors.textNormal : Colors.headline,
+            }}
+          />
           <View style={styles.sectionOverview}>
             <Input
               title={translate('AddSelfCareTip.keywords')}
@@ -166,10 +185,10 @@ const AddSelfCareTipScreen: React.FC<Props> = ({ navigation }) => {
           {Platform.OS === 'android' && formIsComplete && (
             <Button title={translate('button.save')} onPress={onSave} />
           )}
-        </View>
-      </MainContainer>
-      {showRichToolbar && (
+        </MainScrollView>
         <RichToolbar
+          style={[styles.richBar, isDarkMode && styles.richBarDark]}
+          flatContainerStyle={styles.flatStyle}
           editor={richText}
           actions={[
             actions.setBold,
@@ -190,7 +209,7 @@ const AddSelfCareTipScreen: React.FC<Props> = ({ navigation }) => {
             ),
           }}
         />
-      )}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -205,18 +224,40 @@ const styles = StyleSheet.create({
     color: Colors.headline,
   },
   richEditorContainer: {
-    flex: 1,
+    paddingBottom: 21,
   },
   tabsContainer: {
     marginBottom: 12,
   },
   sectionOverview: {
     marginTop: 16,
+    // marginBottom: 80,
   },
   tabsTitle: {
     textAlign: Platform.OS === 'ios' ? 'center' : 'left',
     fontSize: Fonts.size.h6,
     marginBottom: Platform.OS === 'ios' ? 3 : 6,
+  },
+  richBar: {
+    borderColor: '#efefef',
+    borderTopWidth: StyleSheet.hairlineWidth,
+  },
+  richBarDark: {
+    backgroundColor: '#191d20',
+    borderColor: '#696969',
+  },
+  flatStyle: {
+    paddingHorizontal: 12,
+  },
+  rich: {
+    minHeight: 300,
+    flex: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: '#e3e3e3',
+  },
+  safeView: {
+    flex: 1,
+    backgroundColor: Colors.background,
   },
 });
 

@@ -44,7 +44,7 @@ const BloodPressureStepsScreen: React.FC<Props> = ({ navigation }) => {
     //   setActiveStep(prevStep => prevStep + 1);
     //   resetTimer();
     // }
-    navigation.navigate('BloodPressure/Meassuring');
+    navigation.navigate('BloodPressure/Measuring');
   };
   return (
     <View style={styles.overrideMainContainer}>
