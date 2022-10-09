@@ -24,6 +24,7 @@ import MedicineScreen from '../screens/Medicine/MedicineList';
 import { Colors } from '../styles';
 import AddSelfCareTipScreen from '../screens/SelfCare/CreateSelfCareTip';
 import MedicineFormScreen from '../screens/Medicine/MedicineForm';
+import DetailSelfCareScreen from '../screens/SelfCare/DetailSelfCare';
 import { useI18nLocate } from '../providers/LocalizationProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -118,6 +119,13 @@ function MainStackNavigator({
                 headerBackTitle: 'cancel',
                 animation: 'slide_from_bottom',
                 presentation: 'modal',
+              }}
+            />
+            <Stack.Screen
+              name="DetailSelfCare"
+              component={DetailSelfCareScreen}
+              options={{
+                title: translate('detail_self_care.title'),
               }}
             />
             <Stack.Screen

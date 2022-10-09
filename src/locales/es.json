@@ -397,5 +397,9 @@
     "subtitle_3": "Tu medico de confianza puede llevar seguimiento de tu estado de salud.",
     "next": "siguiente",
     "skip": "omitir"
+  },
+  "detail_self_care": {
+    "title": "Detalle Autocuidado",
+    "owner": "Autor"
   }
 }

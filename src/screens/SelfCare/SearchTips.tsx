@@ -5,10 +5,11 @@ import {
   TouchableHighlight,
   View,
   useColorScheme,
+  TouchableOpacity,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import IconEntypo from 'react-native-vector-icons/Entypo';
-import type { RootStackParamList } from '../../router/types';
+import type { SelfCareStack } from '../../router/types';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
 import { MainContainer } from '../../components/Layout';
 import {
@@ -22,12 +23,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectUserData } from '../../store/user/userSlice';
 import { userRole } from '../../store/user/types';
 import { searchSelfCareTipThunk } from '../../thunks/self-care';
-import { selectSearchSelfCare, clear, reset } from '../../store/self-care';
+import { selectSearchSelfCare, clear } from '../../store/self-care';
 import { debounce, DebouncedFunc } from 'lodash';
 import { reverseRoleName } from '../../transformations/user.transform';
 import { Editor } from '../../store/self-care/types';
+// import { useFocusEffect } from '@react-navigation/native';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SearchSelfCare'>;
+type Props = NativeStackScreenProps<SelfCareStack, 'SearchSelfCareTip'>;
 
 const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
@@ -36,6 +38,14 @@ const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
   const { data: searchResult, loading } = useAppSelector(selectSearchSelfCare);
   const dispatch = useAppDispatch();
   const searchRef = useRef<DebouncedFunc<(text: string) => void>>();
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     return () => {
+  //       dispatch(reset());
+  //     };
+  //   }, [dispatch]),
+  // );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onSearchText = useCallback(
@@ -52,6 +62,10 @@ const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
     dispatch(clear());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const navigateToDetailPage = (selfCareDetails) => {
+    navigation.getParent()?.navigate('DetailSelfCare', selfCareDetails);
+  };
 
   useLayoutEffect(() => {
     searchRef.current = debounce(onSearchText, 500);
@@ -123,13 +137,18 @@ const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
         )}
         {Array.isArray(searchResult) &&
           searchResult.map(result => (
-            <SearchSelfCareCard
-              key={result.id}
-              {...result}
-              contentHtml={
-                result.editor[reverseRoleName(user.role) as keyof Editor]
-              }
-            />
+            <TouchableOpacity
+              onPress={() => {
+                navigateToDetailPage(result);
+              }}>
+              <SearchSelfCareCard
+                key={result.id}
+                {...result}
+                contentHtml={
+                  result.editor[reverseRoleName(user.role) as keyof Editor]
+                }
+              />
+            </TouchableOpacity>
           ))}
         {/* TODO add animation */}
         {user.role === userRole.HEALTH_PROFESSIONAL &&

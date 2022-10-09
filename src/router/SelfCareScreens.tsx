@@ -3,8 +3,9 @@ import { Platform, useColorScheme } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SearchSelfCareTips from '../screens/SelfCare/SearchTips';
 import { Colors } from '../styles';
+import { SelfCareStack } from './types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<SelfCareStack>();
 
 export default function SelfCareScreens() {
   const isDarkMode = useColorScheme() === 'dark';

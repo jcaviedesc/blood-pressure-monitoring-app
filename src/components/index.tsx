@@ -26,7 +26,7 @@ export * from './SearchBar';
 export { default as SearchSelfCareCard } from './self-care-card';
 export * from './Loading';
 export * from './CountDownTimer';
-export * from './Avatar';
+export { default as Avatar } from './Avatar';
 
 export {
   Input,

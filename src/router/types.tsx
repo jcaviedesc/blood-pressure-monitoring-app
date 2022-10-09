@@ -1,3 +1,5 @@
+import { SelfCareTip } from "../store/self-care/types";
+
 type SingUpStackParamList = {
   Singup: undefined;
   'Singup/Birthdate': undefined;
@@ -27,11 +29,16 @@ export type RootStackParamList = {
   Medicine: undefined;
   MedicineList: undefined;
   SearchSelfCare: undefined;
+  DetailSelfCare: SelfCareTip;
   AddSelfCareTip: undefined;
   Weight: undefined;
   Height: undefined;
 } & SingUpStackParamList &
   BloodPressureStackParam;
+
+export type SelfCareStack = {
+  SearchSelfCareTip: undefined;
+};
 
 export type BloodPressureScreenNames = keyof BloodPressureStackParam;
 export type SingUpScreens = keyof SingUpStackParamList;
