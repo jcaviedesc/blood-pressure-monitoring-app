@@ -1,46 +1,48 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { searchSelfcareTipThunk } from '../../thunks/selfcare/selfcare-thunk';
+import { searchSelfCareTipThunk } from '../../thunks/self-care';
 import type { RootState } from '../configureStore';
+import { SelfCareState } from './types';
 
-const initialState = {
-  searchResult: [],
+const initialState: SelfCareState = {
+  result: [],
   loading: 'idle',
   currentRequestId: undefined,
   error: null,
 };
 
-export const selfcareSlice = createSlice({
-  name: 'selfcare',
+export const selfCareSlice = createSlice({
+  name: 'selfCare',
   initialState,
   reducers: {
     clear: state => {
-      state.searchResult = [];
+      state.result = [];
     },
-    set: () => {
+    reset: () => {
       return initialState;
     },
   },
   extraReducers: builder => {
     builder
-      .addCase(searchSelfcareTipThunk.pending, (state, action) => {
+      .addCase(searchSelfCareTipThunk.pending, (state, action) => {
         if (state.loading === 'idle') {
           state.loading = 'pending';
+          state.result = [];
           state.currentRequestId = action.meta.requestId;
         }
       })
-      .addCase(searchSelfcareTipThunk.fulfilled, (state, action) => {
+      .addCase(searchSelfCareTipThunk.fulfilled, (state, action) => {
         const { requestId } = action.meta;
         if (
           state.loading === 'pending' &&
           state.currentRequestId === requestId
         ) {
           state.loading = 'idle';
-          state.searchResult = action.payload;
+          state.result = action.payload;
           state.currentRequestId = undefined;
         }
-        state.searchResult = action.payload;
+        state.result = action.payload;
       })
-      .addCase(searchSelfcareTipThunk.rejected, (state, action) => {
+      .addCase(searchSelfCareTipThunk.rejected, (state, action) => {
         const { requestId } = action.meta;
         if (
           state.loading === 'pending' &&
@@ -54,13 +56,13 @@ export const selfcareSlice = createSlice({
   },
 });
 
-export const { clear } = selfcareSlice.actions;
+export const { clear, reset } = selfCareSlice.actions;
 
-export const selectSearchSelfcare = (state: RootState) => {
+export const selectSearchSelfCare = (state: RootState) => {
   return {
-    data: state.selfcare.searchResult,
-    loading: state.selfcare.loading,
+    data: state.selfCare.result,
+    loading: state.selfCare.loading,
   };
 };
 
-export default selfcareSlice.reducer;
+export default selfCareSlice.reducer;

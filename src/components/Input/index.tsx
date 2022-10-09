@@ -47,7 +47,7 @@ const Input: React.FC<InputProps> = ({
   ...props
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
-  const onFocuesHandler = () => {
+  const onFocusHandler = () => {
     onFocus && onFocus();
   };
   let inputContainerStyles = {
@@ -74,7 +74,7 @@ const Input: React.FC<InputProps> = ({
             styles.input,
             { color: isDarkMode ? Colors.textNormal : Colors.headline },
           ]}
-          onFocus={onFocuesHandler}
+          onFocus={onFocusHandler}
           editable={editable}
           showSoftInputOnFocus={showSoftInputOnFocus}
           value={value}

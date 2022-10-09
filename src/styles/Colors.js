@@ -25,6 +25,7 @@ const colors = {
   textDisabled: 'rgba(0,0,0,0.25)',
   textNormal: '#fffffe',
   buttonDisabled: 'rgba(0,0,0,0.1)',
+  boldText: 'rgb(0,0,0)',
   //old colors
   darkMode: 'black',
   loadingBackground: '#00000045',

@@ -1,4 +1,4 @@
-export function buildSelfcareRequest(data: {
+export function buildSelfCareRequest(data: {
   professionals: string;
   patients: string;
   keywords: string;

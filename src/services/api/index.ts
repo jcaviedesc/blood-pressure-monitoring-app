@@ -116,10 +116,10 @@ const create = (baseURL = API_URL) => {
   const findBloodPressureMonitor = (param: any): AxiosPromise =>
     api.get('/blood-pressure/monitors', param);
 
-  const createSelfcareTip = (data: any): AxiosPromise =>
+  const createSelfCareTip = (data: any): AxiosPromise =>
     api.post('/selfcare', data);
 
-  const searchSelfcareTip = (type: string, params: any): AxiosPromise =>
+  const searchSelfCareTip = (type: string, params: any): AxiosPromise =>
     api.get(`/selfcare/${type}/search`, { params });
 
   const addMedicine = (data: Medicine): AxiosPromise =>
@@ -144,8 +144,8 @@ const create = (baseURL = API_URL) => {
     registerUserDeviceToken,
     registerBloodPressureRecord,
     findBloodPressureMonitor,
-    createSelfcareTip,
-    searchSelfcareTip,
+    createSelfCareTip,
+    searchSelfCareTip,
     addMedicine,
     consultListMedicine,
     getUserDetails,

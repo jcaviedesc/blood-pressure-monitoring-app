@@ -1,5 +1,4 @@
 import React from 'react';
-// import LinearGradient from 'react-native-linear-gradient';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {

@@ -4,7 +4,7 @@ import { Colors, Images } from '../../styles';
 
 type props = {
   avatarUri: string;
-  sex: 'M' | 'F' | string;
+  sex?: 'M' | 'F' | string;
   size?: number;
 };
 
@@ -14,8 +14,8 @@ const buildStyles = (size = 50) => ({
   borderRadius: size / 2,
 });
 
-const Avatar: React.FC<props> = ({ avatarUri, sex, size }) => {
-  let source = sex === 'M' ? Images.menGenderAvatar : Images.womenGenderAvatar;
+const Avatar: React.FC<props> = ({ avatarUri, size }) => {
+  let source = Images.userPlaceholder;
   if (avatarUri) {
     source = {
       uri: avatarUri,

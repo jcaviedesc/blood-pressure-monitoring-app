@@ -19,12 +19,9 @@ const BloodPressureCard: React.FC<props> = ({
   altText,
   type,
 }) => {
-  // TODO parse value ej 110.0 -> 110
-  const parseValue = value
-    ? value % 1 > 0
-      ? value
-      : value.toFixed()
-    : altText;
+  const parseValue = (numVal: number) =>
+    numVal % 1 > 0 ? numVal : numVal.toFixed();
+  const val = value ? parseValue(value) : altText;
   return (
     <View style={styles.cardContainer}>
       <Card style={styles.overrideCard}>
@@ -38,7 +35,7 @@ const BloodPressureCard: React.FC<props> = ({
           />
         </View>
         <View style={styles.cardBody}>
-          <Text style={styles.valueText}>{parseValue}</Text>
+          <Text style={styles.valueText}>{val}</Text>
           <Text style={styles.magnitudeText}>{magnitude}</Text>
         </View>
         <View />

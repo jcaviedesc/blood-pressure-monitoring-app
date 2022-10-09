@@ -8,7 +8,7 @@ export type Measurement = {
 };
 
 export enum userRole {
-  HEALT_PROFESSIONAL = 1,
+  HEALTH_PROFESSIONAL = 1,
   PATIENT = 2,
 }
 

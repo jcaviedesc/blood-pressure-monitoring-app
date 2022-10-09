@@ -9,6 +9,7 @@ const UserEnun = {
   patient: 2,
   '': 2,
 };
+export const roleNames = ['professional', 'patient'];
 
 const healthInfoEnum = {
   yes: 'Y',
@@ -69,3 +70,7 @@ export const userToApi = ({
 };
 
 // "{"full_name":"Juan Camilo caviedes","phone_number":"+573202878844","address":"NaN","gender":"M","birthdate":"1997-01-22","height":{"val":163,"unit":"m"},"weight":{"val":78,"unit":"Kg"},"user_type":1}"
+
+export const reverseRoleName = (roleId: number) => {
+  return roleNames[roleId];
+};

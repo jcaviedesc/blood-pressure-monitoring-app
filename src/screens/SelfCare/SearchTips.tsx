@@ -14,16 +14,18 @@ import { MainContainer } from '../../components/Layout';
 import {
   Button,
   Text,
-  SearchSelfcareCard,
+  SearchSelfCareCard,
   DotsLoading,
 } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectUserData } from '../../store/user/userSlice';
 import { userRole } from '../../store/user/types';
-import { searchSelfcareTipThunk } from '../../thunks/selfcare/selfcare-thunk';
-import { selectSearchSelfcare, clear } from '../../store/selfcare';
+import { searchSelfCareTipThunk } from '../../thunks/self-care';
+import { selectSearchSelfCare, clear, reset } from '../../store/self-care';
 import { debounce, DebouncedFunc } from 'lodash';
+import { reverseRoleName } from '../../transformations/user.transform';
+import { Editor } from '../../store/self-care/types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SearchSelfCare'>;
 
@@ -31,7 +33,7 @@ const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
   const isDarkMode = useColorScheme() === 'dark';
   const user = useAppSelector(selectUserData);
-  const { data: searchResult, loading } = useAppSelector(selectSearchSelfcare);
+  const { data: searchResult, loading } = useAppSelector(selectSearchSelfCare);
   const dispatch = useAppDispatch();
   const searchRef = useRef<DebouncedFunc<(text: string) => void>>();
 
@@ -40,7 +42,7 @@ const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
     (text: string) => {
       // const { text } = event?.nativeEvent;
       if (text && text.length > 0) {
-        dispatch(searchSelfcareTipThunk(text));
+        dispatch(searchSelfCareTipThunk(text));
       }
     },
     [dispatch],
@@ -58,7 +60,7 @@ const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
     };
 
     const headerRightComp =
-      user.role === userRole.HEALT_PROFESSIONAL && Platform.OS === 'ios' ? (
+      user.role === userRole.HEALTH_PROFESSIONAL && Platform.OS === 'ios' ? (
         <Button
           hierarchy="transparent"
           size="small"
@@ -90,14 +92,21 @@ const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
     };
     navigation.setOptions(options);
     return () => {
-      console.log('cleann');
       navigation
         .getParent()
         ?.setOptions({ headerSearchBarOptions: null, headerShown: false });
     };
-  }, [navigation, user, isDarkMode, onSearchText, translate, onCancelSearch]);
+  }, [
+    navigation,
+    user,
+    isDarkMode,
+    onSearchText,
+    translate,
+    onCancelSearch,
+    dispatch,
+  ]);
 
-  const addNewSelfcareTip = () => {
+  const addNewSelfCareTip = () => {
     navigation.navigate('AddSelfCareTip');
   };
 
@@ -114,14 +123,20 @@ const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
         )}
         {Array.isArray(searchResult) &&
           searchResult.map(result => (
-            <SearchSelfcareCard key={result.key} {...result} />
+            <SearchSelfCareCard
+              key={result.id}
+              {...result}
+              contentHtml={
+                result.editor[reverseRoleName(user.role) as keyof Editor]
+              }
+            />
           ))}
         {/* TODO add animation */}
-        {user.role === userRole.HEALT_PROFESSIONAL &&
+        {user.role === userRole.HEALTH_PROFESSIONAL &&
           Platform.OS === 'android' && (
             <TouchableHighlight
               style={styles.floatButton}
-              onPress={addNewSelfcareTip}>
+              onPress={addNewSelfCareTip}>
               <IconEntypo name="plus" size={28} color={Colors.white} />
             </TouchableHighlight>
           )}
@@ -140,7 +155,6 @@ const styles = StyleSheet.create({
   },
   body: {
     position: 'relative',
-    paddingTop: 46,
     flex: 1,
     minHeight: Metrics.screenHeight - 50,
     minWidth: Metrics.screenWidth,

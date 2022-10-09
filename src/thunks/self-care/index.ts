@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { ClientApi, RootState } from '../../store/configureStore';
-import { buildSelfcareRequest } from '../../transformations/selfcare.transform';
+import { buildSelfCareRequest } from '../../transformations/selfCare.transform';
 
-export const createSelfcareTipThunk = createAsyncThunk<
+export const createSelfCareTipThunk = createAsyncThunk<
   object,
   object,
   {
@@ -10,12 +10,12 @@ export const createSelfcareTipThunk = createAsyncThunk<
     state: RootState;
   }
 >(
-  'selfcare/create',
-  async (selfcareTip, { extra: clientApi, rejectWithValue }) => {
+  'selfCare/create',
+  async (selfCareTip, { extra: clientApi, rejectWithValue }) => {
     // TODO select language
-    const buildRequestData = buildSelfcareRequest(selfcareTip);
+    const buildRequestData = buildSelfCareRequest(selfCareTip);
     try {
-      const response = await clientApi.createSelfcareTip(buildRequestData);
+      const response = await clientApi.createSelfCareTip(buildRequestData);
       return Promise.resolve(response.data);
     } catch (error) {
       return rejectWithValue(error);
@@ -23,7 +23,7 @@ export const createSelfcareTipThunk = createAsyncThunk<
   },
 );
 
-export const searchSelfcareTipThunk = createAsyncThunk<
+export const searchSelfCareTipThunk = createAsyncThunk<
   string,
   string,
   {
@@ -31,19 +31,19 @@ export const searchSelfcareTipThunk = createAsyncThunk<
     state: RootState;
   }
 >(
-  'selfcare/search',
+  'selfCare/search',
   async (
     searchWords,
     { getState, requestId, extra: clientApi, rejectWithValue },
   ) => {
-    const { currentRequestId, loading } = getState().selfcare;
+    const { currentRequestId, loading } = getState().selfCare;
     console.log({ currentRequestId, requestId });
     if (loading !== 'pending' || requestId !== currentRequestId) {
       return;
     }
 
     try {
-      const response = await clientApi.searchSelfcareTip('patient', {
+      const response = await clientApi.searchSelfCareTip('patient', {
         q: searchWords,
         limit: 9,
         page: 1,

@@ -95,8 +95,10 @@ export const { updateUserDetail, signOut, updateMeasurements } =
   userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectUserData = (state: RootState): IUserDetail =>
-  Object.assign({},initialState.detail, state.user.detail);
+export const selectUserData = (state: RootState): IUserDetail => {
+  return Object.assign({}, initialState.detail, state.user.detail);
+};
+
 export const selectUserDeviceToken = (state: RootState) =>
   state.user.deviceToken;
 

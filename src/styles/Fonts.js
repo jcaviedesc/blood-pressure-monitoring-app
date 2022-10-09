@@ -53,6 +53,10 @@ const style = {
     fontFamily: type.light,
     fontSize: size.medium,
   },
+  small: {
+    fontFamily: type.light,
+    fontSize: size.hint,
+  },
 };
 
 export default {

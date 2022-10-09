@@ -23,7 +23,7 @@ import { Button, Input, InputToggle, Text } from '../../components';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useSelfCareForm } from './hooks/selfCareForm';
 import { useAppDispatch } from '../../hooks';
-import { createSelfcareTipThunk } from '../../thunks/selfcare/selfcare-thunk';
+import { createSelfCareTipThunk } from '../../thunks/self-care';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddSelfCareTip'>;
 
@@ -43,7 +43,7 @@ const AddSelfCareTipScreen: React.FC<Props> = ({ navigation }) => {
   } = useSelfCareForm();
 
   const onSave = () => {
-    dispatch(createSelfcareTipThunk(state))
+    dispatch(createSelfCareTipThunk(state))
       .unwrap()
       .then(() => {
         Toast.show({

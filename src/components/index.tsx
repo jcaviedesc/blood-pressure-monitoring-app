@@ -23,7 +23,7 @@ import MonitorCard from './MonitorCard';
 import BloodPressureResumeCard from './BloodPressureResumeCard';
 export * from './CustomText';
 export * from './SearchBar';
-export { default as SearchSelfcareCard } from './SelfcareCardList';
+export { default as SearchSelfCareCard } from './self-care-card';
 export * from './Loading';
 export * from './CountDownTimer';
 export * from './Avatar';
