@@ -17,6 +17,10 @@ dayjs.updateLocale('es', {
   weekStart: 1,
 });
 
+dayjs.updateLocale('en', {
+  weekStart: 1,
+});
+
 dayjs.updateLocale('es-mx', {
   weekStart: 1,
 });

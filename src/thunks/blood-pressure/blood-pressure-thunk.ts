@@ -16,6 +16,7 @@ import type { AppDispatch, AppGetState } from '../../store/configureStore';
 import dayjs, { weekdays } from '../../services/DatetimeUtil';
 import { createTriggerNotificationService } from '../../services/NotificationService';
 import { translate } from '../../providers/LocalizationProvider';
+import { Platform } from 'react-native';
 
 const BloodPressurePrefix = '$bp';
 const BLOOD_PRESSURE_CHANNEL_ID = 'bloodpressure';
@@ -29,7 +30,7 @@ export const createNotifications = () => {
     } = selectCurrentReminder(getState());
 
     if (reschedule) {
-      const notifcationsList: Promise<string>[] = [];
+      const notificationsList: Promise<string>[] = [];
 
       // i18n notification config
       const notificationTitle = translate(
@@ -63,27 +64,27 @@ export const createNotifications = () => {
           crashlytics().recordError(error);
         });
       }
-      // revisamos si es channel existe
-      const isChannelCreated = await notifee.getChannel(
-        BLOOD_PRESSURE_CHANNEL_ID,
-      );
       let bloodPressureChannelId = BLOOD_PRESSURE_CHANNEL_ID;
-      if (!isChannelCreated) {
-        const channel: AndroidChannel = {
-          id: BLOOD_PRESSURE_CHANNEL_ID,
-          name: notificationChannel,
-          bypassDnd: true,
-          importance: AndroidImportance.HIGH,
-          // vibrationPattern: [1000, 1000],
-          visibility: AndroidVisibility.PUBLIC,
-          description: translate(
-            'notifications.blood_pressure.android_channel_description',
-          ),
-        };
-        bloodPressureChannelId = await notifee.createChannel(channel);
+      if (Platform.OS === 'android') {
+        // revisamos si es channel existe
+        const isChannelCreated = await notifee.getChannel(
+          BLOOD_PRESSURE_CHANNEL_ID,
+        );
+        if (!isChannelCreated) {
+          const channel: AndroidChannel = {
+            id: BLOOD_PRESSURE_CHANNEL_ID,
+            name: notificationChannel,
+            bypassDnd: true,
+            importance: AndroidImportance.HIGH,
+            // vibrationPattern: [1000, 1000],
+            visibility: AndroidVisibility.PUBLIC,
+            description: translate(
+              'notifications.blood_pressure.android_channel_description',
+            ),
+          };
+          bloodPressureChannelId = await notifee.createChannel(channel);
+        }
       }
-
-      console.log({ bloodPressureChannelId });
 
       // get curred weekday
       const currentDate = dayjs();
@@ -113,8 +114,8 @@ export const createNotifications = () => {
                 timestamp: triggerTimestamp.valueOf(),
                 repeatFrequency: RepeatFrequency.WEEKLY,
               };
-              console.log({ triggerTimestamp });
-              notifcationsList.push(
+
+              notificationsList.push(
                 createTriggerNotificationService({
                   notification: {
                     id: `$bp.${activeReminder}.${index}`,
@@ -129,7 +130,7 @@ export const createNotifications = () => {
         });
 
       // TODO manejar errores
-      await Promise.all(notifcationsList)
+      await Promise.all(notificationsList)
         .then(() => {
           dispatch(rescheduledReminderSuccess(activeReminder));
         })
