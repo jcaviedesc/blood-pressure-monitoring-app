@@ -7,34 +7,34 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
   selectUser,
-  updateHealtQuestions,
+  updateHealthQuestions,
 } from '../../store/signup/signupSlice';
-import { HealtInfoAction } from '../../store/signup/types';
+import { HealthInfoAction } from '../../store/signup/types';
 import { InputToggle, Button, Text } from '../../components';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
-  'Singup/HealthQuestions'
+  'SignUp/HealthQuestions'
 >;
 
 const HealthQuestionsScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
-  const { healtQuestions } = useAppSelector(selectUser);
+  const { healthQuestions: healthQuestions } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
-  const onSelectHealtOption = (
-    key: HealtInfoAction['field'],
-    value: HealtInfoAction['value'],
+  const onSelectHealthOption = (
+    key: HealthInfoAction['field'],
+    value: HealthInfoAction['value'],
   ) => {
-    dispatch(updateHealtQuestions({ field: key, value }));
+    dispatch(updateHealthQuestions({ field: key, value }));
   };
 
   const onNext = () => {
-    const isCompleteForm = !Object.values(healtQuestions).some(
+    const isCompleteForm = !Object.values(healthQuestions).some(
       value => value === '',
     );
     if (isCompleteForm) {
-      navigation.navigate('Singup/ProfilePicture');
+      navigation.navigate('SignUp/ProfilePicture');
     }
   };
 
@@ -54,15 +54,15 @@ const HealthQuestionsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.inputToggleContainer}>
             <InputToggle
-              selected={healtQuestions.medicine}
+              selected={healthQuestions.medicine}
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
               ]}
               onPress={({ value }) => {
-                onSelectHealtOption(
+                onSelectHealthOption(
                   'medicine',
-                  value as HealtInfoAction['value'],
+                  value as HealthInfoAction['value'],
                 );
               }}
             />
@@ -76,13 +76,16 @@ const HealthQuestionsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.inputToggleContainer}>
             <InputToggle
-              selected={healtQuestions.smoke}
+              selected={healthQuestions.smoke}
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
               ]}
               onPress={({ value }) => {
-                onSelectHealtOption('smoke', value as HealtInfoAction['value']);
+                onSelectHealthOption(
+                  'smoke',
+                  value as HealthInfoAction['value'],
+                );
               }}
             />
           </View>
@@ -95,15 +98,15 @@ const HealthQuestionsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.inputToggleContainer}>
             <InputToggle
-              selected={healtQuestions.heartAttack}
+              selected={healthQuestions.heartAttack}
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
               ]}
               onPress={({ value }) => {
-                onSelectHealtOption(
+                onSelectHealthOption(
                   'heartAttack',
-                  value as HealtInfoAction['value'],
+                  value as HealthInfoAction['value'],
                 );
               }}
             />
@@ -117,15 +120,15 @@ const HealthQuestionsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.inputToggleContainer}>
             <InputToggle
-              selected={healtQuestions.thrombosis}
+              selected={healthQuestions.thrombosis}
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
               ]}
               onPress={({ value }) => {
-                onSelectHealtOption(
+                onSelectHealthOption(
                   'thrombosis',
-                  value as HealtInfoAction['value'],
+                  value as HealthInfoAction['value'],
                 );
               }}
             />
@@ -139,15 +142,15 @@ const HealthQuestionsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.inputToggleContainer}>
             <InputToggle
-              selected={healtQuestions.nephropathy}
+              selected={healthQuestions.nephropathy}
               options={[
                 { label: translate('yes'), value: 'yes' },
                 { label: translate('not'), value: 'not' },
               ]}
               onPress={({ value }) => {
-                onSelectHealtOption(
+                onSelectHealthOption(
                   'nephropathy',
-                  value as HealtInfoAction['value'],
+                  value as HealthInfoAction['value'],
                 );
               }}
             />

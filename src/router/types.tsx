@@ -1,12 +1,12 @@
-import { SelfCareTip } from "../store/self-care/types";
+import { SelfCareTip } from '../store/self-care/types';
 
-type SingUpStackParamList = {
-  Singup: undefined;
-  'Singup/Birthdate': undefined;
-  'Singup/BodyInfo': undefined;
-  'Singup/SelectUserType': undefined;
-  'Singup/HealthQuestions': undefined;
-  'Singup/ProfilePicture': undefined;
+type SignUpStackParamList = {
+  SignUp: undefined;
+  'SignUp/BirthDate': undefined;
+  'SignUp/BodyInfo': undefined;
+  'SignUp/SelectUserType': undefined;
+  'SignUp/HealthQuestions': undefined;
+  'SignUp/ProfilePicture': undefined;
 };
 
 type BloodPressureStackParam = {
@@ -33,7 +33,7 @@ export type RootStackParamList = {
   AddSelfCareTip: undefined;
   Weight: undefined;
   Height: undefined;
-} & SingUpStackParamList &
+} & SignUpStackParamList &
   BloodPressureStackParam;
 
 export type SelfCareStack = {
@@ -41,4 +41,4 @@ export type SelfCareStack = {
 };
 
 export type BloodPressureScreenNames = keyof BloodPressureStackParam;
-export type SingUpScreens = keyof SingUpStackParamList;
+export type SingUpScreens = keyof SignUpStackParamList;

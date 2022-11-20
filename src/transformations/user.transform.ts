@@ -34,7 +34,7 @@ export const userToApi = ({
   height,
   birthdate,
   userType,
-  healtQuestions,
+  healthQuestions,
   profile_url,
 }: UserFromApp) => {
   // TODO agregar un map values para limpiar todos los valores de espacios en blanco start-end
@@ -61,7 +61,7 @@ export const userToApi = ({
 
   if (userApi.role === UserEnun.patient) {
     userApi.healthQuestions = mapValues(
-      healtQuestions,
+      healthQuestions,
       value => healthInfoEnum[value],
     );
   }

@@ -69,7 +69,6 @@ function RealmAppWrapper({
     };
   }
 
-  console.log({ syncProps });
   return (
     <RealmProvider {...syncProps} fallback={fallback}>
       {children}

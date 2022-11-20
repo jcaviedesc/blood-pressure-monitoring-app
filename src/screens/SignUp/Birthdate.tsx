@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import {
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -13,14 +12,14 @@ import dayjsUtil from '../../services/DatetimeUtil';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { Button, DatePicker, Layout } from '../../components';
+import { Button, DatePicker } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectUser, updateUserField } from '../../store/signup/signupSlice';
 import { AppStyles, Fonts, Colors, Images, Metrics } from '../../styles';
 import { birthdateSchema } from './schemaValidators/signup';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Singup/Birthdate'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'SignUp/BirthDate'>;
 
 const BirthdateScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
@@ -47,7 +46,7 @@ const BirthdateScreen: React.FC<Props> = ({ navigation }) => {
       setInputErrors(translate('validation.required'));
     } else {
       setInputErrors('');
-      navigation.navigate('Singup/BodyInfo');
+      navigation.navigate('SignUp/BodyInfo');
     }
   };
 

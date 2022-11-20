@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   SignUpState,
   updateUserFieldType,
-  HealtInfoAction,
+  HealthInfoAction,
   SexEnum,
 } from './types';
 import type { RootState } from '../configureStore';
@@ -21,7 +21,7 @@ const initialState: SignUpState = {
   weight: '70',
   height: '120',
   userType: '',
-  healtQuestions: {
+  healthQuestions: {
     medicine: '',
     smoke: '',
     heartAttack: '',
@@ -41,11 +41,11 @@ export const signUpSlice = createSlice({
       const { field, value } = action.payload;
       state[field] = value;
     },
-    updateHealtQuestions: (state, action: PayloadAction<HealtInfoAction>) => {
-      const healtInfoState = state.healtQuestions;
+    updateHealthQuestions: (state, action: PayloadAction<HealthInfoAction>) => {
+      const healthInfoState = state.healthQuestions;
       const { field, value } = action.payload;
-      healtInfoState[field] = value;
-      state.healtQuestions = healtInfoState;
+      healthInfoState[field] = value;
+      state.healthQuestions = healthInfoState;
     },
     clear: () => initialState,
   },
@@ -56,7 +56,7 @@ export const signUpSlice = createSlice({
   },
 });
 
-export const { updateUserField, updateHealtQuestions, clear } =
+export const { updateUserField, updateHealthQuestions, clear } =
   signUpSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

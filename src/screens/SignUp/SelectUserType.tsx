@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  Image,
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -17,7 +11,7 @@ import { MainContainer } from '../../components/Layout';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
-  'Singup/SelectUserType'
+  'SignUp/SelectUserType'
 >;
 
 const SCALE = 0.6;
@@ -31,29 +25,28 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(updateUserField({ field: 'userType', value: select }));
     navigation.navigate(
       select === 'health professional'
-        ? 'Singup/ProfilePicture'
-        : 'Singup/HealthQuestions',
+        ? 'SignUp/ProfilePicture'
+        : 'SignUp/HealthQuestions',
     );
   };
 
   return (
     <MainContainer>
-      <View style={styles.titleContainer}>
-        <Text style={[styles.titleScreen, styles.titleCenter]}>
-          {translate('select_user.title')}
-        </Text>
-        <Text style={styles.textDescription}>
-          {translate('select_user.description')}
-        </Text>
-      </View>
+      <Text style={[styles.titleScreen, styles.titleCenter]}>
+        {translate('select_user.title')}
+      </Text>
+      <Text style={styles.textDescription}>
+        {translate('select_user.description')}
+      </Text>
       <View style={styles.userTypesContainer}>
-        <TouchableHighlight
-          underlayColor={Colors.transparent}
+        <TouchableOpacity
           style={styles.cardTouchable}
           onPress={() => {
             onSelectGender('health professional');
           }}>
-          <Card style={{ flex: 1 }} selected={userType === 'health professional'}>
+          <Card
+            style={styles.cardOverride}
+            selected={userType === 'health professional'}>
             <View style={styles.userTypeContent}>
               <Image
                 source={Images.healtcareProfessionals}
@@ -64,14 +57,13 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
               </Text>
             </View>
           </Card>
-        </TouchableHighlight>
-        <TouchableHighlight
-          underlayColor={Colors.transparent}
+        </TouchableOpacity>
+        <TouchableOpacity
           style={styles.cardTouchable}
           onPress={() => {
             onSelectGender('patient');
           }}>
-          <Card style={{ flex: 1 }} selected={userType === 'patient'}>
+          <Card style={styles.cardOverride} selected={userType === 'patient'}>
             <View style={styles.userTypeContent}>
               <Image source={Images.normalPerson} style={styles.image} />
               <Text style={styles.userTypeText}>
@@ -79,7 +71,7 @@ const SelectUserTypeScreen: React.FC<Props> = ({ navigation }) => {
               </Text>
             </View>
           </Card>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     </MainContainer>
   );
@@ -104,6 +96,9 @@ const styles = StyleSheet.create({
     height: Metrics.screenWidth * SCALE,
     marginBottom: 24,
   },
+  cardOverride: {
+    flex: 1,
+  },
   userTypeContent: {
     flex: 1,
     justifyContent: 'center',
@@ -127,6 +122,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: Colors.paragraph,
     marginHorizontal: Metrics.marginHorizontal,
+    marginBottom: 12,
   },
 });
 

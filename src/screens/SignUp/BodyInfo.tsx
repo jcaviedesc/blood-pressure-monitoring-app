@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Button, HeightSlider, InputToggle, Text } from '../../components';
 import { MainContainer } from '../../components/Layout';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Singup/BodyInfo'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'SignUp/BodyInfo'>;
 
 const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
@@ -26,7 +26,7 @@ const BodyInfoScreen: React.FC<Props> = ({ navigation }) => {
 
   const nextStepHandler = () => {
     //TODO add validation
-    navigation.navigate('Singup/SelectUserType');
+    navigation.navigate('SignUp/SelectUserType');
   };
 
   return (

@@ -4,7 +4,7 @@ import { StepsHeader } from '../components/Layout';
 import { SingUpScreens } from './types';
 // screens
 import SignUpScreen from '../screens/SignUp';
-import BirthdateScreen from '../screens/SignUp/Birthdate';
+import BirthdayScreen from '../screens/SignUp/Birthdate';
 import BodyInfoScreen from '../screens/SignUp/BodyInfo';
 import SelectUserTypeScreen from '../screens/SignUp/SelectUserType';
 import SelectProfilePictureScreen from '../screens/SignUp/SelectProfilePicture';
@@ -17,15 +17,15 @@ type SingUpScreensConfig = {
   };
 };
 
-const SingUpFlow: SingUpScreensConfig = {
-  Singup: {
+const SignUpFlow: SingUpScreensConfig = {
+  SignUp: {
     component: SignUpScreen,
     options: {
       headerShown: false,
     },
   },
-  'Singup/Birthdate': {
-    component: BirthdateScreen,
+  'SignUp/BirthDate': {
+    component: BirthdayScreen,
     options: {
       header: props => (
         <StepsHeader
@@ -38,7 +38,7 @@ const SingUpFlow: SingUpScreensConfig = {
       ),
     },
   },
-  'Singup/BodyInfo': {
+  'SignUp/BodyInfo': {
     component: BodyInfoScreen,
     options: {
       header: props => (
@@ -52,7 +52,7 @@ const SingUpFlow: SingUpScreensConfig = {
       ),
     },
   },
-  'Singup/SelectUserType': {
+  'SignUp/SelectUserType': {
     component: SelectUserTypeScreen,
     options: {
       header: props => (
@@ -66,7 +66,7 @@ const SingUpFlow: SingUpScreensConfig = {
       ),
     },
   },
-  'Singup/HealthQuestions': {
+  'SignUp/HealthQuestions': {
     component: HealthQuestionsScreen,
     options: {
       header: props => (
@@ -80,7 +80,7 @@ const SingUpFlow: SingUpScreensConfig = {
       ),
     },
   },
-  'Singup/ProfilePicture': {
+  'SignUp/ProfilePicture': {
     component: SelectProfilePictureScreen,
     options: {
       header: props => (
@@ -96,4 +96,4 @@ const SingUpFlow: SingUpScreensConfig = {
   },
 };
 
-export default SingUpFlow;
+export default SignUpFlow;

@@ -4,7 +4,7 @@ export enum SexEnum {
 }
 
 type ResponseOptions = 'yes' | 'not' | 'not know' | '';
-type HealtQuestions = {
+type HealthQuestions = {
   medicine: ResponseOptions;
   smoke: ResponseOptions;
   heartAttack: ResponseOptions;
@@ -30,7 +30,7 @@ export interface SignUpState {
   height: string;
   birthdate: string;
   userType: 'health professional' | 'patient' | '';
-  healtQuestions: HealtQuestions;
+  healthQuestions: HealthQuestions;
   picture: Picture;
 }
 
@@ -39,7 +39,7 @@ export type updateUserFieldType = {
   value: number[] | '' | string | Date | Picture;
 };
 
-export type HealtInfoAction = {
-  field: keyof HealtQuestions;
+export type HealthInfoAction = {
+  field: keyof HealthQuestions;
   value: 'yes' | 'not' | 'not know' | '';
 };

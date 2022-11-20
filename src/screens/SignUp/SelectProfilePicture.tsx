@@ -35,7 +35,7 @@ type actionSheetRef = {
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
-  'Singup/ProfilePicture'
+  'SignUp/ProfilePicture'
 >;
 
 const defaulPictureOptions: CameraOptions = {

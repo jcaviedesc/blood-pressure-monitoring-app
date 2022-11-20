@@ -4,18 +4,14 @@ import {
   StyleSheet,
   useColorScheme,
   ColorSchemeName,
+  ViewStyle,
 } from 'react-native';
 import { Colors } from '../../styles';
-
-type stylesPros = {
-  padding?: number;
-  paddingHorizontal?: number;
-};
 
 type props = {
   children: Element[] | Element;
   selected?: boolean;
-  style?: stylesPros;
+  style?: ViewStyle;
 };
 
 const backgroundColorPick = (mode: ColorSchemeName) => {

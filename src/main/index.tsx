@@ -102,7 +102,7 @@ const Main = () => {
       const currentScreen = getNavigator()?.getCurrentRoute()?.name;
       if (
         nextAppState === 'background' &&
-        currentScreen !== 'Singup/ProfilePicture'
+        currentScreen !== 'SignUp/ProfilePicture'
       ) {
         if (userAuthenticated?.data && !userAuthenticated.isRegistered) {
           // TODO creo que esto no se muestra si no se lanza un error. Probar

@@ -1,4 +1,4 @@
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const { width, height } = Dimensions.get('window');
@@ -10,7 +10,7 @@ const metrics = {
   horizontalLineHeight: 1,
   screenWidth: width < height ? width : height,
   screenHeight: width < height ? height : width,
-  navBarHeight: getStatusBarHeight(true) + 9,
+  navBarHeight: getStatusBarHeight(),
 };
 
 export default metrics;

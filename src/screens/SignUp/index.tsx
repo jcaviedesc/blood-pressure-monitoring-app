@@ -12,7 +12,7 @@ import { signUpSchema, transformError } from './schemaValidators/signup';
 import { MainContainer } from '../../components/Layout';
 import { useBackHandler } from '../../hooks/back-handler';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Singup'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
@@ -35,7 +35,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
       const errorTransform = transformError(error);
       setInputErrors(errorTransform);
     } else {
-      navigation.navigate('Singup/Birthdate');
+      navigation.navigate('SignUp/BirthDate');
     }
   }
 

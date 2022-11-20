@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   },
   leftButton: {
     width: 60,
+    justifyContent: 'center',
     height: '100%',
   },
 });

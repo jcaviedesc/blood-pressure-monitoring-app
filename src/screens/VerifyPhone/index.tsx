@@ -44,7 +44,7 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
             } else {
               // El usuario No esta registrado
               dispatch(updateUserField({ field: 'phone', value: phone }));
-              navigation.navigate('Singup');
+              navigation.navigate('SignUp');
             }
           });
         }
