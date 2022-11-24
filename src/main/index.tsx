@@ -31,7 +31,7 @@ const Main = () => {
     // Set an initializing state whilst Firebase connects
     initializing: boolean;
   }>({ data: null, isRegistered: false, userToken: '', initializing: true });
-  console.log({ isAppOpenFirstTime, userToken: userAuthenticated.userToken });
+
   const registerUser = useCallback(async () => {
     const authUser = auth().currentUser;
     const token = await authUser?.getIdToken();

@@ -23,6 +23,8 @@ const images = {
   'woman-checking-blood-pressure': require('../images/woman-checking-blood-pressure.png'),
   indeveloping: require('../images/transistor-page-under-construction.gif'),
   steps_take_bp: require('../images/pasos-toma-pa.jpeg'),
+  businessMen: require('../images/illustrations/business-3d-businessman.png'),
+  juicyWomanIsLooking: require('../images/gifs/juicy-woman-is-looking.gif'),
 };
 
 export default images;

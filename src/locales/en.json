@@ -409,5 +409,7 @@
   "BloodPressure": "Blood pressure",
   "search by cedula": "Search by document",
   "patients": "Patients",
-  "monitoring": "Monitoring"
+  "monitoring": "Monitoring",
+  "loading patient": "Loading patients",
+  "No patients for clinical monitoring": "No patients for clinical monitoring"
 }

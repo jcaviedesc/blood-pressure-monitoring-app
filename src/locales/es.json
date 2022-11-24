@@ -409,5 +409,7 @@
   "BloodPressure": "Presión Arterial",
   "search by cedula": "Buscar por cedula",
   "patients": "Pacientes",
-  "monitoring": "Seguimiento"
+  "monitoring": "Seguimiento",
+  "loading patient": "Cargando pacientes",
+  "No patients for clinical monitoring": "No hay pacientes para el seguimiento clínico"
 }

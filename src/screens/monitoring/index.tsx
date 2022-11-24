@@ -5,6 +5,7 @@ import {
   View,
   Platform,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import Modal from 'react-native-modal';
@@ -13,7 +14,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MonitoringStack } from '../../router/types';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
-import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
+import { AppStyles, Colors, Fonts, Metrics, Images } from '../../styles';
 import { MainContainer, MainScrollView } from '../../components/Layout';
 import { Avatar, Button, Card, Input, Text } from '../../components';
 import {
@@ -160,13 +161,39 @@ const MonitoringScreen: React.FC<Props> = ({ navigation }) => {
   const renderView = (
     <MainScrollView
       contentInsetAdjustmentBehavior="automatic"
+      style={{ paddingHorizontal: 0 }}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>{translate('patients')}</Text>
-      </View>
-      {patients.data.map(renderPatientCard)}
+      {patients.loading === 'pending' ? (
+        <View style={styles.loadingContent}>
+          <Image
+            source={Images.juicyWomanIsLooking}
+            style={styles.loadingImage}
+          />
+          <View style={styles.loadingPatientsContainer}>
+            <Text style={styles.loadingText}>
+              {translate('loading patient')}...
+            </Text>
+          </View>
+        </View>
+      ) : patients.data.length > 0 ? (
+        <View style={{ paddingHorizontal: Metrics.marginHorizontal }}>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>{translate('patients')}</Text>
+          </View>
+          {patients.data.map(renderPatientCard)}
+        </View>
+      ) : (
+        <View style={styles.noResultContainer}>
+          <View style={styles.noResultContainerText}>
+            <Text style={[styles.loadingText, styles.noPatientsText]}>
+              {translate('No patients for clinical monitoring')}
+            </Text>
+          </View>
+          <Image source={Images.businessMen} style={styles.businessMenImage} />
+        </View>
+      )}
       <Modal
         isVisible={addPatientModal}
         onBackButtonPress={() => {
@@ -185,7 +212,7 @@ const MonitoringScreen: React.FC<Props> = ({ navigation }) => {
             }}
           />
           <Button
-            title="Confirmar"
+            title={translate('button.confirm')}
             onPress={sendRequestToAddPatient}
             disabled={document === ''}
           />
@@ -299,6 +326,44 @@ const styles = StyleSheet.create({
   modalContent: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  businessMenImage: {
+    resizeMode: 'contain',
+    height: Metrics.screenHeight * 0.5,
+  },
+  loadingImage: {
+    resizeMode: 'contain',
+    width: Metrics.screenWidth * 0.8,
+  },
+  noResultContainer: {
+    flex: 1,
+    height: Metrics.screenHeight * 0.7,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  loadingPatientsContainer: {
+    justifyContent: 'center',
+    width: '100%',
+  },
+  loadingContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontFamily: Fonts.type.semiBold,
+    fontSize: Fonts.size.h6,
+    color: Colors.paragraph,
+    textAlign: 'center',
+  },
+  noResultContainerText: {
+    justifyContent: 'center',
+    width: '100%',
+    flex: 1,
+    alignItems: 'center',
+  },
+  noPatientsText: {
+    color: Colors.headline,
+    fontSize: Fonts.size.h5,
   },
 });
 
