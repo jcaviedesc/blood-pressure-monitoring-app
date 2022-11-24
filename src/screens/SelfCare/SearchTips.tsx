@@ -81,7 +81,7 @@ const SearchSelfCareTips: React.FC<Props> = ({ navigation }) => {
           onPress={() => {
             navigation.navigate('AddSelfCareTip');
           }}
-          apparence={{ alignItems: 'center', justifyContent: 'center' }}>
+          appearance={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text style={styles.addText}>{translate('button.add')}</Text>
         </Button>
       ) : null;

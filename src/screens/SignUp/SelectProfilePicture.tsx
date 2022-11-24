@@ -38,7 +38,7 @@ type Props = NativeStackScreenProps<
   'SignUp/ProfilePicture'
 >;
 
-const defaulPictureOptions: CameraOptions = {
+const defaultPictureOptions: CameraOptions = {
   mediaType: 'photo',
   maxWidth: 512,
   maxHeight: 512,
@@ -120,14 +120,14 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
       }
     }
     actionSheetRef.current?.hide();
-    const result = await launchCamera(defaulPictureOptions);
+    const result = await launchCamera(defaultPictureOptions);
     setUriPhoto(result);
   };
 
   const onChooseImage = async () => {
     actionSheetRef.current?.hide();
     try {
-      const result = await launchImageLibrary(defaulPictureOptions);
+      const result = await launchImageLibrary(defaultPictureOptions);
       setUriPhoto(result);
     } catch (error) {
       crashlytics().recordError(error);

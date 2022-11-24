@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { RefreshControl, StyleSheet, View, Platform } from 'react-native';
+import {
+  RefreshControl,
+  StyleSheet,
+  View,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
+import IconEntypo from 'react-native-vector-icons/Entypo';
 import Modal from 'react-native-modal';
 import Toast from 'react-native-toast-message';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -7,7 +14,7 @@ import type { MonitoringStack } from '../../router/types';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { AppStyles, Colors, Fonts, Metrics } from '../../styles';
-import { MainScrollView } from '../../components/Layout';
+import { MainContainer, MainScrollView } from '../../components/Layout';
 import { Avatar, Button, Card, Input, Text } from '../../components';
 import {
   getClinicalMonitoringPatients,
@@ -18,6 +25,7 @@ import { Patient } from '../../store/types';
 import dayjs from '../../services/DatetimeUtil';
 import { useHeaderSearchBar } from '../../hooks/header';
 import { selectUserData } from '../../store/user/userSlice';
+import { userRole } from '../../store/user/types';
 
 type Props = NativeStackScreenProps<MonitoringStack, 'Patients'>;
 
@@ -95,7 +103,7 @@ const MonitoringScreen: React.FC<Props> = ({ navigation }) => {
               </Text>
               <Text>{dayjs().from(dayjs(item.birthdate), true)}</Text>
               <View style={styles.patientCardRow}>
-                <Text style={[styles.patientCardHeaderTextTitle, { flex: 20 }]}>
+                <Text style={styles.patientCardHeaderTextTitle}>
                   {`${translate('document')}:`}
                 </Text>
                 <Text style={styles.patientCardHeaderTextValue}>
@@ -149,7 +157,7 @@ const MonitoringScreen: React.FC<Props> = ({ navigation }) => {
     </View>
   );
 
-  return (
+  const renderView = (
     <MainScrollView
       contentInsetAdjustmentBehavior="automatic"
       refreshControl={
@@ -159,15 +167,6 @@ const MonitoringScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.headerTitle}>{translate('patients')}</Text>
       </View>
       {patients.data.map(renderPatientCard)}
-      {/* <FlatList
-          contentInsetAdjustmentBehavior="automatic"
-          ListHeaderComponent={<View style={styles.patientListHeader} />}
-          renderItem={renderPatientCard}
-          data={patients.data}
-          ItemSeparatorComponent={() => (
-            <View style={styles.patientCardSeparator} />
-          )}
-        /> */}
       <Modal
         isVisible={addPatientModal}
         onBackButtonPress={() => {
@@ -176,8 +175,8 @@ const MonitoringScreen: React.FC<Props> = ({ navigation }) => {
         onBackdropPress={() => {
           setAddPatientModal(false);
         }}
-        style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <View style={styles.addPatientModal}>
+        style={styles.modalContent}>
+        <Card>
           <Input
             title="Ingresa el numero de cedula"
             keyboardType="numeric"
@@ -190,9 +189,29 @@ const MonitoringScreen: React.FC<Props> = ({ navigation }) => {
             onPress={sendRequestToAddPatient}
             disabled={document === ''}
           />
-        </View>
+        </Card>
       </Modal>
-    </MainScrollView >
+    </MainScrollView>
+  );
+
+  return Platform.OS === 'ios' ? (
+    renderView
+  ) : (
+    <MainContainer style={styles.viewAndroid}>
+      {renderView}
+      {/* TODO add animation */}
+      <View>
+        {user.role === userRole.HEALTH_PROFESSIONAL && (
+          <TouchableOpacity
+            style={styles.floatButton}
+            onPress={() => {
+              setAddPatientModal(true);
+            }}>
+            <IconEntypo name="plus" size={28} color={Colors.white} />
+          </TouchableOpacity>
+        )}
+      </View>
+    </MainContainer>
   );
 };
 
@@ -204,12 +223,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontFamily: Fonts.type.bold,
     fontSize: Fonts.size.h5,
-  },
-  addPatientModal: {
-    width: '90%',
-    backgroundColor: Colors.background,
-    padding: 12,
-    borderRadius: 9,
   },
   patientCardHeader: {
     flexDirection: 'row',
@@ -260,14 +273,32 @@ const styles = StyleSheet.create({
   patientCardHeaderTextTitle: {
     color: Colors.paragraph,
     marginRight: 3,
-    flex: 30,
+    // flex: 30,
   },
   patientCardHeaderTextValue: {
     color: Colors.headline,
-    flex: 60,
   },
   patientListHeader: {
     height: 60,
+  },
+  floatButton: {
+    position: 'absolute',
+    bottom: 50,
+    right: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 100,
+    backgroundColor: Colors.tertiary,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  viewAndroid: {
+    paddingTop: 90,
+  },
+  modalContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

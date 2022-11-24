@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   useColorScheme,
+  ViewStyle,
 } from 'react-native';
 import { Colors, Fonts } from '../../styles';
 
@@ -31,13 +32,13 @@ const Button: React.FC<props> = ({
   hierarchy = 'loud',
   title,
   disabled,
-  appearance: apparence,
+  appearance,
   customBackground,
   size = 'normal',
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
-  const buttonStyles = {
-    ...apparence,
+  const buttonStyles: ViewStyle = {
+    ...appearance,
     ...styles.container,
     backgroundColor: customBackground ?? background[hierarchy],
   };
@@ -52,6 +53,10 @@ const Button: React.FC<props> = ({
         ? Colors.darkCardBackground
         : Colors.buttonDisabled;
     }
+    if (isDarkMode) {
+      buttonStyles.backgroundColor = Colors.secondary;
+    }
+
     textStyles.color = isDarkMode ? Colors.textNormal : Colors.textDisabled;
   }
 
