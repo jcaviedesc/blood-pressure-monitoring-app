@@ -66,16 +66,16 @@ export const startUserSessionThunk = createAsyncThunk<
     userId,
     { extra: clientApi, rejectWithValue, getState },
   ) {
-    const previusDeviceTokenSaved = selectUserDeviceToken(getState());
+    const previousDeviceTokenSaved = selectUserDeviceToken(getState());
     // get messaging token
     const messagingToken = await messaging().getToken();
-    if (previusDeviceTokenSaved !== messagingToken) {
-      return Promise.resolve();
+    if (previousDeviceTokenSaved === messagingToken) {
+      return Promise.resolve({ notificationDeviceToken: messagingToken });
     }
     // TODO get device info
     try {
       await clientApi.registerUserDeviceToken(userId, messagingToken);
-      return Promise.resolve();
+      return Promise.resolve({ notificationDeviceToken: messagingToken });
     } catch (error) {
       return rejectWithValue(error);
     }

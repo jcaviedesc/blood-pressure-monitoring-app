@@ -43,7 +43,7 @@ const handleError = (error: AxiosError) => {
 };
 
 // our "constructor"
-const create = (baseURL = API_URL) => {
+const createApi = (baseURL = API_URL) => {
   // ------
   // STEP 1
   // ------
@@ -127,6 +127,23 @@ const create = (baseURL = API_URL) => {
 
   const consultListMedicine = (): AxiosPromise => api.get('/medicines');
 
+  const patientResponseClinicalMonitoring = (
+    patientId: string,
+    requestId: string,
+    body: Record<string, any>,
+  ): AxiosPromise =>
+    api.patch(
+      `/clinical-monitoring/patients/${patientId}/requests/${requestId}`,
+      body,
+    );
+
+  const requestClinicalMonitoringPatient = (documentId: number): AxiosPromise =>
+    api.post(`/clinical-monitoring/patients/${documentId}/requests`);
+
+  // users?role=patients TODO change
+  const getPatients = (params: Record<string, any>) =>
+    api.get('/users/professionals/patients', { params });
+
   // ------
   // STEP 3
   // ------
@@ -149,8 +166,21 @@ const create = (baseURL = API_URL) => {
     addMedicine,
     consultListMedicine,
     getUserDetails,
+    patientResponseClinicalMonitoring,
+    requestClinicalMonitoringPatient,
+    getPatients,
   };
 };
 
+let clientApiSingleton: ReturnType<typeof createApi> | undefined;
+
+function getClientApi() {
+  if (clientApiSingleton) {
+    return clientApiSingleton;
+  }
+  clientApiSingleton = createApi();
+  return createApi();
+}
+
 // let's return back our create method as the default.
-export default create;
+export default getClientApi;

@@ -14,7 +14,7 @@ type props = {
   onPress?: () => void;
   hierarchy?: 'loud' | 'quiet' | 'transparent';
   disabled?: boolean;
-  apparence?: object;
+  appearance?: object;
   customBackground?: string;
   size?: 'large' | 'normal' | 'small';
 };
@@ -31,7 +31,7 @@ const Button: React.FC<props> = ({
   hierarchy = 'loud',
   title,
   disabled,
-  apparence,
+  appearance: apparence,
   customBackground,
   size = 'normal',
 }) => {

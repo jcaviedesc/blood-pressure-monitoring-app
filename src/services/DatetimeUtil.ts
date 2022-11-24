@@ -5,6 +5,7 @@ import localeData from 'dayjs/plugin/localeData';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import utc from 'dayjs/plugin/utc';
 import isBetween from 'dayjs/plugin/isBetween';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 
 dayjs.extend(isBetween);
@@ -12,6 +13,7 @@ dayjs.extend(utc);
 dayjs.extend(weekday);
 dayjs.extend(localeData);
 dayjs.extend(updateLocale);
+dayjs.extend(relativeTime);
 
 dayjs.updateLocale('es', {
   weekStart: 1,

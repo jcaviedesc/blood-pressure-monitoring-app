@@ -4,6 +4,7 @@ import {
   useColorScheme,
   ScrollView,
   ScrollViewProps,
+  ViewStyle,
 } from 'react-native';
 import { AppStyles, Colors } from '../../styles';
 
@@ -15,6 +16,7 @@ type props = {
 
 interface MainScrollViewProps extends ScrollViewProps {
   children?: React.ReactNode;
+  style?: ViewStyle;
   // ref?: React.LegacyRef<ScrollView>;
 }
 

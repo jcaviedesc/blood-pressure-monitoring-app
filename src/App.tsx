@@ -21,6 +21,7 @@ import {
   useNotificationPermission,
   useGetNotificationSettingsPermission,
 } from './hooks/usePermissions';
+import { useForegroundEventNotifee } from './hooks/useNotifications';
 // context
 import { ConfirmPhoneProvider } from './providers/PhoneAuthProvider';
 import { LocalizationProvider } from './providers/LocalizationProvider';
@@ -31,6 +32,7 @@ import { Colors } from './styles';
 const App: () => Node = () => {
   useNotificationPermission();
   useGetNotificationSettingsPermission();
+  useForegroundEventNotifee();
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -41,7 +43,7 @@ const App: () => Node = () => {
           <LocalizationProvider>
             <ConfirmPhoneProvider>
               <LoadingWrapper>
-                <AppProvider id={REALM_APPID || "key"}>
+                <AppProvider id={REALM_APPID || 'key'}>
                   <RealmAuthProvider>
                     <StatusBar
                       animated={true}

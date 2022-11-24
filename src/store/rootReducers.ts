@@ -5,6 +5,7 @@ import userReducer from './user/userSlice';
 import medicineUpReducer from './medicineup/medicineupSlice';
 import bloodPressure from './blood-pressure';
 import selfCareReducer from './self-care';
+import clinicalMonitoringReducer from './clinical-monitoring';
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   bloodPressure: bloodPressure,
   selfCare: selfCareReducer,
   medicineUp: medicineUpReducer,
+  clinicalMonitoring: clinicalMonitoringReducer,
 });
 
 export type RootReducer = typeof rootReducer;

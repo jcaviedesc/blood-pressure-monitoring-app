@@ -8,7 +8,7 @@ import type { RootStackParamList } from '../../router/types';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectUserData, signOut } from '../../store/user/userSlice';
 import { AppStyles, Colors, Metrics, Fonts } from '../../styles';
-import { Button, Card, Text } from '../../components';
+import { Card, Text } from '../../components';
 import { MainContainer } from '../../components/Layout';
 import { useRealmAuth } from '../../providers/RealmProvider';
 import Avatar from '../../components/Avatar';

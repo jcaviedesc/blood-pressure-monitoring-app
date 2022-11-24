@@ -109,15 +109,15 @@ const styles = StyleSheet.create({
   inputContainer: {
     height: Platform.OS === 'android' ? 48 : 40,
     flexDirection: 'row',
-    alignItems: 'flex-end',
     borderRadius: 5,
-    flex: 1,
     paddingHorizontal: 6,
+    backgroundColor: 'blue',
   },
   input: {
     flex: 1,
     fontFamily: Fonts.type.semiBold,
     fontSize: Platform.OS === 'android' ? Fonts.size.h6 : Fonts.size.paragraph,
+    textAlignVertical: 'top',
   },
   hint: {
     fontFamily: Fonts.type.light,

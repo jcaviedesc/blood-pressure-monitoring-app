@@ -43,10 +43,12 @@ export const useInitialScreenApp = () => {
   }
 
   useEffect(() => {
-    const onNextScreen = (data) => {
+    const onNextScreen = (data: Record<string, string>) => {
       const { navigateTo } = data;
-      let screen = navigateTo;
-      setMainScreenState({ loading: false, nextScreen: screen });
+      setMainScreenState({
+        loading: false,
+        nextScreen: navigateTo as keyof RootStackParamList,
+      });
     };
 
     bootstrap()

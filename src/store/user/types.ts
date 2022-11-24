@@ -13,6 +13,7 @@ export enum userRole {
 }
 
 export interface IUserDetail {
+  isProfessional: boolean;
   id: string;
   name: string;
   docId: string;

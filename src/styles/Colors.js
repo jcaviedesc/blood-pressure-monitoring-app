@@ -20,7 +20,7 @@ const colors = {
   darkCardBackground: '#616c77',
   cardTagBackground: '#f5f6fa',
   cardTagText: '#fffffe',
-  cardHightlight: '#ef4565',
+  cardHighlight: '#ef4565',
   transparent: 'rgba(0,0,0,0)',
   textDisabled: 'rgba(0,0,0,0.25)',
   textNormal: '#fffffe',

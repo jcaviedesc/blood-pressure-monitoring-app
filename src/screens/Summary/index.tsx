@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import type { RootStackParamList } from '../../router/types';
+import type {
+  RootStackParamList,
+  TabsStackParamsList,
+} from '../../router/types';
 import { Colors, Fonts, AppStyles, Metrics } from '../../styles';
 import { Box, Button, Text } from '../../components';
 import { MainScrollView } from '../../components/Layout';
@@ -25,7 +28,7 @@ const ICONS = {
   Height: ['child', '#009000'],
 };
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Summary'>;
+type Props = NativeStackScreenProps<TabsStackParamsList, 'SummaryTab'>;
 
 const SummaryScreen: React.FC<Props> = ({ navigation }) => {
   useForegroundNotification();

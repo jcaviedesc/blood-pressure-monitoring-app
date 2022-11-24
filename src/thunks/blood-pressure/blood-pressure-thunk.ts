@@ -54,13 +54,13 @@ export const createNotifications = () => {
       // get all triggers ids
       const triggerIds = await notifee.getTriggerNotificationIds();
       // select triggerIds related to BloodPressurePrefix
-      const bpTrigersIds = triggerIds.filter(id =>
+      const bpTriggersIds = triggerIds.filter(id =>
         id.includes(BloodPressurePrefix),
       );
       //clear all trigger with $bp prefix
-      if (bpTrigersIds.length) {
-        await notifee.cancelTriggerNotifications(bpTrigersIds).catch(error => {
-          crashlytics().log(`trigersId: ${bpTrigersIds}`);
+      if (bpTriggersIds.length) {
+        await notifee.cancelTriggerNotifications(bpTriggersIds).catch(error => {
+          crashlytics().log(`triggersId: ${bpTriggersIds}`);
           crashlytics().recordError(error);
         });
       }
@@ -89,7 +89,7 @@ export const createNotifications = () => {
       // get curred weekday
       const currentDate = dayjs();
       repeat
-        .map(repeatday => repeatday.split(','))
+        .map(repeatDay => repeatDay.split(','))
         .flat()
         .forEach(reminderDay => {
           const indexDay = weekdays.indexOf(reminderDay);

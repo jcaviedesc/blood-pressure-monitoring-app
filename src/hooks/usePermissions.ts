@@ -2,7 +2,6 @@ import messaging from '@react-native-firebase/messaging';
 import Notifee, {
   AndroidNotificationSetting,
   AndroidImportance,
-  EventType,
 } from '@notifee/react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useEffect } from 'react';
@@ -25,15 +24,7 @@ async function requestUserPermission() {
         importance: AndroidImportance.HIGH,
         lightColor: Colors.tertiary,
       });
-      // TODO log
     }
-
-    Notifee.onForegroundEvent(({ type, detail }) => {
-      if (type === EventType.ACTION_PRESS && detail?.pressAction?.id) {
-        console.log('detail', detail);
-        console.log('User pressed an action with the id: ', detail.pressAction);
-      }
-    });
   } else {
     crashlytics().log(`Notification permissions rejected ${authStatus}`);
   }

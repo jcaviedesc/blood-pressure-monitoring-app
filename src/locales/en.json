@@ -213,8 +213,9 @@
     }
   },
   "Tabs": {
-    "summary": "Resumen",
-    "search": "Buscar"
+    "summary": "Summary",
+    "search": "Search",
+    "monitoring": "Monitoring"
   },
   "measurements": {
     "BloodPressure": "Presión Arterial",
@@ -401,5 +402,12 @@
   "detail_self_care": {
     "title": "Self care detail",
     "owner": "Autor"
-  }
+  },
+  "success request": "solicitud enviada",
+  "document": "Documento",
+  "last measurement": "last measurement",
+  "BloodPressure": "Blood pressure",
+  "search by cedula": "Search by document",
+  "patients": "Patients",
+  "monitoring": "Monitoring"
 }

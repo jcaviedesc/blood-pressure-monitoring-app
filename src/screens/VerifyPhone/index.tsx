@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useFocusEffect } from '@react-navigation/native';
@@ -70,7 +70,7 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
         if (userCredential?.additionalUserInfo?.isNewUser || !isRegistered) {
           dispatch(updateUserField({ field: 'phone', value: phone }));
           dispatch(setScreenLoading(false));
-          navigation.navigate('Singup');
+          navigation.navigate('SignUp');
         } else {
           const authUser = userCredential?.user;
           dispatch(setScreenLoading(false));

@@ -106,6 +106,7 @@ function MainStackNavigator({
         {isUserLogged ? (
           <>
             <Stack.Screen
+              //TODO change
               name="Summary"
               component={MainTabsHome}
               options={{

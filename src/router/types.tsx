@@ -40,5 +40,15 @@ export type SelfCareStack = {
   SearchSelfCareTip: undefined;
 };
 
+export type MonitoringStack = {
+  Patients: undefined;
+};
+
+export type TabsStackParamsList = {
+  SummaryTab: undefined;
+  Search: undefined;
+  Monitoring: undefined;
+};
+
 export type BloodPressureScreenNames = keyof BloodPressureStackParam;
 export type SingUpScreens = keyof SignUpStackParamList;

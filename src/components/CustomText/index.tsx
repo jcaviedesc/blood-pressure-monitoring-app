@@ -21,7 +21,9 @@ export const Text: React.FC<TextWrapperProps> = ({
   }
 
   return (
-    <RNText {...textProps} style={[style, localStyles]}>
+    <RNText
+      {...textProps}
+      style={[{ color: Colors.headline }, style, localStyles]}>
       {children}
     </RNText>
   );

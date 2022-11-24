@@ -1,12 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type {
+import {
   UserState,
   UpdateUserProfieAction,
   IUserDetail,
   Measurement,
+  userRole,
 } from './types';
 import type { RootState } from '../configureStore';
-import { signUpUser, getUserDetailsThunk } from '../../thunks/users-thunk';
+import {
+  signUpUser,
+  getUserDetailsThunk,
+  startUserSessionThunk,
+} from '../../thunks/users-thunk';
 
 /* ------------- Initial State ------------- */
 // TODO deprecar homeStatus
@@ -87,6 +92,10 @@ export const userSlice = createSlice({
           state.error = action.error.message;
           state.currentRequestId = undefined;
         }
+      })
+      .addCase(startUserSessionThunk.fulfilled, (state, action) => {
+        const { notificationDeviceToken } = action.payload;
+        state.deviceToken = notificationDeviceToken;
       });
   },
 });
@@ -96,7 +105,11 @@ export const { updateUserDetail, signOut, updateMeasurements } =
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUserData = (state: RootState): IUserDetail => {
-  return Object.assign({}, initialState.detail, state.user.detail);
+  const isProfessional =
+    state.user.detail.role === userRole.HEALTH_PROFESSIONAL;
+  return Object.assign({}, initialState.detail, state.user.detail, {
+    isProfessional,
+  });
 };
 
 export const selectUserDeviceToken = (state: RootState) =>
