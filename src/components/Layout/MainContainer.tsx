@@ -12,7 +12,7 @@ type props = {
   children: JSX.Element | JSX.Element[];
   isScrollView?: boolean;
   scrollViewProps?: ScrollViewProps;
-  style: ViewStyle;
+  style?: ViewStyle;
 };
 
 interface MainScrollViewProps extends ScrollViewProps {

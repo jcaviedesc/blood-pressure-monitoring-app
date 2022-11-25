@@ -40,8 +40,7 @@ export const getClinicalMonitoringPatients = createAsyncThunk<
     // TODO get device info
     try {
       const response = await clientApi.getPatients(filters);
-      console.log(response);
-      return Promise.resolve(response.data);
+      return Promise.resolve({ data: response.data, params: filters });
     } catch (error) {
       return rejectWithValue(error?.message?.detail);
     }

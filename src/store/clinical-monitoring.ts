@@ -6,6 +6,7 @@ import { ClinicalMonitoringState } from './types';
 const initialState: ClinicalMonitoringState = {
   patients: [],
   loading: 'idle',
+  searchByDocument: '',
   currentRequestId: undefined,
   error: null,
 };
@@ -32,15 +33,17 @@ export const clinicalMonitoringSlice = createSlice({
       })
       .addCase(getClinicalMonitoringPatients.fulfilled, (state, action) => {
         const { requestId } = action.meta;
+        const { data, params } = action.payload;
         if (
           state.loading === 'pending' &&
           state.currentRequestId === requestId
         ) {
           state.loading = 'idle';
-          state.patients = action.payload;
+          state.patients = data;
+          state.searchByDocument = params?.document ?? '';
           state.currentRequestId = undefined;
         }
-        state.patients = action.payload;
+        state.patients = data;
       })
       .addCase(getClinicalMonitoringPatients.rejected, (state, action) => {
         const { requestId } = action.meta;
@@ -62,6 +65,7 @@ export const selectPatientsForMonitoring = (state: RootState) => {
   return {
     data: state.clinicalMonitoring.patients,
     loading: state.clinicalMonitoring.loading,
+    queryDocument: state.clinicalMonitoring.searchByDocument,
   };
 };
 

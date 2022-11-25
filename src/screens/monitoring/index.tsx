@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import HighlightText from '@sanar/react-native-highlight-text';
 import {
   RefreshControl,
   StyleSheet,
@@ -27,6 +28,7 @@ import dayjs from '../../services/DatetimeUtil';
 import { useHeaderSearchBar } from '../../hooks/header';
 import { selectUserData } from '../../store/user/userSlice';
 import { userRole } from '../../store/user/types';
+import { debounce } from '../../services/bounce';
 
 type Props = NativeStackScreenProps<MonitoringStack, 'Patients'>;
 
@@ -42,8 +44,15 @@ const MonitoringScreen: React.FC<Props> = ({ navigation }) => {
   useHeaderSearchBar({
     showRightButton: user.isProfessional && Platform.OS === 'ios',
     headerTitle: translate('monitoring'),
-    onSearch: text => {
-      console.log(text);
+    onSearch: ({ nativeEvent: { text } }) => {
+      debounce(() => {
+        //TODO  dispatchLoading
+        if (text) {
+          dispatch(getClinicalMonitoringPatients({ page: 1, document: text }));
+        } else {
+          dispatch(getClinicalMonitoringPatients({ page: 1 }));
+        }
+      }, 500);
     },
     navigation,
     placeholder: translate('search by cedula'),
@@ -108,7 +117,11 @@ const MonitoringScreen: React.FC<Props> = ({ navigation }) => {
                   {`${translate('document')}:`}
                 </Text>
                 <Text style={styles.patientCardHeaderTextValue}>
-                  {item.docId}
+                  <HighlightText
+                    highlightStyle={styles.highlight}
+                    searchWords={[patients.queryDocument]}
+                    textToHighlight={item.docId}
+                  />
                 </Text>
               </View>
             </View>
@@ -119,11 +132,7 @@ const MonitoringScreen: React.FC<Props> = ({ navigation }) => {
                 {translate(item.measurements[0].name)}:
               </Text>
               {item.measurements[0].value !== 0 ? (
-                <View
-                  style={[
-                    styles.patientCardBodyMeasurementContainer,
-                    styles.patientCardHeaderTextValue,
-                  ]}>
+                <View style={styles.patientCardBodyMeasurementContainer}>
                   <View style={styles.patientCardBodyMeasurementValue}>
                     <Text style={styles.patientCardBodyMeasurementValueText}>
                       {item.measurements[0].value}
@@ -364,6 +373,11 @@ const styles = StyleSheet.create({
   noPatientsText: {
     color: Colors.headline,
     fontSize: Fonts.size.h5,
+  },
+  highlight: {
+    fontFamily: Fonts.type.bold,
+    color: Colors.headline,
+    backgroundColor: Colors.secondaryTranslucent,
   },
 });
 

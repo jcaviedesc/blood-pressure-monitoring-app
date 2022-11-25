@@ -31,6 +31,7 @@ export interface Patient {
 export interface ClinicalMonitoringState {
   patients: Patient[];
   loading: 'idle' | 'pending';
+  searchByDocument: string;
   currentRequestId: string | undefined;
   error: SerializedError | null;
 }
