@@ -27,6 +27,7 @@ import { signUpUser } from '../../thunks/users-thunk';
 import { useMainApp } from '../../main/hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { setScreenLoading } from '../../store/app/appSlice';
+import { parseError } from '../../services/ErrorUtils';
 
 type actionSheetRef = {
   setModalVisible: () => void;
@@ -38,7 +39,7 @@ type Props = NativeStackScreenProps<
   'SignUp/ProfilePicture'
 >;
 
-const defaulPictureOptions: CameraOptions = {
+const defaultPictureOptions: CameraOptions = {
   mediaType: 'photo',
   maxWidth: 512,
   maxHeight: 512,
@@ -67,8 +68,7 @@ const requestCameraPermission = async () => {
       crashlytics().log('Camera permission denied');
     }
   } catch (error) {
-    crashlytics().recordError(error);
-    console.warn(err);
+    crashlytics().recordError(parseError(error));
   }
 };
 
@@ -120,14 +120,14 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
       }
     }
     actionSheetRef.current?.hide();
-    const result = await launchCamera(defaulPictureOptions);
+    const result = await launchCamera(defaultPictureOptions);
     setUriPhoto(result);
   };
 
   const onChooseImage = async () => {
     actionSheetRef.current?.hide();
     try {
-      const result = await launchImageLibrary(defaulPictureOptions);
+      const result = await launchImageLibrary(defaultPictureOptions);
       setUriPhoto(result);
     } catch (error) {
       crashlytics().recordError(error);
@@ -176,7 +176,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
           </TouchableHighlight>
         </View>
         <View style={styles.footer}>
-          {userType !== 'patient' && (
+          {/* {userType !== 'patient' && (
             <Button
               title="siguiente"
               onPress={onNext}
@@ -187,7 +187,10 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
             <View style={styles.omitButton}>
               <Button hierarchy="quiet" title="omitir" onPress={onNext} />
             </View>
-          )}
+          )} */}
+          <View style={styles.omitButton}>
+            <Button hierarchy="quiet" title="omitir" onPress={onNext} />
+          </View>
         </View>
       </View>
       <ActionSheet ref={actionSheetRef} bounceOnOpen>
@@ -204,7 +207,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
             </View>
           </TouchableHighlight>
           {/* revisar porque no funciona */}
-          {/* <TouchableHighlight
+          <TouchableHighlight
             underlayColor={Colors.background}
             style={styles.actionSheetTouch}
             onPress={onChooseImage}>
@@ -214,7 +217,7 @@ const SelectProfilePictureScreen: React.FC<Props> = ({ navigation }) => {
                 {translate('selectAvatar.Seleccionar de mi galeria')}
               </Text>
             </View>
-          </TouchableHighlight> */}
+          </TouchableHighlight>
         </View>
       </ActionSheet>
     </MainContainer>

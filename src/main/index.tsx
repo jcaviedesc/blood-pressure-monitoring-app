@@ -49,6 +49,7 @@ const Main = () => {
       if (user) {
         user.getIdTokenResult(true).then(tokenResult => {
           const { claims } = tokenResult;
+          console.log({ claims });
           setUserAuthenticated({
             data: user,
             isRegistered: !!claims?.isRegistered,

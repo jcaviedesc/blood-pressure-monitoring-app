@@ -21,6 +21,7 @@ const SelfCareCardList = ({
   owner,
 }: SelfCareCardListProps): JSX.Element => {
   const isDarkMode = useColorScheme() === 'dark';
+  console.log(contentHtml);
   return (
     <View style={[styles.container, isDarkMode && styles.darkBackground]}>
       <View style={styles.header}>

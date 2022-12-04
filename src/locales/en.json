@@ -87,16 +87,11 @@
     "show_medicines": "Ver mas"
   },
   "Home/BloodPressure": {
-    "title": "Presión Arterial",
-    "sub_title": "Resumen por %{time}",
     "action_sheet": {
       "take_bp": "Registrar presión arterial",
       "tensiometer": "Validar tensiómetro",
       "reminders": "Recordatorios"
-    },
-    "sys": "Sistólica",
-    "dia": "Diastólica",
-    "today_records_title": "Mediciones de hóy"
+    }
   },
   "BloodPressure/Reminders": {
     "title": "Recordatorios",
@@ -192,17 +187,6 @@
         ]
       }
     ]
-  },
-  "BloodPressure/Measuring": {
-    "title": "Registro de Presión Arterial",
-    "header_title": "Presión arterial",
-    "date": "Fecha",
-    "time": "Hora",
-    "dia": "Diastólica",
-    "sys": "Sistólica",
-    "heart_rate": "Ritmo cardiaco",
-    "add_note": "Agregar una nota",
-    "placeholder_add_note": "¿tienes algo para contar?"
   },
   "notifications": {
     "blood_pressure": {
@@ -404,10 +388,24 @@
     "owner": "Autor"
   },
   "success request": "solicitud enviada",
-  "document": "Documento",
+  "document": "Document",
   "last measurement": "last measurement",
   "BloodPressure": "Blood pressure",
   "search by cedula": "Search by document",
   "patients": "Patients",
-  "monitoring": "Monitoring"
+  "monitoring": "Monitoring",
+  "loading patient": "Loading patients",
+  "No patients for clinical monitoring": "No patients for clinical monitoring",
+  "systolic": "systolic",
+  "diastolic": "diastolic",
+  "today's measurements": "today's measurements",
+  "summary by": "summary by %{time}",
+  "heart rate": "heart rate",
+  "time": "Time",
+  "Add a note": "Add a note",
+  "do you have something to tell?": "do you have something to tell?",
+  "Blood pressure record": "Blood pressure record",
+  "by log in you are agreeing to our": "by log in you are agreeing to our",
+  "privacy policy and terms of service": "privacy policy and terms of service",
+  "log in": "log in"
 }

@@ -27,7 +27,7 @@ const sendClinicalMonitoringResponse = async (notification: Notification) => {
 };
 
 export function onMessageReceived(remoteMessage: any) {
-  // console.log('Notifee', JSON.parse(remoteMessage.data.notifee));
+  console.log('Notifee', JSON.parse(remoteMessage.data.notifee));
   notifee.displayNotification(JSON.parse(remoteMessage.data.notifee));
 }
 

@@ -1,0 +1,50 @@
+{
+  "ctd_at": "2022-09-12T16:37:45.130896",
+  "utd_at": "2022-09-12T16:37:45.130904",
+  "name": "Juan Camilo",
+  "last_name": "Caviedes  Cañón",
+  "doc_id": "123456452",
+  "phone": "+573202878844",
+  "address": "NaN",
+  "birthdate": "1980-05-14",
+  "sex": "F",
+  "role": {
+    "$numberInt": "2"
+  },
+  "age": {
+    "$numberInt": "42"
+  },
+  "bmi": {
+    "$numberDouble": "51.28"
+  },
+  "measurements": [
+    {
+      "name": "height",
+      "v": {
+        "$numberDouble": "1.16"
+      },
+      "u": "m",
+      "lst_msrmnt": "2022-09-12T16:37:45.132244",
+      "status": "normal"
+    },
+    {
+      "name": "weight",
+      "v": {
+        "$numberDouble": "69.0"
+      },
+      "u": "Kg",
+      "lst_msrmnt": "2022-09-12T16:37:45.132244",
+      "status": "normal"
+    },
+    {
+      "name": "blood pressure",
+      "v": {
+        "$numberDouble": "0.0"
+      },
+      "u": "mmHg",
+      "lst_msrmnt": "",
+      "status": "no data"
+    }
+  ],
+  "cardiovascular_risk": "hight"
+}

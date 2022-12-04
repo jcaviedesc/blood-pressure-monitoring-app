@@ -7,6 +7,7 @@ import { Text } from '../CustomText';
 import Tag from '../Tag';
 import { BloodPressureMeasurement } from '../../schemas/blood-pressure';
 import Dayjs from '../../services/DatetimeUtil';
+import { useI18nLocate } from '../../providers/LocalizationProvider';
 
 type props = {
   title: string;
@@ -15,6 +16,7 @@ type props = {
 
 const BloodPressureResumeCard: React.FC<props> = ({ title, measurements }) => {
   const LastIndexRecord = measurements.length - 1;
+  const { translate } = useI18nLocate();
   return (
     <Card>
       <View style={styles.titleContainer}>
@@ -50,7 +52,7 @@ const BloodPressureResumeCard: React.FC<props> = ({ title, measurements }) => {
                   </Text>
                 </View>
                 <View>
-                  <Text style={styles.text}>Sistolica</Text>
+                  <Text style={styles.text}>{translate('systolic')}</Text>
                 </View>
               </View>
 
@@ -64,7 +66,7 @@ const BloodPressureResumeCard: React.FC<props> = ({ title, measurements }) => {
                   </Text>
                 </View>
                 <View>
-                  <Text style={styles.text}>Diastolica</Text>
+                  <Text style={styles.text}>{translate('diastolic')}</Text>
                 </View>
               </View>
             </View>

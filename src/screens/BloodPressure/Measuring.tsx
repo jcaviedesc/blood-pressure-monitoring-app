@@ -7,7 +7,7 @@ import {
   TextInput,
   SafeAreaView,
   KeyboardAvoidingView,
-  Platform
+  Platform,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../router/types';
@@ -35,7 +35,7 @@ const BloodPressureMeasuring: React.FC<Props> = ({ navigation }) => {
     useMeasuringForm();
   const { setHeaderTitleShow, fadeAnim } = useTitleScroll(
     navigation,
-    translate('BloodPressure/Measuring.header_title'),
+    translate('Blood pressure record'),
   );
   const [diaRef, bpmRef] = [useRef<TextInput>(), useRef<TextInput>()];
 
@@ -85,15 +85,13 @@ const BloodPressureMeasuring: React.FC<Props> = ({ navigation }) => {
               // { transform: [{ scaleY: fadeAnim }] },
             ]}>
             <Text style={styles.titleScreen}>
-              {translate('BloodPressure/Measuring.title')}
+              {translate('Blood pressure record')}
             </Text>
           </Animated.View>
           <Card>
             <View style={styles.rowContainer}>
               <View>
-                <Text style={styles.inputTitle}>
-                  {translate('BloodPressure/Measuring.date')}
-                </Text>
+                <Text style={styles.inputTitle}>{translate('date')}</Text>
               </View>
               <View style={styles.containerInput}>
                 <Input
@@ -106,9 +104,7 @@ const BloodPressureMeasuring: React.FC<Props> = ({ navigation }) => {
             </View>
             <View style={styles.rowContainer}>
               <View>
-                <Text style={styles.inputTitle}>
-                  {translate('BloodPressure/Measuring.time')}
-                </Text>
+                <Text style={styles.inputTitle}>{translate('time')}</Text>
               </View>
               <View style={styles.containerInput}>
                 <Input
@@ -121,9 +117,7 @@ const BloodPressureMeasuring: React.FC<Props> = ({ navigation }) => {
             </View>
             <View style={styles.rowContainer}>
               <View>
-                <Text style={styles.inputTitle}>
-                  {translate('BloodPressure/Measuring.sys')}
-                </Text>
+                <Text style={styles.inputTitle}>{translate('systolic')}</Text>
               </View>
               <View style={styles.containerInput}>
                 <Input
@@ -148,9 +142,7 @@ const BloodPressureMeasuring: React.FC<Props> = ({ navigation }) => {
             </View>
             <View style={styles.rowContainer}>
               <View>
-                <Text style={styles.inputTitle}>
-                  {translate('BloodPressure/Measuring.dia')}
-                </Text>
+                <Text style={styles.inputTitle}>{translate('diastolic')}</Text>
               </View>
               <View style={styles.containerInput}>
                 <Input
@@ -175,9 +167,7 @@ const BloodPressureMeasuring: React.FC<Props> = ({ navigation }) => {
             </View>
             <View style={[styles.rowContainer, styles.lastRowContainer]}>
               <View>
-                <Text style={styles.inputTitle}>
-                  {translate('BloodPressure/Measuring.heart_rate')}
-                </Text>
+                <Text style={styles.inputTitle}>{translate('heart rate')}</Text>
               </View>
               <View style={styles.containerInput}>
                 <Input
@@ -207,9 +197,7 @@ const BloodPressureMeasuring: React.FC<Props> = ({ navigation }) => {
                 onBlur={() => {
                   setKeyboardVerticalOffset(0);
                 }}
-                placeholder={translate(
-                  'BloodPressure/Measuring.placeholder_add_note',
-                )}
+                placeholder={translate('do you have something to tell?')}
               />
             ) : (
               <Button
@@ -217,7 +205,7 @@ const BloodPressureMeasuring: React.FC<Props> = ({ navigation }) => {
                 hierarchy="transparent"
                 onPress={onEnableAddNote}>
                 <Text style={[styles.inputTitle, styles.textLink]}>
-                  {translate('BloodPressure/Measuring.add_note')}
+                  {translate('Add a note')}
                 </Text>
               </Button>
             )}

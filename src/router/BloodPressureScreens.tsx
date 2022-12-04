@@ -22,9 +22,9 @@ const BloodPressureScreens: BloodPressureScreensConfig = {
   BloodPressure: {
     component: BloodPressureScreen,
     options: {
-      headerTitle: HeaderTitle,
+      headerShown: true,
       headerBackTitleVisible: false,
-      title: '',
+      headerLargeTitle: true,
     },
   },
   'BloodPressure/Preparation': {

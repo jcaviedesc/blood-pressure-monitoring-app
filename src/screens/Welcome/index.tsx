@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, Image } from 'react-native';
+import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -13,11 +13,16 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { selectAppLocale, setScreenLoading } from '../../store/app/appSlice';
 import { useBackHandlerExitApp } from '../../hooks/back-handler';
+import { useLinkedUrl } from '../../hooks/useLinked';
+import { parseError } from '../../services/ErrorUtils';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 // TODO refactor P1
 const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   const { translate } = useI18nLocate();
+  const handleLinkedURL = useLinkedUrl(
+    'https://docs.google.com/document/d/1sYPZmZmdNS1bmEjr6E4EO3T-LBVMJlrCJ8JfnaUHAEw/edit?usp=sharing',
+  );
   const dispatch = useAppDispatch();
   const { countryCode } = useAppSelector(selectAppLocale);
   const [{ phone, isValidPhoneNumber }, setPhone] = useState({
@@ -51,7 +56,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
       crashlytics()
         .setAttribute('phone', phone)
         .then(() => {
-          crashlytics().recordError(error);
+          crashlytics().recordError(parseError(error));
         });
       // TODO show toast
     } finally {
@@ -85,15 +90,24 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.footer}>
-        {/* TODO enable button cuando el campo de telefono tiene un numero valido */}
         <Button
           disabled={!isValidPhoneNumber}
-          title={translate('welcome.start_button')}
+          title={translate('log in')}
           onPress={() => {
             navigate();
           }}
         />
-        {/* Implementar en verifyphone si falla el metedo de autenticacion por sms */}
+        <View style={styles.termsContainer}>
+          <Text style={styles.terms}>
+            {translate('by log in you are agreeing to our')}
+          </Text>
+          <TouchableOpacity onPress={handleLinkedURL}>
+            <Text style={[styles.terms, styles.termsWithLink]}>
+              {translate('privacy policy and terms of service')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* TODO Enviar por sms y whatsapp */}
         {/* <View style={styles.emailButtonContainer}>
           <Button
             size="normal"
@@ -145,6 +159,19 @@ const styles = StyleSheet.create({
   loginText: {
     fontFamily: Fonts.type.bold,
     color: Colors.button,
+  },
+  terms: {
+    color: Colors.paragraph,
+    fontSize: Fonts.size.hint,
+    fontFamily: Fonts.type.regular,
+  },
+  termsWithLink: {
+    textDecorationLine: 'underline',
+    color: Colors.headline,
+  },
+  termsContainer: {
+    marginTop: 6,
+    alignItems: 'center',
   },
 });
 

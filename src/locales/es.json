@@ -5,12 +5,12 @@
     "continue_with_email": "Continuar con email"
   },
   "verify_phone": {
-    "title": "Verficación",
-    "subtitle": "Ingresa el código de 6 digitos que te enviamos al numero de celular %{phone}",
+    "title": "Verificación",
+    "subtitle": "Ingresa el código de 6 dígitos que te enviamos al número de celular %{phone}",
     "no_code": "¿No recibiste el código?",
     "resendTimer": "Reenviar en ",
     "resendCode": "Reenviar código",
-    "try_other_method": "Probar otro metodo"
+    "try_other_method": "Probar otro método"
   },
   "singup": {
     "title": "Registro",
@@ -18,9 +18,9 @@
     "name": "Nombres",
     "lastName": "Apellidos",
     "document_id": "Número de identificación",
-    "document_id_hint": "cédula de ciudadania, DNI, pasaporte",
+    "document_id_hint": "cédula de ciudadanía, DNI, pasaporte",
     "on_back_title": "¡Espera!",
-    "on_back_description": "Si regresas perderas tu progreso",
+    "on_back_description": "Si regresas perderás tu progreso",
     "on_back_cancel": "Regresar",
     "on_back_continue": "Continuar"
   },
@@ -32,14 +32,14 @@
   },
   "select_user": {
     "title": "Elige tu rol",
-    "description": "Selecciona el rol con el que quieres usar la aplicaión"
+    "description": "Selecciona el rol con el que quieres usar la aplicación"
   },
   "selectAvatar": {
-    "title": "Seleciona una foto de perfil",
+    "title": "Selecciona una foto de perfil",
     "modify": "Modificar",
     "add": "Agregar",
-    "take_photo": "Tomar Fotografia",
-    "Seleccionar de mi galeria": "Seleccionar de mi galeria"
+    "take_photo": "Tomar fotografía",
+    "Seleccionar de mi galeria": "Seleccionar de mi galería"
   },
   "healt_info_screen": {
     "title": "Información de Salud",
@@ -47,7 +47,7 @@
     "smoke": "¿Fumas actualmente o Fumabas?",
     "heart_attack": "¿Has tenido infartos? (enfermedad coronaria)",
     "thrombosis": "¿Has tenido trombosis cerebral? (enfermedad cerebrovascular)",
-    "nephropathy": "¿Tienes problemas renales? (enfermedad renal cronica)"
+    "nephropathy": "¿Tienes problemas renales? (enfermedad renal crónica)"
   },
   "medicine_info_screen": {
     "title": "Agregar Medicamento",
@@ -61,22 +61,22 @@
     "dateEnd": "Fecha Fin",
     "keep_medicine": "Guardar",
     "not_found_medicine": "No tiene medicamentos registrados",
-    "pill": "Pildoras",
+    "pill": "Píldoras",
     "solution": "Solución",
-    "injection": "Inyeccion",
+    "injection": "inyección",
     "dust": "Polvo",
     "drops": "Gotas",
     "inhaler": "Inhalados",
     "other": "Otra",
-    "times_per_day": "¿Con que frecuencia al dia lo/la toma?",
-    "days_interval": "Intervalo de dias",
+    "times_per_day": "¿Con que frecuencia al día lo/la toma?",
+    "days_interval": "Intervalo de días",
     "times_hours": "Hora de las tomas",
     "once": "Vez",
     "twice": "Veces"
   },
   "skip_app_alert": {
     "title": "¡Espera!",
-    "subtitle": "¿Seguro quieres salir de la applicación?",
+    "subtitle": "¿Seguro quieres salir de la aplicación?",
     "cancel": "Cancelar",
     "ok": "Si"
   },
@@ -87,16 +87,11 @@
     "show_medicines": "Ver mas"
   },
   "Home/BloodPressure": {
-    "title": "Presión Arterial",
-    "sub_title": "Resumen por %{time}",
     "action_sheet": {
       "take_bp": "Registrar presión arterial",
       "tensiometer": "Validar tensiómetro",
       "reminders": "Recordatorios"
-    },
-    "sys": "Sistólica",
-    "dia": "Diastólica",
-    "today_records_title": "Mediciones de hóy"
+    }
   },
   "BloodPressure/Reminders": {
     "title": "Recordatorios",
@@ -193,17 +188,6 @@
       }
     ]
   },
-  "BloodPressure/Measuring": {
-    "title": "Registro de Presión Arterial",
-    "header_title": "Presión arterial",
-    "date": "Fecha",
-    "time": "Hora",
-    "dia": "Diastólica",
-    "sys": "Sistólica",
-    "heart_rate": "Ritmo cardiaco",
-    "add_note": "Agregar una nota",
-    "placeholder_add_note": "¿tienes algo para contar?"
-  },
   "notifications": {
     "blood_pressure": {
       "title": "%{name} es hora de medir la presión arterial",
@@ -225,7 +209,7 @@
   "TabsSearch": {
     "header": {
       "title": "Autocuidado",
-      "placeholder": "Buscar Tips"
+      "placeholder": "Buscar tips"
     },
     "loading": "buscando tips"
   },
@@ -266,7 +250,7 @@
     "patient": "Paciente"
   },
   "week": "semana",
-  "day": "dia",
+  "day": "día",
   "reminder_to": "Recordatorio(%{time})  a las ",
   "repeat": "Repetir",
   "button": {
@@ -281,7 +265,7 @@
   },
   "select": "Seleccionar",
   "headerSearch": {
-    "placeholder": "Buscar tensiometro",
+    "placeholder": "Buscar tensiómetro",
     "cancel": "cancelar"
   },
   "brand": "Marca",
@@ -296,7 +280,7 @@
     "bodyText": "La aplicación tuvo un problema y no pudo continuar. ¡Nos disculpamos por cualquier inconveniente que esto haya causado!. Presiona el botón de abajo para reiniciar la aplicación. Contacta con nosotros si este problema persiste",
     "buttonText": "Recargar"
   },
-  "phone number": "numero celular",
+  "phone number": "número celular",
   "sex": "Sexo",
   "men": "hombre",
   "women": "mujer",
@@ -305,17 +289,17 @@
   "via": "Via de Administración",
   "frecuency": "Frecuencia",
   "hourDose": "Hora",
-  "pill": "Pildoras",
+  "pill": "Píldoras",
   "solution": "Solución",
-  "injection": "Inyeccion",
+  "injection": "inyección",
   "dust": "Polvo",
   "drops": "Gotas",
   "inhaler": "Inhalados",
   "other": "Otra",
   "every day": "Diario",
-  "specific days": "Dias Especificos",
-  "days interval": "Intervalo de dias",
-  "days medicine": "Dias de toma",
+  "specific days": "Días específicos",
+  "days interval": "Intervalo de días",
+  "days medicine": "días de toma",
   "only": "vez",
   "twice": "veces",
   "medicine success": "Medicamento Agregado",
@@ -363,19 +347,19 @@
     "via": {
       "string": {
         "base": "paso algo",
-        "empty": "Debes agregar una via de suministro."
+        "empty": "Debes agregar una vía de suministro."
       }
     },
     "days": {
       "array": {
         "base": "paso algo",
-        "includesRequiredUnknowns": "Debes agregar dias de toma."
+        "includesRequiredUnknowns": "Debes agregar días de toma."
       }
     },
     "every": {
       "number": {
-        "base": "Debes agregar una intervalo de dias.",
-        "empty": "Debes agregar una intervalo de dias."
+        "base": "Debes agregar un intervalo de días.",
+        "empty": "Debes agregar un intervalo de días."
       }
     }
   },
@@ -393,7 +377,7 @@
     "title_one": "Medición de la presión arterial",
     "subtitle_one": "Lleva el seguimiento de tu presión arterial y reduce el riesgo de tener complicaciones.",
     "title_2": "Autocuidado",
-    "subtitle_2": "Acceso a material educativo proveido por profesionales de la salud para aplicar en tus estilos de vida y habitos saludables",
+    "subtitle_2": "Acceso a material educativo proporcionado por profesionales de la salud para aplicar en tus estilos de vida y hábitos saludables",
     "title_3": "Seguimiento en salud",
     "subtitle_3": "Tu medico de confianza puede llevar seguimiento de tu estado de salud.",
     "next": "siguiente",
@@ -409,5 +393,20 @@
   "BloodPressure": "Presión Arterial",
   "search by cedula": "Buscar por cedula",
   "patients": "Pacientes",
-  "monitoring": "Seguimiento"
+  "monitoring": "Seguimiento",
+  "loading patient": "Cargando pacientes",
+  "No patients for clinical monitoring": "No hay pacientes para el seguimiento clínico",
+  "systolic": "Sistólica",
+  "diastolic": "Diastólica",
+  "today's measurements": "Mediciones de hoy",
+  "summary by": "Resumen por %{time}",
+  "heart rate": "Ritmo cardíaco",
+  "time": "Hora",
+  "Add a note": "Agregar una nota",
+  "do you have something to tell?": "¿tienes algo para contar?",
+  "Blood pressure record": "Registro de presión arterial",
+  "by log in you are agreeing to our": "Si inicias sesión estás aceptando nuestras",
+  "privacy policy and terms of service": "políticas de privacidad y términos de servicio",
+  "log in": "Ingresar"
 }
+

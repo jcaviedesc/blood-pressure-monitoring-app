@@ -12,6 +12,7 @@ type props = {
   children: JSX.Element | JSX.Element[];
   isScrollView?: boolean;
   scrollViewProps?: ScrollViewProps;
+  style?: ViewStyle;
 };
 
 interface MainScrollViewProps extends ScrollViewProps {
@@ -44,6 +45,7 @@ const MainContainer: React.FC<props> = ({
   children,
   isScrollView,
   scrollViewProps,
+  style,
 }) => {
   const isDarkMode = useColorScheme() === 'dark';
   if (isScrollView) {
@@ -63,6 +65,7 @@ const MainContainer: React.FC<props> = ({
   return (
     <View
       style={{
+        ...style,
         ...AppStyles.screen.mainContainer,
         backgroundColor: isDarkMode ? Colors.darkBackground : Colors.background,
       }}>

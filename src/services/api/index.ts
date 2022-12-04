@@ -142,7 +142,7 @@ const createApi = (baseURL = API_URL) => {
 
   // users?role=patients TODO change
   const getPatients = (params: Record<string, any>) =>
-    api.get('/users/professionals/patients', { params });
+    api.get('/users/patients', { params });
 
   // ------
   // STEP 3

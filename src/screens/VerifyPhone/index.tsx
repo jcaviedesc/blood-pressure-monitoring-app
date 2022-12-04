@@ -83,17 +83,17 @@ const VerifyPhoneScreen: React.FC<Props> = ({ route, navigation }) => {
         }
       } catch (error) {
         // TODO show error del codigo
-        console.log(error);
         dispatch(setScreenLoading(false));
+        const convertedToError = parseError(error);
         Toast.show({
           type: 'error',
-          text1: error, // TODO traducir
+          text1: convertedToError.message, // TODO translate
           position: 'bottom',
         });
         crashlytics()
           .setAttribute('phone', phone)
           .then(() => {
-            crashlytics().recordError(parseError(error));
+            crashlytics().recordError(convertedToError);
           });
       }
     },
