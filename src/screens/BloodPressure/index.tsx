@@ -30,7 +30,8 @@ import { useI18nLocate } from '../../providers/LocalizationProvider';
 import { useAppDispatch } from '../../hooks';
 import { createNotifications } from '../../thunks/blood-pressure/blood-pressure-thunk';
 import { useBloodPressureDashboard } from '../../hooks/blood-pressure/useBloodPressureDashboard';
-import { useTitleScroll } from '../../hooks/useTitleScroll';
+// @deprecated
+// import { useTitleScroll } from '../../hooks/useTitleScroll';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'BloodPressure'>;
 
@@ -42,10 +43,6 @@ type actionSheetRef = {
 const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
   const isDarkMode = useColorScheme() === 'dark';
   const { translate } = useI18nLocate();
-  const { setHeaderTitleShow, fadeAnim } = useTitleScroll(
-    navigation,
-    translate('BloodPressure'),
-  );
   const {
     weekMeasurements,
     todayMeasurements,
@@ -103,7 +100,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
             {translate('Home/BloodPressure.title')}
           </Text>
         </Animated.View> */}
-      <View style={styles.contenHeder}>
+      <View style={styles.contentHeder}>
         <Text style={styles.statics}>
           {translate('summary by', {
             time: translate('week'),
@@ -215,7 +212,7 @@ const BloodPressureScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   ...AppStyles.screen,
   ...AppStyles.withActionsheet,
-  contenHeder: {
+  contentHeder: {
     marginBottom: 10,
   },
   statics: {
